@@ -29,11 +29,7 @@ const client = new LlamaStackClient({
   apiKey: process.env['LLAMA_STACK_CLIENT_API_KEY'], // This is the default and can be omitted
 });
 
-async function main() {
-  await client.datasetio.appendRows('REPLACE_ME', { rows: [{ foo: true }] });
-}
-
-main();
+await client.datasetio.appendRows('REPLACE_ME', { rows: [{ foo: true }] });
 ```
 
 ### Request & Response types
@@ -48,12 +44,8 @@ const client = new LlamaStackClient({
   apiKey: process.env['LLAMA_STACK_CLIENT_API_KEY'], // This is the default and can be omitted
 });
 
-async function main() {
-  const params: LlamaStackClient.DatasetioAppendRowsParams = { rows: [{ foo: true }] };
-  await client.datasetio.appendRows('REPLACE_ME', params);
-}
-
-main();
+const params: LlamaStackClient.DatasetioAppendRowsParams = { rows: [{ foo: true }] };
+await client.datasetio.appendRows('REPLACE_ME', params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -66,21 +58,17 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-async function main() {
-  const response = await client.datasetio
-    .appendRows('REPLACE_ME', { rows: [{ foo: true }] })
-    .catch(async (err) => {
-      if (err instanceof LlamaStackClient.APIError) {
-        console.log(err.status); // 400
-        console.log(err.name); // BadRequestError
-        console.log(err.headers); // {server: 'nginx', ...}
-      } else {
-        throw err;
-      }
-    });
-}
-
-main();
+const response = await client.datasetio
+  .appendRows('REPLACE_ME', { rows: [{ foo: true }] })
+  .catch(async (err) => {
+    if (err instanceof LlamaStackClient.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 ```
 
 Error codes are as follows:
