@@ -2,7 +2,7 @@
 
 import type { LlamaStackClient } from '../client';
 
-export class APIResource {
+export abstract class APIResource {
   protected _client: LlamaStackClient;
 
   constructor(client: LlamaStackClient) {
