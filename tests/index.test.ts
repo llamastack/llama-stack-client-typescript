@@ -320,6 +320,28 @@ describe('instantiate client', () => {
       const client = new LlamaStackClient({ apiKey: 'My API Key' });
       expect(client.baseURL).toEqual('http://any-hosted-llama-stack.com');
     });
+
+    test('in request options', () => {
+      const client = new LlamaStackClient({ apiKey: 'My API Key' });
+      expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
+        'http://localhost:5000/option/foo',
+      );
+    });
+
+    test('in request options overridden by client options', () => {
+      const client = new LlamaStackClient({ apiKey: 'My API Key', baseURL: 'http://localhost:5000/client' });
+      expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
+        'http://localhost:5000/client/foo',
+      );
+    });
+
+    test('in request options overridden by env variable', () => {
+      process.env['LLAMA_STACK_CLIENT_BASE_URL'] = 'http://localhost:5000/env';
+      const client = new LlamaStackClient({ apiKey: 'My API Key' });
+      expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
+        'http://localhost:5000/env/foo',
+      );
+    });
   });
 
   test('maxRetries option is correctly set', () => {
