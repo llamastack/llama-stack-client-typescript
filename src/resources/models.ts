@@ -30,7 +30,7 @@ export class Models extends APIResource {
 export interface Model {
   identifier: string;
 
-  metadata: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   model_type: ModelType;
 
@@ -50,7 +50,7 @@ export interface ModelListResponse {
 export interface ModelCreateParams {
   model_id: string;
 
-  metadata?: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   model_type?: ModelType;
 

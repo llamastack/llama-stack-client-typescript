@@ -261,7 +261,7 @@ export namespace ResponseFormat {
      * The JSON schema the response should conform to. In a Python SDK, this is often a
      * `pydantic` model.
      */
-    json_schema: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+    json_schema: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
     /**
      * Must be "json_schema" to identify this format type
@@ -276,7 +276,7 @@ export namespace ResponseFormat {
     /**
      * The BNF grammar specification the response should conform to
      */
-    bnf: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+    bnf: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
     /**
      * Must be "grammar" to identify this format type
@@ -361,21 +361,21 @@ export interface TokenLogProbs {
   /**
    * Dictionary mapping tokens to their log probabilities
    */
-  logprobs_by_token: Record<string, number>;
+  logprobs_by_token: { [key: string]: number };
 }
 
 export interface ToolCall {
   arguments:
     | string
-    | Record<
-        string,
-        | string
-        | number
-        | boolean
-        | Array<string | number | boolean | null>
-        | Record<string, string | number | boolean | null>
-        | null
-      >;
+    | {
+        [key: string]:
+          | string
+          | number
+          | boolean
+          | Array<string | number | boolean | null>
+          | { [key: string]: string | number | boolean | null }
+          | null;
+      };
 
   call_id: string;
 
@@ -420,7 +420,7 @@ export interface ToolDefinition {
 
   description?: string;
 
-  parameters?: Record<string, ToolDefinition.Parameters>;
+  parameters?: { [key: string]: ToolDefinition.Parameters };
 }
 
 export namespace ToolDefinition {

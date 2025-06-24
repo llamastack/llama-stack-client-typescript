@@ -18,9 +18,9 @@ export class Providers extends APIResource {
 export interface ProviderInfo {
   api: string;
 
-  config: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  config: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
-  health: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  health: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   provider_id: string;
 

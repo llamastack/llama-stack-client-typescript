@@ -33,7 +33,7 @@ export namespace VectorIoQueryResponse {
      */
     content: InferenceAPI.InterleavedContent;
 
-    metadata: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+    metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
   }
 }
 
@@ -52,7 +52,7 @@ export namespace VectorIoInsertParams {
      */
     content: InferenceAPI.InterleavedContent;
 
-    metadata: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+    metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
   }
 }
 
@@ -64,7 +64,7 @@ export interface VectorIoQueryParams {
 
   vector_db_id: string;
 
-  params?: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  params?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 }
 
 export declare namespace VectorIo {

@@ -29,7 +29,7 @@ export interface Shield {
 
   type: 'shield';
 
-  params?: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  params?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   provider_resource_id?: string;
 }
@@ -41,7 +41,7 @@ export interface ShieldListResponse {
 export interface ShieldCreateParams {
   shield_id: string;
 
-  params?: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  params?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   provider_id?: string;
 
