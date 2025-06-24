@@ -65,7 +65,7 @@ export namespace TelemetryCreateEventParams {
 
     type: TelemetryAPI.EventType;
 
-    attributes?: Record<string, string | number | boolean | null>;
+    attributes?: { [key: string]: string | number | boolean | null };
   }
 
   export interface MetricEvent {
@@ -83,7 +83,7 @@ export namespace TelemetryCreateEventParams {
 
     value: number;
 
-    attributes?: Record<string, string | number | boolean | null>;
+    attributes?: { [key: string]: string | number | boolean | null };
   }
 
   export interface StructuredLogEvent {
@@ -97,7 +97,7 @@ export namespace TelemetryCreateEventParams {
 
     type: TelemetryAPI.EventType;
 
-    attributes?: Record<string, string | number | boolean | null>;
+    attributes?: { [key: string]: string | number | boolean | null };
   }
 
   export namespace StructuredLogEvent {

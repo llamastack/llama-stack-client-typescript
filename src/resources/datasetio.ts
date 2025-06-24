@@ -42,7 +42,7 @@ export interface DatasetioIterateRowsResponse {
   /**
    * The list of items for the current page
    */
-  data: Array<Record<string, boolean | number | string | Array<unknown> | unknown | null>>;
+  data: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
 
   /**
    * Whether there are more items available after this set
@@ -51,7 +51,7 @@ export interface DatasetioIterateRowsResponse {
 }
 
 export interface DatasetioAppendRowsParams {
-  rows: Array<Record<string, boolean | number | string | Array<unknown> | unknown | null>>;
+  rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
 }
 
 export interface DatasetioIterateRowsParams {

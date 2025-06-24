@@ -31,7 +31,7 @@ export class RagTool extends APIResource {
 }
 
 export interface RagToolQueryContextResponse {
-  metadata: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   /**
    * A image content item
@@ -70,7 +70,7 @@ export namespace RagToolInsertDocumentsParams {
     /**
      * Additional metadata for the document.
      */
-    metadata: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+    metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
     /**
      * The MIME type of the document.

@@ -165,7 +165,7 @@ export interface V1GenerateCompletionParams {
   /**
    * (Optional) The logit bias to use
    */
-  logit_bias?: Record<string, number>;
+  logit_bias?: { [key: string]: number };
 
   /**
    * (Optional) The log probabilities to use
@@ -207,7 +207,7 @@ export interface V1GenerateCompletionParams {
   /**
    * (Optional) The stream options to use
    */
-  stream_options?: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  stream_options?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   /**
    * (Optional) The temperature to use

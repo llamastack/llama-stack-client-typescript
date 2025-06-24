@@ -39,7 +39,7 @@ export interface ToolDef {
 
   description?: string;
 
-  metadata?: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   parameters?: Array<ToolsAPI.ToolParameter>;
 }
@@ -58,7 +58,7 @@ export interface ToolRuntimeInvokeToolResponse {
 
   error_message?: string;
 
-  metadata?: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 }
 
 export interface ToolRuntimeListToolsResponse {
@@ -66,7 +66,7 @@ export interface ToolRuntimeListToolsResponse {
 }
 
 export interface ToolRuntimeInvokeToolParams {
-  kwargs: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  kwargs: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   tool_name: string;
 }

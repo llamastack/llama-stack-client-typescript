@@ -36,7 +36,7 @@ export interface Tool {
 
   type: 'tool';
 
-  metadata?: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   provider_resource_id?: string;
 }

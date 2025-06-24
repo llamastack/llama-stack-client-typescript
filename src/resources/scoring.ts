@@ -25,7 +25,7 @@ export interface ScoringScoreResponse {
   /**
    * A map of scoring function name to ScoringResult.
    */
-  results: Record<string, ScoringScoreResponse.Results>;
+  results: { [key: string]: ScoringScoreResponse.Results };
 }
 
 export namespace ScoringScoreResponse {
@@ -36,17 +36,17 @@ export namespace ScoringScoreResponse {
     /**
      * Map of metric name to aggregated value
      */
-    aggregated_results: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+    aggregated_results: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
     /**
      * The scoring result for each row. Each row is a map of column name to value.
      */
-    score_rows: Array<Record<string, boolean | number | string | Array<unknown> | unknown | null>>;
+    score_rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
   }
 }
 
 export interface ScoringScoreBatchResponse {
-  results: Record<string, ScoringScoreBatchResponse.Results>;
+  results: { [key: string]: ScoringScoreBatchResponse.Results };
 
   dataset_id?: string;
 }
@@ -59,12 +59,12 @@ export namespace ScoringScoreBatchResponse {
     /**
      * Map of metric name to aggregated value
      */
-    aggregated_results: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+    aggregated_results: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
     /**
      * The scoring result for each row. Each row is a map of column name to value.
      */
-    score_rows: Array<Record<string, boolean | number | string | Array<unknown> | unknown | null>>;
+    score_rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
   }
 }
 
@@ -72,12 +72,12 @@ export interface ScoringScoreParams {
   /**
    * The rows to score.
    */
-  input_rows: Array<Record<string, boolean | number | string | Array<unknown> | unknown | null>>;
+  input_rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
 
   /**
    * The scoring functions to use for the scoring.
    */
-  scoring_functions: Record<string, ScoringFunctionsAPI.ScoringFnParams | null>;
+  scoring_functions: { [key: string]: ScoringFunctionsAPI.ScoringFnParams | null };
 }
 
 export interface ScoringScoreBatchParams {
@@ -85,7 +85,7 @@ export interface ScoringScoreBatchParams {
 
   save_results_dataset: boolean;
 
-  scoring_functions: Record<string, ScoringFunctionsAPI.ScoringFnParams | null>;
+  scoring_functions: { [key: string]: ScoringFunctionsAPI.ScoringFnParams | null };
 }
 
 export declare namespace Scoring {

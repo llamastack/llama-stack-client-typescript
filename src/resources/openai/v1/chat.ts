@@ -354,17 +354,17 @@ export interface ChatGenerateCompletionParams {
   /**
    * (Optional) The function call to use
    */
-  function_call?: string | Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  function_call?: string | { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   /**
    * (Optional) List of functions to use
    */
-  functions?: Array<Record<string, boolean | number | string | Array<unknown> | unknown | null>>;
+  functions?: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
 
   /**
    * (Optional) The logit bias to use
    */
-  logit_bias?: Record<string, number>;
+  logit_bias?: { [key: string]: number };
 
   /**
    * (Optional) The log probabilities to use
@@ -422,7 +422,7 @@ export interface ChatGenerateCompletionParams {
   /**
    * (Optional) The stream options to use
    */
-  stream_options?: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  stream_options?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   /**
    * (Optional) The temperature to use
@@ -432,12 +432,12 @@ export interface ChatGenerateCompletionParams {
   /**
    * (Optional) The tool choice to use
    */
-  tool_choice?: string | Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  tool_choice?: string | { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   /**
    * (Optional) The tools to use
    */
-  tools?: Array<Record<string, boolean | number | string | Array<unknown> | unknown | null>>;
+  tools?: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
 
   /**
    * (Optional) The top log probabilities to use
@@ -472,7 +472,7 @@ export namespace ChatGenerateCompletionParams {
 
       description?: string;
 
-      schema?: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+      schema?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
       strict?: boolean;
     }

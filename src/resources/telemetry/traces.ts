@@ -30,7 +30,7 @@ export interface Span {
 
   trace_id: string;
 
-  attributes?: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  attributes?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   end_time?: string;
 

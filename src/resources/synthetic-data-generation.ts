@@ -19,9 +19,9 @@ export class SyntheticDataGeneration extends APIResource {
  * tuples that pass the threshold.
  */
 export interface SyntheticDataGenerationGenerateResponse {
-  synthetic_data: Array<Record<string, boolean | number | string | Array<unknown> | unknown | null>>;
+  synthetic_data: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
 
-  statistics?: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  statistics?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 }
 
 export interface SyntheticDataGenerationGenerateParams {

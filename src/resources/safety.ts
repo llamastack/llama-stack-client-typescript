@@ -12,7 +12,7 @@ export class Safety extends APIResource {
 }
 
 export interface SafetyViolation {
-  metadata: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   violation_level: 'info' | 'warn' | 'error';
 
@@ -26,7 +26,7 @@ export interface SafetyRunShieldResponse {
 export interface SafetyRunShieldParams {
   messages: Array<InferenceAPI.Message>;
 
-  params: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  params: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   shield_id: string;
 }

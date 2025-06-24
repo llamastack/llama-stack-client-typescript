@@ -50,7 +50,7 @@ export interface JobRetrieveStatusResponse {
 
   completed_at?: string;
 
-  resources_allocated?: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  resources_allocated?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   scheduled_at?: string;
 

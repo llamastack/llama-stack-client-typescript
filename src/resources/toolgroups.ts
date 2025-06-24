@@ -48,7 +48,7 @@ export interface ToolGroup {
 
   type: 'tool_group';
 
-  args?: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  args?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   mcp_endpoint?: ToolRuntimeAPI.URL;
 
@@ -64,7 +64,7 @@ export interface ToolgroupRegisterParams {
 
   toolgroup_id: string;
 
-  args?: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  args?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   mcp_endpoint?: ToolRuntimeAPI.URL;
 }

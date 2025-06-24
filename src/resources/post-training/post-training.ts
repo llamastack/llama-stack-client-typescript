@@ -106,11 +106,11 @@ export namespace PostTrainingListJobsResponse {
 }
 
 export interface PostTrainingFineTuneSupervisedParams {
-  hyperparam_search_config: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  hyperparam_search_config: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   job_uuid: string;
 
-  logger_config: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  logger_config: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   training_config: TrainingConfig;
 
@@ -156,11 +156,11 @@ export interface PostTrainingOptimizePreferencesParams {
 
   finetuned_model: string;
 
-  hyperparam_search_config: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  hyperparam_search_config: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   job_uuid: string;
 
-  logger_config: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  logger_config: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   training_config: TrainingConfig;
 }

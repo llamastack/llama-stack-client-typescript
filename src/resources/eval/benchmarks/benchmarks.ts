@@ -47,7 +47,7 @@ export interface Benchmark {
 
   identifier: string;
 
-  metadata: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   provider_id: string;
 
@@ -71,7 +71,7 @@ export interface BenchmarkConfig {
    * Map between scoring function id and parameters for each scoring function you
    * want to run
    */
-  scoring_params: Record<string, ScoringFunctionsAPI.ScoringFnParams>;
+  scoring_params: { [key: string]: ScoringFunctionsAPI.ScoringFnParams };
 
   /**
    * (Optional) The number of examples to evaluate. If not provided, all examples in
@@ -123,12 +123,12 @@ export interface EvaluateResponse {
   /**
    * The generations from the evaluation.
    */
-  generations: Array<Record<string, boolean | number | string | Array<unknown> | unknown | null>>;
+  generations: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
 
   /**
    * The scores from the evaluation.
    */
-  scores: Record<string, EvaluateResponse.Scores>;
+  scores: { [key: string]: EvaluateResponse.Scores };
 }
 
 export namespace EvaluateResponse {
@@ -139,12 +139,12 @@ export namespace EvaluateResponse {
     /**
      * Map of metric name to aggregated value
      */
-    aggregated_results: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+    aggregated_results: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
     /**
      * The scoring result for each row. Each row is a map of column name to value.
      */
-    score_rows: Array<Record<string, boolean | number | string | Array<unknown> | unknown | null>>;
+    score_rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
   }
 }
 
@@ -159,7 +159,7 @@ export interface BenchmarkCreateParams {
 
   scoring_functions: Array<string>;
 
-  metadata?: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   provider_benchmark_id?: string;
 
@@ -175,7 +175,7 @@ export interface BenchmarkEvaluateParams {
   /**
    * The rows to evaluate.
    */
-  input_rows: Array<Record<string, boolean | number | string | Array<unknown> | unknown | null>>;
+  input_rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
 
   /**
    * The scoring functions to use for the evaluation.

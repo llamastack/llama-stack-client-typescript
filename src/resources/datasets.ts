@@ -59,7 +59,7 @@ export namespace DataSource {
      * "content": "Hello, world!"}, {"role": "assistant", "content": "Hello, world!"}]}
      * ]
      */
-    rows: Array<Record<string, boolean | number | string | Array<unknown> | unknown | null>>;
+    rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
 
     type: 'rows';
   }
@@ -68,7 +68,7 @@ export namespace DataSource {
 export interface Dataset {
   identifier: string;
 
-  metadata: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   provider_id: string;
 
@@ -127,7 +127,7 @@ export interface DatasetCreateParams {
   /**
    * The metadata for the dataset. - E.g. {"description": "My dataset"}
    */
-  metadata?: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 }
 
 export declare namespace Datasets {
