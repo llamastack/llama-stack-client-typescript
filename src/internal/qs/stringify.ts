@@ -1,7 +1,8 @@
-import { encode, is_buffer, maybe_map, has } from './utils';
-import { default_format, default_formatter, formatters } from './formats';
+import { encode, is_buffer, maybe_map } from './utils';
+import { default_format, formatters } from './formats';
 import type { NonNullableProperties, StringifyOptions } from './types';
-import { isArray } from '../utils/values';
+
+const has = Object.prototype.hasOwnProperty;
 
 const array_prefix_generators = {
   brackets(prefix: PropertyKey) {
@@ -16,11 +17,13 @@ const array_prefix_generators = {
   },
 };
 
+const is_array = Array.isArray;
+const push = Array.prototype.push;
 const push_to_array = function (arr: any[], value_or_array: any) {
-  Array.prototype.push.apply(arr, isArray(value_or_array) ? value_or_array : [value_or_array]);
+  push.apply(arr, is_array(value_or_array) ? value_or_array : [value_or_array]);
 };
 
-let toISOString;
+const to_ISO = Date.prototype.toISOString;
 
 const defaults = {
   addQueryPrefix: false,
@@ -35,11 +38,11 @@ const defaults = {
   encoder: encode,
   encodeValuesOnly: false,
   format: default_format,
-  formatter: default_formatter,
+  formatter: formatters[default_format],
   /** @deprecated */
   indices: false,
   serializeDate(date) {
-    return (toISOString ??= Function.prototype.call.bind(Date.prototype.toISOString))(date);
+    return to_ISO.call(date);
   },
   skipNulls: false,
   strictNullHandling: false,
@@ -102,7 +105,7 @@ function inner_stringify(
     obj = filter(prefix, obj);
   } else if (obj instanceof Date) {
     obj = serializeDate?.(obj);
-  } else if (generateArrayPrefix === 'comma' && isArray(obj)) {
+  } else if (generateArrayPrefix === 'comma' && is_array(obj)) {
     obj = maybe_map(obj, function (value) {
       if (value instanceof Date) {
         return serializeDate?.(value);
@@ -145,14 +148,14 @@ function inner_stringify(
   }
 
   let obj_keys;
-  if (generateArrayPrefix === 'comma' && isArray(obj)) {
+  if (generateArrayPrefix === 'comma' && is_array(obj)) {
     // we need to join elements in
     if (encodeValuesOnly && encoder) {
       // @ts-expect-error values only
       obj = maybe_map(obj, encoder);
     }
     obj_keys = [{ value: obj.length > 0 ? obj.join(',') || null : void undefined }];
-  } else if (isArray(filter)) {
+  } else if (is_array(filter)) {
     obj_keys = filter;
   } else {
     const keys = Object.keys(obj);
@@ -162,9 +165,9 @@ function inner_stringify(
   const encoded_prefix = encodeDotInKeys ? String(prefix).replace(/\./g, '%2E') : String(prefix);
 
   const adjusted_prefix =
-    commaRoundTrip && isArray(obj) && obj.length === 1 ? encoded_prefix + '[]' : encoded_prefix;
+    commaRoundTrip && is_array(obj) && obj.length === 1 ? encoded_prefix + '[]' : encoded_prefix;
 
-  if (allowEmptyArrays && isArray(obj) && obj.length === 0) {
+  if (allowEmptyArrays && is_array(obj) && obj.length === 0) {
     return adjusted_prefix + '[]';
   }
 
@@ -181,7 +184,7 @@ function inner_stringify(
     // @ts-ignore
     const encoded_key = allowDots && encodeDotInKeys ? (key as any).replace(/\./g, '%2E') : key;
     const key_prefix =
-      isArray(obj) ?
+      is_array(obj) ?
         typeof generateArrayPrefix === 'function' ?
           generateArrayPrefix(adjusted_prefix, encoded_key)
         : adjusted_prefix
@@ -202,7 +205,7 @@ function inner_stringify(
         skipNulls,
         encodeDotInKeys,
         // @ts-ignore
-        generateArrayPrefix === 'comma' && encodeValuesOnly && isArray(obj) ? null : encoder,
+        generateArrayPrefix === 'comma' && encodeValuesOnly && is_array(obj) ? null : encoder,
         filter,
         sort,
         allowDots,
@@ -241,7 +244,7 @@ function normalize_stringify_options(
 
   let format = default_format;
   if (typeof opts.format !== 'undefined') {
-    if (!has(formatters, opts.format)) {
+    if (!has.call(formatters, opts.format)) {
       throw new TypeError('Unknown format option provided.');
     }
     format = opts.format;
@@ -249,7 +252,7 @@ function normalize_stringify_options(
   const formatter = formatters[format];
 
   let filter = defaults.filter;
-  if (typeof opts.filter === 'function' || isArray(opts.filter)) {
+  if (typeof opts.filter === 'function' || is_array(opts.filter)) {
     filter = opts.filter;
   }
 
@@ -313,7 +316,7 @@ export function stringify(object: any, opts: StringifyOptions = {}) {
   if (typeof options.filter === 'function') {
     filter = options.filter;
     obj = filter('', obj);
-  } else if (isArray(options.filter)) {
+  } else if (is_array(options.filter)) {
     filter = options.filter;
     obj_keys = filter;
   }

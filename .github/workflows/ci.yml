@@ -16,14 +16,14 @@ jobs:
   lint:
     timeout-minutes: 10
     name: lint
-    runs-on: ${{ github.repository == 'stainless-sdks/llama-stack-client-typescript' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
+    runs-on: ${{ github.repository == 'stainless-sdks/llama-stack-client-node' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '18'
 
       - name: Bootstrap
         run: ./scripts/bootstrap
@@ -34,7 +34,7 @@ jobs:
   build:
     timeout-minutes: 5
     name: build
-    runs-on: ${{ github.repository == 'stainless-sdks/llama-stack-client-typescript' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
+    runs-on: ${{ github.repository == 'stainless-sdks/llama-stack-client-node' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
     permissions:
       contents: read
       id-token: write
@@ -44,7 +44,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '18'
 
       - name: Bootstrap
         run: ./scripts/bootstrap
@@ -53,14 +53,14 @@ jobs:
         run: ./scripts/build
 
       - name: Get GitHub OIDC Token
-        if: github.repository == 'stainless-sdks/llama-stack-client-typescript'
+        if: github.repository == 'stainless-sdks/llama-stack-client-node'
         id: github-oidc
         uses: actions/github-script@v6
         with:
           script: core.setOutput('github_token', await core.getIDToken());
 
       - name: Upload tarball
-        if: github.repository == 'stainless-sdks/llama-stack-client-typescript'
+        if: github.repository == 'stainless-sdks/llama-stack-client-node'
         env:
           URL: https://pkg.stainless.com/s
           AUTH: ${{ steps.github-oidc.outputs.github_token }}
@@ -69,7 +69,7 @@ jobs:
   test:
     timeout-minutes: 10
     name: test
-    runs-on: ${{ github.repository == 'stainless-sdks/llama-stack-client-typescript' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
+    runs-on: ${{ github.repository == 'stainless-sdks/llama-stack-client-node' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
 

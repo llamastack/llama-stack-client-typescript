@@ -2,17 +2,18 @@
 
 export {
   Job,
-  type JobRetrieveArtifactsResponse,
-  type JobRetrieveStatusResponse,
+  type JobListResponse,
+  type JobArtifactsResponse,
+  type JobStatusResponse,
+  type JobArtifactsParams,
   type JobCancelParams,
-  type JobRetrieveArtifactsParams,
-  type JobRetrieveStatusParams,
+  type JobStatusParams,
 } from './job';
 export {
   PostTraining,
+  type AlgorithmConfig,
+  type ListPostTrainingJobsResponse,
   type PostTrainingJob,
-  type TrainingConfig,
-  type PostTrainingListJobsResponse,
-  type PostTrainingFineTuneSupervisedParams,
-  type PostTrainingOptimizePreferencesParams,
+  type PostTrainingPreferenceOptimizeParams,
+  type PostTrainingSupervisedFineTuneParams,
 } from './post-training';

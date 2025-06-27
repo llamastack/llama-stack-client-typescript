@@ -1,24 +1,37 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../core/resource';
-import { APIPromise } from '../core/api-promise';
-import { RequestOptions } from '../internal/request-options';
-import { path } from '../internal/utils/path';
+import { APIResource } from '../resource';
+import { isRequestOptions } from '../core';
+import * as Core from '../core';
 
 export class Tools extends APIResource {
-  retrieve(toolName: string, options?: RequestOptions): APIPromise<Tool> {
-    return this._client.get(path`/v1/tools/${toolName}`, options);
+  /**
+   * List tools with optional tool group.
+   */
+  list(query?: ToolListParams, options?: Core.RequestOptions): Core.APIPromise<ToolListResponse>;
+  list(options?: Core.RequestOptions): Core.APIPromise<ToolListResponse>;
+  list(
+    query: ToolListParams | Core.RequestOptions = {},
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<ToolListResponse> {
+    if (isRequestOptions(query)) {
+      return this.list({}, query);
+    }
+    return (
+      this._client.get('/v1/tools', { query, ...options }) as Core.APIPromise<{ data: ToolListResponse }>
+    )._thenUnwrap((obj) => obj.data);
   }
 
   /**
-   * List tools with optional tool group
+   * Get a tool by its name.
    */
-  list(
-    query: ToolListParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<ToolListResponse> {
-    return this._client.get('/v1/tools', { query, ...options });
+  get(toolName: string, options?: Core.RequestOptions): Core.APIPromise<Tool> {
+    return this._client.get(`/v1/tools/${toolName}`, options);
   }
+}
+
+export interface ListToolsResponse {
+  data: ToolListResponse;
 }
 
 export interface Tool {
@@ -26,11 +39,9 @@ export interface Tool {
 
   identifier: string;
 
-  parameters: Array<ToolParameter>;
+  parameters: Array<Tool.Parameter>;
 
   provider_id: string;
-
-  tool_host: 'distribution' | 'client' | 'model_context_protocol';
 
   toolgroup_id: string;
 
@@ -41,30 +52,33 @@ export interface Tool {
   provider_resource_id?: string;
 }
 
-export interface ToolParameter {
-  description: string;
+export namespace Tool {
+  export interface Parameter {
+    description: string;
 
-  name: string;
+    name: string;
 
-  parameter_type: string;
+    parameter_type: string;
 
-  required: boolean;
+    required: boolean;
 
-  default?: boolean | number | string | Array<unknown> | unknown | null;
+    default?: boolean | number | string | Array<unknown> | unknown | null;
+  }
 }
 
-export interface ToolListResponse {
-  data: Array<Tool>;
-}
+export type ToolListResponse = Array<Tool>;
 
 export interface ToolListParams {
+  /**
+   * The ID of the tool group to list tools for.
+   */
   toolgroup_id?: string;
 }
 
 export declare namespace Tools {
   export {
+    type ListToolsResponse as ListToolsResponse,
     type Tool as Tool,
-    type ToolParameter as ToolParameter,
     type ToolListResponse as ToolListResponse,
     type ToolListParams as ToolListParams,
   };

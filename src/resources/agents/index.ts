@@ -2,18 +2,37 @@
 
 export {
   Agents,
-  type Agent,
-  type AgentConfig,
+  type InferenceStep,
+  type MemoryRetrievalStep,
+  type ShieldCallStep,
+  type ToolExecutionStep,
+  type ToolResponse,
   type AgentCreateResponse,
+  type AgentRetrieveResponse,
   type AgentListResponse,
-  type AgentListSessionsResponse,
   type AgentCreateParams,
+  type AgentListParams,
 } from './agents';
 export {
   SessionResource,
   type Session,
   type SessionCreateResponse,
+  type SessionListResponse,
   type SessionCreateParams,
   type SessionRetrieveParams,
-  type SessionDeleteParams,
-} from './session/index';
+  type SessionListParams,
+} from './session';
+export { Steps, type StepRetrieveResponse } from './steps';
+export {
+  TurnResource,
+  type AgentTurnResponseStreamChunk,
+  type Turn,
+  type TurnResponseEvent,
+  type TurnResponseEventPayload,
+  type TurnCreateParams,
+  type TurnCreateParamsNonStreaming,
+  type TurnCreateParamsStreaming,
+  type TurnResumeParams,
+  type TurnResumeParamsNonStreaming,
+  type TurnResumeParamsStreaming,
+} from './turn';

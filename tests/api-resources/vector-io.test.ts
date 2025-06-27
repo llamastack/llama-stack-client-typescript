@@ -1,15 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import LlamaStackClient from 'llama-stack-client';
+import { Response } from 'node-fetch';
 
-const client = new LlamaStackClient({
-  apiKey: 'My API Key',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-});
+const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
 
 describe('resource vectorIo', () => {
-  // skipped: tests are disabled for the time being
-  test.skip('insert: only required params', async () => {
+  test('insert: only required params', async () => {
     const responsePromise = client.vectorIo.insert({
       chunks: [{ content: 'string', metadata: { foo: true } }],
       vector_db_id: 'vector_db_id',
@@ -23,17 +20,35 @@ describe('resource vectorIo', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
-  test.skip('insert: required and optional params', async () => {
+  test('insert: required and optional params', async () => {
     const response = await client.vectorIo.insert({
-      chunks: [{ content: 'string', metadata: { foo: true } }],
+      chunks: [
+        {
+          content: 'string',
+          metadata: { foo: true },
+          chunk_metadata: {
+            chunk_embedding_dimension: 0,
+            chunk_embedding_model: 'chunk_embedding_model',
+            chunk_id: 'chunk_id',
+            chunk_tokenizer: 'chunk_tokenizer',
+            chunk_window: 'chunk_window',
+            content_token_count: 0,
+            created_timestamp: 0,
+            document_id: 'document_id',
+            metadata_token_count: 0,
+            source: 'source',
+            updated_timestamp: 0,
+          },
+          embedding: [0],
+          stored_chunk_id: 'stored_chunk_id',
+        },
+      ],
       vector_db_id: 'vector_db_id',
       ttl_seconds: 0,
     });
   });
 
-  // skipped: tests are disabled for the time being
-  test.skip('query: only required params', async () => {
+  test('query: only required params', async () => {
     const responsePromise = client.vectorIo.query({ query: 'string', vector_db_id: 'vector_db_id' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -44,8 +59,7 @@ describe('resource vectorIo', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
-  test.skip('query: required and optional params', async () => {
+  test('query: required and optional params', async () => {
     const response = await client.vectorIo.query({
       query: 'string',
       vector_db_id: 'vector_db_id',

@@ -8,6 +8,7 @@ const config: JestConfigWithTsJest = {
   },
   moduleNameMapper: {
     '^llama-stack-client$': '<rootDir>/src/index.ts',
+    '^llama-stack-client/_shims/auto/(.*)$': '<rootDir>/src/_shims/auto/$1-node',
     '^llama-stack-client/(.*)$': '<rootDir>/src/$1',
   },
   modulePathIgnorePatterns: [
@@ -15,7 +16,6 @@ const config: JestConfigWithTsJest = {
     '<rootDir>/dist/',
     '<rootDir>/deno/',
     '<rootDir>/deno_tests/',
-    '<rootDir>/packages/',
   ],
   testPathIgnorePatterns: ['scripts'],
 };

@@ -1,13 +1,10 @@
 import { RFC1738 } from './formats';
 import type { DefaultEncoder, Format } from './types';
-import { isArray } from '../utils/values';
 
-export let has = (obj: object, key: PropertyKey): boolean => (
-  (has = (Object as any).hasOwn ?? Function.prototype.call.bind(Object.prototype.hasOwnProperty)),
-  has(obj, key)
-);
+const has = Object.prototype.hasOwnProperty;
+const is_array = Array.isArray;
 
-const hex_table = /* @__PURE__ */ (() => {
+const hex_table = (() => {
   const array = [];
   for (let i = 0; i < 256; ++i) {
     array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
@@ -23,7 +20,7 @@ function compact_queue<T extends Record<string, any>>(queue: Array<{ obj: T; pro
 
     const obj = item.obj[item.prop];
 
-    if (isArray(obj)) {
+    if (is_array(obj)) {
       const compacted: unknown[] = [];
 
       for (let j = 0; j < obj.length; ++j) {
@@ -59,10 +56,13 @@ export function merge(
   }
 
   if (typeof source !== 'object') {
-    if (isArray(target)) {
+    if (is_array(target)) {
       target.push(source);
     } else if (target && typeof target === 'object') {
-      if ((options && (options.plainObjects || options.allowPrototypes)) || !has(Object.prototype, source)) {
+      if (
+        (options && (options.plainObjects || options.allowPrototypes)) ||
+        !has.call(Object.prototype, source)
+      ) {
         target[source] = true;
       }
     } else {
@@ -77,14 +77,14 @@ export function merge(
   }
 
   let mergeTarget = target;
-  if (isArray(target) && !isArray(source)) {
+  if (is_array(target) && !is_array(source)) {
     // @ts-ignore
     mergeTarget = array_to_object(target, options);
   }
 
-  if (isArray(target) && isArray(source)) {
+  if (is_array(target) && is_array(source)) {
     source.forEach(function (item, i) {
-      if (has(target, i)) {
+      if (has.call(target, i)) {
         const targetItem = target[i];
         if (targetItem && typeof targetItem === 'object' && item && typeof item === 'object') {
           target[i] = merge(targetItem, item, options);
@@ -101,7 +101,7 @@ export function merge(
   return Object.keys(source).reduce(function (acc, key) {
     const value = source[key];
 
-    if (has(acc, key)) {
+    if (has.call(acc, key)) {
       acc[key] = merge(acc[key], value, options);
     } else {
       acc[key] = value;
@@ -254,7 +254,7 @@ export function combine(a: any, b: any) {
 }
 
 export function maybe_map<T>(val: T[], fn: (v: T) => T) {
-  if (isArray(val)) {
+  if (is_array(val)) {
     const mapped = [];
     for (let i = 0; i < val.length; i += 1) {
       mapped.push(fn(val[i]!));

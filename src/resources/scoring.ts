@@ -1,19 +1,25 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../core/resource';
+import { APIResource } from '../resource';
+import * as Core from '../core';
 import * as ScoringFunctionsAPI from './scoring-functions';
-import { APIPromise } from '../core/api-promise';
-import { RequestOptions } from '../internal/request-options';
+import * as Shared from './shared';
 
 export class Scoring extends APIResource {
   /**
    * Score a list of rows.
    */
-  score(body: ScoringScoreParams, options?: RequestOptions): APIPromise<ScoringScoreResponse> {
+  score(body: ScoringScoreParams, options?: Core.RequestOptions): Core.APIPromise<ScoringScoreResponse> {
     return this._client.post('/v1/scoring/score', { body, ...options });
   }
 
-  scoreBatch(body: ScoringScoreBatchParams, options?: RequestOptions): APIPromise<ScoringScoreBatchResponse> {
+  /**
+   * Score a batch of rows.
+   */
+  scoreBatch(
+    body: ScoringScoreBatchParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<ScoringScoreBatchResponse> {
     return this._client.post('/v1/scoring/score-batch', { body, ...options });
   }
 }
@@ -25,47 +31,13 @@ export interface ScoringScoreResponse {
   /**
    * A map of scoring function name to ScoringResult.
    */
-  results: { [key: string]: ScoringScoreResponse.Results };
-}
-
-export namespace ScoringScoreResponse {
-  /**
-   * A scoring result for a single row.
-   */
-  export interface Results {
-    /**
-     * Map of metric name to aggregated value
-     */
-    aggregated_results: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-    /**
-     * The scoring result for each row. Each row is a map of column name to value.
-     */
-    score_rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
-  }
+  results: { [key: string]: Shared.ScoringResult };
 }
 
 export interface ScoringScoreBatchResponse {
-  results: { [key: string]: ScoringScoreBatchResponse.Results };
+  results: { [key: string]: Shared.ScoringResult };
 
   dataset_id?: string;
-}
-
-export namespace ScoringScoreBatchResponse {
-  /**
-   * A scoring result for a single row.
-   */
-  export interface Results {
-    /**
-     * Map of metric name to aggregated value
-     */
-    aggregated_results: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-    /**
-     * The scoring result for each row. Each row is a map of column name to value.
-     */
-    score_rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
-  }
 }
 
 export interface ScoringScoreParams {
@@ -81,10 +53,19 @@ export interface ScoringScoreParams {
 }
 
 export interface ScoringScoreBatchParams {
+  /**
+   * The ID of the dataset to score.
+   */
   dataset_id: string;
 
+  /**
+   * Whether to save the results to a dataset.
+   */
   save_results_dataset: boolean;
 
+  /**
+   * The scoring functions to use for the scoring.
+   */
   scoring_functions: { [key: string]: ScoringFunctionsAPI.ScoringFnParams | null };
 }
 

@@ -1,6 +1,6 @@
 {
   "include": ["src", "tests", "examples"],
-  "exclude": [],
+  "exclude": ["src/_shims/**/*-deno.ts"],
   "compilerOptions": {
     "target": "es2020",
     "lib": ["es2020"],
@@ -9,6 +9,7 @@
     "esModuleInterop": true,
     "baseUrl": "./",
     "paths": {
+      "llama-stack-client/_shims/auto/*": ["src/_shims/auto/*-node"],
       "llama-stack-client/*": ["src/*"],
       "llama-stack-client": ["src/index.ts"]
     },
@@ -31,7 +32,7 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
-    "isolatedModules": false,
+		"isolatedModules": false,
 
     "skipLibCheck": true
   }

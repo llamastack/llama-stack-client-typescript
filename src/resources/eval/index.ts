@@ -1,12 +1,14 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export {
-  Benchmarks,
-  type Benchmark,
+  Eval,
   type BenchmarkConfig,
+  type EvalCandidate,
   type EvaluateResponse,
-  type BenchmarkListResponse,
-  type BenchmarkCreateParams,
-  type BenchmarkEvaluateParams,
-} from './benchmarks/index';
-export { Eval } from './eval';
+  type Job,
+  type EvalEvaluateRowsParams,
+  type EvalEvaluateRowsAlphaParams,
+  type EvalRunEvalParams,
+  type EvalRunEvalAlphaParams,
+} from './eval';
+export { Jobs } from './jobs';
