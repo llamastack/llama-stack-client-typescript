@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.0-alpha.2 (2025-06-27)
+
+Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)
+
+### Features
+
+* **api:** update via SDK Studio ([a00f961](https://github.com/llamastack/llama-stack-client-typescript/commit/a00f961a3a4a8961cd54ad6a92a52aa34cb0d041))
+* **api:** update via SDK Studio ([bef1e47](https://github.com/llamastack/llama-stack-client-typescript/commit/bef1e47ad9fe9a03e8ffdaa632981c0666919b73))
+* **api:** update via SDK Studio ([7fb44fa](https://github.com/llamastack/llama-stack-client-typescript/commit/7fb44fab41cd95410115d12a7855fd12fbd3b34c))
+
 ## 0.1.0-alpha.1 (2025-06-27)
 
 Full Changelog: [v0.0.1-alpha.0...v0.1.0-alpha.1](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.0.1-alpha.0...v0.1.0-alpha.1)
