@@ -146,7 +146,7 @@ describe('instantiate client', () => {
     });
 
     afterEach(() => {
-      process.env['LLAMA_STACK_BASE_URL'] = undefined;
+      process.env['LLAMA_STACK_CLIENT_BASE_URL'] = undefined;
     });
 
     test('explicit option', () => {
@@ -155,19 +155,19 @@ describe('instantiate client', () => {
     });
 
     test('env variable', () => {
-      process.env['LLAMA_STACK_BASE_URL'] = 'https://example.com/from_env';
+      process.env['LLAMA_STACK_CLIENT_BASE_URL'] = 'https://example.com/from_env';
       const client = new LlamaStackClient({});
       expect(client.baseURL).toEqual('https://example.com/from_env');
     });
 
     test('empty env variable', () => {
-      process.env['LLAMA_STACK_BASE_URL'] = ''; // empty
+      process.env['LLAMA_STACK_CLIENT_BASE_URL'] = ''; // empty
       const client = new LlamaStackClient({});
       expect(client.baseURL).toEqual('http://any-hosted-llama-stack.com');
     });
 
     test('blank env variable', () => {
-      process.env['LLAMA_STACK_BASE_URL'] = '  '; // blank
+      process.env['LLAMA_STACK_CLIENT_BASE_URL'] = '  '; // blank
       const client = new LlamaStackClient({});
       expect(client.baseURL).toEqual('http://any-hosted-llama-stack.com');
     });
@@ -187,7 +187,7 @@ describe('instantiate client', () => {
     });
 
     test('in request options overridden by env variable', () => {
-      process.env['LLAMA_STACK_BASE_URL'] = 'http://localhost:5000/env';
+      process.env['LLAMA_STACK_CLIENT_BASE_URL'] = 'http://localhost:5000/env';
       const client = new LlamaStackClient({});
       expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
         'http://localhost:5000/env/foo',
