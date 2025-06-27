@@ -9,7 +9,10 @@ export {
   type ToolExecutionStep,
   type ToolResponse,
   type AgentCreateResponse,
+  type AgentRetrieveResponse,
+  type AgentListResponse,
   type AgentCreateParams,
+  type AgentListParams,
 } from './agents/agents';
 export {
   Benchmarks,
@@ -33,6 +36,7 @@ export {
   type DatasetListResponse,
   type DatasetIterrowsResponse,
   type DatasetRegisterResponse,
+  type DatasetAppendrowsParams,
   type DatasetIterrowsParams,
   type DatasetRegisterParams,
 } from './datasets';

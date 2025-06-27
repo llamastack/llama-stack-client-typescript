@@ -8,14 +8,19 @@ export {
   type ToolExecutionStep,
   type ToolResponse,
   type AgentCreateResponse,
+  type AgentRetrieveResponse,
+  type AgentListResponse,
   type AgentCreateParams,
+  type AgentListParams,
 } from './agents';
 export {
   SessionResource,
   type Session,
   type SessionCreateResponse,
+  type SessionListResponse,
   type SessionCreateParams,
   type SessionRetrieveParams,
+  type SessionListParams,
 } from './session';
 export { Steps, type StepRetrieveResponse } from './steps';
 export {

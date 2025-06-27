@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../resource';
+import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
 import * as Shared from '../shared';
 import * as SessionAPI from './session';
@@ -8,6 +9,8 @@ import {
   Session,
   SessionCreateParams,
   SessionCreateResponse,
+  SessionListParams,
+  SessionListResponse,
   SessionResource,
   SessionRetrieveParams,
 } from './session';
@@ -38,6 +41,28 @@ export class Agents extends APIResource {
    */
   create(body: AgentCreateParams, options?: Core.RequestOptions): Core.APIPromise<AgentCreateResponse> {
     return this._client.post('/v1/agents', { body, ...options });
+  }
+
+  /**
+   * Describe an agent by its ID.
+   */
+  retrieve(agentId: string, options?: Core.RequestOptions): Core.APIPromise<AgentRetrieveResponse> {
+    return this._client.get(`/v1/agents/${agentId}`, options);
+  }
+
+  /**
+   * List all agents.
+   */
+  list(query?: AgentListParams, options?: Core.RequestOptions): Core.APIPromise<AgentListResponse>;
+  list(options?: Core.RequestOptions): Core.APIPromise<AgentListResponse>;
+  list(
+    query: AgentListParams | Core.RequestOptions = {},
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<AgentListResponse> {
+    if (isRequestOptions(query)) {
+      return this.list({}, query);
+    }
+    return this._client.get('/v1/agents', { query, ...options });
   }
 
   /**
@@ -218,11 +243,54 @@ export interface AgentCreateResponse {
   agent_id: string;
 }
 
+export interface AgentRetrieveResponse {
+  /**
+   * Configuration for an agent.
+   */
+  agent_config: Shared.AgentConfig;
+
+  agent_id: string;
+
+  created_at: string;
+}
+
+/**
+ * A generic paginated response that follows a simple format.
+ */
+export interface AgentListResponse {
+  /**
+   * The list of items for the current page
+   */
+  data: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
+
+  /**
+   * Whether there are more items available after this set
+   */
+  has_more: boolean;
+
+  /**
+   * The URL for accessing this list
+   */
+  url?: string;
+}
+
 export interface AgentCreateParams {
   /**
    * The configuration for the agent.
    */
   agent_config: Shared.AgentConfig;
+}
+
+export interface AgentListParams {
+  /**
+   * The number of agents to return.
+   */
+  limit?: number;
+
+  /**
+   * The index to start the pagination from.
+   */
+  start_index?: number;
 }
 
 Agents.SessionResource = SessionResource;
@@ -237,15 +305,20 @@ export declare namespace Agents {
     type ToolExecutionStep as ToolExecutionStep,
     type ToolResponse as ToolResponse,
     type AgentCreateResponse as AgentCreateResponse,
+    type AgentRetrieveResponse as AgentRetrieveResponse,
+    type AgentListResponse as AgentListResponse,
     type AgentCreateParams as AgentCreateParams,
+    type AgentListParams as AgentListParams,
   };
 
   export {
     SessionResource as SessionResource,
     type Session as Session,
     type SessionCreateResponse as SessionCreateResponse,
+    type SessionListResponse as SessionListResponse,
     type SessionCreateParams as SessionCreateParams,
     type SessionRetrieveParams as SessionRetrieveParams,
+    type SessionListParams as SessionListParams,
   };
 
   export { Steps as Steps, type StepRetrieveResponse as StepRetrieveResponse };

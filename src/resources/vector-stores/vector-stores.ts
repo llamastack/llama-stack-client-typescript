@@ -4,7 +4,16 @@ import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
 import * as FilesAPI from './files';
-import { FileCreateParams, Files, VectorStoreFile } from './files';
+import {
+  FileContentResponse,
+  FileCreateParams,
+  FileDeleteResponse,
+  FileListParams,
+  FileListResponse,
+  FileUpdateParams,
+  Files,
+  VectorStoreFile,
+} from './files';
 
 export class VectorStores extends APIResource {
   files: FilesAPI.Files = new FilesAPI.Files(this._client);
@@ -331,6 +340,11 @@ export declare namespace VectorStores {
   export {
     Files as Files,
     type VectorStoreFile as VectorStoreFile,
+    type FileListResponse as FileListResponse,
+    type FileDeleteResponse as FileDeleteResponse,
+    type FileContentResponse as FileContentResponse,
     type FileCreateParams as FileCreateParams,
+    type FileUpdateParams as FileUpdateParams,
+    type FileListParams as FileListParams,
   };
 }

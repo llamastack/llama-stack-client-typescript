@@ -40,6 +40,26 @@ export class SessionResource extends APIResource {
   }
 
   /**
+   * List all session(s) of a given agent.
+   */
+  list(
+    agentId: string,
+    query?: SessionListParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<SessionListResponse>;
+  list(agentId: string, options?: Core.RequestOptions): Core.APIPromise<SessionListResponse>;
+  list(
+    agentId: string,
+    query: SessionListParams | Core.RequestOptions = {},
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<SessionListResponse> {
+    if (isRequestOptions(query)) {
+      return this.list(agentId, {}, query);
+    }
+    return this._client.get(`/v1/agents/${agentId}/sessions`, { query, ...options });
+  }
+
+  /**
    * Delete an agent session by its ID and its associated turns.
    */
   delete(agentId: string, sessionId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
@@ -67,6 +87,26 @@ export interface SessionCreateResponse {
   session_id: string;
 }
 
+/**
+ * A generic paginated response that follows a simple format.
+ */
+export interface SessionListResponse {
+  /**
+   * The list of items for the current page
+   */
+  data: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
+
+  /**
+   * Whether there are more items available after this set
+   */
+  has_more: boolean;
+
+  /**
+   * The URL for accessing this list
+   */
+  url?: string;
+}
+
 export interface SessionCreateParams {
   /**
    * The name of the session to create.
@@ -81,11 +121,25 @@ export interface SessionRetrieveParams {
   turn_ids?: Array<string>;
 }
 
+export interface SessionListParams {
+  /**
+   * The number of sessions to return.
+   */
+  limit?: number;
+
+  /**
+   * The index to start the pagination from.
+   */
+  start_index?: number;
+}
+
 export declare namespace SessionResource {
   export {
     type Session as Session,
     type SessionCreateResponse as SessionCreateResponse,
+    type SessionListResponse as SessionListResponse,
     type SessionCreateParams as SessionCreateParams,
     type SessionRetrieveParams as SessionRetrieveParams,
+    type SessionListParams as SessionListParams,
   };
 }

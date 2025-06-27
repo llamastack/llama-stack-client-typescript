@@ -23,6 +23,7 @@ import {
   Completions,
 } from './resources/completions';
 import {
+  DatasetAppendrowsParams,
   DatasetIterrowsParams,
   DatasetIterrowsResponse,
   DatasetListResponse,
@@ -139,6 +140,9 @@ import {
 import {
   AgentCreateParams,
   AgentCreateResponse,
+  AgentListParams,
+  AgentListResponse,
+  AgentRetrieveResponse,
   Agents,
   InferenceStep,
   MemoryRetrievalStep,
@@ -462,7 +466,10 @@ export declare namespace LlamaStackClient {
     type ToolExecutionStep as ToolExecutionStep,
     type ToolResponse as ToolResponse,
     type AgentCreateResponse as AgentCreateResponse,
+    type AgentRetrieveResponse as AgentRetrieveResponse,
+    type AgentListResponse as AgentListResponse,
     type AgentCreateParams as AgentCreateParams,
+    type AgentListParams as AgentListParams,
   };
 
   export {
@@ -472,6 +479,7 @@ export declare namespace LlamaStackClient {
     type DatasetListResponse as DatasetListResponse,
     type DatasetIterrowsResponse as DatasetIterrowsResponse,
     type DatasetRegisterResponse as DatasetRegisterResponse,
+    type DatasetAppendrowsParams as DatasetAppendrowsParams,
     type DatasetIterrowsParams as DatasetIterrowsParams,
     type DatasetRegisterParams as DatasetRegisterParams,
   };

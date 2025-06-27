@@ -109,10 +109,14 @@ Types:
 - <code><a href="./src/resources/agents/agents.ts">ToolExecutionStep</a></code>
 - <code><a href="./src/resources/agents/agents.ts">ToolResponse</a></code>
 - <code><a href="./src/resources/agents/agents.ts">AgentCreateResponse</a></code>
+- <code><a href="./src/resources/agents/agents.ts">AgentRetrieveResponse</a></code>
+- <code><a href="./src/resources/agents/agents.ts">AgentListResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/agents">client.agents.<a href="./src/resources/agents/agents.ts">create</a>({ ...params }) -> AgentCreateResponse</code>
+- <code title="get /v1/agents/{agent_id}">client.agents.<a href="./src/resources/agents/agents.ts">retrieve</a>(agentId) -> AgentRetrieveResponse</code>
+- <code title="get /v1/agents">client.agents.<a href="./src/resources/agents/agents.ts">list</a>({ ...params }) -> AgentListResponse</code>
 - <code title="delete /v1/agents/{agent_id}">client.agents.<a href="./src/resources/agents/agents.ts">delete</a>(agentId) -> void</code>
 
 ## Session
@@ -121,11 +125,13 @@ Types:
 
 - <code><a href="./src/resources/agents/session.ts">Session</a></code>
 - <code><a href="./src/resources/agents/session.ts">SessionCreateResponse</a></code>
+- <code><a href="./src/resources/agents/session.ts">SessionListResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/agents/{agent_id}/session">client.agents.session.<a href="./src/resources/agents/session.ts">create</a>(agentId, { ...params }) -> SessionCreateResponse</code>
 - <code title="get /v1/agents/{agent_id}/session/{session_id}">client.agents.session.<a href="./src/resources/agents/session.ts">retrieve</a>(agentId, sessionId, { ...params }) -> Session</code>
+- <code title="get /v1/agents/{agent_id}/sessions">client.agents.session.<a href="./src/resources/agents/session.ts">list</a>(agentId, { ...params }) -> SessionListResponse</code>
 - <code title="delete /v1/agents/{agent_id}/session/{session_id}">client.agents.session.<a href="./src/resources/agents/session.ts">delete</a>(agentId, sessionId) -> void</code>
 
 ## Steps
@@ -167,6 +173,7 @@ Methods:
 
 - <code title="get /v1/datasets/{dataset_id}">client.datasets.<a href="./src/resources/datasets.ts">retrieve</a>(datasetId) -> DatasetRetrieveResponse</code>
 - <code title="get /v1/datasets">client.datasets.<a href="./src/resources/datasets.ts">list</a>() -> DatasetListResponse</code>
+- <code title="post /v1/datasetio/append-rows/{dataset_id}">client.datasets.<a href="./src/resources/datasets.ts">appendrows</a>(datasetId, { ...params }) -> void</code>
 - <code title="get /v1/datasetio/iterrows/{dataset_id}">client.datasets.<a href="./src/resources/datasets.ts">iterrows</a>(datasetId, { ...params }) -> DatasetIterrowsResponse</code>
 - <code title="post /v1/datasets">client.datasets.<a href="./src/resources/datasets.ts">register</a>({ ...params }) -> DatasetRegisterResponse</code>
 - <code title="delete /v1/datasets/{dataset_id}">client.datasets.<a href="./src/resources/datasets.ts">unregister</a>(datasetId) -> void</code>
@@ -317,10 +324,18 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/vector-stores/files.ts">VectorStoreFile</a></code>
+- <code><a href="./src/resources/vector-stores/files.ts">FileListResponse</a></code>
+- <code><a href="./src/resources/vector-stores/files.ts">FileDeleteResponse</a></code>
+- <code><a href="./src/resources/vector-stores/files.ts">FileContentResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/openai/v1/vector_stores/{vector_store_id}/files">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">create</a>(vectorStoreId, { ...params }) -> VectorStoreFile</code>
+- <code title="get /v1/openai/v1/vector_stores/{vector_store_id}/files/{file_id}">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">retrieve</a>(vectorStoreId, fileId) -> VectorStoreFile</code>
+- <code title="post /v1/openai/v1/vector_stores/{vector_store_id}/files/{file_id}">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">update</a>(vectorStoreId, fileId, { ...params }) -> VectorStoreFile</code>
+- <code title="get /v1/openai/v1/vector_stores/{vector_store_id}/files">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">list</a>(vectorStoreId, { ...params }) -> FileListResponse</code>
+- <code title="delete /v1/openai/v1/vector_stores/{vector_store_id}/files/{file_id}">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">delete</a>(vectorStoreId, fileId) -> FileDeleteResponse</code>
+- <code title="get /v1/openai/v1/vector_stores/{vector_store_id}/files/{file_id}/content">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">content</a>(vectorStoreId, fileId) -> FileContentResponse</code>
 
 # Models
 

@@ -22,6 +22,21 @@ export class Datasets extends APIResource {
   }
 
   /**
+   * Append rows to a dataset.
+   */
+  appendrows(
+    datasetId: string,
+    body: DatasetAppendrowsParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<void> {
+    return this._client.post(`/v1/datasetio/append-rows/${datasetId}`, {
+      body,
+      ...options,
+      headers: { Accept: '*/*', ...options?.headers },
+    });
+  }
+
+  /**
    * Get a paginated list of rows from a dataset. Uses offset-based pagination where:
    *
    * - start_index: The starting index (0-based). If None, starts from beginning.
@@ -254,6 +269,13 @@ export namespace DatasetRegisterResponse {
   }
 }
 
+export interface DatasetAppendrowsParams {
+  /**
+   * The rows to append to the dataset.
+   */
+  rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
+}
+
 export interface DatasetIterrowsParams {
   /**
    * The number of rows to get.
@@ -342,6 +364,7 @@ export declare namespace Datasets {
     type DatasetListResponse as DatasetListResponse,
     type DatasetIterrowsResponse as DatasetIterrowsResponse,
     type DatasetRegisterResponse as DatasetRegisterResponse,
+    type DatasetAppendrowsParams as DatasetAppendrowsParams,
     type DatasetIterrowsParams as DatasetIterrowsParams,
     type DatasetRegisterParams as DatasetRegisterParams,
   };
