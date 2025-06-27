@@ -48,7 +48,7 @@ export type AgentTool = string | AgentTool.AgentToolGroupWithArgs;
 
 export namespace AgentTool {
   export interface AgentToolGroupWithArgs {
-    args: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+    args: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
     name: string;
   }
@@ -214,7 +214,7 @@ export interface ToolResponse {
 
   tool_name: 'brave_search' | 'wolfram_alpha' | 'photogen' | 'code_interpreter' | (string & {});
 
-  metadata?: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 }
 
 /**

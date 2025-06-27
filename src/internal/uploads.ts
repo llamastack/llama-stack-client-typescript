@@ -90,7 +90,7 @@ export const multipartFormRequestOptions = async (
   return { ...opts, body: await createForm(opts.body, fetch) };
 };
 
-const supportsFormDataMap = new WeakMap<Fetch, Promise<boolean>>();
+const supportsFormDataMap = /** @__PURE__ */ new WeakMap<Fetch, Promise<boolean>>();
 
 /**
  * node-fetch doesn't support the global FormData object in recent node versions. Instead of sending
@@ -138,7 +138,7 @@ export const createForm = async <T = Record<string, unknown>>(
 
 // We check for Blob not File because Bun.File doesn't inherit from File,
 // but they both inherit from Blob and have a `name` property at runtime.
-const isNamedBlob = (value: object) => value instanceof Blob && 'name' in value;
+const isNamedBlob = (value: unknown) => value instanceof Blob && 'name' in value;
 
 const isUploadable = (value: unknown) =>
   typeof value === 'object' &&

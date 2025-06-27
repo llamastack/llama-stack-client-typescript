@@ -1,6 +1,6 @@
 # Llama Stack Client TypeScript API Library
 
-[![NPM version](https://img.shields.io/npm/v/llama-stack-client.svg)](https://npmjs.org/package/llama-stack-client) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/llama-stack-client)
+[![NPM version](<https://img.shields.io/npm/v/llama-stack-client.svg?label=npm%20(stable)>)](https://npmjs.org/package/llama-stack-client) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/llama-stack-client)
 
 This library provides convenient access to the Llama Stack Client REST API from server-side TypeScript or JavaScript.
 
@@ -11,11 +11,11 @@ It is generated with [Stainless](https://www.stainless.com/).
 ## Installation
 
 ```sh
-npm install git+ssh://git@github.com:stainless-sdks/llama-stack-client-typescript.git
+npm install git+ssh://git@github.com:llamastack/llama-stack-client-typescript.git
 ```
 
 > [!NOTE]
-> Once this package is [published to npm](https://app.stainless.com/docs/guides/publish), this will become: `npm install llama-stack-client`
+> Once this package is [published to npm](https://www.stainless.com/docs/guides/publish), this will become: `npm install llama-stack-client`
 
 ## Usage
 
@@ -29,11 +29,7 @@ const client = new LlamaStackClient({
   apiKey: process.env['LLAMA_STACK_CLIENT_API_KEY'], // This is the default and can be omitted
 });
 
-async function main() {
-  await client.datasetio.appendRows('REPLACE_ME', { rows: [{ foo: true }] });
-}
-
-main();
+await client.datasetio.appendRows('REPLACE_ME', { rows: [{ foo: true }] });
 ```
 
 ### Request & Response types
@@ -48,12 +44,8 @@ const client = new LlamaStackClient({
   apiKey: process.env['LLAMA_STACK_CLIENT_API_KEY'], // This is the default and can be omitted
 });
 
-async function main() {
-  const params: LlamaStackClient.DatasetioAppendRowsParams = { rows: [{ foo: true }] };
-  await client.datasetio.appendRows('REPLACE_ME', params);
-}
-
-main();
+const params: LlamaStackClient.DatasetioAppendRowsParams = { rows: [{ foo: true }] };
+await client.datasetio.appendRows('REPLACE_ME', params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -66,21 +58,17 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-async function main() {
-  const response = await client.datasetio
-    .appendRows('REPLACE_ME', { rows: [{ foo: true }] })
-    .catch(async (err) => {
-      if (err instanceof LlamaStackClient.APIError) {
-        console.log(err.status); // 400
-        console.log(err.name); // BadRequestError
-        console.log(err.headers); // {server: 'nginx', ...}
-      } else {
-        throw err;
-      }
-    });
-}
-
-main();
+const response = await client.datasetio
+  .appendRows('REPLACE_ME', { rows: [{ foo: true }] })
+  .catch(async (err) => {
+    if (err instanceof LlamaStackClient.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 ```
 
 Error codes are as follows:
@@ -240,9 +228,8 @@ parameter. This library doesn't validate at runtime that the request matches the
 send will be sent as-is.
 
 ```ts
-client.foo.create({
-  foo: 'my_param',
-  bar: 12,
+client.datasetio.appendRows({
+  // ...
   // @ts-expect-error baz is not yet public
   baz: 'undocumented option',
 });
@@ -351,7 +338,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/llama-stack-client-typescript/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/llamastack/llama-stack-client-typescript/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 

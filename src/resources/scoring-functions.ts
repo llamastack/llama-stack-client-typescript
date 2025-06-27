@@ -89,7 +89,7 @@ export namespace ParamType {
 export interface ScoringFn {
   identifier: string;
 
-  metadata: Record<string, boolean | number | string | Array<unknown> | unknown | null>;
+  metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   provider_id: string;
 
