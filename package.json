@@ -1,6 +1,6 @@
 {
   "name": "llama-stack-client",
-  "version": "0.0.1-alpha.0",
+  "version": "0.1.0-alpha.1",
   "description": "The official TypeScript library for the Llama Stack Client API",
   "author": "Llama Stack Client <>",
   "types": "dist/index.d.ts",
