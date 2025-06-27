@@ -1,166 +1,242 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../core/resource';
-import * as InferenceAPI from '../inference';
-import * as ToolRuntimeAPI from '../tool-runtime/tool-runtime';
-import * as SessionAPI from './session/session';
+import { APIResource } from '../../resource';
+import * as Core from '../../core';
+import * as Shared from '../shared';
+import * as SessionAPI from './session';
 import {
   Session,
   SessionCreateParams,
   SessionCreateResponse,
-  SessionDeleteParams,
   SessionResource,
   SessionRetrieveParams,
-} from './session/session';
-import * as TurnAPI from './session/turn/turn';
-import { APIPromise } from '../../core/api-promise';
-import { buildHeaders } from '../../internal/headers';
-import { RequestOptions } from '../../internal/request-options';
-import { path } from '../../internal/utils/path';
+} from './session';
+import * as StepsAPI from './steps';
+import { StepRetrieveResponse, Steps } from './steps';
+import * as TurnAPI from './turn';
+import {
+  AgentTurnResponseStreamChunk,
+  Turn,
+  TurnCreateParams,
+  TurnCreateParamsNonStreaming,
+  TurnCreateParamsStreaming,
+  TurnResource,
+  TurnResponseEvent,
+  TurnResponseEventPayload,
+  TurnResumeParams,
+  TurnResumeParamsNonStreaming,
+  TurnResumeParamsStreaming,
+} from './turn';
 
 export class Agents extends APIResource {
   session: SessionAPI.SessionResource = new SessionAPI.SessionResource(this._client);
+  steps: StepsAPI.Steps = new StepsAPI.Steps(this._client);
+  turn: TurnAPI.TurnResource = new TurnAPI.TurnResource(this._client);
 
   /**
    * Create an agent with the given configuration.
    */
-  create(body: AgentCreateParams, options?: RequestOptions): APIPromise<AgentCreateResponse> {
+  create(body: AgentCreateParams, options?: Core.RequestOptions): Core.APIPromise<AgentCreateResponse> {
     return this._client.post('/v1/agents', { body, ...options });
   }
 
   /**
-   * Describe an agent by its ID.
+   * Delete an agent by its ID and its associated sessions and turns.
    */
-  retrieve(agentID: string, options?: RequestOptions): APIPromise<Agent> {
-    return this._client.get(path`/v1/agents/${agentID}`, options);
-  }
-
-  /**
-   * List all agents.
-   */
-  list(options?: RequestOptions): APIPromise<AgentListResponse> {
-    return this._client.get('/v1/agents', options);
-  }
-
-  /**
-   * Delete an agent by its ID.
-   */
-  delete(agentID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/v1/agents/${agentID}`, {
+  delete(agentId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
+    return this._client.delete(`/v1/agents/${agentId}`, {
       ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+      headers: { Accept: '*/*', ...options?.headers },
     });
   }
-
-  /**
-   * List all session(s) of a given agent.
-   */
-  listSessions(agentID: string, options?: RequestOptions): APIPromise<AgentListSessionsResponse> {
-    return this._client.get(path`/v1/agents/${agentID}/sessions`, options);
-  }
-}
-
-export interface Agent {
-  /**
-   * Configuration for an agent.
-   */
-  agent_config: AgentConfig;
-
-  agent_id: string;
-
-  created_at: string;
 }
 
 /**
- * Configuration for an agent.
+ * An inference step in an agent turn.
  */
-export interface AgentConfig {
+export interface InferenceStep {
   /**
-   * The system instructions for the agent
+   * The response from the LLM.
    */
-  instructions: string;
-
-  /**
-   * The model identifier to use for the agent
-   */
-  model: string;
-
-  client_tools?: Array<ToolRuntimeAPI.ToolDef>;
+  model_response: Shared.CompletionMessage;
 
   /**
-   * Optional flag indicating whether session data has to be persisted
+   * The ID of the step.
    */
-  enable_session_persistence?: boolean;
-
-  input_shields?: Array<string>;
-
-  max_infer_iters?: number;
+  step_id: string;
 
   /**
-   * Optional name for the agent, used in telemetry and identification
+   * Type of the step in an agent turn.
    */
-  name?: string;
-
-  output_shields?: Array<string>;
+  step_type: 'inference';
 
   /**
-   * Optional response format configuration
+   * The ID of the turn.
    */
-  response_format?: InferenceAPI.ResponseFormat;
+  turn_id: string;
 
   /**
-   * Sampling parameters.
+   * The time the step completed.
    */
-  sampling_params?: InferenceAPI.SamplingParams;
+  completed_at?: string;
 
   /**
-   * @deprecated Whether tool use is required or automatic. This is a hint to the
-   * model which may not be followed. It depends on the Instruction Following
-   * capabilities of the model.
+   * The time the step started.
    */
-  tool_choice?: 'auto' | 'required' | 'none';
+  started_at?: string;
+}
+
+/**
+ * A memory retrieval step in an agent turn.
+ */
+export interface MemoryRetrievalStep {
+  /**
+   * The context retrieved from the vector databases.
+   */
+  inserted_context: Shared.InterleavedContent;
 
   /**
-   * Configuration for tool use.
+   * The ID of the step.
    */
-  tool_config?: InferenceAPI.ToolConfig;
+  step_id: string;
 
   /**
-   * @deprecated Prompt format for calling custom / zero shot tools.
+   * Type of the step in an agent turn.
    */
-  tool_prompt_format?: 'json' | 'function_tag' | 'python_list';
+  step_type: 'memory_retrieval';
 
-  toolgroups?: Array<TurnAPI.AgentTool>;
+  /**
+   * The ID of the turn.
+   */
+  turn_id: string;
+
+  /**
+   * The IDs of the vector databases to retrieve context from.
+   */
+  vector_db_ids: string;
+
+  /**
+   * The time the step completed.
+   */
+  completed_at?: string;
+
+  /**
+   * The time the step started.
+   */
+  started_at?: string;
+}
+
+/**
+ * A shield call step in an agent turn.
+ */
+export interface ShieldCallStep {
+  /**
+   * The ID of the step.
+   */
+  step_id: string;
+
+  /**
+   * Type of the step in an agent turn.
+   */
+  step_type: 'shield_call';
+
+  /**
+   * The ID of the turn.
+   */
+  turn_id: string;
+
+  /**
+   * The time the step completed.
+   */
+  completed_at?: string;
+
+  /**
+   * The time the step started.
+   */
+  started_at?: string;
+
+  /**
+   * The violation from the shield call.
+   */
+  violation?: Shared.SafetyViolation;
+}
+
+/**
+ * A tool execution step in an agent turn.
+ */
+export interface ToolExecutionStep {
+  /**
+   * The ID of the step.
+   */
+  step_id: string;
+
+  /**
+   * Type of the step in an agent turn.
+   */
+  step_type: 'tool_execution';
+
+  /**
+   * The tool calls to execute.
+   */
+  tool_calls: Array<Shared.ToolCall>;
+
+  /**
+   * The tool responses from the tool calls.
+   */
+  tool_responses: Array<ToolResponse>;
+
+  /**
+   * The ID of the turn.
+   */
+  turn_id: string;
+
+  /**
+   * The time the step completed.
+   */
+  completed_at?: string;
+
+  /**
+   * The time the step started.
+   */
+  started_at?: string;
+}
+
+export interface ToolResponse {
+  call_id: string;
+
+  /**
+   * A image content item
+   */
+  content: Shared.InterleavedContent;
+
+  tool_name: 'brave_search' | 'wolfram_alpha' | 'photogen' | 'code_interpreter' | (string & {});
+
+  metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 }
 
 export interface AgentCreateResponse {
   agent_id: string;
 }
 
-export interface AgentListResponse {
-  data: Array<Agent>;
-}
-
-export interface AgentListSessionsResponse {
-  data: Array<SessionAPI.Session>;
-}
-
 export interface AgentCreateParams {
   /**
    * The configuration for the agent.
    */
-  agent_config: AgentConfig;
+  agent_config: Shared.AgentConfig;
 }
 
 Agents.SessionResource = SessionResource;
+Agents.Steps = Steps;
+Agents.TurnResource = TurnResource;
 
 export declare namespace Agents {
   export {
-    type Agent as Agent,
-    type AgentConfig as AgentConfig,
+    type InferenceStep as InferenceStep,
+    type MemoryRetrievalStep as MemoryRetrievalStep,
+    type ShieldCallStep as ShieldCallStep,
+    type ToolExecutionStep as ToolExecutionStep,
+    type ToolResponse as ToolResponse,
     type AgentCreateResponse as AgentCreateResponse,
-    type AgentListResponse as AgentListResponse,
-    type AgentListSessionsResponse as AgentListSessionsResponse,
     type AgentCreateParams as AgentCreateParams,
   };
 
@@ -170,6 +246,21 @@ export declare namespace Agents {
     type SessionCreateResponse as SessionCreateResponse,
     type SessionCreateParams as SessionCreateParams,
     type SessionRetrieveParams as SessionRetrieveParams,
-    type SessionDeleteParams as SessionDeleteParams,
+  };
+
+  export { Steps as Steps, type StepRetrieveResponse as StepRetrieveResponse };
+
+  export {
+    TurnResource as TurnResource,
+    type AgentTurnResponseStreamChunk as AgentTurnResponseStreamChunk,
+    type Turn as Turn,
+    type TurnResponseEvent as TurnResponseEvent,
+    type TurnResponseEventPayload as TurnResponseEventPayload,
+    type TurnCreateParams as TurnCreateParams,
+    type TurnCreateParamsNonStreaming as TurnCreateParamsNonStreaming,
+    type TurnCreateParamsStreaming as TurnCreateParamsStreaming,
+    type TurnResumeParams as TurnResumeParams,
+    type TurnResumeParamsNonStreaming as TurnResumeParamsNonStreaming,
+    type TurnResumeParamsStreaming as TurnResumeParamsStreaming,
   };
 }

@@ -1,10 +1,10 @@
-# Llama Stack Client TypeScript API Library
+# Llama Stack Client Node API Library
 
-[![NPM version](<https://img.shields.io/npm/v/llama-stack-client.svg?label=npm%20(stable)>)](https://npmjs.org/package/llama-stack-client) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/llama-stack-client)
+[![NPM version](https://img.shields.io/npm/v/llama-stack-client.svg)](https://npmjs.org/package/llama-stack-client) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/llama-stack-client)
 
 This library provides convenient access to the Llama Stack Client REST API from server-side TypeScript or JavaScript.
 
-The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [llama-stack.readthedocs.io](https://llama-stack.readthedocs.io/en/latest/). The full API of this library can be found in [api.md](api.md).
 
 It is generated with [Stainless](https://www.stainless.com/).
 
@@ -25,12 +25,34 @@ The full API of this library can be found in [api.md](api.md).
 ```js
 import LlamaStackClient from 'llama-stack-client';
 
-const client = new LlamaStackClient({
-  apiKey: process.env['LLAMA_STACK_CLIENT_API_KEY'], // This is the default and can be omitted
-});
+const client = new LlamaStackClient();
 
-await client.datasetio.appendRows('REPLACE_ME', { rows: [{ foo: true }] });
+const model = await client.models.register({ model_id: 'model_id' });
+
+console.log(model.identifier);
 ```
+
+## Streaming responses
+
+We provide support for streaming responses using Server Sent Events (SSE).
+
+```ts
+import LlamaStackClient from 'llama-stack-client';
+
+const client = new LlamaStackClient();
+
+const stream = await client.inference.chatCompletion({
+  messages: [{ content: 'string', role: 'user' }],
+  model_id: 'model_id',
+  stream: true,
+});
+for await (const chatCompletionResponseStreamChunk of stream) {
+  console.log(chatCompletionResponseStreamChunk.completion_message);
+}
+```
+
+If you need to cancel a stream, you can `break` from the loop
+or call `stream.controller.abort()`.
 
 ### Request & Response types
 
@@ -40,15 +62,48 @@ This library includes TypeScript definitions for all request params and response
 ```ts
 import LlamaStackClient from 'llama-stack-client';
 
-const client = new LlamaStackClient({
-  apiKey: process.env['LLAMA_STACK_CLIENT_API_KEY'], // This is the default and can be omitted
-});
+const client = new LlamaStackClient();
 
-const params: LlamaStackClient.DatasetioAppendRowsParams = { rows: [{ foo: true }] };
-await client.datasetio.appendRows('REPLACE_ME', params);
+const params: LlamaStackClient.InferenceChatCompletionParams = {
+  messages: [{ content: 'string', role: 'user' }],
+  model_id: 'model_id',
+};
+const chatCompletionResponse: LlamaStackClient.ChatCompletionResponse = await client.inference.chatCompletion(
+  params,
+);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
+
+## File uploads
+
+Request parameters that correspond to file uploads can be passed in many different forms:
+
+- `File` (or an object with the same structure)
+- a `fetch` `Response` (or an object with the same structure)
+- an `fs.ReadStream`
+- the return value of our `toFile` helper
+
+```ts
+import fs from 'fs';
+import fetch from 'node-fetch';
+import LlamaStackClient, { toFile } from 'llama-stack-client';
+
+const client = new LlamaStackClient();
+
+// If you have access to Node `fs` we recommend using `fs.createReadStream()`:
+await client.files.create({ file: fs.createReadStream('/path/to/file'), purpose: 'assistants' });
+
+// Or if you have the web `File` API you can pass a `File` instance:
+await client.files.create({ file: new File(['my bytes'], 'file'), purpose: 'assistants' });
+
+// You can also pass a `fetch` `Response`:
+await client.files.create({ file: await fetch('https://somesite/file'), purpose: 'assistants' });
+
+// Finally, if none of the above are convenient, you can use our `toFile` helper:
+await client.files.create({ file: await toFile(Buffer.from('my bytes'), 'file'), purpose: 'assistants' });
+await client.files.create({ file: await toFile(new Uint8Array([0, 1, 2]), 'file'), purpose: 'assistants' });
+```
 
 ## Handling errors
 
@@ -58,8 +113,8 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const response = await client.datasetio
-  .appendRows('REPLACE_ME', { rows: [{ foo: true }] })
+const chatCompletionResponse = await client.inference
+  .chatCompletion({ messages: [{ content: 'string', role: 'user' }], model_id: 'model_id' })
   .catch(async (err) => {
     if (err instanceof LlamaStackClient.APIError) {
       console.log(err.status); // 400
@@ -100,7 +155,7 @@ const client = new LlamaStackClient({
 });
 
 // Or, configure per-request:
-await client.datasetio.appendRows('REPLACE_ME', { rows: [{ foo: true }] }, {
+await client.inference.chatCompletion({ messages: [{ content: 'string', role: 'user' }], model_id: 'model_id' }, {
   maxRetries: 5,
 });
 ```
@@ -117,7 +172,7 @@ const client = new LlamaStackClient({
 });
 
 // Override per-request:
-await client.datasetio.appendRows('REPLACE_ME', { rows: [{ foo: true }] }, {
+await client.inference.chatCompletion({ messages: [{ content: 'string', role: 'user' }], model_id: 'model_id' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -131,77 +186,24 @@ Note that requests which time out will be [retried twice by default](#retries).
 ### Accessing raw Response data (e.g., headers)
 
 The "raw" `Response` returned by `fetch()` can be accessed through the `.asResponse()` method on the `APIPromise` type that all methods return.
-This method returns as soon as the headers for a successful response are received and does not consume the response body, so you are free to write custom parsing or streaming logic.
 
 You can also use the `.withResponse()` method to get the raw `Response` along with the parsed data.
-Unlike `.asResponse()` this method consumes the body, returning once it is parsed.
 
 <!-- prettier-ignore -->
 ```ts
 const client = new LlamaStackClient();
 
-const response = await client.datasetio.appendRows('REPLACE_ME', { rows: [{ foo: true }] }).asResponse();
+const response = await client.inference
+  .chatCompletion({ messages: [{ content: 'string', role: 'user' }], model_id: 'model_id' })
+  .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: result, response: raw } = await client.datasetio
-  .appendRows('REPLACE_ME', { rows: [{ foo: true }] })
+const { data: chatCompletionResponse, response: raw } = await client.inference
+  .chatCompletion({ messages: [{ content: 'string', role: 'user' }], model_id: 'model_id' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(result);
-```
-
-### Logging
-
-> [!IMPORTANT]
-> All log messages are intended for debugging only. The format and content of log messages
-> may change between releases.
-
-#### Log levels
-
-The log level can be configured in two ways:
-
-1. Via the `LLAMA_STACK_CLIENT_LOG` environment variable
-2. Using the `logLevel` client option (overrides the environment variable if set)
-
-```ts
-import LlamaStackClient from 'llama-stack-client';
-
-const client = new LlamaStackClient({
-  logLevel: 'debug', // Show all log messages
-});
-```
-
-Available log levels, from most to least verbose:
-
-- `'debug'` - Show debug messages, info, warnings, and errors
-- `'info'` - Show info messages, warnings, and errors
-- `'warn'` - Show warnings and errors (default)
-- `'error'` - Show only errors
-- `'off'` - Disable all logging
-
-At the `'debug'` level, all HTTP requests and responses are logged, including headers and bodies.
-Some authentication-related headers are redacted, but sensitive data in request and response bodies
-may still be visible.
-
-#### Custom logger
-
-By default, this library logs to `globalThis.console`. You can also provide a custom logger.
-Most logging libraries are supported, including [pino](https://www.npmjs.com/package/pino), [winston](https://www.npmjs.com/package/winston), [bunyan](https://www.npmjs.com/package/bunyan), [consola](https://www.npmjs.com/package/consola), [signale](https://www.npmjs.com/package/signale), and [@std/log](https://jsr.io/@std/log). If your logger doesn't work, please open an issue.
-
-When providing a custom logger, the `logLevel` option still controls which messages are emitted, messages
-below the configured level will not be sent to your logger.
-
-```ts
-import LlamaStackClient from 'llama-stack-client';
-import pino from 'pino';
-
-const logger = pino();
-
-const client = new LlamaStackClient({
-  logger: logger.child({ name: 'LlamaStackClient' }),
-  logLevel: 'debug', // Send all messages to pino, allowing it to filter
-});
+console.log(chatCompletionResponse.completion_message);
 ```
 
 ### Making custom/undocumented requests
@@ -228,8 +230,9 @@ parameter. This library doesn't validate at runtime that the request matches the
 send will be sent as-is.
 
 ```ts
-client.datasetio.appendRows({
-  // ...
+client.foo.create({
+  foo: 'my_param',
+  bar: 12,
   // @ts-expect-error baz is not yet public
   baz: 'undocumented option',
 });
@@ -249,84 +252,68 @@ validate or strip extra properties from the response from the API.
 
 ### Customizing the fetch client
 
-By default, this library expects a global `fetch` function is defined.
+By default, this library uses `node-fetch` in Node, and expects a global `fetch` function in other environments.
 
-If you want to use a different `fetch` function, you can either polyfill the global:
-
-```ts
-import fetch from 'my-fetch';
-
-globalThis.fetch = fetch;
-```
-
-Or pass it to the client:
+If you would prefer to use a global, web-standards-compliant `fetch` function even in a Node environment,
+(for example, if you are running Node with `--experimental-fetch` or using NextJS which polyfills with `undici`),
+add the following import before your first import `from "LlamaStackClient"`:
 
 ```ts
+// Tell TypeScript and the package to use the global web fetch instead of node-fetch.
+// Note, despite the name, this does not add any polyfills, but expects them to be provided if needed.
+import 'llama-stack-client/shims/web';
 import LlamaStackClient from 'llama-stack-client';
-import fetch from 'my-fetch';
-
-const client = new LlamaStackClient({ fetch });
 ```
 
-### Fetch options
+To do the inverse, add `import "llama-stack-client/shims/node"` (which does import polyfills).
+This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/llamastack/llama-stack-client-typescript/tree/main/src/_shims#readme)).
 
-If you want to set custom `fetch` options without overriding the `fetch` function, you can provide a `fetchOptions` object when instantiating the client or making a request. (Request-specific options override client options.)
+### Logging and middleware
+
+You may also provide a custom `fetch` function when instantiating the client,
+which can be used to inspect or alter the `Request` or `Response` before/after each request:
 
 ```ts
+import { fetch } from 'undici'; // as one example
 import LlamaStackClient from 'llama-stack-client';
 
 const client = new LlamaStackClient({
-  fetchOptions: {
-    // `RequestInit` options
+  fetch: async (url: RequestInfo, init?: RequestInit): Promise<Response> => {
+    console.log('About to make a request', url, init);
+    const response = await fetch(url, init);
+    console.log('Got response', response);
+    return response;
   },
 });
 ```
 
-#### Configuring proxies
+Note that if given a `DEBUG=true` environment variable, this library will log all requests and responses automatically.
+This is intended for debugging purposes only and may change in the future without notice.
 
-To modify proxy behavior, you can provide custom `fetchOptions` that add runtime-specific proxy
-options to requests:
+### Configuring an HTTP(S) Agent (e.g., for proxies)
 
-<img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/node.svg" align="top" width="18" height="21"> **Node** <sup>[[docs](https://github.com/nodejs/undici/blob/main/docs/docs/api/ProxyAgent.md#example---proxyagent-with-fetch)]</sup>
+By default, this library uses a stable agent for all http/https requests to reuse TCP connections, eliminating many TCP & TLS handshakes and shaving around 100ms off most requests.
 
+If you would like to disable or customize this behavior, for example to use the API behind a proxy, you can pass an `httpAgent` which is used for all requests (be they http or https), for example:
+
+<!-- prettier-ignore -->
 ```ts
-import LlamaStackClient from 'llama-stack-client';
-import * as undici from 'undici';
+import http from 'http';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
-const proxyAgent = new undici.ProxyAgent('http://localhost:8888');
+// Configure the default for all requests:
 const client = new LlamaStackClient({
-  fetchOptions: {
-    dispatcher: proxyAgent,
-  },
+  httpAgent: new HttpsProxyAgent(process.env.PROXY_URL),
 });
-```
 
-<img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/bun.svg" align="top" width="18" height="21"> **Bun** <sup>[[docs](https://bun.sh/guides/http/proxy)]</sup>
-
-```ts
-import LlamaStackClient from 'llama-stack-client';
-
-const client = new LlamaStackClient({
-  fetchOptions: {
-    proxy: 'http://localhost:8888',
+// Override per-request:
+await client.inference.chatCompletion(
+  { messages: [{ content: 'string', role: 'user' }], model_id: 'model_id' },
+  {
+    httpAgent: new http.Agent({ keepAlive: false }),
   },
-});
+);
 ```
-
-<img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/deno.svg" align="top" width="18" height="21"> **Deno** <sup>[[docs](https://docs.deno.com/api/deno/~/Deno.createHttpClient)]</sup>
-
-```ts
-import LlamaStackClient from 'npm:llama-stack-client';
-
-const httpClient = Deno.createHttpClient({ proxy: { url: 'http://localhost:8888' } });
-const client = new LlamaStackClient({
-  fetchOptions: {
-    client: httpClient,
-  },
-});
-```
-
-## Frequently Asked Questions
 
 ## Semantic versioning
 
@@ -342,12 +329,12 @@ We are keen for your feedback; please open an [issue](https://www.github.com/lla
 
 ## Requirements
 
-TypeScript >= 4.9 is supported.
+TypeScript >= 4.5 is supported.
 
 The following runtimes are supported:
 
 - Web browsers (Up-to-date Chrome, Firefox, Safari, Edge, and more)
-- Node.js 20 LTS or later ([non-EOL](https://endoflife.date/nodejs)) versions.
+- Node.js 18 LTS or later ([non-EOL](https://endoflife.date/nodejs)) versions.
 - Deno v1.28.0 or higher.
 - Bun 1.0 or later.
 - Cloudflare Workers.

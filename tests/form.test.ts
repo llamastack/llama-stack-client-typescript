@@ -1,85 +1,65 @@
-import { multipartFormRequestOptions, createForm } from 'llama-stack-client/internal/uploads';
-import { toFile } from 'llama-stack-client/core/uploads';
+import { multipartFormRequestOptions, createForm } from 'llama-stack-client/core';
+import { Blob } from 'llama-stack-client/_shims/index';
+import { toFile } from 'llama-stack-client';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {
-    await multipartFormRequestOptions(
-      {
-        body: {
-          foo: 'foo',
-          string: 1,
-          bool: true,
-          file: await toFile(Buffer.from('some-content')),
-          blob: new Blob(['Some content'], { type: 'text/plain' }),
-        },
+    await multipartFormRequestOptions({
+      body: {
+        foo: 'foo',
+        string: 1,
+        bool: true,
+        file: await toFile(Buffer.from('some-content')),
+        blob: new Blob(['Some content'], { type: 'text/plain' }),
       },
-      fetch,
-    );
+    });
   });
 
   test('null', async () => {
     await expect(() =>
-      multipartFormRequestOptions(
-        {
-          body: {
-            null: null,
-          },
+      multipartFormRequestOptions({
+        body: {
+          null: null,
         },
-        fetch,
-      ),
+      }),
     ).rejects.toThrow(TypeError);
   });
 
   test('undefined is stripped', async () => {
-    const form = await createForm(
-      {
-        foo: undefined,
-        bar: 'baz',
-      },
-      fetch,
-    );
+    const form = await createForm({
+      foo: undefined,
+      bar: 'baz',
+    });
     expect(form.has('foo')).toBe(false);
     expect(form.get('bar')).toBe('baz');
   });
 
   test('nested undefined property is stripped', async () => {
-    const form = await createForm(
-      {
-        bar: {
-          baz: undefined,
-        },
+    const form = await createForm({
+      bar: {
+        baz: undefined,
       },
-      fetch,
-    );
+    });
     expect(Array.from(form.entries())).toEqual([]);
 
-    const form2 = await createForm(
-      {
-        bar: {
-          foo: 'string',
-          baz: undefined,
-        },
+    const form2 = await createForm({
+      bar: {
+        foo: 'string',
+        baz: undefined,
       },
-      fetch,
-    );
+    });
     expect(Array.from(form2.entries())).toEqual([['bar[foo]', 'string']]);
   });
 
   test('nested undefined array item is stripped', async () => {
-    const form = await createForm(
-      {
-        bar: [undefined, undefined],
-      },
-      fetch,
-    );
+    const form = await createForm({
+      bar: [undefined, undefined],
+    });
     expect(Array.from(form.entries())).toEqual([]);
 
-    const form2 = await createForm(
-      {
-        bar: [undefined, 'foo'],
-      },
-      fetch,
-    );
+    const form2 = await createForm({
+      bar: [undefined, 'foo'],
+    });
     expect(Array.from(form2.entries())).toEqual([['bar[]', 'foo']]);
   });
 });

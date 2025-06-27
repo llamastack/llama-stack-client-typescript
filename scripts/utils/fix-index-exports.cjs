@@ -8,10 +8,7 @@ const indexJs =
 
 let before = fs.readFileSync(indexJs, 'utf8');
 let after = before.replace(
-  /^(\s*Object\.defineProperty\s*\(exports,\s*["']__esModule["'].+)$/m,
-  `exports = module.exports = function (...args) {
-    return new exports.default(...args)
-  }
-  $1`.replace(/^  /gm, ''),
+  /^\s*exports\.default\s*=\s*(\w+)/m,
+  'exports = module.exports = $1;\nexports.default = $1',
 );
 fs.writeFileSync(indexJs, after, 'utf8');

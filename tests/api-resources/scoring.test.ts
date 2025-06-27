@@ -1,15 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import LlamaStackClient from 'llama-stack-client';
+import { Response } from 'node-fetch';
 
-const client = new LlamaStackClient({
-  apiKey: 'My API Key',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-});
+const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
 
 describe('resource scoring', () => {
-  // skipped: tests are disabled for the time being
-  test.skip('score: only required params', async () => {
+  test('score: only required params', async () => {
     const responsePromise = client.scoring.score({
       input_rows: [{ foo: true }],
       scoring_functions: {
@@ -30,8 +27,7 @@ describe('resource scoring', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
-  test.skip('score: required and optional params', async () => {
+  test('score: required and optional params', async () => {
     const response = await client.scoring.score({
       input_rows: [{ foo: true }],
       scoring_functions: {
@@ -46,8 +42,7 @@ describe('resource scoring', () => {
     });
   });
 
-  // skipped: tests are disabled for the time being
-  test.skip('scoreBatch: only required params', async () => {
+  test('scoreBatch: only required params', async () => {
     const responsePromise = client.scoring.scoreBatch({
       dataset_id: 'dataset_id',
       save_results_dataset: true,
@@ -69,8 +64,7 @@ describe('resource scoring', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
-  test.skip('scoreBatch: required and optional params', async () => {
+  test('scoreBatch: required and optional params', async () => {
     const response = await client.scoring.scoreBatch({
       dataset_id: 'dataset_id',
       save_results_dataset: true,

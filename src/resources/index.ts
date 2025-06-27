@@ -1,83 +1,108 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+export * from './shared';
 export {
   Agents,
-  type Agent,
-  type AgentConfig,
+  type InferenceStep,
+  type MemoryRetrievalStep,
+  type ShieldCallStep,
+  type ToolExecutionStep,
+  type ToolResponse,
   type AgentCreateResponse,
-  type AgentListResponse,
-  type AgentListSessionsResponse,
   type AgentCreateParams,
 } from './agents/agents';
 export {
-  Datasetio,
-  type DatasetioIterateRowsResponse,
-  type DatasetioAppendRowsParams,
-  type DatasetioIterateRowsParams,
-} from './datasetio';
+  Benchmarks,
+  type Benchmark,
+  type ListBenchmarksResponse,
+  type BenchmarkListResponse,
+  type BenchmarkRegisterParams,
+} from './benchmarks';
+export { Chat, type ChatCompletionChunk } from './chat/chat';
+export {
+  Completions,
+  type CompletionCreateResponse,
+  type CompletionCreateParams,
+  type CompletionCreateParamsNonStreaming,
+  type CompletionCreateParamsStreaming,
+} from './completions';
 export {
   Datasets,
-  type DataSource,
-  type Dataset,
+  type ListDatasetsResponse,
+  type DatasetRetrieveResponse,
   type DatasetListResponse,
-  type DatasetCreateParams,
+  type DatasetIterrowsResponse,
+  type DatasetRegisterResponse,
+  type DatasetIterrowsParams,
+  type DatasetRegisterParams,
 } from './datasets';
-export { Eval } from './eval/eval';
+export { Embeddings, type CreateEmbeddingsResponse, type EmbeddingCreateParams } from './embeddings';
+export {
+  Eval,
+  type BenchmarkConfig,
+  type EvalCandidate,
+  type EvaluateResponse,
+  type Job,
+  type EvalEvaluateRowsParams,
+  type EvalEvaluateRowsAlphaParams,
+  type EvalRunEvalParams,
+  type EvalRunEvalAlphaParams,
+} from './eval/eval';
 export {
   Files,
+  type DeleteFileResponse,
   type File,
-  type FileUpload,
-  type FileListResponse,
-  type FileListInBucketResponse,
-  type FileRetrieveParams,
+  type ListFilesResponse,
+  type FileContentResponse,
+  type FileCreateParams,
   type FileListParams,
-  type FileDeleteParams,
-  type FileCreateUploadSessionParams,
-} from './files/files';
-export { Health, type HealthCheckResponse } from './health';
+} from './files';
 export {
   Inference,
-  type ChatCompletionResponse,
-  type CompletionMessage,
+  type ChatCompletionResponseStreamChunk,
   type CompletionResponse,
-  type InterleavedContent,
-  type InterleavedContentItem,
-  type Message,
-  type MetricInResponse,
-  type ResponseFormat,
-  type SamplingParams,
-  type SystemMessage,
+  type EmbeddingsResponse,
   type TokenLogProbs,
-  type ToolCall,
-  type ToolConfig,
-  type ToolDefinition,
   type InferenceBatchChatCompletionResponse,
-  type InferenceBatchCompletionResponse,
-  type InferenceEmbeddingsResponse,
   type InferenceBatchChatCompletionParams,
   type InferenceBatchCompletionParams,
   type InferenceChatCompletionParams,
+  type InferenceChatCompletionParamsNonStreaming,
+  type InferenceChatCompletionParamsStreaming,
   type InferenceCompletionParams,
+  type InferenceCompletionParamsNonStreaming,
+  type InferenceCompletionParamsStreaming,
   type InferenceEmbeddingsParams,
 } from './inference';
-export { Inspect, type InspectListRoutesResponse } from './inspect';
-export { Models, type Model, type ModelType, type ModelListResponse, type ModelCreateParams } from './models';
-export { OpenAI } from './openai/openai';
+export { Inspect, type HealthInfo, type ProviderInfo, type RouteInfo, type VersionInfo } from './inspect';
+export {
+  Models,
+  type ListModelsResponse,
+  type Model,
+  type ModelListResponse,
+  type ModelRegisterParams,
+} from './models';
 export {
   PostTraining,
+  type AlgorithmConfig,
+  type ListPostTrainingJobsResponse,
   type PostTrainingJob,
-  type TrainingConfig,
-  type PostTrainingListJobsResponse,
-  type PostTrainingFineTuneSupervisedParams,
-  type PostTrainingOptimizePreferencesParams,
+  type PostTrainingPreferenceOptimizeParams,
+  type PostTrainingSupervisedFineTuneParams,
 } from './post-training/post-training';
-export { Providers, type ProviderInfo, type ProviderListResponse } from './providers';
+export { Providers, type ListProvidersResponse, type ProviderListResponse } from './providers';
 export {
-  Safety,
-  type SafetyViolation,
-  type SafetyRunShieldResponse,
-  type SafetyRunShieldParams,
-} from './safety';
+  Responses,
+  type ResponseObject,
+  type ResponseObjectStream,
+  type ResponseListResponse,
+  type ResponseCreateParams,
+  type ResponseCreateParamsNonStreaming,
+  type ResponseCreateParamsStreaming,
+  type ResponseListParams,
+} from './responses/responses';
+export { Routes, type ListRoutesResponse, type RouteListResponse } from './routes';
+export { Safety, type RunShieldResponse, type SafetyRunShieldParams } from './safety';
 export {
   Scoring,
   type ScoringScoreResponse,
@@ -87,47 +112,85 @@ export {
 } from './scoring';
 export {
   ScoringFunctions,
-  type AggregationFunctionType,
-  type ParamType,
+  type ListScoringFunctionsResponse,
   type ScoringFn,
   type ScoringFnParams,
-  type ScoringFnParamsType,
   type ScoringFunctionListResponse,
-  type ScoringFunctionCreateParams,
+  type ScoringFunctionRegisterParams,
 } from './scoring-functions';
-export { Shields, type Shield, type ShieldListResponse, type ShieldCreateParams } from './shields';
+export {
+  Shields,
+  type ListShieldsResponse,
+  type Shield,
+  type ShieldListResponse,
+  type ShieldRegisterParams,
+} from './shields';
 export {
   SyntheticDataGeneration,
-  type SyntheticDataGenerationGenerateResponse,
+  type SyntheticDataGenerationResponse,
   type SyntheticDataGenerationGenerateParams,
 } from './synthetic-data-generation';
 export {
   Telemetry,
-  type EventType,
-  type StructuredLogType,
-  type TelemetryCreateEventParams,
-} from './telemetry/telemetry';
+  type Event,
+  type QueryCondition,
+  type QuerySpansResponse,
+  type SpanWithStatus,
+  type Trace,
+  type TelemetryGetSpanResponse,
+  type TelemetryGetSpanTreeResponse,
+  type TelemetryQuerySpansResponse,
+  type TelemetryQueryTracesResponse,
+  type TelemetryGetSpanTreeParams,
+  type TelemetryLogEventParams,
+  type TelemetryQuerySpansParams,
+  type TelemetryQueryTracesParams,
+  type TelemetrySaveSpansToDatasetParams,
+} from './telemetry';
 export {
   ToolRuntime,
   type ToolDef,
-  type URL,
-  type ToolRuntimeInvokeToolResponse,
+  type ToolInvocationResult,
   type ToolRuntimeListToolsResponse,
   type ToolRuntimeInvokeToolParams,
   type ToolRuntimeListToolsParams,
 } from './tool-runtime/tool-runtime';
 export {
   Toolgroups,
+  type ListToolGroupsResponse,
   type ToolGroup,
   type ToolgroupListResponse,
   type ToolgroupRegisterParams,
 } from './toolgroups';
-export { Tools, type Tool, type ToolParameter, type ToolListResponse, type ToolListParams } from './tools';
-export { VectorDBs, type VectorDB, type VectorDBListResponse, type VectorDBCreateParams } from './vector-dbs';
+export {
+  Tools,
+  type ListToolsResponse,
+  type Tool,
+  type ToolListResponse,
+  type ToolListParams,
+} from './tools';
+export {
+  VectorDBs,
+  type ListVectorDBsResponse,
+  type VectorDBRetrieveResponse,
+  type VectorDBListResponse,
+  type VectorDBRegisterResponse,
+  type VectorDBRegisterParams,
+} from './vector-dbs';
 export {
   VectorIo,
-  type VectorIoQueryResponse,
+  type QueryChunksResponse,
   type VectorIoInsertParams,
   type VectorIoQueryParams,
 } from './vector-io';
-export { Version, type VersionRetrieveResponse } from './version';
+export {
+  VectorStores,
+  type ListVectorStoresResponse,
+  type VectorStore,
+  type VectorStoreDeleteResponse,
+  type VectorStoreSearchResponse,
+  type VectorStoreCreateParams,
+  type VectorStoreUpdateParams,
+  type VectorStoreListParams,
+  type VectorStoreSearchParams,
+} from './vector-stores/vector-stores';

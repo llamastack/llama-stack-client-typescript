@@ -1,36 +1,36 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../core/resource';
-import { APIPromise } from '../core/api-promise';
-import { RequestOptions } from '../internal/request-options';
-import { path } from '../internal/utils/path';
+import { APIResource } from '../resource';
+import * as Core from '../core';
+import * as InspectAPI from './inspect';
 
 export class Providers extends APIResource {
-  retrieve(providerID: string, options?: RequestOptions): APIPromise<ProviderInfo> {
-    return this._client.get(path`/v1/providers/${providerID}`, options);
+  /**
+   * Get detailed information about a specific provider.
+   */
+  retrieve(providerId: string, options?: Core.RequestOptions): Core.APIPromise<InspectAPI.ProviderInfo> {
+    return this._client.get(`/v1/providers/${providerId}`, options);
   }
 
-  list(options?: RequestOptions): APIPromise<ProviderListResponse> {
-    return this._client.get('/v1/providers', options);
+  /**
+   * List all available providers.
+   */
+  list(options?: Core.RequestOptions): Core.APIPromise<ProviderListResponse> {
+    return (
+      this._client.get('/v1/providers', options) as Core.APIPromise<{ data: ProviderListResponse }>
+    )._thenUnwrap((obj) => obj.data);
   }
 }
 
-export interface ProviderInfo {
-  api: string;
-
-  config: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-  health: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-  provider_id: string;
-
-  provider_type: string;
+export interface ListProvidersResponse {
+  data: ProviderListResponse;
 }
 
-export interface ProviderListResponse {
-  data: Array<ProviderInfo>;
-}
+export type ProviderListResponse = Array<InspectAPI.ProviderInfo>;
 
 export declare namespace Providers {
-  export { type ProviderInfo as ProviderInfo, type ProviderListResponse as ProviderListResponse };
+  export {
+    type ListProvidersResponse as ListProvidersResponse,
+    type ProviderListResponse as ProviderListResponse,
+  };
 }

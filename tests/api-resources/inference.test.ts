@@ -1,15 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import LlamaStackClient from 'llama-stack-client';
+import { Response } from 'node-fetch';
 
-const client = new LlamaStackClient({
-  apiKey: 'My API Key',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-});
+const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
 
 describe('resource inference', () => {
-  // skipped: tests are disabled for the time being
-  test.skip('batchChatCompletion: only required params', async () => {
+  test('batchChatCompletion: only required params', async () => {
     const responsePromise = client.inference.batchChatCompletion({
       messages_batch: [[{ content: 'string', role: 'user' }]],
       model_id: 'model_id',
@@ -23,8 +20,7 @@ describe('resource inference', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
-  test.skip('batchChatCompletion: required and optional params', async () => {
+  test('batchChatCompletion: required and optional params', async () => {
     const response = await client.inference.batchChatCompletion({
       messages_batch: [[{ content: 'string', role: 'user', context: 'string' }]],
       model_id: 'model_id',
@@ -49,8 +45,7 @@ describe('resource inference', () => {
     });
   });
 
-  // skipped: tests are disabled for the time being
-  test.skip('batchCompletion: only required params', async () => {
+  test('batchCompletion: only required params', async () => {
     const responsePromise = client.inference.batchCompletion({
       content_batch: ['string'],
       model_id: 'model_id',
@@ -64,8 +59,7 @@ describe('resource inference', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
-  test.skip('batchCompletion: required and optional params', async () => {
+  test('batchCompletion: required and optional params', async () => {
     const response = await client.inference.batchCompletion({
       content_batch: ['string'],
       model_id: 'model_id',
@@ -80,8 +74,7 @@ describe('resource inference', () => {
     });
   });
 
-  // skipped: tests are disabled for the time being
-  test.skip('chatCompletion: only required params', async () => {
+  test('chatCompletion: only required params', async () => {
     const responsePromise = client.inference.chatCompletion({
       messages: [{ content: 'string', role: 'user' }],
       model_id: 'model_id',
@@ -95,8 +88,7 @@ describe('resource inference', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
-  test.skip('chatCompletion: required and optional params', async () => {
+  test('chatCompletion: required and optional params', async () => {
     const response = await client.inference.chatCompletion({
       messages: [{ content: 'string', role: 'user', context: 'string' }],
       model_id: 'model_id',
@@ -108,7 +100,7 @@ describe('resource inference', () => {
         repetition_penalty: 0,
         stop: ['string'],
       },
-      stream: true,
+      stream: false,
       tool_choice: 'auto',
       tool_config: { system_message_behavior: 'append', tool_choice: 'auto', tool_prompt_format: 'json' },
       tool_prompt_format: 'json',
@@ -124,8 +116,7 @@ describe('resource inference', () => {
     });
   });
 
-  // skipped: tests are disabled for the time being
-  test.skip('completion: only required params', async () => {
+  test('completion: only required params', async () => {
     const responsePromise = client.inference.completion({ content: 'string', model_id: 'model_id' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -136,8 +127,7 @@ describe('resource inference', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
-  test.skip('completion: required and optional params', async () => {
+  test('completion: required and optional params', async () => {
     const response = await client.inference.completion({
       content: 'string',
       model_id: 'model_id',
@@ -149,12 +139,11 @@ describe('resource inference', () => {
         repetition_penalty: 0,
         stop: ['string'],
       },
-      stream: true,
+      stream: false,
     });
   });
 
-  // skipped: tests are disabled for the time being
-  test.skip('embeddings: only required params', async () => {
+  test('embeddings: only required params', async () => {
     const responsePromise = client.inference.embeddings({ contents: ['string'], model_id: 'model_id' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -165,8 +154,7 @@ describe('resource inference', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // skipped: tests are disabled for the time being
-  test.skip('embeddings: required and optional params', async () => {
+  test('embeddings: required and optional params', async () => {
     const response = await client.inference.embeddings({
       contents: ['string'],
       model_id: 'model_id',

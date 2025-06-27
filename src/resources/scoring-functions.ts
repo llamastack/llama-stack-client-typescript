@@ -1,89 +1,42 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../core/resource';
-import * as ScoringFunctionsAPI from './scoring-functions';
-import { APIPromise } from '../core/api-promise';
-import { buildHeaders } from '../internal/headers';
-import { RequestOptions } from '../internal/request-options';
-import { path } from '../internal/utils/path';
+import { APIResource } from '../resource';
+import * as Core from '../core';
+import * as Shared from './shared';
 
 export class ScoringFunctions extends APIResource {
-  create(body: ScoringFunctionCreateParams, options?: RequestOptions): APIPromise<void> {
+  /**
+   * Get a scoring function by its ID.
+   */
+  retrieve(scoringFnId: string, options?: Core.RequestOptions): Core.APIPromise<ScoringFn> {
+    return this._client.get(`/v1/scoring-functions/${scoringFnId}`, options);
+  }
+
+  /**
+   * List all scoring functions.
+   */
+  list(options?: Core.RequestOptions): Core.APIPromise<ScoringFunctionListResponse> {
+    return (
+      this._client.get('/v1/scoring-functions', options) as Core.APIPromise<{
+        data: ScoringFunctionListResponse;
+      }>
+    )._thenUnwrap((obj) => obj.data);
+  }
+
+  /**
+   * Register a scoring function.
+   */
+  register(body: ScoringFunctionRegisterParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.post('/v1/scoring-functions', {
       body,
       ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+      headers: { Accept: '*/*', ...options?.headers },
     });
-  }
-
-  retrieve(scoringFnID: string, options?: RequestOptions): APIPromise<ScoringFn> {
-    return this._client.get(path`/v1/scoring-functions/${scoringFnID}`, options);
-  }
-
-  list(options?: RequestOptions): APIPromise<ScoringFunctionListResponse> {
-    return this._client.get('/v1/scoring-functions', options);
   }
 }
 
-export type AggregationFunctionType =
-  | 'average'
-  | 'weighted_average'
-  | 'median'
-  | 'categorical_count'
-  | 'accuracy';
-
-export type ParamType =
-  | ParamType.StringType
-  | ParamType.NumberType
-  | ParamType.BooleanType
-  | ParamType.ArrayType
-  | ParamType.ObjectType
-  | ParamType.JsonType
-  | ParamType.UnionType
-  | ParamType.ChatCompletionInputType
-  | ParamType.CompletionInputType
-  | ParamType.AgentTurnInputType;
-
-export namespace ParamType {
-  export interface StringType {
-    type: 'string';
-  }
-
-  export interface NumberType {
-    type: 'number';
-  }
-
-  export interface BooleanType {
-    type: 'boolean';
-  }
-
-  export interface ArrayType {
-    type: 'array';
-  }
-
-  export interface ObjectType {
-    type: 'object';
-  }
-
-  export interface JsonType {
-    type: 'json';
-  }
-
-  export interface UnionType {
-    type: 'union';
-  }
-
-  export interface ChatCompletionInputType {
-    type: 'chat_completion_input';
-  }
-
-  export interface CompletionInputType {
-    type: 'completion_input';
-  }
-
-  export interface AgentTurnInputType {
-    type: 'agent_turn_input';
-  }
+export interface ListScoringFunctionsResponse {
+  data: ScoringFunctionListResponse;
 }
 
 export interface ScoringFn {
@@ -93,7 +46,7 @@ export interface ScoringFn {
 
   provider_id: string;
 
-  return_type: ParamType;
+  return_type: Shared.ReturnType;
 
   type: 'scoring_function';
 
@@ -111,60 +64,76 @@ export type ScoringFnParams =
 
 export namespace ScoringFnParams {
   export interface LlmAsJudgeScoringFnParams {
-    aggregation_functions: Array<ScoringFunctionsAPI.AggregationFunctionType>;
+    aggregation_functions: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
 
     judge_model: string;
 
     judge_score_regexes: Array<string>;
 
-    type: ScoringFunctionsAPI.ScoringFnParamsType;
+    type: 'llm_as_judge';
 
     prompt_template?: string;
   }
 
   export interface RegexParserScoringFnParams {
-    aggregation_functions: Array<ScoringFunctionsAPI.AggregationFunctionType>;
+    aggregation_functions: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
 
     parsing_regexes: Array<string>;
 
-    type: ScoringFunctionsAPI.ScoringFnParamsType;
+    type: 'regex_parser';
   }
 
   export interface BasicScoringFnParams {
-    aggregation_functions: Array<ScoringFunctionsAPI.AggregationFunctionType>;
+    aggregation_functions: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
 
-    type: ScoringFunctionsAPI.ScoringFnParamsType;
+    type: 'basic';
   }
 }
 
-export type ScoringFnParamsType = 'llm_as_judge' | 'regex_parser' | 'basic';
+export type ScoringFunctionListResponse = Array<ScoringFn>;
 
-export interface ScoringFunctionListResponse {
-  data: Array<ScoringFn>;
-}
-
-export interface ScoringFunctionCreateParams {
+export interface ScoringFunctionRegisterParams {
+  /**
+   * The description of the scoring function.
+   */
   description: string;
 
-  return_type: ParamType;
+  return_type: Shared.ReturnType;
 
+  /**
+   * The ID of the scoring function to register.
+   */
   scoring_fn_id: string;
 
+  /**
+   * The parameters for the scoring function for benchmark eval, these can be
+   * overridden for app eval.
+   */
   params?: ScoringFnParams;
 
+  /**
+   * The ID of the provider to use for the scoring function.
+   */
   provider_id?: string;
 
+  /**
+   * The ID of the provider scoring function to use for the scoring function.
+   */
   provider_scoring_fn_id?: string;
 }
 
 export declare namespace ScoringFunctions {
   export {
-    type AggregationFunctionType as AggregationFunctionType,
-    type ParamType as ParamType,
+    type ListScoringFunctionsResponse as ListScoringFunctionsResponse,
     type ScoringFn as ScoringFn,
     type ScoringFnParams as ScoringFnParams,
-    type ScoringFnParamsType as ScoringFnParamsType,
     type ScoringFunctionListResponse as ScoringFunctionListResponse,
-    type ScoringFunctionCreateParams as ScoringFunctionCreateParams,
+    type ScoringFunctionRegisterParams as ScoringFunctionRegisterParams,
   };
 }

@@ -1,445 +1,450 @@
-# Datasetio
+# Shared
 
 Types:
 
-- <code><a href="./src/resources/datasetio.ts">DatasetioIterateRowsResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/datasetio/append-rows/{dataset_id}">client.datasetio.<a href="./src/resources/datasetio.ts">appendRows</a>(datasetID, { ...params }) -> void</code>
-- <code title="get /v1/datasetio/iterrows/{dataset_id}">client.datasetio.<a href="./src/resources/datasetio.ts">iterateRows</a>(datasetID, { ...params }) -> DatasetioIterateRowsResponse</code>
-
-# Inference
-
-Types:
-
-- <code><a href="./src/resources/inference.ts">ChatCompletionResponse</a></code>
-- <code><a href="./src/resources/inference.ts">CompletionMessage</a></code>
-- <code><a href="./src/resources/inference.ts">CompletionResponse</a></code>
-- <code><a href="./src/resources/inference.ts">InterleavedContent</a></code>
-- <code><a href="./src/resources/inference.ts">InterleavedContentItem</a></code>
-- <code><a href="./src/resources/inference.ts">Message</a></code>
-- <code><a href="./src/resources/inference.ts">MetricInResponse</a></code>
-- <code><a href="./src/resources/inference.ts">ResponseFormat</a></code>
-- <code><a href="./src/resources/inference.ts">SamplingParams</a></code>
-- <code><a href="./src/resources/inference.ts">SystemMessage</a></code>
-- <code><a href="./src/resources/inference.ts">TokenLogProbs</a></code>
-- <code><a href="./src/resources/inference.ts">ToolCall</a></code>
-- <code><a href="./src/resources/inference.ts">ToolConfig</a></code>
-- <code><a href="./src/resources/inference.ts">ToolDefinition</a></code>
-- <code><a href="./src/resources/inference.ts">InferenceBatchChatCompletionResponse</a></code>
-- <code><a href="./src/resources/inference.ts">InferenceBatchCompletionResponse</a></code>
-- <code><a href="./src/resources/inference.ts">InferenceEmbeddingsResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/inference/batch-chat-completion">client.inference.<a href="./src/resources/inference.ts">batchChatCompletion</a>({ ...params }) -> InferenceBatchChatCompletionResponse</code>
-- <code title="post /v1/inference/batch-completion">client.inference.<a href="./src/resources/inference.ts">batchCompletion</a>({ ...params }) -> InferenceBatchCompletionResponse</code>
-- <code title="post /v1/inference/chat-completion">client.inference.<a href="./src/resources/inference.ts">chatCompletion</a>({ ...params }) -> ChatCompletionResponse</code>
-- <code title="post /v1/inference/completion">client.inference.<a href="./src/resources/inference.ts">completion</a>({ ...params }) -> CompletionResponse</code>
-- <code title="post /v1/inference/embeddings">client.inference.<a href="./src/resources/inference.ts">embeddings</a>({ ...params }) -> InferenceEmbeddingsResponse</code>
-
-# PostTraining
-
-Types:
-
-- <code><a href="./src/resources/post-training/post-training.ts">PostTrainingJob</a></code>
-- <code><a href="./src/resources/post-training/post-training.ts">TrainingConfig</a></code>
-- <code><a href="./src/resources/post-training/post-training.ts">PostTrainingListJobsResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/post-training/supervised-fine-tune">client.postTraining.<a href="./src/resources/post-training/post-training.ts">fineTuneSupervised</a>({ ...params }) -> PostTrainingJob</code>
-- <code title="get /v1/post-training/jobs">client.postTraining.<a href="./src/resources/post-training/post-training.ts">listJobs</a>() -> PostTrainingListJobsResponse</code>
-- <code title="post /v1/post-training/preference-optimize">client.postTraining.<a href="./src/resources/post-training/post-training.ts">optimizePreferences</a>({ ...params }) -> PostTrainingJob</code>
-
-## Job
-
-Types:
-
-- <code><a href="./src/resources/post-training/job.ts">JobRetrieveArtifactsResponse</a></code>
-- <code><a href="./src/resources/post-training/job.ts">JobRetrieveStatusResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/post-training/job/cancel">client.postTraining.job.<a href="./src/resources/post-training/job.ts">cancel</a>({ ...params }) -> void</code>
-- <code title="get /v1/post-training/job/artifacts">client.postTraining.job.<a href="./src/resources/post-training/job.ts">retrieveArtifacts</a>({ ...params }) -> JobRetrieveArtifactsResponse</code>
-- <code title="get /v1/post-training/job/status">client.postTraining.job.<a href="./src/resources/post-training/job.ts">retrieveStatus</a>({ ...params }) -> JobRetrieveStatusResponse</code>
-
-# Agents
-
-Types:
-
-- <code><a href="./src/resources/agents/agents.ts">Agent</a></code>
-- <code><a href="./src/resources/agents/agents.ts">AgentConfig</a></code>
-- <code><a href="./src/resources/agents/agents.ts">AgentCreateResponse</a></code>
-- <code><a href="./src/resources/agents/agents.ts">AgentListResponse</a></code>
-- <code><a href="./src/resources/agents/agents.ts">AgentListSessionsResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/agents">client.agents.<a href="./src/resources/agents/agents.ts">create</a>({ ...params }) -> AgentCreateResponse</code>
-- <code title="get /v1/agents/{agent_id}">client.agents.<a href="./src/resources/agents/agents.ts">retrieve</a>(agentID) -> Agent</code>
-- <code title="get /v1/agents">client.agents.<a href="./src/resources/agents/agents.ts">list</a>() -> AgentListResponse</code>
-- <code title="delete /v1/agents/{agent_id}">client.agents.<a href="./src/resources/agents/agents.ts">delete</a>(agentID) -> void</code>
-- <code title="get /v1/agents/{agent_id}/sessions">client.agents.<a href="./src/resources/agents/agents.ts">listSessions</a>(agentID) -> AgentListSessionsResponse</code>
-
-## Session
-
-Types:
-
-- <code><a href="./src/resources/agents/session/session.ts">Session</a></code>
-- <code><a href="./src/resources/agents/session/session.ts">SessionCreateResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/agents/{agent_id}/session">client.agents.session.<a href="./src/resources/agents/session/session.ts">create</a>(agentID, { ...params }) -> SessionCreateResponse</code>
-- <code title="get /v1/agents/{agent_id}/session/{session_id}">client.agents.session.<a href="./src/resources/agents/session/session.ts">retrieve</a>(sessionID, { ...params }) -> Session</code>
-- <code title="delete /v1/agents/{agent_id}/session/{session_id}">client.agents.session.<a href="./src/resources/agents/session/session.ts">delete</a>(sessionID, { ...params }) -> void</code>
-
-### Turn
-
-Types:
-
-- <code><a href="./src/resources/agents/session/turn/turn.ts">AgentTool</a></code>
-- <code><a href="./src/resources/agents/session/turn/turn.ts">InferenceStep</a></code>
-- <code><a href="./src/resources/agents/session/turn/turn.ts">MemoryRetrievalStep</a></code>
-- <code><a href="./src/resources/agents/session/turn/turn.ts">ShieldCallStep</a></code>
-- <code><a href="./src/resources/agents/session/turn/turn.ts">ToolExecutionStep</a></code>
-- <code><a href="./src/resources/agents/session/turn/turn.ts">ToolResponse</a></code>
-- <code><a href="./src/resources/agents/session/turn/turn.ts">ToolResponseMessage</a></code>
-- <code><a href="./src/resources/agents/session/turn/turn.ts">Turn</a></code>
-- <code><a href="./src/resources/agents/session/turn/turn.ts">UserMessage</a></code>
-
-Methods:
-
-- <code title="post /v1/agents/{agent_id}/session/{session_id}/turn">client.agents.session.turn.<a href="./src/resources/agents/session/turn/turn.ts">create</a>(sessionID, { ...params }) -> Turn</code>
-- <code title="get /v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}">client.agents.session.turn.<a href="./src/resources/agents/session/turn/turn.ts">retrieve</a>(turnID, { ...params }) -> Turn</code>
-- <code title="post /v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}/resume">client.agents.session.turn.<a href="./src/resources/agents/session/turn/turn.ts">resume</a>(turnID, { ...params }) -> Turn</code>
-
-#### Step
-
-Types:
-
-- <code><a href="./src/resources/agents/session/turn/step.ts">StepRetrieveResponse</a></code>
-
-Methods:
-
-- <code title="get /v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}/step/{step_id}">client.agents.session.turn.step.<a href="./src/resources/agents/session/turn/step.ts">retrieve</a>(stepID, { ...params }) -> StepRetrieveResponse</code>
-
-# OpenAI
-
-## V1
-
-Types:
-
-- <code><a href="./src/resources/openai/v1/v1.ts">ChoiceLogprobs</a></code>
-- <code><a href="./src/resources/openai/v1/v1.ts">TokenLogProb</a></code>
-- <code><a href="./src/resources/openai/v1/v1.ts">V1GenerateCompletionResponse</a></code>
-- <code><a href="./src/resources/openai/v1/v1.ts">V1ListModelsResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/openai/v1/completions">client.openai.v1.<a href="./src/resources/openai/v1/v1.ts">generateCompletion</a>({ ...params }) -> V1GenerateCompletionResponse</code>
-- <code title="get /v1/openai/v1/models">client.openai.v1.<a href="./src/resources/openai/v1/v1.ts">listModels</a>() -> V1ListModelsResponse</code>
-
-### Responses
-
-Types:
-
-- <code><a href="./src/resources/openai/v1/responses.ts">OpenAIResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/openai/v1/responses">client.openai.v1.responses.<a href="./src/resources/openai/v1/responses.ts">create</a>({ ...params }) -> OpenAIResponse</code>
-- <code title="get /v1/openai/v1/responses/{id}">client.openai.v1.responses.<a href="./src/resources/openai/v1/responses.ts">retrieve</a>(id) -> OpenAIResponse</code>
-
-### Chat
-
-Types:
-
-- <code><a href="./src/resources/openai/v1/chat.ts">ChatCompletionContentPart</a></code>
-- <code><a href="./src/resources/openai/v1/chat.ts">ChatCompletionToolCall</a></code>
-- <code><a href="./src/resources/openai/v1/chat.ts">MessageParam</a></code>
-- <code><a href="./src/resources/openai/v1/chat.ts">ChatGenerateCompletionResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/openai/v1/chat/completions">client.openai.v1.chat.<a href="./src/resources/openai/v1/chat.ts">generateCompletion</a>({ ...params }) -> ChatGenerateCompletionResponse</code>
-
-# Files
-
-Types:
-
-- <code><a href="./src/resources/files/files.ts">File</a></code>
-- <code><a href="./src/resources/files/files.ts">FileUpload</a></code>
-- <code><a href="./src/resources/files/files.ts">FileListResponse</a></code>
-- <code><a href="./src/resources/files/files.ts">FileListInBucketResponse</a></code>
-
-Methods:
-
-- <code title="get /v1/files/{bucket}/{key}">client.files.<a href="./src/resources/files/files.ts">retrieve</a>(key, { ...params }) -> File</code>
-- <code title="get /v1/files">client.files.<a href="./src/resources/files/files.ts">list</a>({ ...params }) -> FileListResponse</code>
-- <code title="delete /v1/files/{bucket}/{key}">client.files.<a href="./src/resources/files/files.ts">delete</a>(key, { ...params }) -> void</code>
-- <code title="post /v1/files">client.files.<a href="./src/resources/files/files.ts">createUploadSession</a>({ ...params }) -> FileUpload</code>
-- <code title="get /v1/files/{bucket}">client.files.<a href="./src/resources/files/files.ts">listInBucket</a>(bucket) -> FileListInBucketResponse</code>
-
-## Session
-
-Methods:
-
-- <code title="get /v1/files/session:{upload_id}">client.files.session.<a href="./src/resources/files/session.ts">retrieve</a>(uploadID) -> FileUpload</code>
-- <code title="post /v1/files/session:{upload_id}">client.files.session.<a href="./src/resources/files/session.ts">uploadContent</a>(uploadID, { ...params }) -> File | null</code>
-
-# Eval
-
-## Benchmarks
-
-Types:
-
-- <code><a href="./src/resources/eval/benchmarks/benchmarks.ts">Benchmark</a></code>
-- <code><a href="./src/resources/eval/benchmarks/benchmarks.ts">BenchmarkConfig</a></code>
-- <code><a href="./src/resources/eval/benchmarks/benchmarks.ts">EvaluateResponse</a></code>
-- <code><a href="./src/resources/eval/benchmarks/benchmarks.ts">BenchmarkListResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/eval/benchmarks">client.eval.benchmarks.<a href="./src/resources/eval/benchmarks/benchmarks.ts">create</a>({ ...params }) -> void</code>
-- <code title="get /v1/eval/benchmarks/{benchmark_id}">client.eval.benchmarks.<a href="./src/resources/eval/benchmarks/benchmarks.ts">retrieve</a>(benchmarkID) -> Benchmark</code>
-- <code title="get /v1/eval/benchmarks">client.eval.benchmarks.<a href="./src/resources/eval/benchmarks/benchmarks.ts">list</a>() -> BenchmarkListResponse</code>
-- <code title="post /v1/eval/benchmarks/{benchmark_id}/evaluations">client.eval.benchmarks.<a href="./src/resources/eval/benchmarks/benchmarks.ts">evaluate</a>(benchmarkID, { ...params }) -> EvaluateResponse</code>
-
-### Jobs
-
-Types:
-
-- <code><a href="./src/resources/eval/benchmarks/jobs.ts">Job</a></code>
-
-Methods:
-
-- <code title="get /v1/eval/benchmarks/{benchmark_id}/jobs/{job_id}">client.eval.benchmarks.jobs.<a href="./src/resources/eval/benchmarks/jobs.ts">retrieve</a>(jobID, { ...params }) -> Job</code>
-- <code title="delete /v1/eval/benchmarks/{benchmark_id}/jobs/{job_id}">client.eval.benchmarks.jobs.<a href="./src/resources/eval/benchmarks/jobs.ts">cancel</a>(jobID, { ...params }) -> void</code>
-- <code title="get /v1/eval/benchmarks/{benchmark_id}/jobs/{job_id}/result">client.eval.benchmarks.jobs.<a href="./src/resources/eval/benchmarks/jobs.ts">result</a>(jobID, { ...params }) -> EvaluateResponse</code>
-- <code title="post /v1/eval/benchmarks/{benchmark_id}/jobs">client.eval.benchmarks.jobs.<a href="./src/resources/eval/benchmarks/jobs.ts">run</a>(benchmarkID, { ...params }) -> Job</code>
-
-# Datasets
-
-Types:
-
-- <code><a href="./src/resources/datasets.ts">DataSource</a></code>
-- <code><a href="./src/resources/datasets.ts">Dataset</a></code>
-- <code><a href="./src/resources/datasets.ts">DatasetListResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/datasets">client.datasets.<a href="./src/resources/datasets.ts">create</a>({ ...params }) -> Dataset</code>
-- <code title="get /v1/datasets/{dataset_id}">client.datasets.<a href="./src/resources/datasets.ts">retrieve</a>(datasetID) -> Dataset</code>
-- <code title="get /v1/datasets">client.datasets.<a href="./src/resources/datasets.ts">list</a>() -> DatasetListResponse</code>
-- <code title="delete /v1/datasets/{dataset_id}">client.datasets.<a href="./src/resources/datasets.ts">delete</a>(datasetID) -> void</code>
-
-# Models
-
-Types:
-
-- <code><a href="./src/resources/models.ts">Model</a></code>
-- <code><a href="./src/resources/models.ts">ModelType</a></code>
-- <code><a href="./src/resources/models.ts">ModelListResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/models">client.models.<a href="./src/resources/models.ts">create</a>({ ...params }) -> Model</code>
-- <code title="get /v1/models/{model_id}">client.models.<a href="./src/resources/models.ts">retrieve</a>(modelID) -> Model</code>
-- <code title="get /v1/models">client.models.<a href="./src/resources/models.ts">list</a>() -> ModelListResponse</code>
-- <code title="delete /v1/models/{model_id}">client.models.<a href="./src/resources/models.ts">delete</a>(modelID) -> void</code>
-
-# ScoringFunctions
-
-Types:
-
-- <code><a href="./src/resources/scoring-functions.ts">AggregationFunctionType</a></code>
-- <code><a href="./src/resources/scoring-functions.ts">ParamType</a></code>
-- <code><a href="./src/resources/scoring-functions.ts">ScoringFn</a></code>
-- <code><a href="./src/resources/scoring-functions.ts">ScoringFnParams</a></code>
-- <code><a href="./src/resources/scoring-functions.ts">ScoringFnParamsType</a></code>
-- <code><a href="./src/resources/scoring-functions.ts">ScoringFunctionListResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/scoring-functions">client.scoringFunctions.<a href="./src/resources/scoring-functions.ts">create</a>({ ...params }) -> void</code>
-- <code title="get /v1/scoring-functions/{scoring_fn_id}">client.scoringFunctions.<a href="./src/resources/scoring-functions.ts">retrieve</a>(scoringFnID) -> ScoringFn</code>
-- <code title="get /v1/scoring-functions">client.scoringFunctions.<a href="./src/resources/scoring-functions.ts">list</a>() -> ScoringFunctionListResponse</code>
-
-# Shields
-
-Types:
-
-- <code><a href="./src/resources/shields.ts">Shield</a></code>
-- <code><a href="./src/resources/shields.ts">ShieldListResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/shields">client.shields.<a href="./src/resources/shields.ts">create</a>({ ...params }) -> Shield</code>
-- <code title="get /v1/shields/{identifier}">client.shields.<a href="./src/resources/shields.ts">retrieve</a>(identifier) -> Shield</code>
-- <code title="get /v1/shields">client.shields.<a href="./src/resources/shields.ts">list</a>() -> ShieldListResponse</code>
-
-# Telemetry
-
-Types:
-
-- <code><a href="./src/resources/telemetry/telemetry.ts">EventType</a></code>
-- <code><a href="./src/resources/telemetry/telemetry.ts">StructuredLogType</a></code>
-
-Methods:
-
-- <code title="post /v1/telemetry/events">client.telemetry.<a href="./src/resources/telemetry/telemetry.ts">createEvent</a>({ ...params }) -> void</code>
-
-## Traces
-
-Types:
-
-- <code><a href="./src/resources/telemetry/traces.ts">Span</a></code>
-- <code><a href="./src/resources/telemetry/traces.ts">Trace</a></code>
-- <code><a href="./src/resources/telemetry/traces.ts">TraceCreateResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/telemetry/traces">client.telemetry.traces.<a href="./src/resources/telemetry/traces.ts">create</a>({ ...params }) -> TraceCreateResponse</code>
-- <code title="get /v1/telemetry/traces/{trace_id}/spans/{span_id}">client.telemetry.traces.<a href="./src/resources/telemetry/traces.ts">retrieveSpan</a>(spanID, { ...params }) -> Span</code>
-- <code title="get /v1/telemetry/traces/{trace_id}">client.telemetry.traces.<a href="./src/resources/telemetry/traces.ts">retrieveTrace</a>(traceID) -> Trace</code>
-
-## Spans
-
-Types:
-
-- <code><a href="./src/resources/telemetry/spans.ts">QueryCondition</a></code>
-- <code><a href="./src/resources/telemetry/spans.ts">SpanCreateResponse</a></code>
-- <code><a href="./src/resources/telemetry/spans.ts">SpanBuildTreeResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/telemetry/spans">client.telemetry.spans.<a href="./src/resources/telemetry/spans.ts">create</a>({ ...params }) -> SpanCreateResponse</code>
-- <code title="post /v1/telemetry/spans/{span_id}/tree">client.telemetry.spans.<a href="./src/resources/telemetry/spans.ts">buildTree</a>(spanID, { ...params }) -> SpanBuildTreeResponse</code>
-- <code title="post /v1/telemetry/spans/export">client.telemetry.spans.<a href="./src/resources/telemetry/spans.ts">export</a>({ ...params }) -> void</code>
-
-# Tools
-
-Types:
-
-- <code><a href="./src/resources/tools.ts">Tool</a></code>
-- <code><a href="./src/resources/tools.ts">ToolParameter</a></code>
-- <code><a href="./src/resources/tools.ts">ToolListResponse</a></code>
-
-Methods:
-
-- <code title="get /v1/tools/{tool_name}">client.tools.<a href="./src/resources/tools.ts">retrieve</a>(toolName) -> Tool</code>
-- <code title="get /v1/tools">client.tools.<a href="./src/resources/tools.ts">list</a>({ ...params }) -> ToolListResponse</code>
+- <code><a href="./src/resources/shared.ts">AgentConfig</a></code>
+- <code><a href="./src/resources/shared.ts">BatchCompletion</a></code>
+- <code><a href="./src/resources/shared.ts">ChatCompletionResponse</a></code>
+- <code><a href="./src/resources/shared.ts">CompletionMessage</a></code>
+- <code><a href="./src/resources/shared.ts">ContentDelta</a></code>
+- <code><a href="./src/resources/shared.ts">Document</a></code>
+- <code><a href="./src/resources/shared.ts">InterleavedContent</a></code>
+- <code><a href="./src/resources/shared.ts">InterleavedContentItem</a></code>
+- <code><a href="./src/resources/shared.ts">Message</a></code>
+- <code><a href="./src/resources/shared.ts">ParamType</a></code>
+- <code><a href="./src/resources/shared.ts">QueryConfig</a></code>
+- <code><a href="./src/resources/shared.ts">QueryGeneratorConfig</a></code>
+- <code><a href="./src/resources/shared.ts">QueryResult</a></code>
+- <code><a href="./src/resources/shared.ts">ResponseFormat</a></code>
+- <code><a href="./src/resources/shared.ts">ReturnType</a></code>
+- <code><a href="./src/resources/shared.ts">SafetyViolation</a></code>
+- <code><a href="./src/resources/shared.ts">SamplingParams</a></code>
+- <code><a href="./src/resources/shared.ts">ScoringResult</a></code>
+- <code><a href="./src/resources/shared.ts">SystemMessage</a></code>
+- <code><a href="./src/resources/shared.ts">ToolCall</a></code>
+- <code><a href="./src/resources/shared.ts">ToolCallOrString</a></code>
+- <code><a href="./src/resources/shared.ts">ToolParamDefinition</a></code>
+- <code><a href="./src/resources/shared.ts">ToolResponseMessage</a></code>
+- <code><a href="./src/resources/shared.ts">UserMessage</a></code>
 
 # Toolgroups
 
 Types:
 
+- <code><a href="./src/resources/toolgroups.ts">ListToolGroupsResponse</a></code>
 - <code><a href="./src/resources/toolgroups.ts">ToolGroup</a></code>
 - <code><a href="./src/resources/toolgroups.ts">ToolgroupListResponse</a></code>
 
 Methods:
 
-- <code title="get /v1/toolgroups/{toolgroup_id}">client.toolgroups.<a href="./src/resources/toolgroups.ts">retrieve</a>(toolgroupID) -> ToolGroup</code>
 - <code title="get /v1/toolgroups">client.toolgroups.<a href="./src/resources/toolgroups.ts">list</a>() -> ToolgroupListResponse</code>
+- <code title="get /v1/toolgroups/{toolgroup_id}">client.toolgroups.<a href="./src/resources/toolgroups.ts">get</a>(toolgroupId) -> ToolGroup</code>
 - <code title="post /v1/toolgroups">client.toolgroups.<a href="./src/resources/toolgroups.ts">register</a>({ ...params }) -> void</code>
-- <code title="delete /v1/toolgroups/{toolgroup_id}">client.toolgroups.<a href="./src/resources/toolgroups.ts">unregister</a>(toolgroupID) -> void</code>
+- <code title="delete /v1/toolgroups/{toolgroup_id}">client.toolgroups.<a href="./src/resources/toolgroups.ts">unregister</a>(toolgroupId) -> void</code>
 
-# VectorDBs
-
-Types:
-
-- <code><a href="./src/resources/vector-dbs.ts">VectorDB</a></code>
-- <code><a href="./src/resources/vector-dbs.ts">VectorDBListResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/vector-dbs">client.vectorDBs.<a href="./src/resources/vector-dbs.ts">create</a>({ ...params }) -> VectorDB</code>
-- <code title="get /v1/vector-dbs/{vector_db_id}">client.vectorDBs.<a href="./src/resources/vector-dbs.ts">retrieve</a>(vectorDBID) -> VectorDB</code>
-- <code title="get /v1/vector-dbs">client.vectorDBs.<a href="./src/resources/vector-dbs.ts">list</a>() -> VectorDBListResponse</code>
-- <code title="delete /v1/vector-dbs/{vector_db_id}">client.vectorDBs.<a href="./src/resources/vector-dbs.ts">delete</a>(vectorDBID) -> void</code>
-
-# Health
+# Tools
 
 Types:
 
-- <code><a href="./src/resources/health.ts">HealthCheckResponse</a></code>
+- <code><a href="./src/resources/tools.ts">ListToolsResponse</a></code>
+- <code><a href="./src/resources/tools.ts">Tool</a></code>
+- <code><a href="./src/resources/tools.ts">ToolListResponse</a></code>
 
 Methods:
 
-- <code title="get /v1/health">client.health.<a href="./src/resources/health.ts">check</a>() -> HealthCheckResponse</code>
+- <code title="get /v1/tools">client.tools.<a href="./src/resources/tools.ts">list</a>({ ...params }) -> ToolListResponse</code>
+- <code title="get /v1/tools/{tool_name}">client.tools.<a href="./src/resources/tools.ts">get</a>(toolName) -> Tool</code>
 
 # ToolRuntime
 
 Types:
 
 - <code><a href="./src/resources/tool-runtime/tool-runtime.ts">ToolDef</a></code>
-- <code><a href="./src/resources/tool-runtime/tool-runtime.ts">URL</a></code>
-- <code><a href="./src/resources/tool-runtime/tool-runtime.ts">ToolRuntimeInvokeToolResponse</a></code>
+- <code><a href="./src/resources/tool-runtime/tool-runtime.ts">ToolInvocationResult</a></code>
 - <code><a href="./src/resources/tool-runtime/tool-runtime.ts">ToolRuntimeListToolsResponse</a></code>
 
 Methods:
 
-- <code title="post /v1/tool-runtime/invoke">client.toolRuntime.<a href="./src/resources/tool-runtime/tool-runtime.ts">invokeTool</a>({ ...params }) -> ToolRuntimeInvokeToolResponse</code>
+- <code title="post /v1/tool-runtime/invoke">client.toolRuntime.<a href="./src/resources/tool-runtime/tool-runtime.ts">invokeTool</a>({ ...params }) -> ToolInvocationResult</code>
 - <code title="get /v1/tool-runtime/list-tools">client.toolRuntime.<a href="./src/resources/tool-runtime/tool-runtime.ts">listTools</a>({ ...params }) -> ToolRuntimeListToolsResponse</code>
 
 ## RagTool
 
-Types:
-
-- <code><a href="./src/resources/tool-runtime/rag-tool.ts">RagToolQueryContextResponse</a></code>
-
 Methods:
 
-- <code title="post /v1/tool-runtime/rag-tool/insert">client.toolRuntime.ragTool.<a href="./src/resources/tool-runtime/rag-tool.ts">insertDocuments</a>({ ...params }) -> void</code>
-- <code title="post /v1/tool-runtime/rag-tool/query">client.toolRuntime.ragTool.<a href="./src/resources/tool-runtime/rag-tool.ts">queryContext</a>({ ...params }) -> RagToolQueryContextResponse</code>
+- <code title="post /v1/tool-runtime/rag-tool/insert">client.toolRuntime.ragTool.<a href="./src/resources/tool-runtime/rag-tool.ts">insert</a>({ ...params }) -> void</code>
+- <code title="post /v1/tool-runtime/rag-tool/query">client.toolRuntime.ragTool.<a href="./src/resources/tool-runtime/rag-tool.ts">query</a>({ ...params }) -> QueryResult</code>
 
-# VectorIo
+# Responses
 
 Types:
 
-- <code><a href="./src/resources/vector-io.ts">VectorIoQueryResponse</a></code>
+- <code><a href="./src/resources/responses/responses.ts">ResponseObject</a></code>
+- <code><a href="./src/resources/responses/responses.ts">ResponseObjectStream</a></code>
+- <code><a href="./src/resources/responses/responses.ts">ResponseListResponse</a></code>
 
 Methods:
 
-- <code title="post /v1/vector-io/insert">client.vectorIo.<a href="./src/resources/vector-io.ts">insert</a>({ ...params }) -> void</code>
-- <code title="post /v1/vector-io/query">client.vectorIo.<a href="./src/resources/vector-io.ts">query</a>({ ...params }) -> VectorIoQueryResponse</code>
+- <code title="post /v1/openai/v1/responses">client.responses.<a href="./src/resources/responses/responses.ts">create</a>({ ...params }) -> ResponseObject</code>
+- <code title="get /v1/openai/v1/responses/{response_id}">client.responses.<a href="./src/resources/responses/responses.ts">retrieve</a>(responseId) -> ResponseObject</code>
+- <code title="get /v1/openai/v1/responses">client.responses.<a href="./src/resources/responses/responses.ts">list</a>({ ...params }) -> ResponseListResponse</code>
 
-# Providers
+## InputItems
 
 Types:
 
-- <code><a href="./src/resources/providers.ts">ProviderInfo</a></code>
-- <code><a href="./src/resources/providers.ts">ProviderListResponse</a></code>
+- <code><a href="./src/resources/responses/input-items.ts">InputItemListResponse</a></code>
 
 Methods:
 
-- <code title="get /v1/providers/{provider_id}">client.providers.<a href="./src/resources/providers.ts">retrieve</a>(providerID) -> ProviderInfo</code>
-- <code title="get /v1/providers">client.providers.<a href="./src/resources/providers.ts">list</a>() -> ProviderListResponse</code>
+- <code title="get /v1/openai/v1/responses/{response_id}/input_items">client.responses.inputItems.<a href="./src/resources/responses/input-items.ts">list</a>(responseId, { ...params }) -> InputItemListResponse</code>
+
+# Agents
+
+Types:
+
+- <code><a href="./src/resources/agents/agents.ts">InferenceStep</a></code>
+- <code><a href="./src/resources/agents/agents.ts">MemoryRetrievalStep</a></code>
+- <code><a href="./src/resources/agents/agents.ts">ShieldCallStep</a></code>
+- <code><a href="./src/resources/agents/agents.ts">ToolExecutionStep</a></code>
+- <code><a href="./src/resources/agents/agents.ts">ToolResponse</a></code>
+- <code><a href="./src/resources/agents/agents.ts">AgentCreateResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/agents">client.agents.<a href="./src/resources/agents/agents.ts">create</a>({ ...params }) -> AgentCreateResponse</code>
+- <code title="delete /v1/agents/{agent_id}">client.agents.<a href="./src/resources/agents/agents.ts">delete</a>(agentId) -> void</code>
+
+## Session
+
+Types:
+
+- <code><a href="./src/resources/agents/session.ts">Session</a></code>
+- <code><a href="./src/resources/agents/session.ts">SessionCreateResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/agents/{agent_id}/session">client.agents.session.<a href="./src/resources/agents/session.ts">create</a>(agentId, { ...params }) -> SessionCreateResponse</code>
+- <code title="get /v1/agents/{agent_id}/session/{session_id}">client.agents.session.<a href="./src/resources/agents/session.ts">retrieve</a>(agentId, sessionId, { ...params }) -> Session</code>
+- <code title="delete /v1/agents/{agent_id}/session/{session_id}">client.agents.session.<a href="./src/resources/agents/session.ts">delete</a>(agentId, sessionId) -> void</code>
+
+## Steps
+
+Types:
+
+- <code><a href="./src/resources/agents/steps.ts">StepRetrieveResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}/step/{step_id}">client.agents.steps.<a href="./src/resources/agents/steps.ts">retrieve</a>(agentId, sessionId, turnId, stepId) -> StepRetrieveResponse</code>
+
+## Turn
+
+Types:
+
+- <code><a href="./src/resources/agents/turn.ts">AgentTurnResponseStreamChunk</a></code>
+- <code><a href="./src/resources/agents/turn.ts">Turn</a></code>
+- <code><a href="./src/resources/agents/turn.ts">TurnResponseEvent</a></code>
+- <code><a href="./src/resources/agents/turn.ts">TurnResponseEventPayload</a></code>
+
+Methods:
+
+- <code title="post /v1/agents/{agent_id}/session/{session_id}/turn">client.agents.turn.<a href="./src/resources/agents/turn.ts">create</a>(agentId, sessionId, { ...params }) -> Turn</code>
+- <code title="get /v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}">client.agents.turn.<a href="./src/resources/agents/turn.ts">retrieve</a>(agentId, sessionId, turnId) -> Turn</code>
+- <code title="post /v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}/resume">client.agents.turn.<a href="./src/resources/agents/turn.ts">resume</a>(agentId, sessionId, turnId, { ...params }) -> Turn</code>
+
+# Datasets
+
+Types:
+
+- <code><a href="./src/resources/datasets.ts">ListDatasetsResponse</a></code>
+- <code><a href="./src/resources/datasets.ts">DatasetRetrieveResponse</a></code>
+- <code><a href="./src/resources/datasets.ts">DatasetListResponse</a></code>
+- <code><a href="./src/resources/datasets.ts">DatasetIterrowsResponse</a></code>
+- <code><a href="./src/resources/datasets.ts">DatasetRegisterResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/datasets/{dataset_id}">client.datasets.<a href="./src/resources/datasets.ts">retrieve</a>(datasetId) -> DatasetRetrieveResponse</code>
+- <code title="get /v1/datasets">client.datasets.<a href="./src/resources/datasets.ts">list</a>() -> DatasetListResponse</code>
+- <code title="get /v1/datasetio/iterrows/{dataset_id}">client.datasets.<a href="./src/resources/datasets.ts">iterrows</a>(datasetId, { ...params }) -> DatasetIterrowsResponse</code>
+- <code title="post /v1/datasets">client.datasets.<a href="./src/resources/datasets.ts">register</a>({ ...params }) -> DatasetRegisterResponse</code>
+- <code title="delete /v1/datasets/{dataset_id}">client.datasets.<a href="./src/resources/datasets.ts">unregister</a>(datasetId) -> void</code>
+
+# Eval
+
+Types:
+
+- <code><a href="./src/resources/eval/eval.ts">BenchmarkConfig</a></code>
+- <code><a href="./src/resources/eval/eval.ts">EvalCandidate</a></code>
+- <code><a href="./src/resources/eval/eval.ts">EvaluateResponse</a></code>
+- <code><a href="./src/resources/eval/eval.ts">Job</a></code>
+
+Methods:
+
+- <code title="post /v1/eval/benchmarks/{benchmark_id}/evaluations">client.eval.<a href="./src/resources/eval/eval.ts">evaluateRows</a>(benchmarkId, { ...params }) -> EvaluateResponse</code>
+- <code title="post /v1/eval/benchmarks/{benchmark_id}/evaluations">client.eval.<a href="./src/resources/eval/eval.ts">evaluateRowsAlpha</a>(benchmarkId, { ...params }) -> EvaluateResponse</code>
+- <code title="post /v1/eval/benchmarks/{benchmark_id}/jobs">client.eval.<a href="./src/resources/eval/eval.ts">runEval</a>(benchmarkId, { ...params }) -> Job</code>
+- <code title="post /v1/eval/benchmarks/{benchmark_id}/jobs">client.eval.<a href="./src/resources/eval/eval.ts">runEvalAlpha</a>(benchmarkId, { ...params }) -> Job</code>
+
+## Jobs
+
+Methods:
+
+- <code title="get /v1/eval/benchmarks/{benchmark_id}/jobs/{job_id}/result">client.eval.jobs.<a href="./src/resources/eval/jobs.ts">retrieve</a>(benchmarkId, jobId) -> EvaluateResponse</code>
+- <code title="delete /v1/eval/benchmarks/{benchmark_id}/jobs/{job_id}">client.eval.jobs.<a href="./src/resources/eval/jobs.ts">cancel</a>(benchmarkId, jobId) -> void</code>
+- <code title="get /v1/eval/benchmarks/{benchmark_id}/jobs/{job_id}">client.eval.jobs.<a href="./src/resources/eval/jobs.ts">status</a>(benchmarkId, jobId) -> Job</code>
 
 # Inspect
 
 Types:
 
-- <code><a href="./src/resources/inspect.ts">InspectListRoutesResponse</a></code>
+- <code><a href="./src/resources/inspect.ts">HealthInfo</a></code>
+- <code><a href="./src/resources/inspect.ts">ProviderInfo</a></code>
+- <code><a href="./src/resources/inspect.ts">RouteInfo</a></code>
+- <code><a href="./src/resources/inspect.ts">VersionInfo</a></code>
 
 Methods:
 
-- <code title="get /v1/inspect/routes">client.inspect.<a href="./src/resources/inspect.ts">listRoutes</a>() -> InspectListRoutesResponse</code>
+- <code title="get /v1/health">client.inspect.<a href="./src/resources/inspect.ts">health</a>() -> HealthInfo</code>
+- <code title="get /v1/version">client.inspect.<a href="./src/resources/inspect.ts">version</a>() -> VersionInfo</code>
+
+# Inference
+
+Types:
+
+- <code><a href="./src/resources/inference.ts">ChatCompletionResponseStreamChunk</a></code>
+- <code><a href="./src/resources/inference.ts">CompletionResponse</a></code>
+- <code><a href="./src/resources/inference.ts">EmbeddingsResponse</a></code>
+- <code><a href="./src/resources/inference.ts">TokenLogProbs</a></code>
+- <code><a href="./src/resources/inference.ts">InferenceBatchChatCompletionResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/inference/batch-chat-completion">client.inference.<a href="./src/resources/inference.ts">batchChatCompletion</a>({ ...params }) -> InferenceBatchChatCompletionResponse</code>
+- <code title="post /v1/inference/batch-completion">client.inference.<a href="./src/resources/inference.ts">batchCompletion</a>({ ...params }) -> BatchCompletion</code>
+- <code title="post /v1/inference/chat-completion">client.inference.<a href="./src/resources/inference.ts">chatCompletion</a>({ ...params }) -> ChatCompletionResponse</code>
+- <code title="post /v1/inference/completion">client.inference.<a href="./src/resources/inference.ts">completion</a>({ ...params }) -> CompletionResponse</code>
+- <code title="post /v1/inference/embeddings">client.inference.<a href="./src/resources/inference.ts">embeddings</a>({ ...params }) -> EmbeddingsResponse</code>
+
+# Embeddings
+
+Types:
+
+- <code><a href="./src/resources/embeddings.ts">CreateEmbeddingsResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/openai/v1/embeddings">client.embeddings.<a href="./src/resources/embeddings.ts">create</a>({ ...params }) -> CreateEmbeddingsResponse</code>
+
+# Chat
+
+Types:
+
+- <code><a href="./src/resources/chat/chat.ts">ChatCompletionChunk</a></code>
+
+## Completions
+
+Types:
+
+- <code><a href="./src/resources/chat/completions.ts">CompletionCreateResponse</a></code>
+- <code><a href="./src/resources/chat/completions.ts">CompletionRetrieveResponse</a></code>
+- <code><a href="./src/resources/chat/completions.ts">CompletionListResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/openai/v1/chat/completions">client.chat.completions.<a href="./src/resources/chat/completions.ts">create</a>({ ...params }) -> CompletionCreateResponse</code>
+- <code title="get /v1/openai/v1/chat/completions/{completion_id}">client.chat.completions.<a href="./src/resources/chat/completions.ts">retrieve</a>(completionId) -> CompletionRetrieveResponse</code>
+- <code title="get /v1/openai/v1/chat/completions">client.chat.completions.<a href="./src/resources/chat/completions.ts">list</a>({ ...params }) -> CompletionListResponse</code>
+
+# Completions
+
+Types:
+
+- <code><a href="./src/resources/completions.ts">CompletionCreateResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/openai/v1/completions">client.completions.<a href="./src/resources/completions.ts">create</a>({ ...params }) -> CompletionCreateResponse</code>
+
+# VectorIo
+
+Types:
+
+- <code><a href="./src/resources/vector-io.ts">QueryChunksResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/vector-io/insert">client.vectorIo.<a href="./src/resources/vector-io.ts">insert</a>({ ...params }) -> void</code>
+- <code title="post /v1/vector-io/query">client.vectorIo.<a href="./src/resources/vector-io.ts">query</a>({ ...params }) -> QueryChunksResponse</code>
+
+# VectorDBs
+
+Types:
+
+- <code><a href="./src/resources/vector-dbs.ts">ListVectorDBsResponse</a></code>
+- <code><a href="./src/resources/vector-dbs.ts">VectorDBRetrieveResponse</a></code>
+- <code><a href="./src/resources/vector-dbs.ts">VectorDBListResponse</a></code>
+- <code><a href="./src/resources/vector-dbs.ts">VectorDBRegisterResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/vector-dbs/{vector_db_id}">client.vectorDBs.<a href="./src/resources/vector-dbs.ts">retrieve</a>(vectorDBId) -> VectorDBRetrieveResponse</code>
+- <code title="get /v1/vector-dbs">client.vectorDBs.<a href="./src/resources/vector-dbs.ts">list</a>() -> VectorDBListResponse</code>
+- <code title="post /v1/vector-dbs">client.vectorDBs.<a href="./src/resources/vector-dbs.ts">register</a>({ ...params }) -> VectorDBRegisterResponse</code>
+- <code title="delete /v1/vector-dbs/{vector_db_id}">client.vectorDBs.<a href="./src/resources/vector-dbs.ts">unregister</a>(vectorDBId) -> void</code>
+
+# VectorStores
+
+Types:
+
+- <code><a href="./src/resources/vector-stores/vector-stores.ts">ListVectorStoresResponse</a></code>
+- <code><a href="./src/resources/vector-stores/vector-stores.ts">VectorStore</a></code>
+- <code><a href="./src/resources/vector-stores/vector-stores.ts">VectorStoreDeleteResponse</a></code>
+- <code><a href="./src/resources/vector-stores/vector-stores.ts">VectorStoreSearchResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/openai/v1/vector_stores">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">create</a>({ ...params }) -> VectorStore</code>
+- <code title="get /v1/openai/v1/vector_stores/{vector_store_id}">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">retrieve</a>(vectorStoreId) -> VectorStore</code>
+- <code title="post /v1/openai/v1/vector_stores/{vector_store_id}">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">update</a>(vectorStoreId, { ...params }) -> VectorStore</code>
+- <code title="get /v1/openai/v1/vector_stores">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">list</a>({ ...params }) -> ListVectorStoresResponse</code>
+- <code title="delete /v1/openai/v1/vector_stores/{vector_store_id}">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">delete</a>(vectorStoreId) -> VectorStoreDeleteResponse</code>
+- <code title="post /v1/openai/v1/vector_stores/{vector_store_id}/search">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">search</a>(vectorStoreId, { ...params }) -> VectorStoreSearchResponse</code>
+
+## Files
+
+Types:
+
+- <code><a href="./src/resources/vector-stores/files.ts">VectorStoreFile</a></code>
+
+Methods:
+
+- <code title="post /v1/openai/v1/vector_stores/{vector_store_id}/files">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">create</a>(vectorStoreId, { ...params }) -> VectorStoreFile</code>
+
+# Models
+
+Types:
+
+- <code><a href="./src/resources/models.ts">ListModelsResponse</a></code>
+- <code><a href="./src/resources/models.ts">Model</a></code>
+- <code><a href="./src/resources/models.ts">ModelListResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/models/{model_id}">client.models.<a href="./src/resources/models.ts">retrieve</a>(modelId) -> Model</code>
+- <code title="get /v1/models">client.models.<a href="./src/resources/models.ts">list</a>() -> ModelListResponse</code>
+- <code title="post /v1/models">client.models.<a href="./src/resources/models.ts">register</a>({ ...params }) -> Model</code>
+- <code title="delete /v1/models/{model_id}">client.models.<a href="./src/resources/models.ts">unregister</a>(modelId) -> void</code>
+
+# PostTraining
+
+Types:
+
+- <code><a href="./src/resources/post-training/post-training.ts">AlgorithmConfig</a></code>
+- <code><a href="./src/resources/post-training/post-training.ts">ListPostTrainingJobsResponse</a></code>
+- <code><a href="./src/resources/post-training/post-training.ts">PostTrainingJob</a></code>
+
+Methods:
+
+- <code title="post /v1/post-training/preference-optimize">client.postTraining.<a href="./src/resources/post-training/post-training.ts">preferenceOptimize</a>({ ...params }) -> PostTrainingJob</code>
+- <code title="post /v1/post-training/supervised-fine-tune">client.postTraining.<a href="./src/resources/post-training/post-training.ts">supervisedFineTune</a>({ ...params }) -> PostTrainingJob</code>
+
+## Job
+
+Types:
+
+- <code><a href="./src/resources/post-training/job.ts">JobListResponse</a></code>
+- <code><a href="./src/resources/post-training/job.ts">JobArtifactsResponse</a></code>
+- <code><a href="./src/resources/post-training/job.ts">JobStatusResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/post-training/jobs">client.postTraining.job.<a href="./src/resources/post-training/job.ts">list</a>() -> Array&lt;ListPostTrainingJobsResponse.Data&gt;</code>
+- <code title="get /v1/post-training/job/artifacts">client.postTraining.job.<a href="./src/resources/post-training/job.ts">artifacts</a>({ ...params }) -> JobArtifactsResponse</code>
+- <code title="post /v1/post-training/job/cancel">client.postTraining.job.<a href="./src/resources/post-training/job.ts">cancel</a>({ ...params }) -> void</code>
+- <code title="get /v1/post-training/job/status">client.postTraining.job.<a href="./src/resources/post-training/job.ts">status</a>({ ...params }) -> JobStatusResponse</code>
+
+# Providers
+
+Types:
+
+- <code><a href="./src/resources/providers.ts">ListProvidersResponse</a></code>
+- <code><a href="./src/resources/providers.ts">ProviderListResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/providers/{provider_id}">client.providers.<a href="./src/resources/providers.ts">retrieve</a>(providerId) -> ProviderInfo</code>
+- <code title="get /v1/providers">client.providers.<a href="./src/resources/providers.ts">list</a>() -> ProviderListResponse</code>
+
+# Routes
+
+Types:
+
+- <code><a href="./src/resources/routes.ts">ListRoutesResponse</a></code>
+- <code><a href="./src/resources/routes.ts">RouteListResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/inspect/routes">client.routes.<a href="./src/resources/routes.ts">list</a>() -> RouteListResponse</code>
 
 # Safety
 
 Types:
 
-- <code><a href="./src/resources/safety.ts">SafetyViolation</a></code>
-- <code><a href="./src/resources/safety.ts">SafetyRunShieldResponse</a></code>
+- <code><a href="./src/resources/safety.ts">RunShieldResponse</a></code>
 
 Methods:
 
-- <code title="post /v1/safety/run-shield">client.safety.<a href="./src/resources/safety.ts">runShield</a>({ ...params }) -> SafetyRunShieldResponse</code>
+- <code title="post /v1/safety/run-shield">client.safety.<a href="./src/resources/safety.ts">runShield</a>({ ...params }) -> RunShieldResponse</code>
+
+# Shields
+
+Types:
+
+- <code><a href="./src/resources/shields.ts">ListShieldsResponse</a></code>
+- <code><a href="./src/resources/shields.ts">Shield</a></code>
+- <code><a href="./src/resources/shields.ts">ShieldListResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/shields/{identifier}">client.shields.<a href="./src/resources/shields.ts">retrieve</a>(identifier) -> Shield</code>
+- <code title="get /v1/shields">client.shields.<a href="./src/resources/shields.ts">list</a>() -> ShieldListResponse</code>
+- <code title="post /v1/shields">client.shields.<a href="./src/resources/shields.ts">register</a>({ ...params }) -> Shield</code>
+
+# SyntheticDataGeneration
+
+Types:
+
+- <code><a href="./src/resources/synthetic-data-generation.ts">SyntheticDataGenerationResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/synthetic-data-generation/generate">client.syntheticDataGeneration.<a href="./src/resources/synthetic-data-generation.ts">generate</a>({ ...params }) -> SyntheticDataGenerationResponse</code>
+
+# Telemetry
+
+Types:
+
+- <code><a href="./src/resources/telemetry.ts">Event</a></code>
+- <code><a href="./src/resources/telemetry.ts">QueryCondition</a></code>
+- <code><a href="./src/resources/telemetry.ts">QuerySpansResponse</a></code>
+- <code><a href="./src/resources/telemetry.ts">SpanWithStatus</a></code>
+- <code><a href="./src/resources/telemetry.ts">Trace</a></code>
+- <code><a href="./src/resources/telemetry.ts">TelemetryGetSpanResponse</a></code>
+- <code><a href="./src/resources/telemetry.ts">TelemetryGetSpanTreeResponse</a></code>
+- <code><a href="./src/resources/telemetry.ts">TelemetryQuerySpansResponse</a></code>
+- <code><a href="./src/resources/telemetry.ts">TelemetryQueryTracesResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/telemetry/traces/{trace_id}/spans/{span_id}">client.telemetry.<a href="./src/resources/telemetry.ts">getSpan</a>(traceId, spanId) -> TelemetryGetSpanResponse</code>
+- <code title="post /v1/telemetry/spans/{span_id}/tree">client.telemetry.<a href="./src/resources/telemetry.ts">getSpanTree</a>(spanId, { ...params }) -> TelemetryGetSpanTreeResponse</code>
+- <code title="get /v1/telemetry/traces/{trace_id}">client.telemetry.<a href="./src/resources/telemetry.ts">getTrace</a>(traceId) -> Trace</code>
+- <code title="post /v1/telemetry/events">client.telemetry.<a href="./src/resources/telemetry.ts">logEvent</a>({ ...params }) -> void</code>
+- <code title="post /v1/telemetry/spans">client.telemetry.<a href="./src/resources/telemetry.ts">querySpans</a>({ ...params }) -> TelemetryQuerySpansResponse</code>
+- <code title="post /v1/telemetry/traces">client.telemetry.<a href="./src/resources/telemetry.ts">queryTraces</a>({ ...params }) -> TelemetryQueryTracesResponse</code>
+- <code title="post /v1/telemetry/spans/export">client.telemetry.<a href="./src/resources/telemetry.ts">saveSpansToDataset</a>({ ...params }) -> void</code>
 
 # Scoring
 
@@ -453,22 +458,48 @@ Methods:
 - <code title="post /v1/scoring/score">client.scoring.<a href="./src/resources/scoring.ts">score</a>({ ...params }) -> ScoringScoreResponse</code>
 - <code title="post /v1/scoring/score-batch">client.scoring.<a href="./src/resources/scoring.ts">scoreBatch</a>({ ...params }) -> ScoringScoreBatchResponse</code>
 
-# SyntheticDataGeneration
+# ScoringFunctions
 
 Types:
 
-- <code><a href="./src/resources/synthetic-data-generation.ts">SyntheticDataGenerationGenerateResponse</a></code>
+- <code><a href="./src/resources/scoring-functions.ts">ListScoringFunctionsResponse</a></code>
+- <code><a href="./src/resources/scoring-functions.ts">ScoringFn</a></code>
+- <code><a href="./src/resources/scoring-functions.ts">ScoringFnParams</a></code>
+- <code><a href="./src/resources/scoring-functions.ts">ScoringFunctionListResponse</a></code>
 
 Methods:
 
-- <code title="post /v1/synthetic-data-generation/generate">client.syntheticDataGeneration.<a href="./src/resources/synthetic-data-generation.ts">generate</a>({ ...params }) -> SyntheticDataGenerationGenerateResponse</code>
+- <code title="get /v1/scoring-functions/{scoring_fn_id}">client.scoringFunctions.<a href="./src/resources/scoring-functions.ts">retrieve</a>(scoringFnId) -> ScoringFn</code>
+- <code title="get /v1/scoring-functions">client.scoringFunctions.<a href="./src/resources/scoring-functions.ts">list</a>() -> ScoringFunctionListResponse</code>
+- <code title="post /v1/scoring-functions">client.scoringFunctions.<a href="./src/resources/scoring-functions.ts">register</a>({ ...params }) -> void</code>
 
-# Version
+# Benchmarks
 
 Types:
 
-- <code><a href="./src/resources/version.ts">VersionRetrieveResponse</a></code>
+- <code><a href="./src/resources/benchmarks.ts">Benchmark</a></code>
+- <code><a href="./src/resources/benchmarks.ts">ListBenchmarksResponse</a></code>
+- <code><a href="./src/resources/benchmarks.ts">BenchmarkListResponse</a></code>
 
 Methods:
 
-- <code title="get /v1/version">client.version.<a href="./src/resources/version.ts">retrieve</a>() -> VersionRetrieveResponse</code>
+- <code title="get /v1/eval/benchmarks/{benchmark_id}">client.benchmarks.<a href="./src/resources/benchmarks.ts">retrieve</a>(benchmarkId) -> Benchmark</code>
+- <code title="get /v1/eval/benchmarks">client.benchmarks.<a href="./src/resources/benchmarks.ts">list</a>() -> BenchmarkListResponse</code>
+- <code title="post /v1/eval/benchmarks">client.benchmarks.<a href="./src/resources/benchmarks.ts">register</a>({ ...params }) -> void</code>
+
+# Files
+
+Types:
+
+- <code><a href="./src/resources/files.ts">DeleteFileResponse</a></code>
+- <code><a href="./src/resources/files.ts">File</a></code>
+- <code><a href="./src/resources/files.ts">ListFilesResponse</a></code>
+- <code><a href="./src/resources/files.ts">FileContentResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/openai/v1/files">client.files.<a href="./src/resources/files.ts">create</a>({ ...params }) -> File</code>
+- <code title="get /v1/openai/v1/files/{file_id}">client.files.<a href="./src/resources/files.ts">retrieve</a>(fileId) -> File</code>
+- <code title="get /v1/openai/v1/files">client.files.<a href="./src/resources/files.ts">list</a>({ ...params }) -> ListFilesResponse</code>
+- <code title="delete /v1/openai/v1/files/{file_id}">client.files.<a href="./src/resources/files.ts">delete</a>(fileId) -> DeleteFileResponse</code>
+- <code title="get /v1/openai/v1/files/{file_id}/content">client.files.<a href="./src/resources/files.ts">content</a>(fileId) -> unknown</code>

@@ -1,40 +1,39 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../core/resource';
-import * as InferenceAPI from './inference';
-import { APIPromise } from '../core/api-promise';
-import { RequestOptions } from '../internal/request-options';
+import { APIResource } from '../resource';
+import * as Core from '../core';
+import * as Shared from './shared';
 
 export class Safety extends APIResource {
-  runShield(body: SafetyRunShieldParams, options?: RequestOptions): APIPromise<SafetyRunShieldResponse> {
+  /**
+   * Run a shield.
+   */
+  runShield(body: SafetyRunShieldParams, options?: Core.RequestOptions): Core.APIPromise<RunShieldResponse> {
     return this._client.post('/v1/safety/run-shield', { body, ...options });
   }
 }
 
-export interface SafetyViolation {
-  metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-  violation_level: 'info' | 'warn' | 'error';
-
-  user_message?: string;
-}
-
-export interface SafetyRunShieldResponse {
-  violation?: SafetyViolation;
+export interface RunShieldResponse {
+  violation?: Shared.SafetyViolation;
 }
 
 export interface SafetyRunShieldParams {
-  messages: Array<InferenceAPI.Message>;
+  /**
+   * The messages to run the shield on.
+   */
+  messages: Array<Shared.Message>;
 
+  /**
+   * The parameters of the shield.
+   */
   params: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
+  /**
+   * The identifier of the shield to run.
+   */
   shield_id: string;
 }
 
 export declare namespace Safety {
-  export {
-    type SafetyViolation as SafetyViolation,
-    type SafetyRunShieldResponse as SafetyRunShieldResponse,
-    type SafetyRunShieldParams as SafetyRunShieldParams,
-  };
+  export { type RunShieldResponse as RunShieldResponse, type SafetyRunShieldParams as SafetyRunShieldParams };
 }
