@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.3 (2025-06-28)
+
+Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)
+
+### Chores
+
+* **ci:** only run for pushes and fork pull requests ([70cf3b4](https://github.com/llamastack/llama-stack-client-typescript/commit/70cf3b4cfe81f5d4757f05ea0372342c9c8ce08b))
+
 ## 0.1.0-alpha.2 (2025-06-27)
 
 Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)
