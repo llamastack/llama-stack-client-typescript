@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.2.15 (2025-07-10)
+
+Full Changelog: [v0.2.14...v0.2.15](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.2.14...v0.2.15)
+
+### Bug Fixes
+
+* **ci:** update version, skip a failing test ([#4](https://github.com/llamastack/llama-stack-client-typescript/issues/4)) ([7a5dbe7](https://github.com/llamastack/llama-stack-client-typescript/commit/7a5dbe7ed59b24feda5d73df8808fde2d337fc2a))
+* **client:** don't send `Content-Type` for bodyless methods ([6806e8e](https://github.com/llamastack/llama-stack-client-typescript/commit/6806e8ef31302a0f2ca0ab9ae36e4781e5f0adf7))
+
+
+### Chores
+
+* **internal:** codegen related update ([267a378](https://github.com/llamastack/llama-stack-client-typescript/commit/267a378b1999abd5f17f08b5792ee99d9c405439))
+* **internal:** codegen related update ([79e7896](https://github.com/llamastack/llama-stack-client-typescript/commit/79e78969a31df16ef35901c3ce4c003f70d59778))
+* mention unit type in timeout docs ([c2b9867](https://github.com/llamastack/llama-stack-client-typescript/commit/c2b986793dd9f2fa55e8f4ce9c463a4d99635ab4))
+
+
+### Build System
+
+* Bump version to 0.2.14 ([4d2c696](https://github.com/llamastack/llama-stack-client-typescript/commit/4d2c696b916c9868be61fff31f008442cb346eca))
+
 ## 0.1.0-alpha.3 (2025-06-28)
 
 Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)
