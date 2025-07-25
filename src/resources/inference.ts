@@ -31,7 +31,7 @@ export class Inference extends APIResource {
   /**
    * Generate a chat completion for the given messages using the specified model.
    *
-   * @deprecated chat_completion is deprecated. Please use /v1/openai/v1/chat/completions.
+   * @deprecated /v1/inference/chat-completion is deprecated. Please use /v1/openai/v1/chat/completions.
    */
   chatCompletion(
     body: InferenceChatCompletionParamsNonStreaming,
