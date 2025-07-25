@@ -30,6 +30,8 @@ export class Inference extends APIResource {
 
   /**
    * Generate a chat completion for the given messages using the specified model.
+   *
+   * @deprecated chat_completion is deprecated. Please use /v1/openai/v1/chat/completions.
    */
   chatCompletion(
     body: InferenceChatCompletionParamsNonStreaming,
@@ -56,6 +58,8 @@ export class Inference extends APIResource {
 
   /**
    * Generate a completion for the given content using the specified model.
+   *
+   * @deprecated /v1/inference/completion is deprecated. Please use /v1/openai/v1/completions.
    */
   completion(
     body: InferenceCompletionParamsNonStreaming,
@@ -82,6 +86,8 @@ export class Inference extends APIResource {
 
   /**
    * Generate embeddings for content pieces using the specified model.
+   *
+   * @deprecated /v1/inference/embeddings is deprecated. Please use /v1/openai/v1/embeddings.
    */
   embeddings(
     body: InferenceEmbeddingsParams,
