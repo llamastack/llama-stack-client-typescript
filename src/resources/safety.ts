@@ -13,6 +13,52 @@ export class Safety extends APIResource {
   }
 }
 
+/**
+ * A moderation object.
+ */
+export interface OpenAPIModerationsResponse {
+  /**
+   * The unique identifier for the moderation request.
+   */
+  id: string;
+
+  /**
+   * The model used to generate the moderation results.
+   */
+  model: string;
+
+  /**
+   * A list of moderation objects
+   */
+  results: Array<OpenAPIModerationsResponse.Result>;
+}
+
+export namespace OpenAPIModerationsResponse {
+  /**
+   * A moderation object.
+   */
+  export interface Result {
+    /**
+     * A list of the categories, and whether they are flagged or not.
+     */
+    categories: { [key: string]: boolean };
+
+    category_applied_input_types: { [key: string]: Array<string> };
+
+    category_messages: { [key: string]: string };
+
+    /**
+     * A list of the categories along with their scores as predicted by model.
+     */
+    category_scores: { [key: string]: number };
+
+    /**
+     * Whether any of the below categories are flagged.
+     */
+    flagged: boolean;
+  }
+}
+
 export interface RunShieldResponse {
   violation?: Shared.SafetyViolation;
 }
@@ -35,5 +81,9 @@ export interface SafetyRunShieldParams {
 }
 
 export declare namespace Safety {
-  export { type RunShieldResponse as RunShieldResponse, type SafetyRunShieldParams as SafetyRunShieldParams };
+  export {
+    type OpenAPIModerationsResponse as OpenAPIModerationsResponse,
+    type RunShieldResponse as RunShieldResponse,
+    type SafetyRunShieldParams as SafetyRunShieldParams,
+  };
 }

@@ -70,7 +70,12 @@ import {
 } from './resources/models';
 import { ListProvidersResponse, ProviderListResponse, Providers } from './resources/providers';
 import { ListRoutesResponse, RouteListResponse, Routes } from './resources/routes';
-import { RunShieldResponse, Safety, SafetyRunShieldParams } from './resources/safety';
+import {
+  OpenAPIModerationsResponse,
+  RunShieldResponse,
+  Safety,
+  SafetyRunShieldParams,
+} from './resources/safety';
 import {
   Scoring,
   ScoringScoreBatchParams,
@@ -599,6 +604,7 @@ export declare namespace LlamaStackClient {
 
   export {
     Safety as Safety,
+    type OpenAPIModerationsResponse as OpenAPIModerationsResponse,
     type RunShieldResponse as RunShieldResponse,
     type SafetyRunShieldParams as SafetyRunShieldParams,
   };
