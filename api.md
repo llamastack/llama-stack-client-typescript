@@ -407,7 +407,7 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/safety.ts">OpenAPIModerationsResponse</a></code>
+- <code><a href="./src/resources/safety.ts">OpenAIModerationsResponse</a></code>
 - <code><a href="./src/resources/safety.ts">RunShieldResponse</a></code>
 
 Methods:

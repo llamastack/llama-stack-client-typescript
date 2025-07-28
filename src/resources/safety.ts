@@ -16,7 +16,7 @@ export class Safety extends APIResource {
 /**
  * A moderation object.
  */
-export interface OpenAPIModerationsResponse {
+export interface OpenAIModerationsResponse {
   /**
    * The unique identifier for the moderation request.
    */
@@ -30,10 +30,10 @@ export interface OpenAPIModerationsResponse {
   /**
    * A list of moderation objects
    */
-  results: Array<OpenAPIModerationsResponse.Result>;
+  results: Array<OpenAIModerationsResponse.Result>;
 }
 
-export namespace OpenAPIModerationsResponse {
+export namespace OpenAIModerationsResponse {
   /**
    * A moderation object.
    */
@@ -82,7 +82,7 @@ export interface SafetyRunShieldParams {
 
 export declare namespace Safety {
   export {
-    type OpenAPIModerationsResponse as OpenAPIModerationsResponse,
+    type OpenAIModerationsResponse as OpenAIModerationsResponse,
     type RunShieldResponse as RunShieldResponse,
     type SafetyRunShieldParams as SafetyRunShieldParams,
   };

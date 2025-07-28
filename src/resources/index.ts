@@ -108,7 +108,7 @@ export {
 export { Routes, type ListRoutesResponse, type RouteListResponse } from './routes';
 export {
   Safety,
-  type OpenAPIModerationsResponse,
+  type OpenAIModerationsResponse,
   type RunShieldResponse,
   type SafetyRunShieldParams,
 } from './safety';
