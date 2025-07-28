@@ -110,6 +110,7 @@ export {
   Safety,
   type OpenAIModerationsResponse,
   type RunShieldResponse,
+  type SafetyOpenAIModerationsParams,
   type SafetyRunShieldParams,
 } from './safety';
 export {

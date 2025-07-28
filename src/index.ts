@@ -74,6 +74,7 @@ import {
   OpenAIModerationsResponse,
   RunShieldResponse,
   Safety,
+  SafetyOpenAIModerationsParams,
   SafetyRunShieldParams,
 } from './resources/safety';
 import {
@@ -606,6 +607,7 @@ export declare namespace LlamaStackClient {
     Safety as Safety,
     type OpenAIModerationsResponse as OpenAIModerationsResponse,
     type RunShieldResponse as RunShieldResponse,
+    type SafetyOpenAIModerationsParams as SafetyOpenAIModerationsParams,
     type SafetyRunShieldParams as SafetyRunShieldParams,
   };
 
