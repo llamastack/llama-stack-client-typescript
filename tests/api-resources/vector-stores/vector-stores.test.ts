@@ -27,7 +27,6 @@ describe('resource vectorStores', () => {
       file_ids: ['string'],
       metadata: { foo: true },
       provider_id: 'provider_id',
-      provider_vector_db_id: 'provider_vector_db_id',
     });
   });
 

@@ -56,16 +56,47 @@ export namespace JobListResponse {
  * Artifacts of a finetuning job.
  */
 export interface JobArtifactsResponse {
-  checkpoints: Array<unknown>;
+  checkpoints: Array<JobArtifactsResponse.Checkpoint>;
 
   job_uuid: string;
+}
+
+export namespace JobArtifactsResponse {
+  /**
+   * Checkpoint created during training runs
+   */
+  export interface Checkpoint {
+    created_at: string;
+
+    epoch: number;
+
+    identifier: string;
+
+    path: string;
+
+    post_training_job_id: string;
+
+    training_metrics?: Checkpoint.TrainingMetrics;
+  }
+
+  export namespace Checkpoint {
+    export interface TrainingMetrics {
+      epoch: number;
+
+      perplexity: number;
+
+      train_loss: number;
+
+      validation_loss: number;
+    }
+  }
 }
 
 /**
  * Status of a finetuning job.
  */
 export interface JobStatusResponse {
-  checkpoints: Array<unknown>;
+  checkpoints: Array<JobStatusResponse.Checkpoint>;
 
   job_uuid: string;
 
@@ -78,6 +109,37 @@ export interface JobStatusResponse {
   scheduled_at?: string;
 
   started_at?: string;
+}
+
+export namespace JobStatusResponse {
+  /**
+   * Checkpoint created during training runs
+   */
+  export interface Checkpoint {
+    created_at: string;
+
+    epoch: number;
+
+    identifier: string;
+
+    path: string;
+
+    post_training_job_id: string;
+
+    training_metrics?: Checkpoint.TrainingMetrics;
+  }
+
+  export namespace Checkpoint {
+    export interface TrainingMetrics {
+      epoch: number;
+
+      perplexity: number;
+
+      train_loss: number;
+
+      validation_loss: number;
+    }
+  }
 }
 
 export interface JobArtifactsParams {

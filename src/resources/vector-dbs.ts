@@ -57,6 +57,8 @@ export interface VectorDBRetrieveResponse {
   type: 'vector_db';
 
   provider_resource_id?: string;
+
+  vector_db_name?: string;
 }
 
 export type VectorDBListResponse = Array<VectorDBListResponse.VectorDBListResponseItem>;
@@ -74,6 +76,8 @@ export namespace VectorDBListResponse {
     type: 'vector_db';
 
     provider_resource_id?: string;
+
+    vector_db_name?: string;
   }
 }
 
@@ -89,6 +93,8 @@ export interface VectorDBRegisterResponse {
   type: 'vector_db';
 
   provider_resource_id?: string;
+
+  vector_db_name?: string;
 }
 
 export interface VectorDBRegisterParams {
@@ -116,6 +122,11 @@ export interface VectorDBRegisterParams {
    * The identifier of the vector database in the provider.
    */
   provider_vector_db_id?: string;
+
+  /**
+   * The name of the vector database.
+   */
+  vector_db_name?: string;
 }
 
 export declare namespace VectorDBs {

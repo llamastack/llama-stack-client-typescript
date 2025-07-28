@@ -510,7 +510,7 @@ export interface QueryConfig {
    * Search mode for retrieval—either "vector", "keyword", or "hybrid". Default
    * "vector".
    */
-  mode?: string;
+  mode?: 'vector' | 'keyword' | 'hybrid';
 
   /**
    * Configuration for the ranker to use in hybrid search. Defaults to RRF ranker.

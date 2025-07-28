@@ -230,11 +230,6 @@ export interface VectorStoreCreateParams {
    * The ID of the provider to use for this vector store.
    */
   provider_id?: string;
-
-  /**
-   * The provider-specific vector database ID.
-   */
-  provider_vector_db_id?: string;
 }
 
 export interface VectorStoreUpdateParams {
