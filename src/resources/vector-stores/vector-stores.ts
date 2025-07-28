@@ -190,11 +190,6 @@ export namespace VectorStoreSearchResponse {
 
 export interface VectorStoreCreateParams {
   /**
-   * A name for the vector store.
-   */
-  name: string;
-
-  /**
    * The chunking strategy used to chunk the file(s). If not set, will use the `auto`
    * strategy.
    */
@@ -225,6 +220,11 @@ export interface VectorStoreCreateParams {
    * Set of 16 key-value pairs that can be attached to an object.
    */
   metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+
+  /**
+   * A name for the vector store.
+   */
+  name?: string;
 
   /**
    * The ID of the provider to use for this vector store.

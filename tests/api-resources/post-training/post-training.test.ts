@@ -8,7 +8,7 @@ const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] 
 describe('resource postTraining', () => {
   test('preferenceOptimize: only required params', async () => {
     const responsePromise = client.postTraining.preferenceOptimize({
-      algorithm_config: { epsilon: 0, gamma: 0, reward_clip: 0, reward_scale: 0 },
+      algorithm_config: { beta: 0, loss_type: 'sigmoid' },
       finetuned_model: 'finetuned_model',
       hyperparam_search_config: { foo: true },
       job_uuid: 'job_uuid',
@@ -26,7 +26,7 @@ describe('resource postTraining', () => {
 
   test('preferenceOptimize: required and optional params', async () => {
     const response = await client.postTraining.preferenceOptimize({
-      algorithm_config: { epsilon: 0, gamma: 0, reward_clip: 0, reward_scale: 0 },
+      algorithm_config: { beta: 0, loss_type: 'sigmoid' },
       finetuned_model: 'finetuned_model',
       hyperparam_search_config: { foo: true },
       job_uuid: 'job_uuid',

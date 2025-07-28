@@ -118,13 +118,9 @@ export namespace PostTrainingPreferenceOptimizeParams {
    * The algorithm configuration.
    */
   export interface AlgorithmConfig {
-    epsilon: number;
+    beta: number;
 
-    gamma: number;
-
-    reward_clip: number;
-
-    reward_scale: number;
+    loss_type: 'sigmoid' | 'hinge' | 'ipo' | 'kto_pair';
   }
 
   /**
