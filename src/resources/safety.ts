@@ -8,10 +8,7 @@ export class Safety extends APIResource {
   /**
    * Classifies if text and/or image inputs are potentially harmful.
    */
-  openaiModerations(
-    body: SafetyOpenAIModerationsParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<OpenAIModerationsResponse> {
+  create(body: SafetyCreateParams, options?: Core.RequestOptions): Core.APIPromise<CreateResponse> {
     return this._client.post('/v1/openai/v1/moderations', { body, ...options });
   }
 
@@ -26,7 +23,7 @@ export class Safety extends APIResource {
 /**
  * A moderation object.
  */
-export interface OpenAIModerationsResponse {
+export interface CreateResponse {
   /**
    * The unique identifier for the moderation request.
    */
@@ -40,32 +37,37 @@ export interface OpenAIModerationsResponse {
   /**
    * A list of moderation objects
    */
-  results: Array<OpenAIModerationsResponse.Result>;
+  results: Array<CreateResponse.Result>;
 }
 
-export namespace OpenAIModerationsResponse {
+export namespace CreateResponse {
   /**
    * A moderation object.
    */
   export interface Result {
     /**
+     * Whether any of the below categories are flagged.
+     */
+    flagged: boolean;
+
+    metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+
+    /**
      * A list of the categories, and whether they are flagged or not.
      */
-    categories: { [key: string]: boolean };
+    categories?: { [key: string]: boolean };
 
-    category_applied_input_types: { [key: string]: Array<string> };
-
-    category_messages: { [key: string]: string };
+    /**
+     * A list of the categories along with the input type(s) that the score applies to.
+     */
+    category_applied_input_types?: { [key: string]: Array<string> };
 
     /**
      * A list of the categories along with their scores as predicted by model.
      */
-    category_scores: { [key: string]: number };
+    category_scores?: { [key: string]: number };
 
-    /**
-     * Whether any of the below categories are flagged.
-     */
-    flagged: boolean;
+    user_message?: string;
   }
 }
 
@@ -73,7 +75,7 @@ export interface RunShieldResponse {
   violation?: Shared.SafetyViolation;
 }
 
-export interface SafetyOpenAIModerationsParams {
+export interface SafetyCreateParams {
   /**
    * Input (or inputs) to classify. Can be a single string, an array of strings, or
    * an array of multi-modal input objects similar to other models.
@@ -83,7 +85,7 @@ export interface SafetyOpenAIModerationsParams {
   /**
    * The content moderation model you would like to use.
    */
-  model?: string;
+  model: string;
 }
 
 export interface SafetyRunShieldParams {
@@ -105,9 +107,9 @@ export interface SafetyRunShieldParams {
 
 export declare namespace Safety {
   export {
-    type OpenAIModerationsResponse as OpenAIModerationsResponse,
+    type CreateResponse as CreateResponse,
     type RunShieldResponse as RunShieldResponse,
-    type SafetyOpenAIModerationsParams as SafetyOpenAIModerationsParams,
+    type SafetyCreateParams as SafetyCreateParams,
     type SafetyRunShieldParams as SafetyRunShieldParams,
   };
 }

@@ -6,8 +6,8 @@ import { Response } from 'node-fetch';
 const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
 
 describe('resource safety', () => {
-  test('openaiModerations: only required params', async () => {
-    const responsePromise = client.safety.openaiModerations({ input: 'string' });
+  test('create: only required params', async () => {
+    const responsePromise = client.safety.create({ input: 'string', model: 'model' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -17,8 +17,8 @@ describe('resource safety', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('openaiModerations: required and optional params', async () => {
-    const response = await client.safety.openaiModerations({ input: 'string', model: 'model' });
+  test('create: required and optional params', async () => {
+    const response = await client.safety.create({ input: 'string', model: 'model' });
   });
 
   test('runShield: only required params', async () => {

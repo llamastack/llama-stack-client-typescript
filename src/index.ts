@@ -71,10 +71,10 @@ import {
 import { ListProvidersResponse, ProviderListResponse, Providers } from './resources/providers';
 import { ListRoutesResponse, RouteListResponse, Routes } from './resources/routes';
 import {
-  OpenAIModerationsResponse,
+  CreateResponse,
   RunShieldResponse,
   Safety,
-  SafetyOpenAIModerationsParams,
+  SafetyCreateParams,
   SafetyRunShieldParams,
 } from './resources/safety';
 import {
@@ -605,9 +605,9 @@ export declare namespace LlamaStackClient {
 
   export {
     Safety as Safety,
-    type OpenAIModerationsResponse as OpenAIModerationsResponse,
+    type CreateResponse as CreateResponse,
     type RunShieldResponse as RunShieldResponse,
-    type SafetyOpenAIModerationsParams as SafetyOpenAIModerationsParams,
+    type SafetyCreateParams as SafetyCreateParams,
     type SafetyRunShieldParams as SafetyRunShieldParams,
   };
 

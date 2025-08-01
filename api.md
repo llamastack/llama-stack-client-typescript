@@ -407,12 +407,12 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/safety.ts">OpenAIModerationsResponse</a></code>
+- <code><a href="./src/resources/safety.ts">CreateResponse</a></code>
 - <code><a href="./src/resources/safety.ts">RunShieldResponse</a></code>
 
 Methods:
 
-- <code title="post /v1/openai/v1/moderations">client.safety.<a href="./src/resources/safety.ts">openaiModerations</a>({ ...params }) -> OpenAIModerationsResponse</code>
+- <code title="post /v1/openai/v1/moderations">client.safety.<a href="./src/resources/safety.ts">create</a>({ ...params }) -> CreateResponse</code>
 - <code title="post /v1/safety/run-shield">client.safety.<a href="./src/resources/safety.ts">runShield</a>({ ...params }) -> RunShieldResponse</code>
 
 # Shields

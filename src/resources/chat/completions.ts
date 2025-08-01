@@ -141,6 +141,7 @@ export namespace CompletionCreateResponse {
           | Array<
               | OpenAIUserMessageParam.OpenAIChatCompletionContentPartTextParam
               | OpenAIUserMessageParam.OpenAIChatCompletionContentPartImageParam
+              | OpenAIUserMessageParam.OpenAIFile
             >;
 
         /**
@@ -172,6 +173,22 @@ export namespace CompletionCreateResponse {
             url: string;
 
             detail?: string;
+          }
+        }
+
+        export interface OpenAIFile {
+          file: OpenAIFile.File;
+
+          type: 'file';
+        }
+
+        export namespace OpenAIFile {
+          export interface File {
+            file_data?: string;
+
+            file_id?: string;
+
+            filename?: string;
           }
         }
       }
@@ -470,6 +487,7 @@ export namespace CompletionRetrieveResponse {
         | Array<
             | OpenAIUserMessageParam.OpenAIChatCompletionContentPartTextParam
             | OpenAIUserMessageParam.OpenAIChatCompletionContentPartImageParam
+            | OpenAIUserMessageParam.OpenAIFile
           >;
 
       /**
@@ -501,6 +519,22 @@ export namespace CompletionRetrieveResponse {
           url: string;
 
           detail?: string;
+        }
+      }
+
+      export interface OpenAIFile {
+        file: OpenAIFile.File;
+
+        type: 'file';
+      }
+
+      export namespace OpenAIFile {
+        export interface File {
+          file_data?: string;
+
+          file_id?: string;
+
+          filename?: string;
         }
       }
     }
@@ -730,6 +764,7 @@ export namespace CompletionRetrieveResponse {
       | Array<
           | OpenAIUserMessageParam.OpenAIChatCompletionContentPartTextParam
           | OpenAIUserMessageParam.OpenAIChatCompletionContentPartImageParam
+          | OpenAIUserMessageParam.OpenAIFile
         >;
 
     /**
@@ -761,6 +796,22 @@ export namespace CompletionRetrieveResponse {
         url: string;
 
         detail?: string;
+      }
+    }
+
+    export interface OpenAIFile {
+      file: OpenAIFile.File;
+
+      type: 'file';
+    }
+
+    export namespace OpenAIFile {
+      export interface File {
+        file_data?: string;
+
+        file_id?: string;
+
+        filename?: string;
       }
     }
   }
@@ -997,6 +1048,7 @@ export namespace CompletionListResponse {
           | Array<
               | OpenAIUserMessageParam.OpenAIChatCompletionContentPartTextParam
               | OpenAIUserMessageParam.OpenAIChatCompletionContentPartImageParam
+              | OpenAIUserMessageParam.OpenAIFile
             >;
 
         /**
@@ -1028,6 +1080,22 @@ export namespace CompletionListResponse {
             url: string;
 
             detail?: string;
+          }
+        }
+
+        export interface OpenAIFile {
+          file: OpenAIFile.File;
+
+          type: 'file';
+        }
+
+        export namespace OpenAIFile {
+          export interface File {
+            file_data?: string;
+
+            file_id?: string;
+
+            filename?: string;
           }
         }
       }
@@ -1257,6 +1325,7 @@ export namespace CompletionListResponse {
         | Array<
             | OpenAIUserMessageParam.OpenAIChatCompletionContentPartTextParam
             | OpenAIUserMessageParam.OpenAIChatCompletionContentPartImageParam
+            | OpenAIUserMessageParam.OpenAIFile
           >;
 
       /**
@@ -1288,6 +1357,22 @@ export namespace CompletionListResponse {
           url: string;
 
           detail?: string;
+        }
+      }
+
+      export interface OpenAIFile {
+        file: OpenAIFile.File;
+
+        type: 'file';
+      }
+
+      export namespace OpenAIFile {
+        export interface File {
+          file_data?: string;
+
+          file_id?: string;
+
+          filename?: string;
         }
       }
     }
@@ -1575,6 +1660,7 @@ export namespace CompletionCreateParams {
       | Array<
           | OpenAIUserMessageParam.OpenAIChatCompletionContentPartTextParam
           | OpenAIUserMessageParam.OpenAIChatCompletionContentPartImageParam
+          | OpenAIUserMessageParam.OpenAIFile
         >;
 
     /**
@@ -1606,6 +1692,22 @@ export namespace CompletionCreateParams {
         url: string;
 
         detail?: string;
+      }
+    }
+
+    export interface OpenAIFile {
+      file: OpenAIFile.File;
+
+      type: 'file';
+    }
+
+    export namespace OpenAIFile {
+      export interface File {
+        file_data?: string;
+
+        file_id?: string;
+
+        filename?: string;
       }
     }
   }
