@@ -22,10 +22,19 @@ export class Providers extends APIResource {
   }
 }
 
+/**
+ * Response containing a list of all available providers.
+ */
 export interface ListProvidersResponse {
+  /**
+   * List of provider information objects
+   */
   data: ProviderListResponse;
 }
 
+/**
+ * List of provider information objects
+ */
 export type ProviderListResponse = Array<InspectAPI.ProviderInfo>;
 
 export declare namespace Providers {

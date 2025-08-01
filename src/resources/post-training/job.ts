@@ -56,37 +56,76 @@ export namespace JobListResponse {
  * Artifacts of a finetuning job.
  */
 export interface JobArtifactsResponse {
+  /**
+   * List of model checkpoints created during training
+   */
   checkpoints: Array<JobArtifactsResponse.Checkpoint>;
 
+  /**
+   * Unique identifier for the training job
+   */
   job_uuid: string;
 }
 
 export namespace JobArtifactsResponse {
   /**
-   * Checkpoint created during training runs
+   * Checkpoint created during training runs.
    */
   export interface Checkpoint {
+    /**
+     * Timestamp when the checkpoint was created
+     */
     created_at: string;
 
+    /**
+     * Training epoch when the checkpoint was saved
+     */
     epoch: number;
 
+    /**
+     * Unique identifier for the checkpoint
+     */
     identifier: string;
 
+    /**
+     * File system path where the checkpoint is stored
+     */
     path: string;
 
+    /**
+     * Identifier of the training job that created this checkpoint
+     */
     post_training_job_id: string;
 
+    /**
+     * (Optional) Training metrics associated with this checkpoint
+     */
     training_metrics?: Checkpoint.TrainingMetrics;
   }
 
   export namespace Checkpoint {
+    /**
+     * (Optional) Training metrics associated with this checkpoint
+     */
     export interface TrainingMetrics {
+      /**
+       * Training epoch number
+       */
       epoch: number;
 
+      /**
+       * Perplexity metric indicating model confidence
+       */
       perplexity: number;
 
+      /**
+       * Loss value on the training dataset
+       */
       train_loss: number;
 
+      /**
+       * Loss value on the validation dataset
+       */
       validation_loss: number;
     }
   }
@@ -96,47 +135,101 @@ export namespace JobArtifactsResponse {
  * Status of a finetuning job.
  */
 export interface JobStatusResponse {
+  /**
+   * List of model checkpoints created during training
+   */
   checkpoints: Array<JobStatusResponse.Checkpoint>;
 
+  /**
+   * Unique identifier for the training job
+   */
   job_uuid: string;
 
+  /**
+   * Current status of the training job
+   */
   status: 'completed' | 'in_progress' | 'failed' | 'scheduled' | 'cancelled';
 
+  /**
+   * (Optional) Timestamp when the job finished, if completed
+   */
   completed_at?: string;
 
+  /**
+   * (Optional) Information about computational resources allocated to the job
+   */
   resources_allocated?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
+  /**
+   * (Optional) Timestamp when the job was scheduled
+   */
   scheduled_at?: string;
 
+  /**
+   * (Optional) Timestamp when the job execution began
+   */
   started_at?: string;
 }
 
 export namespace JobStatusResponse {
   /**
-   * Checkpoint created during training runs
+   * Checkpoint created during training runs.
    */
   export interface Checkpoint {
+    /**
+     * Timestamp when the checkpoint was created
+     */
     created_at: string;
 
+    /**
+     * Training epoch when the checkpoint was saved
+     */
     epoch: number;
 
+    /**
+     * Unique identifier for the checkpoint
+     */
     identifier: string;
 
+    /**
+     * File system path where the checkpoint is stored
+     */
     path: string;
 
+    /**
+     * Identifier of the training job that created this checkpoint
+     */
     post_training_job_id: string;
 
+    /**
+     * (Optional) Training metrics associated with this checkpoint
+     */
     training_metrics?: Checkpoint.TrainingMetrics;
   }
 
   export namespace Checkpoint {
+    /**
+     * (Optional) Training metrics associated with this checkpoint
+     */
     export interface TrainingMetrics {
+      /**
+       * Training epoch number
+       */
       epoch: number;
 
+      /**
+       * Perplexity metric indicating model confidence
+       */
       perplexity: number;
 
+      /**
+       * Loss value on the training dataset
+       */
       train_loss: number;
 
+      /**
+       * Loss value on the validation dataset
+       */
       validation_loss: number;
     }
   }

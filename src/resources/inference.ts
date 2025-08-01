@@ -106,6 +106,9 @@ export interface ChatCompletionResponseStreamChunk {
    */
   event: ChatCompletionResponseStreamChunk.Event;
 
+  /**
+   * (Optional) List of metrics associated with the API response
+   */
   metrics?: Array<ChatCompletionResponseStreamChunk.Metric>;
 }
 
@@ -136,11 +139,23 @@ export namespace ChatCompletionResponseStreamChunk {
     stop_reason?: 'end_of_turn' | 'end_of_message' | 'out_of_tokens';
   }
 
+  /**
+   * A metric value included in API responses.
+   */
   export interface Metric {
+    /**
+     * The name of the metric
+     */
     metric: string;
 
+    /**
+     * The numeric value of the metric
+     */
     value: number;
 
+    /**
+     * (Optional) The unit of measurement for the metric value
+     */
     unit?: string;
   }
 }
@@ -164,15 +179,30 @@ export interface CompletionResponse {
    */
   logprobs?: Array<TokenLogProbs>;
 
+  /**
+   * (Optional) List of metrics associated with the API response
+   */
   metrics?: Array<CompletionResponse.Metric>;
 }
 
 export namespace CompletionResponse {
+  /**
+   * A metric value included in API responses.
+   */
   export interface Metric {
+    /**
+     * The name of the metric
+     */
     metric: string;
 
+    /**
+     * The numeric value of the metric
+     */
     value: number;
 
+    /**
+     * (Optional) The unit of measurement for the metric value
+     */
     unit?: string;
   }
 }
@@ -199,7 +229,13 @@ export interface TokenLogProbs {
   logprobs_by_token: { [key: string]: number };
 }
 
+/**
+ * Response from a batch chat completion request.
+ */
 export interface InferenceBatchChatCompletionResponse {
+  /**
+   * List of chat completion responses, one for each conversation in the batch
+   */
   batch: Array<Shared.ChatCompletionResponse>;
 }
 

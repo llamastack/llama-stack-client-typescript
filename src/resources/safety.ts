@@ -71,7 +71,13 @@ export namespace CreateResponse {
   }
 }
 
+/**
+ * Response from running a safety shield.
+ */
 export interface RunShieldResponse {
+  /**
+   * (Optional) Safety violation detected by the shield, if any
+   */
   violation?: Shared.SafetyViolation;
 }
 

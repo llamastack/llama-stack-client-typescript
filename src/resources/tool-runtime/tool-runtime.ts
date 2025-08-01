@@ -43,43 +43,91 @@ export class ToolRuntime extends APIResource {
   }
 }
 
+/**
+ * Tool definition used in runtime contexts.
+ */
 export interface ToolDef {
+  /**
+   * Name of the tool
+   */
   name: string;
 
+  /**
+   * (Optional) Human-readable description of what the tool does
+   */
   description?: string;
 
+  /**
+   * (Optional) Additional metadata about the tool
+   */
   metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
+  /**
+   * (Optional) List of parameters this tool accepts
+   */
   parameters?: Array<ToolDef.Parameter>;
 }
 
 export namespace ToolDef {
+  /**
+   * Parameter definition for a tool.
+   */
   export interface Parameter {
+    /**
+     * Human-readable description of what the parameter does
+     */
     description: string;
 
+    /**
+     * Name of the parameter
+     */
     name: string;
 
+    /**
+     * Type of the parameter (e.g., string, integer)
+     */
     parameter_type: string;
 
+    /**
+     * Whether this parameter is required for tool invocation
+     */
     required: boolean;
 
+    /**
+     * (Optional) Default value for the parameter if not provided
+     */
     default?: boolean | number | string | Array<unknown> | unknown | null;
   }
 }
 
+/**
+ * Result of a tool invocation.
+ */
 export interface ToolInvocationResult {
   /**
-   * A image content item
+   * (Optional) The output content from the tool execution
    */
   content?: Shared.InterleavedContent;
 
+  /**
+   * (Optional) Numeric error code if the tool execution failed
+   */
   error_code?: number;
 
+  /**
+   * (Optional) Error message if the tool execution failed
+   */
   error_message?: string;
 
+  /**
+   * (Optional) Additional metadata about the tool execution
+   */
   metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 }
 
+/**
+ * List of tool definitions
+ */
 export type ToolRuntimeListToolsResponse = Array<ToolDef>;
 
 export interface ToolRuntimeInvokeToolParams {
@@ -111,6 +159,9 @@ export namespace ToolRuntimeListToolsParams {
    * The MCP endpoint to use for the tool group.
    */
   export interface McpEndpoint {
+    /**
+     * The URL string pointing to the resource
+     */
     uri: string;
   }
 }

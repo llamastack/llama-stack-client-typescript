@@ -129,9 +129,18 @@ export interface EvaluateResponse {
   scores: { [key: string]: Shared.ScoringResult };
 }
 
+/**
+ * A job execution instance with status tracking.
+ */
 export interface Job {
+  /**
+   * Unique identifier for the job
+   */
   job_id: string;
 
+  /**
+   * Current execution status of the job
+   */
   status: 'completed' | 'in_progress' | 'failed' | 'scheduled' | 'cancelled';
 }
 

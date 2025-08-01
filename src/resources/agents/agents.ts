@@ -226,31 +226,58 @@ export interface ToolExecutionStep {
   started_at?: string;
 }
 
+/**
+ * Response from a tool invocation.
+ */
 export interface ToolResponse {
+  /**
+   * Unique identifier for the tool call this response is for
+   */
   call_id: string;
 
   /**
-   * A image content item
+   * The response content from the tool
    */
   content: Shared.InterleavedContent;
 
+  /**
+   * Name of the tool that was invoked
+   */
   tool_name: 'brave_search' | 'wolfram_alpha' | 'photogen' | 'code_interpreter' | (string & {});
 
+  /**
+   * (Optional) Additional metadata about the tool response
+   */
   metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 }
 
+/**
+ * Response returned when creating a new agent.
+ */
 export interface AgentCreateResponse {
+  /**
+   * Unique identifier for the created agent
+   */
   agent_id: string;
 }
 
+/**
+ * An agent instance with configuration and metadata.
+ */
 export interface AgentRetrieveResponse {
   /**
-   * Configuration for an agent.
+   * Configuration settings for the agent
    */
   agent_config: Shared.AgentConfig;
 
+  /**
+   * Unique identifier for the agent
+   */
   agent_id: string;
 
+  /**
+   * Timestamp when the agent was created
+   */
   created_at: string;
 }
 
