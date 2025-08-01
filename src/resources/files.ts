@@ -122,10 +122,19 @@ export interface ListFilesResponse {
    */
   data: Array<File>;
 
+  /**
+   * ID of the first file in the list for pagination
+   */
   first_id: string;
 
+  /**
+   * Whether there are more files available beyond this page
+   */
   has_more: boolean;
 
+  /**
+   * ID of the last file in the list for pagination
+   */
   last_id: string;
 
   /**

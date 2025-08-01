@@ -100,20 +100,44 @@ export namespace ChatCompletionChunk {
     }
 
     export namespace Delta {
+      /**
+       * Tool call specification for OpenAI-compatible chat completion responses.
+       */
       export interface ToolCall {
+        /**
+         * Must be "function" to identify this as a function call
+         */
         type: 'function';
 
+        /**
+         * (Optional) Unique identifier for the tool call
+         */
         id?: string;
 
+        /**
+         * (Optional) Function call details
+         */
         function?: ToolCall.Function;
 
+        /**
+         * (Optional) Index of the tool call in the list
+         */
         index?: number;
       }
 
       export namespace ToolCall {
+        /**
+         * (Optional) Function call details
+         */
         export interface Function {
+          /**
+           * (Optional) Arguments to pass to the function as a JSON string
+           */
           arguments?: string;
 
+          /**
+           * (Optional) Name of the function to call
+           */
           name?: string;
         }
       }

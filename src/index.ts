@@ -70,7 +70,13 @@ import {
 } from './resources/models';
 import { ListProvidersResponse, ProviderListResponse, Providers } from './resources/providers';
 import { ListRoutesResponse, RouteListResponse, Routes } from './resources/routes';
-import { RunShieldResponse, Safety, SafetyRunShieldParams } from './resources/safety';
+import {
+  CreateResponse,
+  RunShieldResponse,
+  Safety,
+  SafetyCreateParams,
+  SafetyRunShieldParams,
+} from './resources/safety';
 import {
   Scoring,
   ScoringScoreBatchParams,
@@ -219,6 +225,8 @@ export interface ClientOptions {
    *
    * Note that request timeouts are retried by default, so in a worst-case scenario you may wait
    * much longer than this timeout before the promise succeeds or fails.
+   *
+   * @unit milliseconds
    */
   timeout?: number | undefined;
 
@@ -597,7 +605,9 @@ export declare namespace LlamaStackClient {
 
   export {
     Safety as Safety,
+    type CreateResponse as CreateResponse,
     type RunShieldResponse as RunShieldResponse,
+    type SafetyCreateParams as SafetyCreateParams,
     type SafetyRunShieldParams as SafetyRunShieldParams,
   };
 

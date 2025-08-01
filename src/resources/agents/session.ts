@@ -74,16 +74,34 @@ export class SessionResource extends APIResource {
  * A single session of an interaction with an Agentic System.
  */
 export interface Session {
+  /**
+   * Unique identifier for the conversation session
+   */
   session_id: string;
 
+  /**
+   * Human-readable name for the session
+   */
   session_name: string;
 
+  /**
+   * Timestamp when the session was created
+   */
   started_at: string;
 
+  /**
+   * List of all turns that have occurred in this session
+   */
   turns: Array<TurnAPI.Turn>;
 }
 
+/**
+ * Response returned when creating a new agent session.
+ */
 export interface SessionCreateResponse {
+  /**
+   * Unique identifier for the created session
+   */
   session_id: string;
 }
 

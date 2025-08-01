@@ -26,7 +26,13 @@ export class InputItems extends APIResource {
   }
 }
 
+/**
+ * List container for OpenAI response input items.
+ */
 export interface InputItemListResponse {
+  /**
+   * List of input items
+   */
   data: Array<
     | InputItemListResponse.OpenAIResponseOutputMessageWebSearchToolCall
     | InputItemListResponse.OpenAIResponseOutputMessageFileSearchToolCall
@@ -35,41 +41,95 @@ export interface InputItemListResponse {
     | InputItemListResponse.OpenAIResponseMessage
   >;
 
+  /**
+   * Object type identifier, always "list"
+   */
   object: 'list';
 }
 
 export namespace InputItemListResponse {
+  /**
+   * Web search tool call output message for OpenAI responses.
+   */
   export interface OpenAIResponseOutputMessageWebSearchToolCall {
+    /**
+     * Unique identifier for this tool call
+     */
     id: string;
 
+    /**
+     * Current status of the web search operation
+     */
     status: string;
 
+    /**
+     * Tool call type identifier, always "web_search_call"
+     */
     type: 'web_search_call';
   }
 
+  /**
+   * File search tool call output message for OpenAI responses.
+   */
   export interface OpenAIResponseOutputMessageFileSearchToolCall {
+    /**
+     * Unique identifier for this tool call
+     */
     id: string;
 
+    /**
+     * List of search queries executed
+     */
     queries: Array<string>;
 
+    /**
+     * Current status of the file search operation
+     */
     status: string;
 
+    /**
+     * Tool call type identifier, always "file_search_call"
+     */
     type: 'file_search_call';
 
+    /**
+     * (Optional) Search results returned by the file search operation
+     */
     results?: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
   }
 
+  /**
+   * Function tool call output message for OpenAI responses.
+   */
   export interface OpenAIResponseOutputMessageFunctionToolCall {
+    /**
+     * JSON string containing the function arguments
+     */
     arguments: string;
 
+    /**
+     * Unique identifier for the function call
+     */
     call_id: string;
 
+    /**
+     * Name of the function being called
+     */
     name: string;
 
+    /**
+     * Tool call type identifier, always "function_call"
+     */
     type: 'function_call';
 
+    /**
+     * (Optional) Additional identifier for the tool call
+     */
     id?: string;
 
+    /**
+     * (Optional) Current status of the function call execution
+     */
     status?: string;
   }
 
@@ -113,17 +173,38 @@ export namespace InputItemListResponse {
   }
 
   export namespace OpenAIResponseMessage {
+    /**
+     * Text content for input messages in OpenAI response format.
+     */
     export interface OpenAIResponseInputMessageContentText {
+      /**
+       * The text content of the input message
+       */
       text: string;
 
+      /**
+       * Content type identifier, always "input_text"
+       */
       type: 'input_text';
     }
 
+    /**
+     * Image content for input messages in OpenAI response format.
+     */
     export interface OpenAIResponseInputMessageContentImage {
+      /**
+       * Level of detail for image processing, can be "low", "high", or "auto"
+       */
       detail: 'low' | 'high' | 'auto';
 
+      /**
+       * Content type identifier, always "input_image"
+       */
       type: 'input_image';
 
+      /**
+       * (Optional) URL of the image content
+       */
       image_url?: string;
     }
 
@@ -141,25 +222,58 @@ export namespace InputItemListResponse {
     }
 
     export namespace UnionMember2 {
+      /**
+       * File citation annotation for referencing specific files in response content.
+       */
       export interface OpenAIResponseAnnotationFileCitation {
+        /**
+         * Unique identifier of the referenced file
+         */
         file_id: string;
 
+        /**
+         * Name of the referenced file
+         */
         filename: string;
 
+        /**
+         * Position index of the citation within the content
+         */
         index: number;
 
+        /**
+         * Annotation type identifier, always "file_citation"
+         */
         type: 'file_citation';
       }
 
+      /**
+       * URL citation annotation for referencing external web resources.
+       */
       export interface OpenAIResponseAnnotationCitation {
+        /**
+         * End position of the citation span in the content
+         */
         end_index: number;
 
+        /**
+         * Start position of the citation span in the content
+         */
         start_index: number;
 
+        /**
+         * Title of the referenced web resource
+         */
         title: string;
 
+        /**
+         * Annotation type identifier, always "url_citation"
+         */
         type: 'url_citation';
 
+        /**
+         * URL of the referenced web resource
+         */
         url: string;
       }
 

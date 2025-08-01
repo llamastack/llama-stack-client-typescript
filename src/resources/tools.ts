@@ -30,42 +30,87 @@ export class Tools extends APIResource {
   }
 }
 
+/**
+ * Response containing a list of tools.
+ */
 export interface ListToolsResponse {
+  /**
+   * List of tools
+   */
   data: ToolListResponse;
 }
 
+/**
+ * A tool that can be invoked by agents.
+ */
 export interface Tool {
+  /**
+   * Human-readable description of what the tool does
+   */
   description: string;
 
   identifier: string;
 
+  /**
+   * List of parameters this tool accepts
+   */
   parameters: Array<Tool.Parameter>;
 
   provider_id: string;
 
+  /**
+   * ID of the tool group this tool belongs to
+   */
   toolgroup_id: string;
 
+  /**
+   * Type of resource, always 'tool'
+   */
   type: 'tool';
 
+  /**
+   * (Optional) Additional metadata about the tool
+   */
   metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   provider_resource_id?: string;
 }
 
 export namespace Tool {
+  /**
+   * Parameter definition for a tool.
+   */
   export interface Parameter {
+    /**
+     * Human-readable description of what the parameter does
+     */
     description: string;
 
+    /**
+     * Name of the parameter
+     */
     name: string;
 
+    /**
+     * Type of the parameter (e.g., string, integer)
+     */
     parameter_type: string;
 
+    /**
+     * Whether this parameter is required for tool invocation
+     */
     required: boolean;
 
+    /**
+     * (Optional) Default value for the parameter if not provided
+     */
     default?: boolean | number | string | Array<unknown> | unknown | null;
   }
 }
 
+/**
+ * List of tools
+ */
 export type ToolListResponse = Array<Tool>;
 
 export interface ToolListParams {

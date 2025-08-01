@@ -5,7 +5,7 @@ import * as Core from '../core';
 
 export class Inspect extends APIResource {
   /**
-   * Get the health of the service.
+   * Get the current health status of the service.
    */
   health(options?: Core.RequestOptions): Core.APIPromise<HealthInfo> {
     return this._client.get('/v1/health', options);
@@ -19,31 +19,75 @@ export class Inspect extends APIResource {
   }
 }
 
+/**
+ * Health status information for the service.
+ */
 export interface HealthInfo {
+  /**
+   * Current health status of the service
+   */
   status: 'OK' | 'Error' | 'Not Implemented';
 }
 
+/**
+ * Information about a registered provider including its configuration and health
+ * status.
+ */
 export interface ProviderInfo {
+  /**
+   * The API name this provider implements
+   */
   api: string;
 
+  /**
+   * Configuration parameters for the provider
+   */
   config: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
+  /**
+   * Current health status of the provider
+   */
   health: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
+  /**
+   * Unique identifier for the provider
+   */
   provider_id: string;
 
+  /**
+   * The type of provider implementation
+   */
   provider_type: string;
 }
 
+/**
+ * Information about an API route including its path, method, and implementing
+ * providers.
+ */
 export interface RouteInfo {
+  /**
+   * HTTP method for the route
+   */
   method: string;
 
+  /**
+   * List of provider types that implement this route
+   */
   provider_types: Array<string>;
 
+  /**
+   * The API endpoint path
+   */
   route: string;
 }
 
+/**
+ * Version information for the service.
+ */
 export interface VersionInfo {
+  /**
+   * Version number of the service
+   */
   version: string;
 }
 

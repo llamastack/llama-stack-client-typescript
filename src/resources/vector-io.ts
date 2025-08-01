@@ -24,9 +24,18 @@ export class VectorIo extends APIResource {
   }
 }
 
+/**
+ * Response from querying chunks in a vector database.
+ */
 export interface QueryChunksResponse {
+  /**
+   * List of content chunks returned from the query
+   */
   chunks: Array<QueryChunksResponse.Chunk>;
 
+  /**
+   * Relevance scores corresponding to each returned chunk
+   */
   scores: Array<number>;
 }
 

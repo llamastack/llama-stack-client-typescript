@@ -6,6 +6,21 @@ import { Response } from 'node-fetch';
 const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
 
 describe('resource safety', () => {
+  test('create: only required params', async () => {
+    const responsePromise = client.safety.create({ input: 'string', model: 'model' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('create: required and optional params', async () => {
+    const response = await client.safety.create({ input: 'string', model: 'model' });
+  });
+
   test('runShield: only required params', async () => {
     const responsePromise = client.safety.runShield({
       messages: [{ content: 'string', role: 'user' }],

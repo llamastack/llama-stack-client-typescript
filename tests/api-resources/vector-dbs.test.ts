@@ -63,6 +63,7 @@ describe('resource vectorDBs', () => {
       embedding_dimension: 0,
       provider_id: 'provider_id',
       provider_vector_db_id: 'provider_vector_db_id',
+      vector_db_name: 'vector_db_name',
     });
   });
 

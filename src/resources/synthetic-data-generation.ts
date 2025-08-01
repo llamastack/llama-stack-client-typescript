@@ -5,6 +5,9 @@ import * as Core from '../core';
 import * as Shared from './shared';
 
 export class SyntheticDataGeneration extends APIResource {
+  /**
+   * Generate synthetic data based on input dialogs and apply filtering.
+   */
   generate(
     body: SyntheticDataGenerationGenerateParams,
     options?: Core.RequestOptions,
@@ -18,19 +21,33 @@ export class SyntheticDataGeneration extends APIResource {
  * tuples that pass the threshold.
  */
 export interface SyntheticDataGenerationResponse {
+  /**
+   * List of generated synthetic data samples that passed the filtering criteria
+   */
   synthetic_data: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
 
+  /**
+   * (Optional) Statistical information about the generation process and filtering
+   * results
+   */
   statistics?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 }
 
 export interface SyntheticDataGenerationGenerateParams {
+  /**
+   * List of conversation messages to use as input for synthetic data generation
+   */
   dialogs: Array<Shared.Message>;
 
   /**
-   * The type of filtering function.
+   * Type of filtering to apply to generated synthetic data samples
    */
   filtering_function: 'none' | 'random' | 'top_k' | 'top_p' | 'top_k_top_p' | 'sigmoid';
 
+  /**
+   * (Optional) The identifier of the model to use. The model must be registered with
+   * Llama Stack and available via the /models endpoint
+   */
   model?: string;
 }
 

@@ -1,5 +1,45 @@
 # Changelog
 
+## 0.3.0 (2025-08-01)
+
+Full Changelog: [v0.2.15...v0.3.0](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.2.15...v0.3.0)
+
+### Features
+
+* **api:** update via SDK Studio ([40c2189](https://github.com/llamastack/llama-stack-client-typescript/commit/40c218958db8991a7483ed9ace4242d171770d42))
+* **api:** update via SDK Studio ([26b572d](https://github.com/llamastack/llama-stack-client-typescript/commit/26b572d92a150ef1ee25ec6efd0e9bd38f321072))
+* **api:** update via SDK Studio ([8a48a6f](https://github.com/llamastack/llama-stack-client-typescript/commit/8a48a6fe63d13817953c2acb4fbf5b4ab6136f4a))
+* **api:** update via SDK Studio ([3ea8a73](https://github.com/llamastack/llama-stack-client-typescript/commit/3ea8a73c9d8e66bbc3650aa7e6a19a4ce07f30c5))
+* **api:** update via SDK Studio ([cddd18f](https://github.com/llamastack/llama-stack-client-typescript/commit/cddd18fb70e3830d7062d12aab4754c3e598bbd2))
+* **api:** update via SDK Studio ([fc4fbf9](https://github.com/llamastack/llama-stack-client-typescript/commit/fc4fbf94810db7f89288cc36780d2616c8fc715a))
+* **api:** update via SDK Studio ([2a981d4](https://github.com/llamastack/llama-stack-client-typescript/commit/2a981d45f801bdf82e43c6d7d7c6674cc03cadc3))
+* **api:** update via SDK Studio ([14544ce](https://github.com/llamastack/llama-stack-client-typescript/commit/14544ce36d7a33509af85783a421d9c1995e22d1))
+* **api:** update via SDK Studio ([57c0764](https://github.com/llamastack/llama-stack-client-typescript/commit/57c07641906fc04eb9eadfd12f672e28a3a2efbc))
+* **api:** update via SDK Studio ([426728c](https://github.com/llamastack/llama-stack-client-typescript/commit/426728c7f86ce3385eb8c116f41a5b192abd5d0c))
+
+
+### Bug Fixes
+
+* **ci:** update version, skip a failing test ([#4](https://github.com/llamastack/llama-stack-client-typescript/issues/4)) ([7a5dbe7](https://github.com/llamastack/llama-stack-client-typescript/commit/7a5dbe7ed59b24feda5d73df8808fde2d337fc2a))
+* **client:** don't send `Content-Type` for bodyless methods ([6806e8e](https://github.com/llamastack/llama-stack-client-typescript/commit/6806e8ef31302a0f2ca0ab9ae36e4781e5f0adf7))
+
+
+### Chores
+
+* **internal:** codegen related update ([267a378](https://github.com/llamastack/llama-stack-client-typescript/commit/267a378b1999abd5f17f08b5792ee99d9c405439))
+* **internal:** codegen related update ([79e7896](https://github.com/llamastack/llama-stack-client-typescript/commit/79e78969a31df16ef35901c3ce4c003f70d59778))
+* **internal:** remove redundant imports config ([f19eb25](https://github.com/llamastack/llama-stack-client-typescript/commit/f19eb258d836c7de4fb719c62dabcbfb502ecc6c))
+* make some internal functions async ([e2797ae](https://github.com/llamastack/llama-stack-client-typescript/commit/e2797ae1e88960ffa5b13a89103d4ee9972803f9))
+* **mcp:** rework imports in tools ([9486e73](https://github.com/llamastack/llama-stack-client-typescript/commit/9486e7319d36cb8efe86568884057c65e91d84b2))
+* mention unit type in timeout docs ([c2b9867](https://github.com/llamastack/llama-stack-client-typescript/commit/c2b986793dd9f2fa55e8f4ce9c463a4d99635ab4))
+
+
+### Build System
+
+* Bump version to 0.2.14 ([4d2c696](https://github.com/llamastack/llama-stack-client-typescript/commit/4d2c696b916c9868be61fff31f008442cb346eca))
+* Bump version to 0.2.15 ([6645f62](https://github.com/llamastack/llama-stack-client-typescript/commit/6645f629844fd24b7e8b8fab9089cf1ba7cb9352))
+* Bump version to 0.2.16 ([fe9ab2e](https://github.com/llamastack/llama-stack-client-typescript/commit/fe9ab2e081df8f9f254b74e3bc42ac880dda765f))
+
 ## 0.1.0-alpha.3 (2025-06-28)
 
 Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)
