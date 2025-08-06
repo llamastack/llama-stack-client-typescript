@@ -34,9 +34,18 @@ export interface ScoringScoreResponse {
   results: { [key: string]: Shared.ScoringResult };
 }
 
+/**
+ * Response from batch scoring operations on datasets.
+ */
 export interface ScoringScoreBatchResponse {
+  /**
+   * A map of scoring function name to ScoringResult
+   */
   results: { [key: string]: Shared.ScoringResult };
 
+  /**
+   * (Optional) The identifier of the dataset that was scored
+   */
   dataset_id?: string;
 }
 

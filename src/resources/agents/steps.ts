@@ -22,9 +22,12 @@ export class Steps extends APIResource {
   }
 }
 
+/**
+ * Response containing details of a specific agent step.
+ */
 export interface StepRetrieveResponse {
   /**
-   * An inference step in an agent turn.
+   * The complete step data and execution details
    */
   step:
     | AgentsAPI.InferenceStep

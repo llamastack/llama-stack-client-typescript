@@ -98,9 +98,12 @@ export class TurnResource extends APIResource {
 }
 
 /**
- * streamed agent turn completion response.
+ * Streamed agent turn completion response.
  */
 export interface AgentTurnResponseStreamChunk {
+  /**
+   * Individual event in the agent turn response stream
+   */
   event: TurnResponseEvent;
 }
 
@@ -108,17 +111,29 @@ export interface AgentTurnResponseStreamChunk {
  * A single turn in an interaction with an Agentic System.
  */
 export interface Turn {
+  /**
+   * List of messages that initiated this turn
+   */
   input_messages: Array<Shared.UserMessage | Shared.ToolResponseMessage>;
 
   /**
-   * A message containing the model's (assistant) response in a chat conversation.
+   * The model's generated response containing content and metadata
    */
   output_message: Shared.CompletionMessage;
 
+  /**
+   * Unique identifier for the conversation session
+   */
   session_id: string;
 
+  /**
+   * Timestamp when the turn began
+   */
   started_at: string;
 
+  /**
+   * Ordered list of processing steps executed during this turn
+   */
   steps: Array<
     | AgentsAPI.InferenceStep
     | AgentsAPI.ToolExecutionStep
@@ -126,10 +141,19 @@ export interface Turn {
     | AgentsAPI.MemoryRetrievalStep
   >;
 
+  /**
+   * Unique identifier for the turn within a session
+   */
   turn_id: string;
 
+  /**
+   * (Optional) Timestamp when the turn finished, if completed
+   */
   completed_at?: string;
 
+  /**
+   * (Optional) Files or media attached to the agent's response
+   */
   output_attachments?: Array<Turn.OutputAttachment>;
 }
 
@@ -193,6 +217,9 @@ export namespace Turn {
          * Note that URL could have length limits.
          */
         export interface URL {
+          /**
+           * The URL string pointing to the resource
+           */
           uri: string;
         }
       }
@@ -213,16 +240,31 @@ export namespace Turn {
       type: 'text';
     }
 
+    /**
+     * A URL reference to external content.
+     */
     export interface URL {
+      /**
+       * The URL string pointing to the resource
+       */
       uri: string;
     }
   }
 }
 
+/**
+ * An event in an agent turn response stream.
+ */
 export interface TurnResponseEvent {
+  /**
+   * Event-specific payload containing event data
+   */
   payload: TurnResponseEventPayload;
 }
 
+/**
+ * Payload for step start events in agent turn responses.
+ */
 export type TurnResponseEventPayload =
   | TurnResponseEventPayload.AgentTurnResponseStepStartPayload
   | TurnResponseEventPayload.AgentTurnResponseStepProgressPayload
@@ -232,37 +274,67 @@ export type TurnResponseEventPayload =
   | TurnResponseEventPayload.AgentTurnResponseTurnAwaitingInputPayload;
 
 export namespace TurnResponseEventPayload {
+  /**
+   * Payload for step start events in agent turn responses.
+   */
   export interface AgentTurnResponseStepStartPayload {
+    /**
+     * Type of event being reported
+     */
     event_type: 'step_start';
 
+    /**
+     * Unique identifier for the step within a turn
+     */
     step_id: string;
 
     /**
-     * Type of the step in an agent turn.
+     * Type of step being executed
      */
     step_type: 'inference' | 'tool_execution' | 'shield_call' | 'memory_retrieval';
 
+    /**
+     * (Optional) Additional metadata for the step
+     */
     metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
   }
 
+  /**
+   * Payload for step progress events in agent turn responses.
+   */
   export interface AgentTurnResponseStepProgressPayload {
+    /**
+     * Incremental content changes during step execution
+     */
     delta: Shared.ContentDelta;
 
+    /**
+     * Type of event being reported
+     */
     event_type: 'step_progress';
 
+    /**
+     * Unique identifier for the step within a turn
+     */
     step_id: string;
 
     /**
-     * Type of the step in an agent turn.
+     * Type of step being executed
      */
     step_type: 'inference' | 'tool_execution' | 'shield_call' | 'memory_retrieval';
   }
 
+  /**
+   * Payload for step completion events in agent turn responses.
+   */
   export interface AgentTurnResponseStepCompletePayload {
+    /**
+     * Type of event being reported
+     */
     event_type: 'step_complete';
 
     /**
-     * An inference step in an agent turn.
+     * Complete details of the executed step
      */
     step_details:
       | AgentsAPI.InferenceStep
@@ -270,34 +342,58 @@ export namespace TurnResponseEventPayload {
       | AgentsAPI.ShieldCallStep
       | AgentsAPI.MemoryRetrievalStep;
 
+    /**
+     * Unique identifier for the step within a turn
+     */
     step_id: string;
 
     /**
-     * Type of the step in an agent turn.
+     * Type of step being executed
      */
     step_type: 'inference' | 'tool_execution' | 'shield_call' | 'memory_retrieval';
   }
 
+  /**
+   * Payload for turn start events in agent turn responses.
+   */
   export interface AgentTurnResponseTurnStartPayload {
+    /**
+     * Type of event being reported
+     */
     event_type: 'turn_start';
 
+    /**
+     * Unique identifier for the turn within a session
+     */
     turn_id: string;
   }
 
+  /**
+   * Payload for turn completion events in agent turn responses.
+   */
   export interface AgentTurnResponseTurnCompletePayload {
+    /**
+     * Type of event being reported
+     */
     event_type: 'turn_complete';
 
     /**
-     * A single turn in an interaction with an Agentic System.
+     * Complete turn data including all steps and results
      */
     turn: TurnAPI.Turn;
   }
 
+  /**
+   * Payload for turn awaiting input events in agent turn responses.
+   */
   export interface AgentTurnResponseTurnAwaitingInputPayload {
+    /**
+     * Type of event being reported
+     */
     event_type: 'turn_awaiting_input';
 
     /**
-     * A single turn in an interaction with an Agentic System.
+     * Turn data when waiting for external tool responses
      */
     turn: TurnAPI.Turn;
   }
@@ -395,6 +491,9 @@ export namespace TurnCreateParams {
          * Note that URL could have length limits.
          */
         export interface URL {
+          /**
+           * The URL string pointing to the resource
+           */
           uri: string;
         }
       }
@@ -415,7 +514,13 @@ export namespace TurnCreateParams {
       type: 'text';
     }
 
+    /**
+     * A URL reference to external content.
+     */
     export interface URL {
+      /**
+       * The URL string pointing to the resource
+       */
       uri: string;
     }
   }

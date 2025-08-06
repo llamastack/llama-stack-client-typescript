@@ -7,7 +7,7 @@
   "main": "dist/index.js",
   "type": "commonjs",
   "repository": "github:llamastack/llama-stack-client-typescript",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "packageManager": "yarn@1.22.22",
   "files": [
     "**/*"
@@ -58,10 +58,6 @@
     "./shims/web.js",
     "./shims/web.mjs"
   ],
-  "imports": {
-    "llama-stack-client": ".",
-    "llama-stack-client/*": "./src/*"
-  },
   "exports": {
     "./_shims/auto/*": {
       "deno": {

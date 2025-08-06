@@ -68,6 +68,7 @@ import {
   ModelRegisterParams,
   Models,
 } from './resources/models';
+import { CreateResponse, ModerationCreateParams, Moderations } from './resources/moderations';
 import { ListProvidersResponse, ProviderListResponse, Providers } from './resources/providers';
 import { ListRoutesResponse, RouteListResponse, Routes } from './resources/routes';
 import { RunShieldResponse, Safety, SafetyRunShieldParams } from './resources/safety';
@@ -219,6 +220,8 @@ export interface ClientOptions {
    *
    * Note that request timeouts are retried by default, so in a worst-case scenario you may wait
    * much longer than this timeout before the promise succeeds or fails.
+   *
+   * @unit milliseconds
    */
   timeout?: number | undefined;
 
@@ -327,6 +330,7 @@ export class LlamaStackClient extends Core.APIClient {
   postTraining: API.PostTraining = new API.PostTraining(this);
   providers: API.Providers = new API.Providers(this);
   routes: API.Routes = new API.Routes(this);
+  moderations: API.Moderations = new API.Moderations(this);
   safety: API.Safety = new API.Safety(this);
   shields: API.Shields = new API.Shields(this);
   syntheticDataGeneration: API.SyntheticDataGeneration = new API.SyntheticDataGeneration(this);
@@ -405,6 +409,7 @@ LlamaStackClient.Models = Models;
 LlamaStackClient.PostTraining = PostTraining;
 LlamaStackClient.Providers = Providers;
 LlamaStackClient.Routes = Routes;
+LlamaStackClient.Moderations = Moderations;
 LlamaStackClient.Safety = Safety;
 LlamaStackClient.Shields = Shields;
 LlamaStackClient.SyntheticDataGeneration = SyntheticDataGeneration;
@@ -593,6 +598,12 @@ export declare namespace LlamaStackClient {
     Routes as Routes,
     type ListRoutesResponse as ListRoutesResponse,
     type RouteListResponse as RouteListResponse,
+  };
+
+  export {
+    Moderations as Moderations,
+    type CreateResponse as CreateResponse,
+    type ModerationCreateParams as ModerationCreateParams,
   };
 
   export {

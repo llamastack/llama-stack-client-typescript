@@ -33,15 +33,21 @@ export interface ListShieldsResponse {
 }
 
 /**
- * A safety shield resource that can be used to check content
+ * A safety shield resource that can be used to check content.
  */
 export interface Shield {
   identifier: string;
 
   provider_id: string;
 
+  /**
+   * The resource type, always shield
+   */
   type: 'shield';
 
+  /**
+   * (Optional) Configuration parameters for the shield
+   */
   params?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   provider_resource_id?: string;

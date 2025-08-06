@@ -13,7 +13,13 @@ export class Safety extends APIResource {
   }
 }
 
+/**
+ * Response from running a safety shield.
+ */
 export interface RunShieldResponse {
+  /**
+   * (Optional) Safety violation detected by the shield, if any
+   */
   violation?: Shared.SafetyViolation;
 }
 

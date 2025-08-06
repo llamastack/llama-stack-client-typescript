@@ -30,6 +30,8 @@ export class Inference extends APIResource {
 
   /**
    * Generate a chat completion for the given messages using the specified model.
+   *
+   * @deprecated /v1/inference/chat-completion is deprecated. Please use /v1/openai/v1/chat/completions.
    */
   chatCompletion(
     body: InferenceChatCompletionParamsNonStreaming,
@@ -56,6 +58,8 @@ export class Inference extends APIResource {
 
   /**
    * Generate a completion for the given content using the specified model.
+   *
+   * @deprecated /v1/inference/completion is deprecated. Please use /v1/openai/v1/completions.
    */
   completion(
     body: InferenceCompletionParamsNonStreaming,
@@ -82,6 +86,8 @@ export class Inference extends APIResource {
 
   /**
    * Generate embeddings for content pieces using the specified model.
+   *
+   * @deprecated /v1/inference/embeddings is deprecated. Please use /v1/openai/v1/embeddings.
    */
   embeddings(
     body: InferenceEmbeddingsParams,
@@ -100,6 +106,9 @@ export interface ChatCompletionResponseStreamChunk {
    */
   event: ChatCompletionResponseStreamChunk.Event;
 
+  /**
+   * (Optional) List of metrics associated with the API response
+   */
   metrics?: Array<ChatCompletionResponseStreamChunk.Metric>;
 }
 
@@ -130,11 +139,23 @@ export namespace ChatCompletionResponseStreamChunk {
     stop_reason?: 'end_of_turn' | 'end_of_message' | 'out_of_tokens';
   }
 
+  /**
+   * A metric value included in API responses.
+   */
   export interface Metric {
+    /**
+     * The name of the metric
+     */
     metric: string;
 
+    /**
+     * The numeric value of the metric
+     */
     value: number;
 
+    /**
+     * (Optional) The unit of measurement for the metric value
+     */
     unit?: string;
   }
 }
@@ -158,15 +179,30 @@ export interface CompletionResponse {
    */
   logprobs?: Array<TokenLogProbs>;
 
+  /**
+   * (Optional) List of metrics associated with the API response
+   */
   metrics?: Array<CompletionResponse.Metric>;
 }
 
 export namespace CompletionResponse {
+  /**
+   * A metric value included in API responses.
+   */
   export interface Metric {
+    /**
+     * The name of the metric
+     */
     metric: string;
 
+    /**
+     * The numeric value of the metric
+     */
     value: number;
 
+    /**
+     * (Optional) The unit of measurement for the metric value
+     */
     unit?: string;
   }
 }
@@ -193,7 +229,13 @@ export interface TokenLogProbs {
   logprobs_by_token: { [key: string]: number };
 }
 
+/**
+ * Response from a batch chat completion request.
+ */
 export interface InferenceBatchChatCompletionResponse {
+  /**
+   * List of chat completion responses, one for each conversation in the batch
+   */
   batch: Array<Shared.ChatCompletionResponse>;
 }
 

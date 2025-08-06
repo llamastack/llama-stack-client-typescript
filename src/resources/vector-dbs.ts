@@ -41,54 +41,105 @@ export class VectorDBs extends APIResource {
   }
 }
 
+/**
+ * Response from listing vector databases.
+ */
 export interface ListVectorDBsResponse {
+  /**
+   * List of vector databases
+   */
   data: VectorDBListResponse;
 }
 
+/**
+ * Vector database resource for storing and querying vector embeddings.
+ */
 export interface VectorDBRetrieveResponse {
+  /**
+   * Dimension of the embedding vectors
+   */
   embedding_dimension: number;
 
+  /**
+   * Name of the embedding model to use for vector generation
+   */
   embedding_model: string;
 
   identifier: string;
 
   provider_id: string;
 
+  /**
+   * Type of resource, always 'vector_db' for vector databases
+   */
   type: 'vector_db';
 
   provider_resource_id?: string;
+
+  vector_db_name?: string;
 }
 
+/**
+ * List of vector databases
+ */
 export type VectorDBListResponse = Array<VectorDBListResponse.VectorDBListResponseItem>;
 
 export namespace VectorDBListResponse {
+  /**
+   * Vector database resource for storing and querying vector embeddings.
+   */
   export interface VectorDBListResponseItem {
+    /**
+     * Dimension of the embedding vectors
+     */
     embedding_dimension: number;
 
+    /**
+     * Name of the embedding model to use for vector generation
+     */
     embedding_model: string;
 
     identifier: string;
 
     provider_id: string;
 
+    /**
+     * Type of resource, always 'vector_db' for vector databases
+     */
     type: 'vector_db';
 
     provider_resource_id?: string;
+
+    vector_db_name?: string;
   }
 }
 
+/**
+ * Vector database resource for storing and querying vector embeddings.
+ */
 export interface VectorDBRegisterResponse {
+  /**
+   * Dimension of the embedding vectors
+   */
   embedding_dimension: number;
 
+  /**
+   * Name of the embedding model to use for vector generation
+   */
   embedding_model: string;
 
   identifier: string;
 
   provider_id: string;
 
+  /**
+   * Type of resource, always 'vector_db' for vector databases
+   */
   type: 'vector_db';
 
   provider_resource_id?: string;
+
+  vector_db_name?: string;
 }
 
 export interface VectorDBRegisterParams {
@@ -116,6 +167,11 @@ export interface VectorDBRegisterParams {
    * The identifier of the vector database in the provider.
    */
   provider_vector_db_id?: string;
+
+  /**
+   * The name of the vector database.
+   */
+  vector_db_name?: string;
 }
 
 export declare namespace VectorDBs {

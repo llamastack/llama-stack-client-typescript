@@ -42,17 +42,38 @@ export interface ListModelsResponse {
   data: ModelListResponse;
 }
 
+/**
+ * A model resource representing an AI model registered in Llama Stack.
+ */
 export interface Model {
+  /**
+   * Unique identifier for this resource in llama stack
+   */
   identifier: string;
 
+  /**
+   * Any additional metadata for this model
+   */
   metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
+  /**
+   * The type of model (LLM or embedding model)
+   */
   model_type: 'llm' | 'embedding';
 
+  /**
+   * ID of the provider that owns this resource
+   */
   provider_id: string;
 
+  /**
+   * The resource type, always 'model' for model resources
+   */
   type: 'model';
 
+  /**
+   * Unique identifier for this resource in the provider
+   */
   provider_resource_id?: string;
 }
 

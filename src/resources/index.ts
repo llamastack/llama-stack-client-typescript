@@ -86,6 +86,7 @@ export {
   type ModelListResponse,
   type ModelRegisterParams,
 } from './models';
+export { Moderations, type CreateResponse, type ModerationCreateParams } from './moderations';
 export {
   PostTraining,
   type AlgorithmConfig,

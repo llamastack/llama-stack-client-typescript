@@ -54,7 +54,7 @@ describe('resource ragTool', () => {
         max_chunks: 0,
         max_tokens_in_context: 0,
         query_generator_config: { separator: 'separator', type: 'default' },
-        mode: 'mode',
+        mode: 'vector',
         ranker: { impact_factor: 0, type: 'rrf' },
       },
     });
