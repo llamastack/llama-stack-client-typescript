@@ -63,7 +63,11 @@ export namespace CreateResponse {
     category_applied_input_types?: { [key: string]: Array<string> };
 
     /**
-     * A list of the categories along with their scores as predicted by model.
+     * A list of the categories along with their scores as predicted by model. Required
+     * set of categories that need to be in response - violence - violence/graphic -
+     * harassment - harassment/threatening - hate - hate/threatening - illicit -
+     * illicit/violent - sexual - sexual/minors - self-harm - self-harm/intent -
+     * self-harm/instructions
      */
     category_scores?: { [key: string]: number };
 
