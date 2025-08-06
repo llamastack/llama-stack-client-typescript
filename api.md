@@ -403,16 +403,24 @@ Methods:
 
 - <code title="get /v1/inspect/routes">client.routes.<a href="./src/resources/routes.ts">list</a>() -> RouteListResponse</code>
 
+# Moderations
+
+Types:
+
+- <code><a href="./src/resources/moderations.ts">CreateResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/openai/v1/moderations">client.moderations.<a href="./src/resources/moderations.ts">create</a>({ ...params }) -> CreateResponse</code>
+
 # Safety
 
 Types:
 
-- <code><a href="./src/resources/safety.ts">CreateResponse</a></code>
 - <code><a href="./src/resources/safety.ts">RunShieldResponse</a></code>
 
 Methods:
 
-- <code title="post /v1/openai/v1/moderations">client.safety.<a href="./src/resources/safety.ts">create</a>({ ...params }) -> CreateResponse</code>
 - <code title="post /v1/safety/run-shield">client.safety.<a href="./src/resources/safety.ts">runShield</a>({ ...params }) -> RunShieldResponse</code>
 
 # Shields

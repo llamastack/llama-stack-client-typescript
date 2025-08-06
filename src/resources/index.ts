@@ -86,6 +86,7 @@ export {
   type ModelListResponse,
   type ModelRegisterParams,
 } from './models';
+export { Moderations, type CreateResponse, type ModerationCreateParams } from './moderations';
 export {
   PostTraining,
   type AlgorithmConfig,
@@ -106,13 +107,7 @@ export {
   type ResponseListParams,
 } from './responses/responses';
 export { Routes, type ListRoutesResponse, type RouteListResponse } from './routes';
-export {
-  Safety,
-  type CreateResponse,
-  type RunShieldResponse,
-  type SafetyCreateParams,
-  type SafetyRunShieldParams,
-} from './safety';
+export { Safety, type RunShieldResponse, type SafetyRunShieldParams } from './safety';
 export {
   Scoring,
   type ScoringScoreResponse,
