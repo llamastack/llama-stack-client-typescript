@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.18 (2025-08-09)
+
+Full Changelog: [v0.2.17...v0.2.18](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.2.17...v0.2.18)
+
+### Chores
+
+* **internal:** move publish config ([e8eff1a](https://github.com/llamastack/llama-stack-client-typescript/commit/e8eff1a0c8853dff423d10f9701b26c24b8e904b))
+* **internal:** update comment in script ([4fff100](https://github.com/llamastack/llama-stack-client-typescript/commit/4fff100b23c168e986583d4b1a98303dbf0eba95))
+* update @stainless-api/prism-cli to v5.15.0 ([12e10b3](https://github.com/llamastack/llama-stack-client-typescript/commit/12e10b3610a405534328d835dc30d9b522cb1d31))
+
 ## 0.2.17 (2025-08-06)
 
 Full Changelog: [v0.2.15...v0.2.17](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.2.15...v0.2.17)
