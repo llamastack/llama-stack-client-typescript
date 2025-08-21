@@ -20,6 +20,7 @@ Types:
 - <code><a href="./src/resources/shared.ts">SafetyViolation</a></code>
 - <code><a href="./src/resources/shared.ts">SamplingParams</a></code>
 - <code><a href="./src/resources/shared.ts">ScoringResult</a></code>
+- <code><a href="./src/resources/shared.ts">SharedTokenLogProbs</a></code>
 - <code><a href="./src/resources/shared.ts">SystemMessage</a></code>
 - <code><a href="./src/resources/shared.ts">ToolCall</a></code>
 - <code><a href="./src/resources/shared.ts">ToolCallOrString</a></code>
@@ -59,7 +60,6 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/tool-runtime/tool-runtime.ts">ToolDef</a></code>
 - <code><a href="./src/resources/tool-runtime/tool-runtime.ts">ToolInvocationResult</a></code>
 - <code><a href="./src/resources/tool-runtime/tool-runtime.ts">ToolRuntimeListToolsResponse</a></code>
 
@@ -221,7 +221,6 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/inference.ts">ChatCompletionResponseStreamChunk</a></code>
-- <code><a href="./src/resources/inference.ts">CompletionResponse</a></code>
 - <code><a href="./src/resources/inference.ts">EmbeddingsResponse</a></code>
 - <code><a href="./src/resources/inference.ts">TokenLogProbs</a></code>
 - <code><a href="./src/resources/inference.ts">InferenceBatchChatCompletionResponse</a></code>

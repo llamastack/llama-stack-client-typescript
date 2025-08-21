@@ -48,15 +48,14 @@ export class DatasetsIterrows<Item> extends AbstractPage<Item> implements Datase
   }
 
   nextPageInfo(): PageInfo | null {
-    const cursor = this.next_index;
-    if (!cursor) {
+    const offset = this.next_index;
+    if (!offset) {
       return null;
     }
 
-    return {
-      params: {
-        start_index: cursor,
-      },
-    };
+    const length = this.getPaginatedItems().length;
+    const currentCount = offset + length;
+
+    return { params: { start_index: currentCount } };
   }
 }
