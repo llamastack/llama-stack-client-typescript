@@ -1,6 +1,6 @@
 {
   "name": "llama-stack-client",
-  "version": "0.2.18",
+  "version": "0.2.18-alpha.3",
   "description": "The official TypeScript library for the Llama Stack Client API",
   "author": "Llama Stack Client <llamastack@meta.com>",
   "types": "dist/index.d.ts",
@@ -13,6 +13,9 @@
     "**/*"
   ],
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "./scripts/test",
     "build": "./scripts/build",

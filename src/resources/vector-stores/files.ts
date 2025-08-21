@@ -3,6 +3,7 @@
 import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
+import { OpenAICursorPage, type OpenAICursorPageParams } from '../../pagination';
 
 export class Files extends APIResource {
   /**
@@ -49,17 +50,24 @@ export class Files extends APIResource {
     vectorStoreId: string,
     query?: FileListParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<FileListResponse>;
-  list(vectorStoreId: string, options?: Core.RequestOptions): Core.APIPromise<FileListResponse>;
+  ): Core.PagePromise<VectorStoreFilesOpenAICursorPage, VectorStoreFile>;
+  list(
+    vectorStoreId: string,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<VectorStoreFilesOpenAICursorPage, VectorStoreFile>;
   list(
     vectorStoreId: string,
     query: FileListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<FileListResponse> {
+  ): Core.PagePromise<VectorStoreFilesOpenAICursorPage, VectorStoreFile> {
     if (isRequestOptions(query)) {
       return this.list(vectorStoreId, {}, query);
     }
-    return this._client.get(`/v1/openai/v1/vector_stores/${vectorStoreId}/files`, { query, ...options });
+    return this._client.getAPIList(
+      `/v1/openai/v1/vector_stores/${vectorStoreId}/files`,
+      VectorStoreFilesOpenAICursorPage,
+      { query, ...options },
+    );
   }
 
   /**
@@ -84,6 +92,8 @@ export class Files extends APIResource {
     return this._client.get(`/v1/openai/v1/vector_stores/${vectorStoreId}/files/${fileId}/content`, options);
   }
 }
+
+export class VectorStoreFilesOpenAICursorPage extends OpenAICursorPage<VectorStoreFile> {}
 
 /**
  * OpenAI Vector Store File object.
@@ -194,36 +204,6 @@ export namespace VectorStoreFile {
      */
     message: string;
   }
-}
-
-/**
- * Response from listing files in a vector store.
- */
-export interface FileListResponse {
-  /**
-   * List of vector store file objects
-   */
-  data: Array<VectorStoreFile>;
-
-  /**
-   * Whether there are more files available beyond this page
-   */
-  has_more: boolean;
-
-  /**
-   * Object type identifier, always "list"
-   */
-  object: string;
-
-  /**
-   * (Optional) ID of the first file in the list for pagination
-   */
-  first_id?: string;
-
-  /**
-   * (Optional) ID of the last file in the list for pagination
-   */
-  last_id?: string;
 }
 
 /**
@@ -358,13 +338,7 @@ export interface FileUpdateParams {
   attributes: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 }
 
-export interface FileListParams {
-  /**
-   * (Optional) A cursor for use in pagination. `after` is an object ID that defines
-   * your place in the list.
-   */
-  after?: string;
-
+export interface FileListParams extends OpenAICursorPageParams {
   /**
    * (Optional) A cursor for use in pagination. `before` is an object ID that defines
    * your place in the list.
@@ -377,24 +351,20 @@ export interface FileListParams {
   filter?: 'completed' | 'in_progress' | 'cancelled' | 'failed';
 
   /**
-   * (Optional) A limit on the number of objects to be returned. Limit can range
-   * between 1 and 100, and the default is 20.
-   */
-  limit?: number;
-
-  /**
    * (Optional) Sort order by the `created_at` timestamp of the objects. `asc` for
    * ascending order and `desc` for descending order.
    */
   order?: string;
 }
 
+Files.VectorStoreFilesOpenAICursorPage = VectorStoreFilesOpenAICursorPage;
+
 export declare namespace Files {
   export {
     type VectorStoreFile as VectorStoreFile,
-    type FileListResponse as FileListResponse,
     type FileDeleteResponse as FileDeleteResponse,
     type FileContentResponse as FileContentResponse,
+    VectorStoreFilesOpenAICursorPage as VectorStoreFilesOpenAICursorPage,
     type FileCreateParams as FileCreateParams,
     type FileUpdateParams as FileUpdateParams,
     type FileListParams as FileListParams,

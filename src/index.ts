@@ -5,7 +5,12 @@ import * as qs from './internal/qs';
 import * as Core from './core';
 import * as Errors from './error';
 import * as Pagination from './pagination';
-import { type DatasetsIterrowsParams, DatasetsIterrowsResponse } from './pagination';
+import {
+  type DatasetsIterrowsParams,
+  DatasetsIterrowsResponse,
+  type OpenAICursorPageParams,
+  OpenAICursorPageResponse,
+} from './pagination';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
 import {
@@ -41,6 +46,7 @@ import {
   FileCreateParams,
   FileListParams,
   Files,
+  FilesOpenAICursorPage,
   ListFilesResponse,
 } from './resources/files';
 import {
@@ -176,6 +182,7 @@ import {
   ResponseCreateParamsStreaming,
   ResponseListParams,
   ResponseListResponse,
+  ResponseListResponsesOpenAICursorPage,
   ResponseObject,
   ResponseObjectStream,
   Responses,
@@ -197,6 +204,7 @@ import {
   VectorStoreSearchResponse,
   VectorStoreUpdateParams,
   VectorStores,
+  VectorStoresOpenAICursorPage,
 } from './resources/vector-stores/vector-stores';
 
 export interface ClientOptions {
@@ -392,6 +400,7 @@ LlamaStackClient.Toolgroups = Toolgroups;
 LlamaStackClient.Tools = Tools;
 LlamaStackClient.ToolRuntime = ToolRuntime;
 LlamaStackClient.Responses = Responses;
+LlamaStackClient.ResponseListResponsesOpenAICursorPage = ResponseListResponsesOpenAICursorPage;
 LlamaStackClient.Agents = Agents;
 LlamaStackClient.Datasets = Datasets;
 LlamaStackClient.Eval = Eval;
@@ -403,6 +412,7 @@ LlamaStackClient.Completions = Completions;
 LlamaStackClient.VectorIo = VectorIo;
 LlamaStackClient.VectorDBs = VectorDBs;
 LlamaStackClient.VectorStores = VectorStores;
+LlamaStackClient.VectorStoresOpenAICursorPage = VectorStoresOpenAICursorPage;
 LlamaStackClient.Models = Models;
 LlamaStackClient.PostTraining = PostTraining;
 LlamaStackClient.Providers = Providers;
@@ -416,6 +426,8 @@ LlamaStackClient.Scoring = Scoring;
 LlamaStackClient.ScoringFunctions = ScoringFunctions;
 LlamaStackClient.Benchmarks = Benchmarks;
 LlamaStackClient.Files = Files;
+LlamaStackClient.FilesOpenAICursorPage = FilesOpenAICursorPage;
+
 export declare namespace LlamaStackClient {
   export type RequestOptions = Core.RequestOptions;
 
@@ -423,6 +435,12 @@ export declare namespace LlamaStackClient {
   export {
     type DatasetsIterrowsParams as DatasetsIterrowsParams,
     type DatasetsIterrowsResponse as DatasetsIterrowsResponse,
+  };
+
+  export import OpenAICursorPage = Pagination.OpenAICursorPage;
+  export {
+    type OpenAICursorPageParams as OpenAICursorPageParams,
+    type OpenAICursorPageResponse as OpenAICursorPageResponse,
   };
 
   export {
@@ -454,6 +472,7 @@ export declare namespace LlamaStackClient {
     type ResponseObject as ResponseObject,
     type ResponseObjectStream as ResponseObjectStream,
     type ResponseListResponse as ResponseListResponse,
+    ResponseListResponsesOpenAICursorPage as ResponseListResponsesOpenAICursorPage,
     type ResponseCreateParams as ResponseCreateParams,
     type ResponseCreateParamsNonStreaming as ResponseCreateParamsNonStreaming,
     type ResponseCreateParamsStreaming as ResponseCreateParamsStreaming,
@@ -561,6 +580,7 @@ export declare namespace LlamaStackClient {
     type VectorStore as VectorStore,
     type VectorStoreDeleteResponse as VectorStoreDeleteResponse,
     type VectorStoreSearchResponse as VectorStoreSearchResponse,
+    VectorStoresOpenAICursorPage as VectorStoresOpenAICursorPage,
     type VectorStoreCreateParams as VectorStoreCreateParams,
     type VectorStoreUpdateParams as VectorStoreUpdateParams,
     type VectorStoreListParams as VectorStoreListParams,
@@ -671,6 +691,7 @@ export declare namespace LlamaStackClient {
     type File as File,
     type ListFilesResponse as ListFilesResponse,
     type FileContentResponse as FileContentResponse,
+    FilesOpenAICursorPage as FilesOpenAICursorPage,
     type FileCreateParams as FileCreateParams,
     type FileListParams as FileListParams,
   };

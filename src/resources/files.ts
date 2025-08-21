@@ -3,6 +3,7 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
+import { OpenAICursorPage, type OpenAICursorPageParams } from '../pagination';
 
 export class Files extends APIResource {
   /**
@@ -26,16 +27,16 @@ export class Files extends APIResource {
   /**
    * Returns a list of files that belong to the user's organization.
    */
-  list(query?: FileListParams, options?: Core.RequestOptions): Core.APIPromise<ListFilesResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<ListFilesResponse>;
+  list(query?: FileListParams, options?: Core.RequestOptions): Core.PagePromise<FilesOpenAICursorPage, File>;
+  list(options?: Core.RequestOptions): Core.PagePromise<FilesOpenAICursorPage, File>;
   list(
     query: FileListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<ListFilesResponse> {
+  ): Core.PagePromise<FilesOpenAICursorPage, File> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.get('/v1/openai/v1/files', { query, ...options });
+    return this._client.getAPIList('/v1/openai/v1/files', FilesOpenAICursorPage, { query, ...options });
   }
 
   /**
@@ -52,6 +53,8 @@ export class Files extends APIResource {
     return this._client.get(`/v1/openai/v1/files/${fileId}/content`, options);
   }
 }
+
+export class FilesOpenAICursorPage extends OpenAICursorPage<File> {}
 
 /**
  * Response for deleting a file in OpenAI Files API.
@@ -154,21 +157,7 @@ export interface FileCreateParams {
   purpose: 'assistants';
 }
 
-export interface FileListParams {
-  /**
-   * A cursor for use in pagination. `after` is an object ID that defines your place
-   * in the list. For instance, if you make a list request and receive 100 objects,
-   * ending with obj_foo, your subsequent call can include after=obj_foo in order to
-   * fetch the next page of the list.
-   */
-  after?: string;
-
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and
-   * 10,000, and the default is 10,000.
-   */
-  limit?: number;
-
+export interface FileListParams extends OpenAICursorPageParams {
   /**
    * Sort order by the `created_at` timestamp of the objects. `asc` for ascending
    * order and `desc` for descending order.
@@ -181,12 +170,15 @@ export interface FileListParams {
   purpose?: 'assistants';
 }
 
+Files.FilesOpenAICursorPage = FilesOpenAICursorPage;
+
 export declare namespace Files {
   export {
     type DeleteFileResponse as DeleteFileResponse,
     type File as File,
     type ListFilesResponse as ListFilesResponse,
     type FileContentResponse as FileContentResponse,
+    FilesOpenAICursorPage as FilesOpenAICursorPage,
     type FileCreateParams as FileCreateParams,
     type FileListParams as FileListParams,
   };
