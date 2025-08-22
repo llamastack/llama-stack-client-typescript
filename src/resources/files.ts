@@ -113,7 +113,7 @@ export interface File {
   /**
    * The intended purpose of the file
    */
-  purpose: 'assistants';
+  purpose: 'assistants' | 'batch';
 }
 
 /**
@@ -154,7 +154,7 @@ export interface FileCreateParams {
   /**
    * Valid purpose values for OpenAI Files API.
    */
-  purpose: 'assistants';
+  purpose: 'assistants' | 'batch';
 }
 
 export interface FileListParams extends OpenAICursorPageParams {
@@ -167,7 +167,7 @@ export interface FileListParams extends OpenAICursorPageParams {
   /**
    * Only return files with the given purpose.
    */
-  purpose?: 'assistants';
+  purpose?: 'assistants' | 'batch';
 }
 
 Files.FilesOpenAICursorPage = FilesOpenAICursorPage;
