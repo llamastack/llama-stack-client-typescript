@@ -11,19 +11,18 @@ Types:
 - <code><a href="./src/resources/shared.ts">InterleavedContent</a></code>
 - <code><a href="./src/resources/shared.ts">InterleavedContentItem</a></code>
 - <code><a href="./src/resources/shared.ts">Message</a></code>
+- <code><a href="./src/resources/shared.ts">Metric</a></code>
 - <code><a href="./src/resources/shared.ts">ParamType</a></code>
 - <code><a href="./src/resources/shared.ts">QueryConfig</a></code>
 - <code><a href="./src/resources/shared.ts">QueryGeneratorConfig</a></code>
 - <code><a href="./src/resources/shared.ts">QueryResult</a></code>
 - <code><a href="./src/resources/shared.ts">ResponseFormat</a></code>
-- <code><a href="./src/resources/shared.ts">ReturnType</a></code>
 - <code><a href="./src/resources/shared.ts">SafetyViolation</a></code>
 - <code><a href="./src/resources/shared.ts">SamplingParams</a></code>
 - <code><a href="./src/resources/shared.ts">ScoringResult</a></code>
 - <code><a href="./src/resources/shared.ts">SharedTokenLogProbs</a></code>
 - <code><a href="./src/resources/shared.ts">SystemMessage</a></code>
 - <code><a href="./src/resources/shared.ts">ToolCall</a></code>
-- <code><a href="./src/resources/shared.ts">ToolCallOrString</a></code>
 - <code><a href="./src/resources/shared.ts">ToolParamDefinition</a></code>
 - <code><a href="./src/resources/shared.ts">ToolResponseMessage</a></code>
 - <code><a href="./src/resources/shared.ts">UserMessage</a></code>
@@ -450,7 +449,6 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/telemetry.ts">Event</a></code>
-- <code><a href="./src/resources/telemetry.ts">Metric</a></code>
 - <code><a href="./src/resources/telemetry.ts">QueryCondition</a></code>
 - <code><a href="./src/resources/telemetry.ts">QuerySpansResponse</a></code>
 - <code><a href="./src/resources/telemetry.ts">SpanWithStatus</a></code>

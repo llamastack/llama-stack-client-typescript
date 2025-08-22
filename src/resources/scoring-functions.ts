@@ -2,7 +2,6 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as Shared from './shared';
 
 export class ScoringFunctions extends APIResource {
   /**
@@ -49,7 +48,7 @@ export interface ScoringFn {
 
   provider_id: string;
 
-  return_type: Shared.ReturnType;
+  return_type: ScoringFn.ReturnType;
 
   /**
    * The resource type, always scoring_function
@@ -64,6 +63,22 @@ export interface ScoringFn {
   params?: ScoringFnParams;
 
   provider_resource_id?: string;
+}
+
+export namespace ScoringFn {
+  export interface ReturnType {
+    type:
+      | 'string'
+      | 'number'
+      | 'boolean'
+      | 'array'
+      | 'object'
+      | 'json'
+      | 'union'
+      | 'chat_completion_input'
+      | 'completion_input'
+      | 'agent_turn_input';
+  }
 }
 
 /**
@@ -155,7 +170,7 @@ export interface ScoringFunctionRegisterParams {
    */
   description: string;
 
-  return_type: Shared.ReturnType;
+  return_type: ScoringFunctionRegisterParams.ReturnType;
 
   /**
    * The ID of the scoring function to register.
@@ -177,6 +192,22 @@ export interface ScoringFunctionRegisterParams {
    * The ID of the provider scoring function to use for the scoring function.
    */
   provider_scoring_fn_id?: string;
+}
+
+export namespace ScoringFunctionRegisterParams {
+  export interface ReturnType {
+    type:
+      | 'string'
+      | 'number'
+      | 'boolean'
+      | 'array'
+      | 'object'
+      | 'json'
+      | 'union'
+      | 'chat_completion_input'
+      | 'completion_input'
+      | 'agent_turn_input';
+  }
 }
 
 export declare namespace ScoringFunctions {

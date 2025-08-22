@@ -271,26 +271,6 @@ export namespace Event {
 }
 
 /**
- * A metric value included in API responses.
- */
-export interface Metric {
-  /**
-   * The name of the metric
-   */
-  metric: string;
-
-  /**
-   * The numeric value of the metric
-   */
-  value: number;
-
-  /**
-   * (Optional) The unit of measurement for the metric value
-   */
-  unit?: string;
-}
-
-/**
  * A condition for filtering query results.
  */
 export interface QueryCondition {
@@ -687,7 +667,6 @@ export interface TelemetrySaveSpansToDatasetParams {
 export declare namespace Telemetry {
   export {
     type Event as Event,
-    type Metric as Metric,
     type QueryCondition as QueryCondition,
     type QuerySpansResponse as QuerySpansResponse,
     type SpanWithStatus as SpanWithStatus,

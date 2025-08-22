@@ -106,7 +106,6 @@ import {
 } from './resources/synthetic-data-generation';
 import {
   Event,
-  Metric,
   QueryCondition,
   QuerySpansResponse,
   SpanWithStatus,
@@ -648,7 +647,6 @@ export declare namespace LlamaStackClient {
   export {
     Telemetry as Telemetry,
     type Event as Event,
-    type Metric as Metric,
     type QueryCondition as QueryCondition,
     type QuerySpansResponse as QuerySpansResponse,
     type SpanWithStatus as SpanWithStatus,
@@ -711,19 +709,18 @@ export declare namespace LlamaStackClient {
   export type InterleavedContent = API.InterleavedContent;
   export type InterleavedContentItem = API.InterleavedContentItem;
   export type Message = API.Message;
+  export type Metric = API.Metric;
   export type ParamType = API.ParamType;
   export type QueryConfig = API.QueryConfig;
   export type QueryGeneratorConfig = API.QueryGeneratorConfig;
   export type QueryResult = API.QueryResult;
   export type ResponseFormat = API.ResponseFormat;
-  export type ReturnType = API.ReturnType;
   export type SafetyViolation = API.SafetyViolation;
   export type SamplingParams = API.SamplingParams;
   export type ScoringResult = API.ScoringResult;
   export type SharedTokenLogProbs = API.SharedTokenLogProbs;
   export type SystemMessage = API.SystemMessage;
   export type ToolCall = API.ToolCall;
-  export type ToolCallOrString = API.ToolCallOrString;
   export type ToolParamDefinition = API.ToolParamDefinition;
   export type ToolResponseMessage = API.ToolResponseMessage;
   export type UserMessage = API.UserMessage;

@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import * as Shared from './shared';
-import * as TelemetryAPI from './telemetry';
 
 /**
  * Configuration for an agent.
@@ -194,7 +193,7 @@ export namespace BatchCompletion {
     /**
      * (Optional) List of metrics associated with the API response
      */
-    metrics?: Array<TelemetryAPI.Metric>;
+    metrics?: Array<Shared.Metric>;
   }
 }
 
@@ -215,7 +214,7 @@ export interface ChatCompletionResponse {
   /**
    * (Optional) List of metrics associated with the API response
    */
-  metrics?: Array<TelemetryAPI.Metric>;
+  metrics?: Array<Metric>;
 }
 
 /**
@@ -296,7 +295,7 @@ export namespace ContentDelta {
     /**
      * Either an in-progress tool call string or the final parsed tool call
      */
-    tool_call: Shared.ToolCallOrString;
+    tool_call: string | Shared.ToolCall;
 
     /**
      * Discriminator type of the delta. Always "tool_call"
@@ -554,6 +553,26 @@ export namespace InterleavedContentItem {
  * A message from the user in a chat conversation.
  */
 export type Message = UserMessage | SystemMessage | ToolResponseMessage | CompletionMessage;
+
+/**
+ * A metric value included in API responses.
+ */
+export interface Metric {
+  /**
+   * The name of the metric
+   */
+  metric: string;
+
+  /**
+   * The numeric value of the metric
+   */
+  value: number;
+
+  /**
+   * (Optional) The unit of measurement for the metric value
+   */
+  unit?: string;
+}
 
 /**
  * Parameter type for string values.
@@ -842,20 +861,6 @@ export namespace ResponseFormat {
   }
 }
 
-export interface ReturnType {
-  type:
-    | 'string'
-    | 'number'
-    | 'boolean'
-    | 'array'
-    | 'object'
-    | 'json'
-    | 'union'
-    | 'chat_completion_input'
-    | 'completion_input'
-    | 'agent_turn_input';
-}
-
 /**
  * Details of a safety violation detected by content moderation.
  */
@@ -1019,11 +1024,6 @@ export interface ToolCall {
 
   arguments_json?: string;
 }
-
-/**
- * Either an in-progress tool call string or the final parsed tool call
- */
-export type ToolCallOrString = string | ToolCall;
 
 export interface ToolParamDefinition {
   param_type: string;

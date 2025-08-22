@@ -139,7 +139,6 @@ export {
 export {
   Telemetry,
   type Event,
-  type Metric,
   type QueryCondition,
   type QuerySpansResponse,
   type SpanWithStatus,

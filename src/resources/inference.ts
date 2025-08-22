@@ -5,7 +5,6 @@ import { APIPromise } from '../core';
 import * as Core from '../core';
 import * as InferenceAPI from './inference';
 import * as Shared from './shared';
-import * as TelemetryAPI from './telemetry';
 import { Stream } from '../streaming';
 
 export class Inference extends APIResource {
@@ -110,7 +109,7 @@ export interface ChatCompletionResponseStreamChunk {
   /**
    * (Optional) List of metrics associated with the API response
    */
-  metrics?: Array<TelemetryAPI.Metric>;
+  metrics?: Array<Shared.Metric>;
 }
 
 export namespace ChatCompletionResponseStreamChunk {
