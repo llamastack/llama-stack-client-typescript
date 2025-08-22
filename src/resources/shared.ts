@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import * as Shared from './shared';
+import * as TelemetryAPI from './telemetry';
 
 /**
  * Configuration for an agent.
@@ -193,29 +194,7 @@ export namespace BatchCompletion {
     /**
      * (Optional) List of metrics associated with the API response
      */
-    metrics?: Array<Batch.Metric>;
-  }
-
-  export namespace Batch {
-    /**
-     * A metric value included in API responses.
-     */
-    export interface Metric {
-      /**
-       * The name of the metric
-       */
-      metric: string;
-
-      /**
-       * The numeric value of the metric
-       */
-      value: number;
-
-      /**
-       * (Optional) The unit of measurement for the metric value
-       */
-      unit?: string;
-    }
+    metrics?: Array<TelemetryAPI.Metric>;
   }
 }
 
@@ -236,29 +215,7 @@ export interface ChatCompletionResponse {
   /**
    * (Optional) List of metrics associated with the API response
    */
-  metrics?: Array<ChatCompletionResponse.Metric>;
-}
-
-export namespace ChatCompletionResponse {
-  /**
-   * A metric value included in API responses.
-   */
-  export interface Metric {
-    /**
-     * The name of the metric
-     */
-    metric: string;
-
-    /**
-     * The numeric value of the metric
-     */
-    value: number;
-
-    /**
-     * (Optional) The unit of measurement for the metric value
-     */
-    unit?: string;
-  }
+  metrics?: Array<TelemetryAPI.Metric>;
 }
 
 /**

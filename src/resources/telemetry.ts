@@ -49,6 +49,21 @@ export class Telemetry extends APIResource {
   }
 
   /**
+   * Query metrics.
+   */
+  queryMetrics(
+    metricName: string,
+    body: TelemetryQueryMetricsParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<TelemetryQueryMetricsResponse> {
+    return (
+      this._client.post(`/v1/telemetry/metrics/${metricName}`, { body, ...options }) as Core.APIPromise<{
+        data: TelemetryQueryMetricsResponse;
+      }>
+    )._thenUnwrap((obj) => obj.data);
+  }
+
+  /**
    * Query spans.
    */
   querySpans(
@@ -256,6 +271,26 @@ export namespace Event {
 }
 
 /**
+ * A metric value included in API responses.
+ */
+export interface Metric {
+  /**
+   * The name of the metric
+   */
+  metric: string;
+
+  /**
+   * The numeric value of the metric
+   */
+  value: number;
+
+  /**
+   * (Optional) The unit of measurement for the metric value
+   */
+  unit?: string;
+}
+
+/**
  * A condition for filtering query results.
  */
 export interface QueryCondition {
@@ -402,6 +437,68 @@ export interface TelemetryGetSpanResponse {
 export type TelemetryGetSpanTreeResponse = { [key: string]: SpanWithStatus };
 
 /**
+ * List of metric series matching the query criteria
+ */
+export type TelemetryQueryMetricsResponse =
+  Array<TelemetryQueryMetricsResponse.TelemetryQueryMetricsResponseItem>;
+
+export namespace TelemetryQueryMetricsResponse {
+  /**
+   * A time series of metric data points.
+   */
+  export interface TelemetryQueryMetricsResponseItem {
+    /**
+     * List of labels associated with this metric series
+     */
+    labels: Array<TelemetryQueryMetricsResponseItem.Label>;
+
+    /**
+     * The name of the metric
+     */
+    metric: string;
+
+    /**
+     * List of data points in chronological order
+     */
+    values: Array<TelemetryQueryMetricsResponseItem.Value>;
+  }
+
+  export namespace TelemetryQueryMetricsResponseItem {
+    /**
+     * A label associated with a metric.
+     */
+    export interface Label {
+      /**
+       * The name of the label
+       */
+      name: string;
+
+      /**
+       * The value of the label
+       */
+      value: string;
+    }
+
+    /**
+     * A single data point in a metric time series.
+     */
+    export interface Value {
+      /**
+       * Unix timestamp when the metric value was recorded
+       */
+      timestamp: number;
+
+      unit: string;
+
+      /**
+       * The numeric value of the metric at this timestamp
+       */
+      value: number;
+    }
+  }
+}
+
+/**
  * List of spans matching the query criteria
  */
 export type TelemetryQuerySpansResponse = Array<TelemetryQuerySpansResponse.TelemetryQuerySpansResponseItem>;
@@ -477,6 +574,55 @@ export interface TelemetryLogEventParams {
   ttl_seconds: number;
 }
 
+export interface TelemetryQueryMetricsParams {
+  /**
+   * The type of query to perform.
+   */
+  query_type: 'range' | 'instant';
+
+  /**
+   * The start time of the metric to query.
+   */
+  start_time: number;
+
+  /**
+   * The end time of the metric to query.
+   */
+  end_time?: number;
+
+  /**
+   * The granularity of the metric to query.
+   */
+  granularity?: string;
+
+  /**
+   * The label matchers to apply to the metric.
+   */
+  label_matchers?: Array<TelemetryQueryMetricsParams.LabelMatcher>;
+}
+
+export namespace TelemetryQueryMetricsParams {
+  /**
+   * A matcher for filtering metrics by label values.
+   */
+  export interface LabelMatcher {
+    /**
+     * The name of the label to match
+     */
+    name: string;
+
+    /**
+     * The comparison operator to use for matching
+     */
+    operator: '=' | '!=' | '=~' | '!~';
+
+    /**
+     * The value to match against
+     */
+    value: string;
+  }
+}
+
 export interface TelemetryQuerySpansParams {
   /**
    * The attribute filters to apply to the spans.
@@ -541,16 +687,19 @@ export interface TelemetrySaveSpansToDatasetParams {
 export declare namespace Telemetry {
   export {
     type Event as Event,
+    type Metric as Metric,
     type QueryCondition as QueryCondition,
     type QuerySpansResponse as QuerySpansResponse,
     type SpanWithStatus as SpanWithStatus,
     type Trace as Trace,
     type TelemetryGetSpanResponse as TelemetryGetSpanResponse,
     type TelemetryGetSpanTreeResponse as TelemetryGetSpanTreeResponse,
+    type TelemetryQueryMetricsResponse as TelemetryQueryMetricsResponse,
     type TelemetryQuerySpansResponse as TelemetryQuerySpansResponse,
     type TelemetryQueryTracesResponse as TelemetryQueryTracesResponse,
     type TelemetryGetSpanTreeParams as TelemetryGetSpanTreeParams,
     type TelemetryLogEventParams as TelemetryLogEventParams,
+    type TelemetryQueryMetricsParams as TelemetryQueryMetricsParams,
     type TelemetryQuerySpansParams as TelemetryQuerySpansParams,
     type TelemetryQueryTracesParams as TelemetryQueryTracesParams,
     type TelemetrySaveSpansToDatasetParams as TelemetrySaveSpansToDatasetParams,

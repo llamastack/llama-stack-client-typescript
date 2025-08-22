@@ -5,6 +5,7 @@ import { APIPromise } from '../core';
 import * as Core from '../core';
 import * as InferenceAPI from './inference';
 import * as Shared from './shared';
+import * as TelemetryAPI from './telemetry';
 import { Stream } from '../streaming';
 
 export class Inference extends APIResource {
@@ -109,7 +110,7 @@ export interface ChatCompletionResponseStreamChunk {
   /**
    * (Optional) List of metrics associated with the API response
    */
-  metrics?: Array<ChatCompletionResponseStreamChunk.Metric>;
+  metrics?: Array<TelemetryAPI.Metric>;
 }
 
 export namespace ChatCompletionResponseStreamChunk {
@@ -137,26 +138,6 @@ export namespace ChatCompletionResponseStreamChunk {
      * Optional reason why generation stopped, if complete
      */
     stop_reason?: 'end_of_turn' | 'end_of_message' | 'out_of_tokens';
-  }
-
-  /**
-   * A metric value included in API responses.
-   */
-  export interface Metric {
-    /**
-     * The name of the metric
-     */
-    metric: string;
-
-    /**
-     * The numeric value of the metric
-     */
-    value: number;
-
-    /**
-     * (Optional) The unit of measurement for the metric value
-     */
-    unit?: string;
   }
 }
 

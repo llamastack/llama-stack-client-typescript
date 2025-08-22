@@ -450,12 +450,14 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/telemetry.ts">Event</a></code>
+- <code><a href="./src/resources/telemetry.ts">Metric</a></code>
 - <code><a href="./src/resources/telemetry.ts">QueryCondition</a></code>
 - <code><a href="./src/resources/telemetry.ts">QuerySpansResponse</a></code>
 - <code><a href="./src/resources/telemetry.ts">SpanWithStatus</a></code>
 - <code><a href="./src/resources/telemetry.ts">Trace</a></code>
 - <code><a href="./src/resources/telemetry.ts">TelemetryGetSpanResponse</a></code>
 - <code><a href="./src/resources/telemetry.ts">TelemetryGetSpanTreeResponse</a></code>
+- <code><a href="./src/resources/telemetry.ts">TelemetryQueryMetricsResponse</a></code>
 - <code><a href="./src/resources/telemetry.ts">TelemetryQuerySpansResponse</a></code>
 - <code><a href="./src/resources/telemetry.ts">TelemetryQueryTracesResponse</a></code>
 
@@ -465,6 +467,7 @@ Methods:
 - <code title="post /v1/telemetry/spans/{span_id}/tree">client.telemetry.<a href="./src/resources/telemetry.ts">getSpanTree</a>(spanId, { ...params }) -> TelemetryGetSpanTreeResponse</code>
 - <code title="get /v1/telemetry/traces/{trace_id}">client.telemetry.<a href="./src/resources/telemetry.ts">getTrace</a>(traceId) -> Trace</code>
 - <code title="post /v1/telemetry/events">client.telemetry.<a href="./src/resources/telemetry.ts">logEvent</a>({ ...params }) -> void</code>
+- <code title="post /v1/telemetry/metrics/{metric_name}">client.telemetry.<a href="./src/resources/telemetry.ts">queryMetrics</a>(metricName, { ...params }) -> TelemetryQueryMetricsResponse</code>
 - <code title="post /v1/telemetry/spans">client.telemetry.<a href="./src/resources/telemetry.ts">querySpans</a>({ ...params }) -> TelemetryQuerySpansResponse</code>
 - <code title="post /v1/telemetry/traces">client.telemetry.<a href="./src/resources/telemetry.ts">queryTraces</a>({ ...params }) -> TelemetryQueryTracesResponse</code>
 - <code title="post /v1/telemetry/spans/export">client.telemetry.<a href="./src/resources/telemetry.ts">saveSpansToDataset</a>({ ...params }) -> void</code>
