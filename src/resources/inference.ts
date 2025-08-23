@@ -109,7 +109,7 @@ export interface ChatCompletionResponseStreamChunk {
   /**
    * (Optional) List of metrics associated with the API response
    */
-  metrics?: Array<ChatCompletionResponseStreamChunk.Metric>;
+  metrics?: Array<Shared.Metric>;
 }
 
 export namespace ChatCompletionResponseStreamChunk {
@@ -131,79 +131,12 @@ export namespace ChatCompletionResponseStreamChunk {
     /**
      * Optional log probabilities for generated tokens
      */
-    logprobs?: Array<InferenceAPI.TokenLogProbs>;
+    logprobs?: Array<Shared.SharedTokenLogProbs>;
 
     /**
      * Optional reason why generation stopped, if complete
      */
     stop_reason?: 'end_of_turn' | 'end_of_message' | 'out_of_tokens';
-  }
-
-  /**
-   * A metric value included in API responses.
-   */
-  export interface Metric {
-    /**
-     * The name of the metric
-     */
-    metric: string;
-
-    /**
-     * The numeric value of the metric
-     */
-    value: number;
-
-    /**
-     * (Optional) The unit of measurement for the metric value
-     */
-    unit?: string;
-  }
-}
-
-/**
- * Response from a completion request.
- */
-export interface CompletionResponse {
-  /**
-   * The generated completion text
-   */
-  content: string;
-
-  /**
-   * Reason why generation stopped
-   */
-  stop_reason: 'end_of_turn' | 'end_of_message' | 'out_of_tokens';
-
-  /**
-   * Optional log probabilities for generated tokens
-   */
-  logprobs?: Array<TokenLogProbs>;
-
-  /**
-   * (Optional) List of metrics associated with the API response
-   */
-  metrics?: Array<CompletionResponse.Metric>;
-}
-
-export namespace CompletionResponse {
-  /**
-   * A metric value included in API responses.
-   */
-  export interface Metric {
-    /**
-     * The name of the metric
-     */
-    metric: string;
-
-    /**
-     * The numeric value of the metric
-     */
-    value: number;
-
-    /**
-     * (Optional) The unit of measurement for the metric value
-     */
-    unit?: string;
   }
 }
 
@@ -620,7 +553,6 @@ export interface InferenceEmbeddingsParams {
 export declare namespace Inference {
   export {
     type ChatCompletionResponseStreamChunk as ChatCompletionResponseStreamChunk,
-    type CompletionResponse as CompletionResponse,
     type EmbeddingsResponse as EmbeddingsResponse,
     type TokenLogProbs as TokenLogProbs,
     type InferenceBatchChatCompletionResponse as InferenceBatchChatCompletionResponse,

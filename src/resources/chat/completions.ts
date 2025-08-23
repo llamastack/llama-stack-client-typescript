@@ -6,6 +6,7 @@ import { APIPromise } from '../../core';
 import * as Core from '../../core';
 import * as CompletionsAPI from './completions';
 import * as ChatAPI from './chat';
+import { OpenAICursorPage, type OpenAICursorPageParams } from '../../pagination';
 import { Stream } from '../../streaming';
 
 export class Completions extends APIResource {
@@ -46,18 +47,29 @@ export class Completions extends APIResource {
   /**
    * List all chat completions.
    */
-  list(query?: CompletionListParams, options?: Core.RequestOptions): Core.APIPromise<CompletionListResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<CompletionListResponse>;
+  list(
+    query?: CompletionListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<CompletionListResponsesOpenAICursorPage, CompletionListResponse>;
+  list(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<CompletionListResponsesOpenAICursorPage, CompletionListResponse>;
   list(
     query: CompletionListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<CompletionListResponse> {
+  ): Core.PagePromise<CompletionListResponsesOpenAICursorPage, CompletionListResponse> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.get('/v1/openai/v1/chat/completions', { query, ...options });
+    return this._client.getAPIList(
+      '/v1/openai/v1/chat/completions',
+      CompletionListResponsesOpenAICursorPage,
+      { query, ...options },
+    );
   }
 }
+
+export class CompletionListResponsesOpenAICursorPage extends OpenAICursorPage<CompletionListResponse> {}
 
 /**
  * Response from an OpenAI-compatible chat completion request.
@@ -1217,468 +1229,73 @@ export namespace CompletionRetrieveResponse {
   }
 }
 
-/**
- * Response from listing OpenAI-compatible chat completions.
- */
 export interface CompletionListResponse {
   /**
-   * List of chat completion objects with their input messages
+   * The ID of the chat completion
    */
-  data: Array<CompletionListResponse.Data>;
+  id: string;
 
   /**
-   * ID of the first completion in this list
+   * List of choices
    */
-  first_id: string;
+  choices: Array<CompletionListResponse.Choice>;
 
   /**
-   * Whether there are more completions available beyond this list
+   * The Unix timestamp in seconds when the chat completion was created
    */
-  has_more: boolean;
+  created: number;
+
+  input_messages: Array<
+    | CompletionListResponse.OpenAIUserMessageParam
+    | CompletionListResponse.OpenAISystemMessageParam
+    | CompletionListResponse.OpenAIAssistantMessageParam
+    | CompletionListResponse.OpenAIToolMessageParam
+    | CompletionListResponse.OpenAIDeveloperMessageParam
+  >;
 
   /**
-   * ID of the last completion in this list
+   * The model that was used to generate the chat completion
    */
-  last_id: string;
+  model: string;
 
   /**
-   * Must be "list" to identify this as a list response
+   * The object type, which will be "chat.completion"
    */
-  object: 'list';
+  object: 'chat.completion';
 }
 
 export namespace CompletionListResponse {
-  export interface Data {
+  /**
+   * A choice from an OpenAI-compatible chat completion response.
+   */
+  export interface Choice {
     /**
-     * The ID of the chat completion
+     * The reason the model stopped generating
      */
-    id: string;
+    finish_reason: string;
 
     /**
-     * List of choices
+     * The index of the choice
      */
-    choices: Array<Data.Choice>;
+    index: number;
 
     /**
-     * The Unix timestamp in seconds when the chat completion was created
+     * The message from the model
      */
-    created: number;
-
-    input_messages: Array<
-      | Data.OpenAIUserMessageParam
-      | Data.OpenAISystemMessageParam
-      | Data.OpenAIAssistantMessageParam
-      | Data.OpenAIToolMessageParam
-      | Data.OpenAIDeveloperMessageParam
-    >;
+    message:
+      | Choice.OpenAIUserMessageParam
+      | Choice.OpenAISystemMessageParam
+      | Choice.OpenAIAssistantMessageParam
+      | Choice.OpenAIToolMessageParam
+      | Choice.OpenAIDeveloperMessageParam;
 
     /**
-     * The model that was used to generate the chat completion
+     * (Optional) The log probabilities for the tokens in the message
      */
-    model: string;
-
-    /**
-     * The object type, which will be "chat.completion"
-     */
-    object: 'chat.completion';
+    logprobs?: Choice.Logprobs;
   }
 
-  export namespace Data {
-    /**
-     * A choice from an OpenAI-compatible chat completion response.
-     */
-    export interface Choice {
-      /**
-       * The reason the model stopped generating
-       */
-      finish_reason: string;
-
-      /**
-       * The index of the choice
-       */
-      index: number;
-
-      /**
-       * The message from the model
-       */
-      message:
-        | Choice.OpenAIUserMessageParam
-        | Choice.OpenAISystemMessageParam
-        | Choice.OpenAIAssistantMessageParam
-        | Choice.OpenAIToolMessageParam
-        | Choice.OpenAIDeveloperMessageParam;
-
-      /**
-       * (Optional) The log probabilities for the tokens in the message
-       */
-      logprobs?: Choice.Logprobs;
-    }
-
-    export namespace Choice {
-      /**
-       * A message from the user in an OpenAI-compatible chat completion request.
-       */
-      export interface OpenAIUserMessageParam {
-        /**
-         * The content of the message, which can include text and other media
-         */
-        content:
-          | string
-          | Array<
-              | OpenAIUserMessageParam.OpenAIChatCompletionContentPartTextParam
-              | OpenAIUserMessageParam.OpenAIChatCompletionContentPartImageParam
-              | OpenAIUserMessageParam.OpenAIFile
-            >;
-
-        /**
-         * Must be "user" to identify this as a user message
-         */
-        role: 'user';
-
-        /**
-         * (Optional) The name of the user message participant.
-         */
-        name?: string;
-      }
-
-      export namespace OpenAIUserMessageParam {
-        /**
-         * Text content part for OpenAI-compatible chat completion messages.
-         */
-        export interface OpenAIChatCompletionContentPartTextParam {
-          /**
-           * The text content of the message
-           */
-          text: string;
-
-          /**
-           * Must be "text" to identify this as text content
-           */
-          type: 'text';
-        }
-
-        /**
-         * Image content part for OpenAI-compatible chat completion messages.
-         */
-        export interface OpenAIChatCompletionContentPartImageParam {
-          /**
-           * Image URL specification and processing details
-           */
-          image_url: OpenAIChatCompletionContentPartImageParam.ImageURL;
-
-          /**
-           * Must be "image_url" to identify this as image content
-           */
-          type: 'image_url';
-        }
-
-        export namespace OpenAIChatCompletionContentPartImageParam {
-          /**
-           * Image URL specification and processing details
-           */
-          export interface ImageURL {
-            /**
-             * URL of the image to include in the message
-             */
-            url: string;
-
-            /**
-             * (Optional) Level of detail for image processing. Can be "low", "high", or "auto"
-             */
-            detail?: string;
-          }
-        }
-
-        export interface OpenAIFile {
-          file: OpenAIFile.File;
-
-          type: 'file';
-        }
-
-        export namespace OpenAIFile {
-          export interface File {
-            file_data?: string;
-
-            file_id?: string;
-
-            filename?: string;
-          }
-        }
-      }
-
-      /**
-       * A system message providing instructions or context to the model.
-       */
-      export interface OpenAISystemMessageParam {
-        /**
-         * The content of the "system prompt". If multiple system messages are provided,
-         * they are concatenated. The underlying Llama Stack code may also add other system
-         * messages (for example, for formatting tool definitions).
-         */
-        content: string | Array<OpenAISystemMessageParam.UnionMember1>;
-
-        /**
-         * Must be "system" to identify this as a system message
-         */
-        role: 'system';
-
-        /**
-         * (Optional) The name of the system message participant.
-         */
-        name?: string;
-      }
-
-      export namespace OpenAISystemMessageParam {
-        /**
-         * Text content part for OpenAI-compatible chat completion messages.
-         */
-        export interface UnionMember1 {
-          /**
-           * The text content of the message
-           */
-          text: string;
-
-          /**
-           * Must be "text" to identify this as text content
-           */
-          type: 'text';
-        }
-      }
-
-      /**
-       * A message containing the model's (assistant) response in an OpenAI-compatible
-       * chat completion request.
-       */
-      export interface OpenAIAssistantMessageParam {
-        /**
-         * Must be "assistant" to identify this as the model's response
-         */
-        role: 'assistant';
-
-        /**
-         * The content of the model's response
-         */
-        content?: string | Array<OpenAIAssistantMessageParam.UnionMember1>;
-
-        /**
-         * (Optional) The name of the assistant message participant.
-         */
-        name?: string;
-
-        /**
-         * List of tool calls. Each tool call is an OpenAIChatCompletionToolCall object.
-         */
-        tool_calls?: Array<OpenAIAssistantMessageParam.ToolCall>;
-      }
-
-      export namespace OpenAIAssistantMessageParam {
-        /**
-         * Text content part for OpenAI-compatible chat completion messages.
-         */
-        export interface UnionMember1 {
-          /**
-           * The text content of the message
-           */
-          text: string;
-
-          /**
-           * Must be "text" to identify this as text content
-           */
-          type: 'text';
-        }
-
-        /**
-         * Tool call specification for OpenAI-compatible chat completion responses.
-         */
-        export interface ToolCall {
-          /**
-           * Must be "function" to identify this as a function call
-           */
-          type: 'function';
-
-          /**
-           * (Optional) Unique identifier for the tool call
-           */
-          id?: string;
-
-          /**
-           * (Optional) Function call details
-           */
-          function?: ToolCall.Function;
-
-          /**
-           * (Optional) Index of the tool call in the list
-           */
-          index?: number;
-        }
-
-        export namespace ToolCall {
-          /**
-           * (Optional) Function call details
-           */
-          export interface Function {
-            /**
-             * (Optional) Arguments to pass to the function as a JSON string
-             */
-            arguments?: string;
-
-            /**
-             * (Optional) Name of the function to call
-             */
-            name?: string;
-          }
-        }
-      }
-
-      /**
-       * A message representing the result of a tool invocation in an OpenAI-compatible
-       * chat completion request.
-       */
-      export interface OpenAIToolMessageParam {
-        /**
-         * The response content from the tool
-         */
-        content: string | Array<OpenAIToolMessageParam.UnionMember1>;
-
-        /**
-         * Must be "tool" to identify this as a tool response
-         */
-        role: 'tool';
-
-        /**
-         * Unique identifier for the tool call this response is for
-         */
-        tool_call_id: string;
-      }
-
-      export namespace OpenAIToolMessageParam {
-        /**
-         * Text content part for OpenAI-compatible chat completion messages.
-         */
-        export interface UnionMember1 {
-          /**
-           * The text content of the message
-           */
-          text: string;
-
-          /**
-           * Must be "text" to identify this as text content
-           */
-          type: 'text';
-        }
-      }
-
-      /**
-       * A message from the developer in an OpenAI-compatible chat completion request.
-       */
-      export interface OpenAIDeveloperMessageParam {
-        /**
-         * The content of the developer message
-         */
-        content: string | Array<OpenAIDeveloperMessageParam.UnionMember1>;
-
-        /**
-         * Must be "developer" to identify this as a developer message
-         */
-        role: 'developer';
-
-        /**
-         * (Optional) The name of the developer message participant.
-         */
-        name?: string;
-      }
-
-      export namespace OpenAIDeveloperMessageParam {
-        /**
-         * Text content part for OpenAI-compatible chat completion messages.
-         */
-        export interface UnionMember1 {
-          /**
-           * The text content of the message
-           */
-          text: string;
-
-          /**
-           * Must be "text" to identify this as text content
-           */
-          type: 'text';
-        }
-      }
-
-      /**
-       * (Optional) The log probabilities for the tokens in the message
-       */
-      export interface Logprobs {
-        /**
-         * (Optional) The log probabilities for the tokens in the message
-         */
-        content?: Array<Logprobs.Content>;
-
-        /**
-         * (Optional) The log probabilities for the tokens in the message
-         */
-        refusal?: Array<Logprobs.Refusal>;
-      }
-
-      export namespace Logprobs {
-        /**
-         * The log probability for a token from an OpenAI-compatible chat completion
-         * response.
-         */
-        export interface Content {
-          token: string;
-
-          logprob: number;
-
-          top_logprobs: Array<Content.TopLogprob>;
-
-          bytes?: Array<number>;
-        }
-
-        export namespace Content {
-          /**
-           * The top log probability for a token from an OpenAI-compatible chat completion
-           * response.
-           */
-          export interface TopLogprob {
-            token: string;
-
-            logprob: number;
-
-            bytes?: Array<number>;
-          }
-        }
-
-        /**
-         * The log probability for a token from an OpenAI-compatible chat completion
-         * response.
-         */
-        export interface Refusal {
-          token: string;
-
-          logprob: number;
-
-          top_logprobs: Array<Refusal.TopLogprob>;
-
-          bytes?: Array<number>;
-        }
-
-        export namespace Refusal {
-          /**
-           * The top log probability for a token from an OpenAI-compatible chat completion
-           * response.
-           */
-          export interface TopLogprob {
-            token: string;
-
-            logprob: number;
-
-            bytes?: Array<number>;
-          }
-        }
-      }
-    }
-
+  export namespace Choice {
     /**
      * A message from the user in an OpenAI-compatible chat completion request.
      */
@@ -1967,6 +1584,369 @@ export namespace CompletionListResponse {
          */
         type: 'text';
       }
+    }
+
+    /**
+     * (Optional) The log probabilities for the tokens in the message
+     */
+    export interface Logprobs {
+      /**
+       * (Optional) The log probabilities for the tokens in the message
+       */
+      content?: Array<Logprobs.Content>;
+
+      /**
+       * (Optional) The log probabilities for the tokens in the message
+       */
+      refusal?: Array<Logprobs.Refusal>;
+    }
+
+    export namespace Logprobs {
+      /**
+       * The log probability for a token from an OpenAI-compatible chat completion
+       * response.
+       */
+      export interface Content {
+        token: string;
+
+        logprob: number;
+
+        top_logprobs: Array<Content.TopLogprob>;
+
+        bytes?: Array<number>;
+      }
+
+      export namespace Content {
+        /**
+         * The top log probability for a token from an OpenAI-compatible chat completion
+         * response.
+         */
+        export interface TopLogprob {
+          token: string;
+
+          logprob: number;
+
+          bytes?: Array<number>;
+        }
+      }
+
+      /**
+       * The log probability for a token from an OpenAI-compatible chat completion
+       * response.
+       */
+      export interface Refusal {
+        token: string;
+
+        logprob: number;
+
+        top_logprobs: Array<Refusal.TopLogprob>;
+
+        bytes?: Array<number>;
+      }
+
+      export namespace Refusal {
+        /**
+         * The top log probability for a token from an OpenAI-compatible chat completion
+         * response.
+         */
+        export interface TopLogprob {
+          token: string;
+
+          logprob: number;
+
+          bytes?: Array<number>;
+        }
+      }
+    }
+  }
+
+  /**
+   * A message from the user in an OpenAI-compatible chat completion request.
+   */
+  export interface OpenAIUserMessageParam {
+    /**
+     * The content of the message, which can include text and other media
+     */
+    content:
+      | string
+      | Array<
+          | OpenAIUserMessageParam.OpenAIChatCompletionContentPartTextParam
+          | OpenAIUserMessageParam.OpenAIChatCompletionContentPartImageParam
+          | OpenAIUserMessageParam.OpenAIFile
+        >;
+
+    /**
+     * Must be "user" to identify this as a user message
+     */
+    role: 'user';
+
+    /**
+     * (Optional) The name of the user message participant.
+     */
+    name?: string;
+  }
+
+  export namespace OpenAIUserMessageParam {
+    /**
+     * Text content part for OpenAI-compatible chat completion messages.
+     */
+    export interface OpenAIChatCompletionContentPartTextParam {
+      /**
+       * The text content of the message
+       */
+      text: string;
+
+      /**
+       * Must be "text" to identify this as text content
+       */
+      type: 'text';
+    }
+
+    /**
+     * Image content part for OpenAI-compatible chat completion messages.
+     */
+    export interface OpenAIChatCompletionContentPartImageParam {
+      /**
+       * Image URL specification and processing details
+       */
+      image_url: OpenAIChatCompletionContentPartImageParam.ImageURL;
+
+      /**
+       * Must be "image_url" to identify this as image content
+       */
+      type: 'image_url';
+    }
+
+    export namespace OpenAIChatCompletionContentPartImageParam {
+      /**
+       * Image URL specification and processing details
+       */
+      export interface ImageURL {
+        /**
+         * URL of the image to include in the message
+         */
+        url: string;
+
+        /**
+         * (Optional) Level of detail for image processing. Can be "low", "high", or "auto"
+         */
+        detail?: string;
+      }
+    }
+
+    export interface OpenAIFile {
+      file: OpenAIFile.File;
+
+      type: 'file';
+    }
+
+    export namespace OpenAIFile {
+      export interface File {
+        file_data?: string;
+
+        file_id?: string;
+
+        filename?: string;
+      }
+    }
+  }
+
+  /**
+   * A system message providing instructions or context to the model.
+   */
+  export interface OpenAISystemMessageParam {
+    /**
+     * The content of the "system prompt". If multiple system messages are provided,
+     * they are concatenated. The underlying Llama Stack code may also add other system
+     * messages (for example, for formatting tool definitions).
+     */
+    content: string | Array<OpenAISystemMessageParam.UnionMember1>;
+
+    /**
+     * Must be "system" to identify this as a system message
+     */
+    role: 'system';
+
+    /**
+     * (Optional) The name of the system message participant.
+     */
+    name?: string;
+  }
+
+  export namespace OpenAISystemMessageParam {
+    /**
+     * Text content part for OpenAI-compatible chat completion messages.
+     */
+    export interface UnionMember1 {
+      /**
+       * The text content of the message
+       */
+      text: string;
+
+      /**
+       * Must be "text" to identify this as text content
+       */
+      type: 'text';
+    }
+  }
+
+  /**
+   * A message containing the model's (assistant) response in an OpenAI-compatible
+   * chat completion request.
+   */
+  export interface OpenAIAssistantMessageParam {
+    /**
+     * Must be "assistant" to identify this as the model's response
+     */
+    role: 'assistant';
+
+    /**
+     * The content of the model's response
+     */
+    content?: string | Array<OpenAIAssistantMessageParam.UnionMember1>;
+
+    /**
+     * (Optional) The name of the assistant message participant.
+     */
+    name?: string;
+
+    /**
+     * List of tool calls. Each tool call is an OpenAIChatCompletionToolCall object.
+     */
+    tool_calls?: Array<OpenAIAssistantMessageParam.ToolCall>;
+  }
+
+  export namespace OpenAIAssistantMessageParam {
+    /**
+     * Text content part for OpenAI-compatible chat completion messages.
+     */
+    export interface UnionMember1 {
+      /**
+       * The text content of the message
+       */
+      text: string;
+
+      /**
+       * Must be "text" to identify this as text content
+       */
+      type: 'text';
+    }
+
+    /**
+     * Tool call specification for OpenAI-compatible chat completion responses.
+     */
+    export interface ToolCall {
+      /**
+       * Must be "function" to identify this as a function call
+       */
+      type: 'function';
+
+      /**
+       * (Optional) Unique identifier for the tool call
+       */
+      id?: string;
+
+      /**
+       * (Optional) Function call details
+       */
+      function?: ToolCall.Function;
+
+      /**
+       * (Optional) Index of the tool call in the list
+       */
+      index?: number;
+    }
+
+    export namespace ToolCall {
+      /**
+       * (Optional) Function call details
+       */
+      export interface Function {
+        /**
+         * (Optional) Arguments to pass to the function as a JSON string
+         */
+        arguments?: string;
+
+        /**
+         * (Optional) Name of the function to call
+         */
+        name?: string;
+      }
+    }
+  }
+
+  /**
+   * A message representing the result of a tool invocation in an OpenAI-compatible
+   * chat completion request.
+   */
+  export interface OpenAIToolMessageParam {
+    /**
+     * The response content from the tool
+     */
+    content: string | Array<OpenAIToolMessageParam.UnionMember1>;
+
+    /**
+     * Must be "tool" to identify this as a tool response
+     */
+    role: 'tool';
+
+    /**
+     * Unique identifier for the tool call this response is for
+     */
+    tool_call_id: string;
+  }
+
+  export namespace OpenAIToolMessageParam {
+    /**
+     * Text content part for OpenAI-compatible chat completion messages.
+     */
+    export interface UnionMember1 {
+      /**
+       * The text content of the message
+       */
+      text: string;
+
+      /**
+       * Must be "text" to identify this as text content
+       */
+      type: 'text';
+    }
+  }
+
+  /**
+   * A message from the developer in an OpenAI-compatible chat completion request.
+   */
+  export interface OpenAIDeveloperMessageParam {
+    /**
+     * The content of the developer message
+     */
+    content: string | Array<OpenAIDeveloperMessageParam.UnionMember1>;
+
+    /**
+     * Must be "developer" to identify this as a developer message
+     */
+    role: 'developer';
+
+    /**
+     * (Optional) The name of the developer message participant.
+     */
+    name?: string;
+  }
+
+  export namespace OpenAIDeveloperMessageParam {
+    /**
+     * Text content part for OpenAI-compatible chat completion messages.
+     */
+    export interface UnionMember1 {
+      /**
+       * The text content of the message
+       */
+      text: string;
+
+      /**
+       * Must be "text" to identify this as text content
+       */
+      type: 'text';
     }
   }
 }
@@ -2471,17 +2451,7 @@ export interface CompletionCreateParamsStreaming extends CompletionCreateParamsB
   stream: true;
 }
 
-export interface CompletionListParams {
-  /**
-   * The ID of the last chat completion to return.
-   */
-  after?: string;
-
-  /**
-   * The maximum number of chat completions to return.
-   */
-  limit?: number;
-
+export interface CompletionListParams extends OpenAICursorPageParams {
   /**
    * The model to filter by.
    */
@@ -2493,11 +2463,14 @@ export interface CompletionListParams {
   order?: 'asc' | 'desc';
 }
 
+Completions.CompletionListResponsesOpenAICursorPage = CompletionListResponsesOpenAICursorPage;
+
 export declare namespace Completions {
   export {
     type CompletionCreateResponse as CompletionCreateResponse,
     type CompletionRetrieveResponse as CompletionRetrieveResponse,
     type CompletionListResponse as CompletionListResponse,
+    CompletionListResponsesOpenAICursorPage as CompletionListResponsesOpenAICursorPage,
     type CompletionCreateParams as CompletionCreateParams,
     type CompletionCreateParamsNonStreaming as CompletionCreateParamsNonStreaming,
     type CompletionCreateParamsStreaming as CompletionCreateParamsStreaming,

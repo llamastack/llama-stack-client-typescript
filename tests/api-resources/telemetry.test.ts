@@ -90,6 +90,32 @@ describe('resource telemetry', () => {
   });
 
   // unsupported query params in java / kotlin
+  test.skip('queryMetrics: only required params', async () => {
+    const responsePromise = client.telemetry.queryMetrics('metric_name', {
+      query_type: 'range',
+      start_time: 0,
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // unsupported query params in java / kotlin
+  test.skip('queryMetrics: required and optional params', async () => {
+    const response = await client.telemetry.queryMetrics('metric_name', {
+      query_type: 'range',
+      start_time: 0,
+      end_time: 0,
+      granularity: 'granularity',
+      label_matchers: [{ name: 'name', operator: '=', value: 'value' }],
+    });
+  });
+
+  // unsupported query params in java / kotlin
   test.skip('querySpans: only required params', async () => {
     const responsePromise = client.telemetry.querySpans({
       attribute_filters: [{ key: 'key', op: 'eq', value: true }],

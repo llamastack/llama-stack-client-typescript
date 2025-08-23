@@ -95,7 +95,39 @@ export namespace InputItemListResponse {
     /**
      * (Optional) Search results returned by the file search operation
      */
-    results?: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
+    results?: Array<OpenAIResponseOutputMessageFileSearchToolCall.Result>;
+  }
+
+  export namespace OpenAIResponseOutputMessageFileSearchToolCall {
+    /**
+     * Search results returned by the file search operation.
+     */
+    export interface Result {
+      /**
+       * (Optional) Key-value attributes associated with the file
+       */
+      attributes: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+
+      /**
+       * Unique identifier of the file containing the result
+       */
+      file_id: string;
+
+      /**
+       * Name of the file containing the result
+       */
+      filename: string;
+
+      /**
+       * Relevance score for this search result (between 0 and 1)
+       */
+      score: number;
+
+      /**
+       * Text content of the search result
+       */
+      text: string;
+    }
   }
 
   /**

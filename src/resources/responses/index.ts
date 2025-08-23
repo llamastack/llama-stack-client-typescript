@@ -2,6 +2,7 @@
 
 export { InputItems, type InputItemListResponse, type InputItemListParams } from './input-items';
 export {
+  ResponseListResponsesOpenAICursorPage,
   Responses,
   type ResponseObject,
   type ResponseObjectStream,

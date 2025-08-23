@@ -1,8 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import * as Shared from './shared';
-import * as InferenceAPI from './inference';
-import * as ToolRuntimeAPI from './tool-runtime/tool-runtime';
 
 /**
  * Configuration for an agent.
@@ -18,7 +16,7 @@ export interface AgentConfig {
    */
   model: string;
 
-  client_tools?: Array<ToolRuntimeAPI.ToolDef>;
+  client_tools?: Array<AgentConfig.ClientTool>;
 
   /**
    * Optional flag indicating whether session data has to be persisted
@@ -68,6 +66,63 @@ export interface AgentConfig {
 
 export namespace AgentConfig {
   /**
+   * Tool definition used in runtime contexts.
+   */
+  export interface ClientTool {
+    /**
+     * Name of the tool
+     */
+    name: string;
+
+    /**
+     * (Optional) Human-readable description of what the tool does
+     */
+    description?: string;
+
+    /**
+     * (Optional) Additional metadata about the tool
+     */
+    metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+
+    /**
+     * (Optional) List of parameters this tool accepts
+     */
+    parameters?: Array<ClientTool.Parameter>;
+  }
+
+  export namespace ClientTool {
+    /**
+     * Parameter definition for a tool.
+     */
+    export interface Parameter {
+      /**
+       * Human-readable description of what the parameter does
+       */
+      description: string;
+
+      /**
+       * Name of the parameter
+       */
+      name: string;
+
+      /**
+       * Type of the parameter (e.g., string, integer)
+       */
+      parameter_type: string;
+
+      /**
+       * Whether this parameter is required for tool invocation
+       */
+      required: boolean;
+
+      /**
+       * (Optional) Default value for the parameter if not provided
+       */
+      default?: boolean | number | string | Array<unknown> | unknown | null;
+    }
+  }
+
+  /**
    * Configuration for tool use.
    */
   export interface ToolConfig {
@@ -112,7 +167,34 @@ export interface BatchCompletion {
   /**
    * List of completion responses, one for each input in the batch
    */
-  batch: Array<InferenceAPI.CompletionResponse>;
+  batch: Array<BatchCompletion.Batch>;
+}
+
+export namespace BatchCompletion {
+  /**
+   * Response from a completion request.
+   */
+  export interface Batch {
+    /**
+     * The generated completion text
+     */
+    content: string;
+
+    /**
+     * Reason why generation stopped
+     */
+    stop_reason: 'end_of_turn' | 'end_of_message' | 'out_of_tokens';
+
+    /**
+     * Optional log probabilities for generated tokens
+     */
+    logprobs?: Array<Shared.SharedTokenLogProbs>;
+
+    /**
+     * (Optional) List of metrics associated with the API response
+     */
+    metrics?: Array<Shared.Metric>;
+  }
 }
 
 /**
@@ -127,34 +209,12 @@ export interface ChatCompletionResponse {
   /**
    * Optional log probabilities for generated tokens
    */
-  logprobs?: Array<InferenceAPI.TokenLogProbs>;
+  logprobs?: Array<SharedTokenLogProbs>;
 
   /**
    * (Optional) List of metrics associated with the API response
    */
-  metrics?: Array<ChatCompletionResponse.Metric>;
-}
-
-export namespace ChatCompletionResponse {
-  /**
-   * A metric value included in API responses.
-   */
-  export interface Metric {
-    /**
-     * The name of the metric
-     */
-    metric: string;
-
-    /**
-     * The numeric value of the metric
-     */
-    value: number;
-
-    /**
-     * (Optional) The unit of measurement for the metric value
-     */
-    unit?: string;
-  }
+  metrics?: Array<Metric>;
 }
 
 /**
@@ -235,7 +295,7 @@ export namespace ContentDelta {
     /**
      * Either an in-progress tool call string or the final parsed tool call
      */
-    tool_call: Shared.ToolCallOrString;
+    tool_call: string | Shared.ToolCall;
 
     /**
      * Discriminator type of the delta. Always "tool_call"
@@ -493,6 +553,26 @@ export namespace InterleavedContentItem {
  * A message from the user in a chat conversation.
  */
 export type Message = UserMessage | SystemMessage | ToolResponseMessage | CompletionMessage;
+
+/**
+ * A metric value included in API responses.
+ */
+export interface Metric {
+  /**
+   * The name of the metric
+   */
+  metric: string;
+
+  /**
+   * The numeric value of the metric
+   */
+  value: number;
+
+  /**
+   * (Optional) The unit of measurement for the metric value
+   */
+  unit?: string;
+}
 
 /**
  * Parameter type for string values.
@@ -781,20 +861,6 @@ export namespace ResponseFormat {
   }
 }
 
-export interface ReturnType {
-  type:
-    | 'string'
-    | 'number'
-    | 'boolean'
-    | 'array'
-    | 'object'
-    | 'json'
-    | 'union'
-    | 'chat_completion_input'
-    | 'completion_input'
-    | 'agent_turn_input';
-}
-
 /**
  * Details of a safety violation detected by content moderation.
  */
@@ -913,6 +979,16 @@ export interface ScoringResult {
 }
 
 /**
+ * Log probabilities for generated tokens.
+ */
+export interface SharedTokenLogProbs {
+  /**
+   * Dictionary mapping tokens to their log probabilities
+   */
+  logprobs_by_token: { [key: string]: number };
+}
+
+/**
  * A system message providing instructions or context to the model.
  */
 export interface SystemMessage {
@@ -948,11 +1024,6 @@ export interface ToolCall {
 
   arguments_json?: string;
 }
-
-/**
- * Either an in-progress tool call string or the final parsed tool call
- */
-export type ToolCallOrString = string | ToolCall;
 
 export interface ToolParamDefinition {
   param_type: string;

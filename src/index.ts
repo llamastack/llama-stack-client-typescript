@@ -5,7 +5,12 @@ import * as qs from './internal/qs';
 import * as Core from './core';
 import * as Errors from './error';
 import * as Pagination from './pagination';
-import { type DatasetsIterrowsParams, DatasetsIterrowsResponse } from './pagination';
+import {
+  type DatasetsIterrowsParams,
+  DatasetsIterrowsResponse,
+  type OpenAICursorPageParams,
+  OpenAICursorPageResponse,
+} from './pagination';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
 import {
@@ -41,11 +46,11 @@ import {
   FileCreateParams,
   FileListParams,
   Files,
+  FilesOpenAICursorPage,
   ListFilesResponse,
 } from './resources/files';
 import {
   ChatCompletionResponseStreamChunk,
-  CompletionResponse,
   EmbeddingsResponse,
   Inference,
   InferenceBatchChatCompletionParams,
@@ -109,6 +114,8 @@ import {
   TelemetryGetSpanTreeParams,
   TelemetryGetSpanTreeResponse,
   TelemetryLogEventParams,
+  TelemetryQueryMetricsParams,
+  TelemetryQueryMetricsResponse,
   TelemetryQuerySpansParams,
   TelemetryQuerySpansResponse,
   TelemetryQueryTracesParams,
@@ -177,12 +184,12 @@ import {
   ResponseCreateParamsStreaming,
   ResponseListParams,
   ResponseListResponse,
+  ResponseListResponsesOpenAICursorPage,
   ResponseObject,
   ResponseObjectStream,
   Responses,
 } from './resources/responses/responses';
 import {
-  ToolDef,
   ToolInvocationResult,
   ToolRuntime,
   ToolRuntimeInvokeToolParams,
@@ -199,6 +206,7 @@ import {
   VectorStoreSearchResponse,
   VectorStoreUpdateParams,
   VectorStores,
+  VectorStoresOpenAICursorPage,
 } from './resources/vector-stores/vector-stores';
 
 export interface ClientOptions {
@@ -394,6 +402,7 @@ LlamaStackClient.Toolgroups = Toolgroups;
 LlamaStackClient.Tools = Tools;
 LlamaStackClient.ToolRuntime = ToolRuntime;
 LlamaStackClient.Responses = Responses;
+LlamaStackClient.ResponseListResponsesOpenAICursorPage = ResponseListResponsesOpenAICursorPage;
 LlamaStackClient.Agents = Agents;
 LlamaStackClient.Datasets = Datasets;
 LlamaStackClient.Eval = Eval;
@@ -405,6 +414,7 @@ LlamaStackClient.Completions = Completions;
 LlamaStackClient.VectorIo = VectorIo;
 LlamaStackClient.VectorDBs = VectorDBs;
 LlamaStackClient.VectorStores = VectorStores;
+LlamaStackClient.VectorStoresOpenAICursorPage = VectorStoresOpenAICursorPage;
 LlamaStackClient.Models = Models;
 LlamaStackClient.PostTraining = PostTraining;
 LlamaStackClient.Providers = Providers;
@@ -418,6 +428,8 @@ LlamaStackClient.Scoring = Scoring;
 LlamaStackClient.ScoringFunctions = ScoringFunctions;
 LlamaStackClient.Benchmarks = Benchmarks;
 LlamaStackClient.Files = Files;
+LlamaStackClient.FilesOpenAICursorPage = FilesOpenAICursorPage;
+
 export declare namespace LlamaStackClient {
   export type RequestOptions = Core.RequestOptions;
 
@@ -425,6 +437,12 @@ export declare namespace LlamaStackClient {
   export {
     type DatasetsIterrowsParams as DatasetsIterrowsParams,
     type DatasetsIterrowsResponse as DatasetsIterrowsResponse,
+  };
+
+  export import OpenAICursorPage = Pagination.OpenAICursorPage;
+  export {
+    type OpenAICursorPageParams as OpenAICursorPageParams,
+    type OpenAICursorPageResponse as OpenAICursorPageResponse,
   };
 
   export {
@@ -445,7 +463,6 @@ export declare namespace LlamaStackClient {
 
   export {
     ToolRuntime as ToolRuntime,
-    type ToolDef as ToolDef,
     type ToolInvocationResult as ToolInvocationResult,
     type ToolRuntimeListToolsResponse as ToolRuntimeListToolsResponse,
     type ToolRuntimeInvokeToolParams as ToolRuntimeInvokeToolParams,
@@ -457,6 +474,7 @@ export declare namespace LlamaStackClient {
     type ResponseObject as ResponseObject,
     type ResponseObjectStream as ResponseObjectStream,
     type ResponseListResponse as ResponseListResponse,
+    ResponseListResponsesOpenAICursorPage as ResponseListResponsesOpenAICursorPage,
     type ResponseCreateParams as ResponseCreateParams,
     type ResponseCreateParamsNonStreaming as ResponseCreateParamsNonStreaming,
     type ResponseCreateParamsStreaming as ResponseCreateParamsStreaming,
@@ -512,7 +530,6 @@ export declare namespace LlamaStackClient {
   export {
     Inference as Inference,
     type ChatCompletionResponseStreamChunk as ChatCompletionResponseStreamChunk,
-    type CompletionResponse as CompletionResponse,
     type EmbeddingsResponse as EmbeddingsResponse,
     type TokenLogProbs as TokenLogProbs,
     type InferenceBatchChatCompletionResponse as InferenceBatchChatCompletionResponse,
@@ -565,6 +582,7 @@ export declare namespace LlamaStackClient {
     type VectorStore as VectorStore,
     type VectorStoreDeleteResponse as VectorStoreDeleteResponse,
     type VectorStoreSearchResponse as VectorStoreSearchResponse,
+    VectorStoresOpenAICursorPage as VectorStoresOpenAICursorPage,
     type VectorStoreCreateParams as VectorStoreCreateParams,
     type VectorStoreUpdateParams as VectorStoreUpdateParams,
     type VectorStoreListParams as VectorStoreListParams,
@@ -635,10 +653,12 @@ export declare namespace LlamaStackClient {
     type Trace as Trace,
     type TelemetryGetSpanResponse as TelemetryGetSpanResponse,
     type TelemetryGetSpanTreeResponse as TelemetryGetSpanTreeResponse,
+    type TelemetryQueryMetricsResponse as TelemetryQueryMetricsResponse,
     type TelemetryQuerySpansResponse as TelemetryQuerySpansResponse,
     type TelemetryQueryTracesResponse as TelemetryQueryTracesResponse,
     type TelemetryGetSpanTreeParams as TelemetryGetSpanTreeParams,
     type TelemetryLogEventParams as TelemetryLogEventParams,
+    type TelemetryQueryMetricsParams as TelemetryQueryMetricsParams,
     type TelemetryQuerySpansParams as TelemetryQuerySpansParams,
     type TelemetryQueryTracesParams as TelemetryQueryTracesParams,
     type TelemetrySaveSpansToDatasetParams as TelemetrySaveSpansToDatasetParams,
@@ -675,6 +695,7 @@ export declare namespace LlamaStackClient {
     type File as File,
     type ListFilesResponse as ListFilesResponse,
     type FileContentResponse as FileContentResponse,
+    FilesOpenAICursorPage as FilesOpenAICursorPage,
     type FileCreateParams as FileCreateParams,
     type FileListParams as FileListParams,
   };
@@ -688,18 +709,18 @@ export declare namespace LlamaStackClient {
   export type InterleavedContent = API.InterleavedContent;
   export type InterleavedContentItem = API.InterleavedContentItem;
   export type Message = API.Message;
+  export type Metric = API.Metric;
   export type ParamType = API.ParamType;
   export type QueryConfig = API.QueryConfig;
   export type QueryGeneratorConfig = API.QueryGeneratorConfig;
   export type QueryResult = API.QueryResult;
   export type ResponseFormat = API.ResponseFormat;
-  export type ReturnType = API.ReturnType;
   export type SafetyViolation = API.SafetyViolation;
   export type SamplingParams = API.SamplingParams;
   export type ScoringResult = API.ScoringResult;
+  export type SharedTokenLogProbs = API.SharedTokenLogProbs;
   export type SystemMessage = API.SystemMessage;
   export type ToolCall = API.ToolCall;
-  export type ToolCallOrString = API.ToolCallOrString;
   export type ToolParamDefinition = API.ToolParamDefinition;
   export type ToolResponseMessage = API.ToolResponseMessage;
   export type UserMessage = API.UserMessage;

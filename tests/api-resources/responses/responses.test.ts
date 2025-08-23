@@ -21,6 +21,7 @@ describe('resource responses', () => {
     const response = await client.responses.create({
       input: 'string',
       model: 'model',
+      include: ['string'],
       instructions: 'instructions',
       max_infer_iters: 0,
       previous_response_id: 'previous_response_id',

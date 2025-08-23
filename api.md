@@ -11,18 +11,18 @@ Types:
 - <code><a href="./src/resources/shared.ts">InterleavedContent</a></code>
 - <code><a href="./src/resources/shared.ts">InterleavedContentItem</a></code>
 - <code><a href="./src/resources/shared.ts">Message</a></code>
+- <code><a href="./src/resources/shared.ts">Metric</a></code>
 - <code><a href="./src/resources/shared.ts">ParamType</a></code>
 - <code><a href="./src/resources/shared.ts">QueryConfig</a></code>
 - <code><a href="./src/resources/shared.ts">QueryGeneratorConfig</a></code>
 - <code><a href="./src/resources/shared.ts">QueryResult</a></code>
 - <code><a href="./src/resources/shared.ts">ResponseFormat</a></code>
-- <code><a href="./src/resources/shared.ts">ReturnType</a></code>
 - <code><a href="./src/resources/shared.ts">SafetyViolation</a></code>
 - <code><a href="./src/resources/shared.ts">SamplingParams</a></code>
 - <code><a href="./src/resources/shared.ts">ScoringResult</a></code>
+- <code><a href="./src/resources/shared.ts">SharedTokenLogProbs</a></code>
 - <code><a href="./src/resources/shared.ts">SystemMessage</a></code>
 - <code><a href="./src/resources/shared.ts">ToolCall</a></code>
-- <code><a href="./src/resources/shared.ts">ToolCallOrString</a></code>
 - <code><a href="./src/resources/shared.ts">ToolParamDefinition</a></code>
 - <code><a href="./src/resources/shared.ts">ToolResponseMessage</a></code>
 - <code><a href="./src/resources/shared.ts">UserMessage</a></code>
@@ -59,7 +59,6 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/tool-runtime/tool-runtime.ts">ToolDef</a></code>
 - <code><a href="./src/resources/tool-runtime/tool-runtime.ts">ToolInvocationResult</a></code>
 - <code><a href="./src/resources/tool-runtime/tool-runtime.ts">ToolRuntimeListToolsResponse</a></code>
 
@@ -87,7 +86,7 @@ Methods:
 
 - <code title="post /v1/openai/v1/responses">client.responses.<a href="./src/resources/responses/responses.ts">create</a>({ ...params }) -> ResponseObject</code>
 - <code title="get /v1/openai/v1/responses/{response_id}">client.responses.<a href="./src/resources/responses/responses.ts">retrieve</a>(responseId) -> ResponseObject</code>
-- <code title="get /v1/openai/v1/responses">client.responses.<a href="./src/resources/responses/responses.ts">list</a>({ ...params }) -> ResponseListResponse</code>
+- <code title="get /v1/openai/v1/responses">client.responses.<a href="./src/resources/responses/responses.ts">list</a>({ ...params }) -> ResponseListResponsesOpenAICursorPage</code>
 
 ## InputItems
 
@@ -221,7 +220,6 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/inference.ts">ChatCompletionResponseStreamChunk</a></code>
-- <code><a href="./src/resources/inference.ts">CompletionResponse</a></code>
 - <code><a href="./src/resources/inference.ts">EmbeddingsResponse</a></code>
 - <code><a href="./src/resources/inference.ts">TokenLogProbs</a></code>
 - <code><a href="./src/resources/inference.ts">InferenceBatchChatCompletionResponse</a></code>
@@ -262,7 +260,7 @@ Methods:
 
 - <code title="post /v1/openai/v1/chat/completions">client.chat.completions.<a href="./src/resources/chat/completions.ts">create</a>({ ...params }) -> CompletionCreateResponse</code>
 - <code title="get /v1/openai/v1/chat/completions/{completion_id}">client.chat.completions.<a href="./src/resources/chat/completions.ts">retrieve</a>(completionId) -> CompletionRetrieveResponse</code>
-- <code title="get /v1/openai/v1/chat/completions">client.chat.completions.<a href="./src/resources/chat/completions.ts">list</a>({ ...params }) -> CompletionListResponse</code>
+- <code title="get /v1/openai/v1/chat/completions">client.chat.completions.<a href="./src/resources/chat/completions.ts">list</a>({ ...params }) -> CompletionListResponsesOpenAICursorPage</code>
 
 # Completions
 
@@ -315,7 +313,7 @@ Methods:
 - <code title="post /v1/openai/v1/vector_stores">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">create</a>({ ...params }) -> VectorStore</code>
 - <code title="get /v1/openai/v1/vector_stores/{vector_store_id}">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">retrieve</a>(vectorStoreId) -> VectorStore</code>
 - <code title="post /v1/openai/v1/vector_stores/{vector_store_id}">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">update</a>(vectorStoreId, { ...params }) -> VectorStore</code>
-- <code title="get /v1/openai/v1/vector_stores">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">list</a>({ ...params }) -> ListVectorStoresResponse</code>
+- <code title="get /v1/openai/v1/vector_stores">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">list</a>({ ...params }) -> VectorStoresOpenAICursorPage</code>
 - <code title="delete /v1/openai/v1/vector_stores/{vector_store_id}">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">delete</a>(vectorStoreId) -> VectorStoreDeleteResponse</code>
 - <code title="post /v1/openai/v1/vector_stores/{vector_store_id}/search">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">search</a>(vectorStoreId, { ...params }) -> VectorStoreSearchResponse</code>
 
@@ -324,7 +322,6 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/vector-stores/files.ts">VectorStoreFile</a></code>
-- <code><a href="./src/resources/vector-stores/files.ts">FileListResponse</a></code>
 - <code><a href="./src/resources/vector-stores/files.ts">FileDeleteResponse</a></code>
 - <code><a href="./src/resources/vector-stores/files.ts">FileContentResponse</a></code>
 
@@ -333,7 +330,7 @@ Methods:
 - <code title="post /v1/openai/v1/vector_stores/{vector_store_id}/files">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">create</a>(vectorStoreId, { ...params }) -> VectorStoreFile</code>
 - <code title="get /v1/openai/v1/vector_stores/{vector_store_id}/files/{file_id}">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">retrieve</a>(vectorStoreId, fileId) -> VectorStoreFile</code>
 - <code title="post /v1/openai/v1/vector_stores/{vector_store_id}/files/{file_id}">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">update</a>(vectorStoreId, fileId, { ...params }) -> VectorStoreFile</code>
-- <code title="get /v1/openai/v1/vector_stores/{vector_store_id}/files">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">list</a>(vectorStoreId, { ...params }) -> FileListResponse</code>
+- <code title="get /v1/openai/v1/vector_stores/{vector_store_id}/files">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">list</a>(vectorStoreId, { ...params }) -> VectorStoreFilesOpenAICursorPage</code>
 - <code title="delete /v1/openai/v1/vector_stores/{vector_store_id}/files/{file_id}">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">delete</a>(vectorStoreId, fileId) -> FileDeleteResponse</code>
 - <code title="get /v1/openai/v1/vector_stores/{vector_store_id}/files/{file_id}/content">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">content</a>(vectorStoreId, fileId) -> FileContentResponse</code>
 
@@ -458,6 +455,7 @@ Types:
 - <code><a href="./src/resources/telemetry.ts">Trace</a></code>
 - <code><a href="./src/resources/telemetry.ts">TelemetryGetSpanResponse</a></code>
 - <code><a href="./src/resources/telemetry.ts">TelemetryGetSpanTreeResponse</a></code>
+- <code><a href="./src/resources/telemetry.ts">TelemetryQueryMetricsResponse</a></code>
 - <code><a href="./src/resources/telemetry.ts">TelemetryQuerySpansResponse</a></code>
 - <code><a href="./src/resources/telemetry.ts">TelemetryQueryTracesResponse</a></code>
 
@@ -467,6 +465,7 @@ Methods:
 - <code title="post /v1/telemetry/spans/{span_id}/tree">client.telemetry.<a href="./src/resources/telemetry.ts">getSpanTree</a>(spanId, { ...params }) -> TelemetryGetSpanTreeResponse</code>
 - <code title="get /v1/telemetry/traces/{trace_id}">client.telemetry.<a href="./src/resources/telemetry.ts">getTrace</a>(traceId) -> Trace</code>
 - <code title="post /v1/telemetry/events">client.telemetry.<a href="./src/resources/telemetry.ts">logEvent</a>({ ...params }) -> void</code>
+- <code title="post /v1/telemetry/metrics/{metric_name}">client.telemetry.<a href="./src/resources/telemetry.ts">queryMetrics</a>(metricName, { ...params }) -> TelemetryQueryMetricsResponse</code>
 - <code title="post /v1/telemetry/spans">client.telemetry.<a href="./src/resources/telemetry.ts">querySpans</a>({ ...params }) -> TelemetryQuerySpansResponse</code>
 - <code title="post /v1/telemetry/traces">client.telemetry.<a href="./src/resources/telemetry.ts">queryTraces</a>({ ...params }) -> TelemetryQueryTracesResponse</code>
 - <code title="post /v1/telemetry/spans/export">client.telemetry.<a href="./src/resources/telemetry.ts">saveSpansToDataset</a>({ ...params }) -> void</code>
@@ -525,6 +524,6 @@ Methods:
 
 - <code title="post /v1/openai/v1/files">client.files.<a href="./src/resources/files.ts">create</a>({ ...params }) -> File</code>
 - <code title="get /v1/openai/v1/files/{file_id}">client.files.<a href="./src/resources/files.ts">retrieve</a>(fileId) -> File</code>
-- <code title="get /v1/openai/v1/files">client.files.<a href="./src/resources/files.ts">list</a>({ ...params }) -> ListFilesResponse</code>
+- <code title="get /v1/openai/v1/files">client.files.<a href="./src/resources/files.ts">list</a>({ ...params }) -> FilesOpenAICursorPage</code>
 - <code title="delete /v1/openai/v1/files/{file_id}">client.files.<a href="./src/resources/files.ts">delete</a>(fileId) -> DeleteFileResponse</code>
 - <code title="get /v1/openai/v1/files/{file_id}/content">client.files.<a href="./src/resources/files.ts">content</a>(fileId) -> unknown</code>

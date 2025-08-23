@@ -68,7 +68,6 @@ jobs:
           AUTH: ${{ steps.github-oidc.outputs.github_token }}
           SHA: ${{ github.sha }}
         run: ./scripts/utils/upload-artifact.sh
-
   test:
     timeout-minutes: 10
     name: test

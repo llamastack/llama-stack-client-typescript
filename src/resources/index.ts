@@ -53,6 +53,7 @@ export {
   type EvalRunEvalAlphaParams,
 } from './eval/eval';
 export {
+  FilesOpenAICursorPage,
   Files,
   type DeleteFileResponse,
   type File,
@@ -64,7 +65,6 @@ export {
 export {
   Inference,
   type ChatCompletionResponseStreamChunk,
-  type CompletionResponse,
   type EmbeddingsResponse,
   type TokenLogProbs,
   type InferenceBatchChatCompletionResponse,
@@ -97,6 +97,7 @@ export {
 } from './post-training/post-training';
 export { Providers, type ListProvidersResponse, type ProviderListResponse } from './providers';
 export {
+  ResponseListResponsesOpenAICursorPage,
   Responses,
   type ResponseObject,
   type ResponseObjectStream,
@@ -144,17 +145,18 @@ export {
   type Trace,
   type TelemetryGetSpanResponse,
   type TelemetryGetSpanTreeResponse,
+  type TelemetryQueryMetricsResponse,
   type TelemetryQuerySpansResponse,
   type TelemetryQueryTracesResponse,
   type TelemetryGetSpanTreeParams,
   type TelemetryLogEventParams,
+  type TelemetryQueryMetricsParams,
   type TelemetryQuerySpansParams,
   type TelemetryQueryTracesParams,
   type TelemetrySaveSpansToDatasetParams,
 } from './telemetry';
 export {
   ToolRuntime,
-  type ToolDef,
   type ToolInvocationResult,
   type ToolRuntimeListToolsResponse,
   type ToolRuntimeInvokeToolParams,
@@ -189,6 +191,7 @@ export {
   type VectorIoQueryParams,
 } from './vector-io';
 export {
+  VectorStoresOpenAICursorPage,
   VectorStores,
   type ListVectorStoresResponse,
   type VectorStore,

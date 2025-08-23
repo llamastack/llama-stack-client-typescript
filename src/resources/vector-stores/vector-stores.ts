@@ -9,11 +9,12 @@ import {
   FileCreateParams,
   FileDeleteResponse,
   FileListParams,
-  FileListResponse,
   FileUpdateParams,
   Files,
   VectorStoreFile,
+  VectorStoreFilesOpenAICursorPage,
 } from './files';
+import { OpenAICursorPage, type OpenAICursorPageParams } from '../../pagination';
 
 export class VectorStores extends APIResource {
   files: FilesAPI.Files = new FilesAPI.Files(this._client);
@@ -49,16 +50,19 @@ export class VectorStores extends APIResource {
   list(
     query?: VectorStoreListParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<ListVectorStoresResponse>;
-  list(options?: Core.RequestOptions): Core.APIPromise<ListVectorStoresResponse>;
+  ): Core.PagePromise<VectorStoresOpenAICursorPage, VectorStore>;
+  list(options?: Core.RequestOptions): Core.PagePromise<VectorStoresOpenAICursorPage, VectorStore>;
   list(
     query: VectorStoreListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<ListVectorStoresResponse> {
+  ): Core.PagePromise<VectorStoresOpenAICursorPage, VectorStore> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.get('/v1/openai/v1/vector_stores', { query, ...options });
+    return this._client.getAPIList('/v1/openai/v1/vector_stores', VectorStoresOpenAICursorPage, {
+      query,
+      ...options,
+    });
   }
 
   /**
@@ -80,6 +84,8 @@ export class VectorStores extends APIResource {
     return this._client.post(`/v1/openai/v1/vector_stores/${vectorStoreId}/search`, { body, ...options });
   }
 }
+
+export class VectorStoresOpenAICursorPage extends OpenAICursorPage<VectorStore> {}
 
 /**
  * Response from listing vector stores.
@@ -363,24 +369,12 @@ export interface VectorStoreUpdateParams {
   name?: string;
 }
 
-export interface VectorStoreListParams {
-  /**
-   * A cursor for use in pagination. `after` is an object ID that defines your place
-   * in the list.
-   */
-  after?: string;
-
+export interface VectorStoreListParams extends OpenAICursorPageParams {
   /**
    * A cursor for use in pagination. `before` is an object ID that defines your place
    * in the list.
    */
   before?: string;
-
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and
-   * 100, and the default is 20.
-   */
-  limit?: number;
 
   /**
    * Sort order by the `created_at` timestamp of the objects. `asc` for ascending
@@ -438,7 +432,9 @@ export namespace VectorStoreSearchParams {
   }
 }
 
+VectorStores.VectorStoresOpenAICursorPage = VectorStoresOpenAICursorPage;
 VectorStores.Files = Files;
+VectorStores.VectorStoreFilesOpenAICursorPage = VectorStoreFilesOpenAICursorPage;
 
 export declare namespace VectorStores {
   export {
@@ -446,6 +442,7 @@ export declare namespace VectorStores {
     type VectorStore as VectorStore,
     type VectorStoreDeleteResponse as VectorStoreDeleteResponse,
     type VectorStoreSearchResponse as VectorStoreSearchResponse,
+    VectorStoresOpenAICursorPage as VectorStoresOpenAICursorPage,
     type VectorStoreCreateParams as VectorStoreCreateParams,
     type VectorStoreUpdateParams as VectorStoreUpdateParams,
     type VectorStoreListParams as VectorStoreListParams,
@@ -455,9 +452,9 @@ export declare namespace VectorStores {
   export {
     Files as Files,
     type VectorStoreFile as VectorStoreFile,
-    type FileListResponse as FileListResponse,
     type FileDeleteResponse as FileDeleteResponse,
     type FileContentResponse as FileContentResponse,
+    VectorStoreFilesOpenAICursorPage as VectorStoreFilesOpenAICursorPage,
     type FileCreateParams as FileCreateParams,
     type FileUpdateParams as FileUpdateParams,
     type FileListParams as FileListParams,

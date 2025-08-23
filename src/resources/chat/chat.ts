@@ -9,6 +9,7 @@ import {
   CompletionCreateResponse,
   CompletionListParams,
   CompletionListResponse,
+  CompletionListResponsesOpenAICursorPage,
   CompletionRetrieveResponse,
   Completions,
 } from './completions';
@@ -219,6 +220,7 @@ export namespace ChatCompletionChunk {
 }
 
 Chat.Completions = Completions;
+Chat.CompletionListResponsesOpenAICursorPage = CompletionListResponsesOpenAICursorPage;
 
 export declare namespace Chat {
   export { type ChatCompletionChunk as ChatCompletionChunk };
@@ -228,6 +230,7 @@ export declare namespace Chat {
     type CompletionCreateResponse as CompletionCreateResponse,
     type CompletionRetrieveResponse as CompletionRetrieveResponse,
     type CompletionListResponse as CompletionListResponse,
+    CompletionListResponsesOpenAICursorPage as CompletionListResponsesOpenAICursorPage,
     type CompletionCreateParams as CompletionCreateParams,
     type CompletionCreateParamsNonStreaming as CompletionCreateParamsNonStreaming,
     type CompletionCreateParamsStreaming as CompletionCreateParamsStreaming,

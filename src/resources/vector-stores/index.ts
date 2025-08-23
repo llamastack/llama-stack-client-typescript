@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export {
+  VectorStoreFilesOpenAICursorPage,
   Files,
   type VectorStoreFile,
-  type FileListResponse,
   type FileDeleteResponse,
   type FileContentResponse,
   type FileCreateParams,
@@ -11,6 +11,7 @@ export {
   type FileListParams,
 } from './files';
 export {
+  VectorStoresOpenAICursorPage,
   VectorStores,
   type ListVectorStoresResponse,
   type VectorStore,
