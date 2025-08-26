@@ -131,13 +131,38 @@ export namespace ChatCompletionResponseStreamChunk {
     /**
      * Optional log probabilities for generated tokens
      */
-    logprobs?: Array<Shared.SharedTokenLogProbs>;
+    logprobs?: Array<InferenceAPI.TokenLogProbs>;
 
     /**
      * Optional reason why generation stopped, if complete
      */
     stop_reason?: 'end_of_turn' | 'end_of_message' | 'out_of_tokens';
   }
+}
+
+/**
+ * Response from a completion request.
+ */
+export interface CompletionResponse {
+  /**
+   * The generated completion text
+   */
+  content: string;
+
+  /**
+   * Reason why generation stopped
+   */
+  stop_reason: 'end_of_turn' | 'end_of_message' | 'out_of_tokens';
+
+  /**
+   * Optional log probabilities for generated tokens
+   */
+  logprobs?: Array<TokenLogProbs>;
+
+  /**
+   * (Optional) List of metrics associated with the API response
+   */
+  metrics?: Array<Shared.Metric>;
 }
 
 /**
@@ -553,6 +578,7 @@ export interface InferenceEmbeddingsParams {
 export declare namespace Inference {
   export {
     type ChatCompletionResponseStreamChunk as ChatCompletionResponseStreamChunk,
+    type CompletionResponse as CompletionResponse,
     type EmbeddingsResponse as EmbeddingsResponse,
     type TokenLogProbs as TokenLogProbs,
     type InferenceBatchChatCompletionResponse as InferenceBatchChatCompletionResponse,

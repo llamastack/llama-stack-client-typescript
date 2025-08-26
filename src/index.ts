@@ -51,6 +51,7 @@ import {
 } from './resources/files';
 import {
   ChatCompletionResponseStreamChunk,
+  CompletionResponse,
   EmbeddingsResponse,
   Inference,
   InferenceBatchChatCompletionParams,
@@ -190,6 +191,7 @@ import {
   Responses,
 } from './resources/responses/responses';
 import {
+  ToolDef,
   ToolInvocationResult,
   ToolRuntime,
   ToolRuntimeInvokeToolParams,
@@ -463,6 +465,7 @@ export declare namespace LlamaStackClient {
 
   export {
     ToolRuntime as ToolRuntime,
+    type ToolDef as ToolDef,
     type ToolInvocationResult as ToolInvocationResult,
     type ToolRuntimeListToolsResponse as ToolRuntimeListToolsResponse,
     type ToolRuntimeInvokeToolParams as ToolRuntimeInvokeToolParams,
@@ -530,6 +533,7 @@ export declare namespace LlamaStackClient {
   export {
     Inference as Inference,
     type ChatCompletionResponseStreamChunk as ChatCompletionResponseStreamChunk,
+    type CompletionResponse as CompletionResponse,
     type EmbeddingsResponse as EmbeddingsResponse,
     type TokenLogProbs as TokenLogProbs,
     type InferenceBatchChatCompletionResponse as InferenceBatchChatCompletionResponse,
@@ -718,7 +722,6 @@ export declare namespace LlamaStackClient {
   export type SafetyViolation = API.SafetyViolation;
   export type SamplingParams = API.SamplingParams;
   export type ScoringResult = API.ScoringResult;
-  export type SharedTokenLogProbs = API.SharedTokenLogProbs;
   export type SystemMessage = API.SystemMessage;
   export type ToolCall = API.ToolCall;
   export type ToolParamDefinition = API.ToolParamDefinition;

@@ -1,6 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import * as Shared from './shared';
+import * as InferenceAPI from './inference';
+import * as ToolRuntimeAPI from './tool-runtime/tool-runtime';
 
 /**
  * Configuration for an agent.
@@ -16,7 +18,7 @@ export interface AgentConfig {
    */
   model: string;
 
-  client_tools?: Array<AgentConfig.ClientTool>;
+  client_tools?: Array<ToolRuntimeAPI.ToolDef>;
 
   /**
    * Optional flag indicating whether session data has to be persisted
@@ -66,63 +68,6 @@ export interface AgentConfig {
 
 export namespace AgentConfig {
   /**
-   * Tool definition used in runtime contexts.
-   */
-  export interface ClientTool {
-    /**
-     * Name of the tool
-     */
-    name: string;
-
-    /**
-     * (Optional) Human-readable description of what the tool does
-     */
-    description?: string;
-
-    /**
-     * (Optional) Additional metadata about the tool
-     */
-    metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-    /**
-     * (Optional) List of parameters this tool accepts
-     */
-    parameters?: Array<ClientTool.Parameter>;
-  }
-
-  export namespace ClientTool {
-    /**
-     * Parameter definition for a tool.
-     */
-    export interface Parameter {
-      /**
-       * Human-readable description of what the parameter does
-       */
-      description: string;
-
-      /**
-       * Name of the parameter
-       */
-      name: string;
-
-      /**
-       * Type of the parameter (e.g., string, integer)
-       */
-      parameter_type: string;
-
-      /**
-       * Whether this parameter is required for tool invocation
-       */
-      required: boolean;
-
-      /**
-       * (Optional) Default value for the parameter if not provided
-       */
-      default?: boolean | number | string | Array<unknown> | unknown | null;
-    }
-  }
-
-  /**
    * Configuration for tool use.
    */
   export interface ToolConfig {
@@ -167,34 +112,7 @@ export interface BatchCompletion {
   /**
    * List of completion responses, one for each input in the batch
    */
-  batch: Array<BatchCompletion.Batch>;
-}
-
-export namespace BatchCompletion {
-  /**
-   * Response from a completion request.
-   */
-  export interface Batch {
-    /**
-     * The generated completion text
-     */
-    content: string;
-
-    /**
-     * Reason why generation stopped
-     */
-    stop_reason: 'end_of_turn' | 'end_of_message' | 'out_of_tokens';
-
-    /**
-     * Optional log probabilities for generated tokens
-     */
-    logprobs?: Array<Shared.SharedTokenLogProbs>;
-
-    /**
-     * (Optional) List of metrics associated with the API response
-     */
-    metrics?: Array<Shared.Metric>;
-  }
+  batch: Array<InferenceAPI.CompletionResponse>;
 }
 
 /**
@@ -209,7 +127,7 @@ export interface ChatCompletionResponse {
   /**
    * Optional log probabilities for generated tokens
    */
-  logprobs?: Array<SharedTokenLogProbs>;
+  logprobs?: Array<InferenceAPI.TokenLogProbs>;
 
   /**
    * (Optional) List of metrics associated with the API response
@@ -976,16 +894,6 @@ export interface ScoringResult {
    * The scoring result for each row. Each row is a map of column name to value.
    */
   score_rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
-}
-
-/**
- * Log probabilities for generated tokens.
- */
-export interface SharedTokenLogProbs {
-  /**
-   * Dictionary mapping tokens to their log probabilities
-   */
-  logprobs_by_token: { [key: string]: number };
 }
 
 /**
