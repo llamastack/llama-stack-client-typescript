@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.19-alpha.2 (2025-08-29)
+
+Full Changelog: [v0.2.19-alpha.1...v0.2.19-alpha.2](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.2.19-alpha.1...v0.2.19-alpha.2)
+
+### Build System
+
+* Bump version to 0.2.19 ([6756504](https://github.com/llamastack/llama-stack-client-typescript/commit/6756504abce9c5751634436e9a88be03b11b2baa))
+* Bump version to 0.2.20 ([7e953c7](https://github.com/llamastack/llama-stack-client-typescript/commit/7e953c741922ad3b5bb02d00279dac8cb82760dc))
+
 ## 0.2.19-alpha.1 (2025-08-26)
 
 Full Changelog: [v0.2.18-alpha.3...v0.2.19-alpha.1](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.2.18-alpha.3...v0.2.19-alpha.1)
