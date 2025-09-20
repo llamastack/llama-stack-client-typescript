@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.2.19-alpha.2 (2025-09-20)
+
+Full Changelog: [v0.2.19-alpha.1...v0.2.19-alpha.2](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.2.19-alpha.1...v0.2.19-alpha.2)
+
+### Bug Fixes
+
+* **client:** fix circular dependencies and offset pagination ([c6badf8](https://github.com/llamastack/llama-stack-client-typescript/commit/c6badf8b6f9fa2fea0721eca5618705f93120d66))
+* coerce nullable values to undefined ([baa0d06](https://github.com/llamastack/llama-stack-client-typescript/commit/baa0d060f7ed3d7819e9db923d177d3d4bd15cba))
+
+
+### Chores
+
+* ci build action ([a0be0f5](https://github.com/llamastack/llama-stack-client-typescript/commit/a0be0f57c6a99d06b580d62dbbf8d8b6f1447718))
+* do not install brew dependencies in ./scripts/bootstrap by default ([b1d5c7d](https://github.com/llamastack/llama-stack-client-typescript/commit/b1d5c7da386eb2135a25c05d9a73f4d47fbd81b6))
+
+
+### Build System
+
+* Bump version to 0.2.19 ([6756504](https://github.com/llamastack/llama-stack-client-typescript/commit/6756504abce9c5751634436e9a88be03b11b2baa))
+* Bump version to 0.2.20 ([7e953c7](https://github.com/llamastack/llama-stack-client-typescript/commit/7e953c741922ad3b5bb02d00279dac8cb82760dc))
+* Bump version to 0.2.21 ([50f7e6e](https://github.com/llamastack/llama-stack-client-typescript/commit/50f7e6e8784fe7ac99018dfdee23c0f5171b0c5b))
+* Bump version to 0.2.22 ([86089a1](https://github.com/llamastack/llama-stack-client-typescript/commit/86089a11b721427bcbcd2bf9d6b1c33407d7ce9c))
+
 ## 0.2.19-alpha.1 (2025-08-26)
 
 Full Changelog: [v0.2.18-alpha.3...v0.2.19-alpha.1](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.2.18-alpha.3...v0.2.19-alpha.1)
