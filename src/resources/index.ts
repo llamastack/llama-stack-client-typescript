@@ -69,6 +69,7 @@ export {
   type EmbeddingsResponse,
   type TokenLogProbs,
   type InferenceBatchChatCompletionResponse,
+  type InferenceRerankResponse,
   type InferenceBatchChatCompletionParams,
   type InferenceBatchCompletionParams,
   type InferenceChatCompletionParams,
@@ -78,6 +79,7 @@ export {
   type InferenceCompletionParamsNonStreaming,
   type InferenceCompletionParamsStreaming,
   type InferenceEmbeddingsParams,
+  type InferenceRerankParams,
 } from './inference';
 export { Inspect, type HealthInfo, type ProviderInfo, type RouteInfo, type VersionInfo } from './inspect';
 export {
@@ -86,7 +88,7 @@ export {
   type Model,
   type ModelListResponse,
   type ModelRegisterParams,
-} from './models';
+} from './models/models';
 export { Moderations, type CreateResponse, type ModerationCreateParams } from './moderations';
 export {
   PostTraining,
@@ -103,6 +105,7 @@ export {
   type ResponseObject,
   type ResponseObjectStream,
   type ResponseListResponse,
+  type ResponseDeleteResponse,
   type ResponseCreateParams,
   type ResponseCreateParamsNonStreaming,
   type ResponseCreateParamsStreaming,

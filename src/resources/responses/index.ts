@@ -7,6 +7,7 @@ export {
   type ResponseObject,
   type ResponseObjectStream,
   type ResponseListResponse,
+  type ResponseDeleteResponse,
   type ResponseCreateParams,
   type ResponseCreateParamsNonStreaming,
   type ResponseCreateParamsStreaming,

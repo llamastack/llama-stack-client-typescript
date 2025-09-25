@@ -95,6 +95,20 @@ export class Inference extends APIResource {
   ): Core.APIPromise<EmbeddingsResponse> {
     return this._client.post('/v1/inference/embeddings', { body, ...options });
   }
+
+  /**
+   * Rerank a list of documents based on their relevance to a query.
+   */
+  rerank(
+    body: InferenceRerankParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<InferenceRerankResponse> {
+    return (
+      this._client.post('/v1/inference/rerank', { body, ...options }) as Core.APIPromise<{
+        data: InferenceRerankResponse;
+      }>
+    )._thenUnwrap((obj) => obj.data);
+  }
 }
 
 /**
@@ -195,6 +209,29 @@ export interface InferenceBatchChatCompletionResponse {
    * List of chat completion responses, one for each conversation in the batch
    */
   batch: Array<Shared.ChatCompletionResponse>;
+}
+
+/**
+ * List of rerank result objects, sorted by relevance score (descending)
+ */
+export type InferenceRerankResponse = Array<InferenceRerankResponse.InferenceRerankResponseItem>;
+
+export namespace InferenceRerankResponse {
+  /**
+   * A single rerank result from a reranking response.
+   */
+  export interface InferenceRerankResponseItem {
+    /**
+     * The original index of the document in the input list
+     */
+    index: number;
+
+    /**
+     * The relevance score from the model output. Values are inverted when applicable
+     * so that higher scores indicate greater relevance.
+     */
+    relevance_score: number;
+  }
 }
 
 export interface InferenceBatchChatCompletionParams {
@@ -575,6 +612,134 @@ export interface InferenceEmbeddingsParams {
   text_truncation?: 'none' | 'start' | 'end';
 }
 
+export interface InferenceRerankParams {
+  /**
+   * List of items to rerank. Each item can be a string, text content part, or image
+   * content part. Each input must not exceed the model's max input token length.
+   */
+  items: Array<
+    | string
+    | InferenceRerankParams.OpenAIChatCompletionContentPartTextParam
+    | InferenceRerankParams.OpenAIChatCompletionContentPartImageParam
+  >;
+
+  /**
+   * The identifier of the reranking model to use.
+   */
+  model: string;
+
+  /**
+   * The search query to rank items against. Can be a string, text content part, or
+   * image content part. The input must not exceed the model's max input token
+   * length.
+   */
+  query:
+    | string
+    | InferenceRerankParams.OpenAIChatCompletionContentPartTextParam
+    | InferenceRerankParams.OpenAIChatCompletionContentPartImageParam;
+
+  /**
+   * (Optional) Maximum number of results to return. Default: returns all.
+   */
+  max_num_results?: number;
+}
+
+export namespace InferenceRerankParams {
+  /**
+   * Text content part for OpenAI-compatible chat completion messages.
+   */
+  export interface OpenAIChatCompletionContentPartTextParam {
+    /**
+     * The text content of the message
+     */
+    text: string;
+
+    /**
+     * Must be "text" to identify this as text content
+     */
+    type: 'text';
+  }
+
+  /**
+   * Image content part for OpenAI-compatible chat completion messages.
+   */
+  export interface OpenAIChatCompletionContentPartImageParam {
+    /**
+     * Image URL specification and processing details
+     */
+    image_url: OpenAIChatCompletionContentPartImageParam.ImageURL;
+
+    /**
+     * Must be "image_url" to identify this as image content
+     */
+    type: 'image_url';
+  }
+
+  export namespace OpenAIChatCompletionContentPartImageParam {
+    /**
+     * Image URL specification and processing details
+     */
+    export interface ImageURL {
+      /**
+       * URL of the image to include in the message
+       */
+      url: string;
+
+      /**
+       * (Optional) Level of detail for image processing. Can be "low", "high", or "auto"
+       */
+      detail?: string;
+    }
+  }
+
+  /**
+   * Text content part for OpenAI-compatible chat completion messages.
+   */
+  export interface OpenAIChatCompletionContentPartTextParam {
+    /**
+     * The text content of the message
+     */
+    text: string;
+
+    /**
+     * Must be "text" to identify this as text content
+     */
+    type: 'text';
+  }
+
+  /**
+   * Image content part for OpenAI-compatible chat completion messages.
+   */
+  export interface OpenAIChatCompletionContentPartImageParam {
+    /**
+     * Image URL specification and processing details
+     */
+    image_url: OpenAIChatCompletionContentPartImageParam.ImageURL;
+
+    /**
+     * Must be "image_url" to identify this as image content
+     */
+    type: 'image_url';
+  }
+
+  export namespace OpenAIChatCompletionContentPartImageParam {
+    /**
+     * Image URL specification and processing details
+     */
+    export interface ImageURL {
+      /**
+       * URL of the image to include in the message
+       */
+      url: string;
+
+      /**
+       * (Optional) Level of detail for image processing. Can be "low", "high", or "auto"
+       */
+      detail?: string;
+    }
+  }
+}
+
 export declare namespace Inference {
   export {
     type ChatCompletionResponseStreamChunk as ChatCompletionResponseStreamChunk,
@@ -582,6 +747,7 @@ export declare namespace Inference {
     type EmbeddingsResponse as EmbeddingsResponse,
     type TokenLogProbs as TokenLogProbs,
     type InferenceBatchChatCompletionResponse as InferenceBatchChatCompletionResponse,
+    type InferenceRerankResponse as InferenceRerankResponse,
     type InferenceBatchChatCompletionParams as InferenceBatchChatCompletionParams,
     type InferenceBatchCompletionParams as InferenceBatchCompletionParams,
     type InferenceChatCompletionParams as InferenceChatCompletionParams,
@@ -591,5 +757,6 @@ export declare namespace Inference {
     type InferenceCompletionParamsNonStreaming as InferenceCompletionParamsNonStreaming,
     type InferenceCompletionParamsStreaming as InferenceCompletionParamsStreaming,
     type InferenceEmbeddingsParams as InferenceEmbeddingsParams,
+    type InferenceRerankParams as InferenceRerankParams,
   };
 }
