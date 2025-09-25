@@ -65,6 +65,13 @@ export class Responses extends APIResource {
       ...options,
     });
   }
+
+  /**
+   * Delete an OpenAI response by its ID.
+   */
+  delete(responseId: string, options?: Core.RequestOptions): Core.APIPromise<ResponseDeleteResponse> {
+    return this._client.delete(`/v1/openai/v1/responses/${responseId}`, options);
+  }
 }
 
 export class ResponseListResponsesOpenAICursorPage extends OpenAICursorPage<ResponseListResponse> {}
@@ -2588,6 +2595,26 @@ export namespace ResponseListResponse {
   }
 }
 
+/**
+ * Response object confirming deletion of an OpenAI response.
+ */
+export interface ResponseDeleteResponse {
+  /**
+   * Unique identifier of the deleted response
+   */
+  id: string;
+
+  /**
+   * Deletion confirmation flag, always True
+   */
+  deleted: boolean;
+
+  /**
+   * Object type identifier, always "response"
+   */
+  object: 'response';
+}
+
 export type ResponseCreateParams = ResponseCreateParamsNonStreaming | ResponseCreateParamsStreaming;
 
 export interface ResponseCreateParamsBase {
@@ -3160,6 +3187,7 @@ export declare namespace Responses {
     type ResponseObject as ResponseObject,
     type ResponseObjectStream as ResponseObjectStream,
     type ResponseListResponse as ResponseListResponse,
+    type ResponseDeleteResponse as ResponseDeleteResponse,
     ResponseListResponsesOpenAICursorPage as ResponseListResponsesOpenAICursorPage,
     type ResponseCreateParams as ResponseCreateParams,
     type ResponseCreateParamsNonStreaming as ResponseCreateParamsNonStreaming,
