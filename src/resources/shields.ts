@@ -21,6 +21,16 @@ export class Shields extends APIResource {
   }
 
   /**
+   * Unregister a shield.
+   */
+  delete(identifier: string, options?: Core.RequestOptions): Core.APIPromise<void> {
+    return this._client.delete(`/v1/shields/${identifier}`, {
+      ...options,
+      headers: { Accept: '*/*', ...options?.headers },
+    });
+  }
+
+  /**
    * Register a shield.
    */
   register(body: ShieldRegisterParams, options?: Core.RequestOptions): Core.APIPromise<Shield> {

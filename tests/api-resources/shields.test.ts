@@ -42,6 +42,24 @@ describe('resource shields', () => {
     );
   });
 
+  test('delete', async () => {
+    const responsePromise = client.shields.delete('identifier');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('delete: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(client.shields.delete('identifier', { path: '/_stainless_unknown_path' })).rejects.toThrow(
+      LlamaStackClient.NotFoundError,
+    );
+  });
+
   test('register: only required params', async () => {
     const responsePromise = client.shields.register({ shield_id: 'shield_id' });
     const rawResponse = await responsePromise.asResponse();

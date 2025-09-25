@@ -64,16 +64,11 @@ import {
   InferenceCompletionParamsNonStreaming,
   InferenceCompletionParamsStreaming,
   InferenceEmbeddingsParams,
+  InferenceRerankParams,
+  InferenceRerankResponse,
   TokenLogProbs,
 } from './resources/inference';
 import { HealthInfo, Inspect, ProviderInfo, RouteInfo, VersionInfo } from './resources/inspect';
-import {
-  ListModelsResponse,
-  Model,
-  ModelListResponse,
-  ModelRegisterParams,
-  Models,
-} from './resources/models';
 import { CreateResponse, ModerationCreateParams, Moderations } from './resources/moderations';
 import { ListProvidersResponse, ProviderListResponse, Providers } from './resources/providers';
 import { ListRoutesResponse, RouteListResponse, Routes } from './resources/routes';
@@ -172,6 +167,13 @@ import {
   Job,
 } from './resources/eval/eval';
 import {
+  ListModelsResponse,
+  Model,
+  ModelListResponse,
+  ModelRegisterParams,
+  Models,
+} from './resources/models/models';
+import {
   AlgorithmConfig,
   ListPostTrainingJobsResponse,
   PostTraining,
@@ -183,6 +185,7 @@ import {
   ResponseCreateParams,
   ResponseCreateParamsNonStreaming,
   ResponseCreateParamsStreaming,
+  ResponseDeleteResponse,
   ResponseListParams,
   ResponseListResponse,
   ResponseListResponsesOpenAICursorPage,
@@ -477,6 +480,7 @@ export declare namespace LlamaStackClient {
     type ResponseObject as ResponseObject,
     type ResponseObjectStream as ResponseObjectStream,
     type ResponseListResponse as ResponseListResponse,
+    type ResponseDeleteResponse as ResponseDeleteResponse,
     ResponseListResponsesOpenAICursorPage as ResponseListResponsesOpenAICursorPage,
     type ResponseCreateParams as ResponseCreateParams,
     type ResponseCreateParamsNonStreaming as ResponseCreateParamsNonStreaming,
@@ -537,6 +541,7 @@ export declare namespace LlamaStackClient {
     type EmbeddingsResponse as EmbeddingsResponse,
     type TokenLogProbs as TokenLogProbs,
     type InferenceBatchChatCompletionResponse as InferenceBatchChatCompletionResponse,
+    type InferenceRerankResponse as InferenceRerankResponse,
     type InferenceBatchChatCompletionParams as InferenceBatchChatCompletionParams,
     type InferenceBatchCompletionParams as InferenceBatchCompletionParams,
     type InferenceChatCompletionParams as InferenceChatCompletionParams,
@@ -546,6 +551,7 @@ export declare namespace LlamaStackClient {
     type InferenceCompletionParamsNonStreaming as InferenceCompletionParamsNonStreaming,
     type InferenceCompletionParamsStreaming as InferenceCompletionParamsStreaming,
     type InferenceEmbeddingsParams as InferenceEmbeddingsParams,
+    type InferenceRerankParams as InferenceRerankParams,
   };
 
   export {

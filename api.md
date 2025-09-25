@@ -81,12 +81,14 @@ Types:
 - <code><a href="./src/resources/responses/responses.ts">ResponseObject</a></code>
 - <code><a href="./src/resources/responses/responses.ts">ResponseObjectStream</a></code>
 - <code><a href="./src/resources/responses/responses.ts">ResponseListResponse</a></code>
+- <code><a href="./src/resources/responses/responses.ts">ResponseDeleteResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/openai/v1/responses">client.responses.<a href="./src/resources/responses/responses.ts">create</a>({ ...params }) -> ResponseObject</code>
 - <code title="get /v1/openai/v1/responses/{response_id}">client.responses.<a href="./src/resources/responses/responses.ts">retrieve</a>(responseId) -> ResponseObject</code>
 - <code title="get /v1/openai/v1/responses">client.responses.<a href="./src/resources/responses/responses.ts">list</a>({ ...params }) -> ResponseListResponsesOpenAICursorPage</code>
+- <code title="delete /v1/openai/v1/responses/{response_id}">client.responses.<a href="./src/resources/responses/responses.ts">delete</a>(responseId) -> ResponseDeleteResponse</code>
 
 ## InputItems
 
@@ -224,6 +226,7 @@ Types:
 - <code><a href="./src/resources/inference.ts">EmbeddingsResponse</a></code>
 - <code><a href="./src/resources/inference.ts">TokenLogProbs</a></code>
 - <code><a href="./src/resources/inference.ts">InferenceBatchChatCompletionResponse</a></code>
+- <code><a href="./src/resources/inference.ts">InferenceRerankResponse</a></code>
 
 Methods:
 
@@ -232,6 +235,7 @@ Methods:
 - <code title="post /v1/inference/chat-completion">client.inference.<a href="./src/resources/inference.ts">chatCompletion</a>({ ...params }) -> ChatCompletionResponse</code>
 - <code title="post /v1/inference/completion">client.inference.<a href="./src/resources/inference.ts">completion</a>({ ...params }) -> CompletionResponse</code>
 - <code title="post /v1/inference/embeddings">client.inference.<a href="./src/resources/inference.ts">embeddings</a>({ ...params }) -> EmbeddingsResponse</code>
+- <code title="post /v1/inference/rerank">client.inference.<a href="./src/resources/inference.ts">rerank</a>({ ...params }) -> InferenceRerankResponse</code>
 
 # Embeddings
 
@@ -339,16 +343,26 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/models.ts">ListModelsResponse</a></code>
-- <code><a href="./src/resources/models.ts">Model</a></code>
-- <code><a href="./src/resources/models.ts">ModelListResponse</a></code>
+- <code><a href="./src/resources/models/models.ts">ListModelsResponse</a></code>
+- <code><a href="./src/resources/models/models.ts">Model</a></code>
+- <code><a href="./src/resources/models/models.ts">ModelListResponse</a></code>
 
 Methods:
 
-- <code title="get /v1/models/{model_id}">client.models.<a href="./src/resources/models.ts">retrieve</a>(modelId) -> Model</code>
-- <code title="get /v1/models">client.models.<a href="./src/resources/models.ts">list</a>() -> ModelListResponse</code>
-- <code title="post /v1/models">client.models.<a href="./src/resources/models.ts">register</a>({ ...params }) -> Model</code>
-- <code title="delete /v1/models/{model_id}">client.models.<a href="./src/resources/models.ts">unregister</a>(modelId) -> void</code>
+- <code title="get /v1/models/{model_id}">client.models.<a href="./src/resources/models/models.ts">retrieve</a>(modelId) -> Model</code>
+- <code title="get /v1/models">client.models.<a href="./src/resources/models/models.ts">list</a>() -> ModelListResponse</code>
+- <code title="post /v1/models">client.models.<a href="./src/resources/models/models.ts">register</a>({ ...params }) -> Model</code>
+- <code title="delete /v1/models/{model_id}">client.models.<a href="./src/resources/models/models.ts">unregister</a>(modelId) -> void</code>
+
+## OpenAI
+
+Types:
+
+- <code><a href="./src/resources/models/openai.ts">OpenAIListResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/openai/v1/models">client.models.openai.<a href="./src/resources/models/openai.ts">list</a>() -> OpenAIListResponse</code>
 
 # PostTraining
 
@@ -433,6 +447,7 @@ Methods:
 
 - <code title="get /v1/shields/{identifier}">client.shields.<a href="./src/resources/shields.ts">retrieve</a>(identifier) -> Shield</code>
 - <code title="get /v1/shields">client.shields.<a href="./src/resources/shields.ts">list</a>() -> ShieldListResponse</code>
+- <code title="delete /v1/shields/{identifier}">client.shields.<a href="./src/resources/shields.ts">delete</a>(identifier) -> void</code>
 - <code title="post /v1/shields">client.shields.<a href="./src/resources/shields.ts">register</a>({ ...params }) -> Shield</code>
 
 # SyntheticDataGeneration
