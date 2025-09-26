@@ -7,11 +7,10 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "baseUrl": "./",
     "paths": {
-      "llama-stack-client/_shims/auto/*": ["src/_shims/auto/*-node"],
-      "llama-stack-client/*": ["src/*"],
-      "llama-stack-client": ["src/index.ts"]
+      "llama-stack-client/_shims/auto/*": ["./src/_shims/auto/*-node"],
+      "llama-stack-client/*": ["./src/*"],
+      "llama-stack-client": ["./src/index.ts"]
     },
     "noEmit": true,
 
@@ -32,7 +31,7 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
-		"isolatedModules": false,
+    "isolatedModules": false,
 
     "skipLibCheck": true
   }
