@@ -36,6 +36,8 @@ describe('resource agents', () => {
                 parameter_type: 'parameter_type',
                 required: true,
                 default: true,
+                items: {},
+                title: 'title',
               },
             ],
           },

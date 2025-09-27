@@ -9,7 +9,7 @@ export class OpenAI extends APIResource {
    */
   list(options?: Core.RequestOptions): Core.APIPromise<OpenAIListResponse> {
     return (
-      this._client.get('/v1/openai/v1/models', options) as Core.APIPromise<{ data: OpenAIListResponse }>
+      this._client.get('/v1/models', options) as Core.APIPromise<{ data: OpenAIListResponse }>
     )._thenUnwrap((obj) => obj.data);
   }
 }

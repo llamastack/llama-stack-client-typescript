@@ -3,7 +3,6 @@
 Types:
 
 - <code><a href="./src/resources/shared.ts">AgentConfig</a></code>
-- <code><a href="./src/resources/shared.ts">BatchCompletion</a></code>
 - <code><a href="./src/resources/shared.ts">ChatCompletionResponse</a></code>
 - <code><a href="./src/resources/shared.ts">CompletionMessage</a></code>
 - <code><a href="./src/resources/shared.ts">ContentDelta</a></code>
@@ -85,10 +84,10 @@ Types:
 
 Methods:
 
-- <code title="post /v1/openai/v1/responses">client.responses.<a href="./src/resources/responses/responses.ts">create</a>({ ...params }) -> ResponseObject</code>
-- <code title="get /v1/openai/v1/responses/{response_id}">client.responses.<a href="./src/resources/responses/responses.ts">retrieve</a>(responseId) -> ResponseObject</code>
-- <code title="get /v1/openai/v1/responses">client.responses.<a href="./src/resources/responses/responses.ts">list</a>({ ...params }) -> ResponseListResponsesOpenAICursorPage</code>
-- <code title="delete /v1/openai/v1/responses/{response_id}">client.responses.<a href="./src/resources/responses/responses.ts">delete</a>(responseId) -> ResponseDeleteResponse</code>
+- <code title="post /v1/responses">client.responses.<a href="./src/resources/responses/responses.ts">create</a>({ ...params }) -> ResponseObject</code>
+- <code title="get /v1/responses/{response_id}">client.responses.<a href="./src/resources/responses/responses.ts">retrieve</a>(responseId) -> ResponseObject</code>
+- <code title="get /v1/responses">client.responses.<a href="./src/resources/responses/responses.ts">list</a>({ ...params }) -> ResponseListResponsesOpenAICursorPage</code>
+- <code title="delete /v1/responses/{response_id}">client.responses.<a href="./src/resources/responses/responses.ts">delete</a>(responseId) -> ResponseDeleteResponse</code>
 
 ## InputItems
 
@@ -98,7 +97,7 @@ Types:
 
 Methods:
 
-- <code title="get /v1/openai/v1/responses/{response_id}/input_items">client.responses.inputItems.<a href="./src/resources/responses/input-items.ts">list</a>(responseId, { ...params }) -> InputItemListResponse</code>
+- <code title="get /v1/responses/{response_id}/input_items">client.responses.inputItems.<a href="./src/resources/responses/input-items.ts">list</a>(responseId, { ...params }) -> InputItemListResponse</code>
 
 # Agents
 
@@ -222,18 +221,13 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/inference.ts">ChatCompletionResponseStreamChunk</a></code>
-- <code><a href="./src/resources/inference.ts">CompletionResponse</a></code>
 - <code><a href="./src/resources/inference.ts">EmbeddingsResponse</a></code>
 - <code><a href="./src/resources/inference.ts">TokenLogProbs</a></code>
-- <code><a href="./src/resources/inference.ts">InferenceBatchChatCompletionResponse</a></code>
 - <code><a href="./src/resources/inference.ts">InferenceRerankResponse</a></code>
 
 Methods:
 
-- <code title="post /v1/inference/batch-chat-completion">client.inference.<a href="./src/resources/inference.ts">batchChatCompletion</a>({ ...params }) -> InferenceBatchChatCompletionResponse</code>
-- <code title="post /v1/inference/batch-completion">client.inference.<a href="./src/resources/inference.ts">batchCompletion</a>({ ...params }) -> BatchCompletion</code>
 - <code title="post /v1/inference/chat-completion">client.inference.<a href="./src/resources/inference.ts">chatCompletion</a>({ ...params }) -> ChatCompletionResponse</code>
-- <code title="post /v1/inference/completion">client.inference.<a href="./src/resources/inference.ts">completion</a>({ ...params }) -> CompletionResponse</code>
 - <code title="post /v1/inference/embeddings">client.inference.<a href="./src/resources/inference.ts">embeddings</a>({ ...params }) -> EmbeddingsResponse</code>
 - <code title="post /v1/inference/rerank">client.inference.<a href="./src/resources/inference.ts">rerank</a>({ ...params }) -> InferenceRerankResponse</code>
 
@@ -245,7 +239,7 @@ Types:
 
 Methods:
 
-- <code title="post /v1/openai/v1/embeddings">client.embeddings.<a href="./src/resources/embeddings.ts">create</a>({ ...params }) -> CreateEmbeddingsResponse</code>
+- <code title="post /v1/embeddings">client.embeddings.<a href="./src/resources/embeddings.ts">create</a>({ ...params }) -> CreateEmbeddingsResponse</code>
 
 # Chat
 
@@ -263,9 +257,9 @@ Types:
 
 Methods:
 
-- <code title="post /v1/openai/v1/chat/completions">client.chat.completions.<a href="./src/resources/chat/completions.ts">create</a>({ ...params }) -> CompletionCreateResponse</code>
-- <code title="get /v1/openai/v1/chat/completions/{completion_id}">client.chat.completions.<a href="./src/resources/chat/completions.ts">retrieve</a>(completionId) -> CompletionRetrieveResponse</code>
-- <code title="get /v1/openai/v1/chat/completions">client.chat.completions.<a href="./src/resources/chat/completions.ts">list</a>({ ...params }) -> CompletionListResponsesOpenAICursorPage</code>
+- <code title="post /v1/chat/completions">client.chat.completions.<a href="./src/resources/chat/completions.ts">create</a>({ ...params }) -> CompletionCreateResponse</code>
+- <code title="get /v1/chat/completions/{completion_id}">client.chat.completions.<a href="./src/resources/chat/completions.ts">retrieve</a>(completionId) -> CompletionRetrieveResponse</code>
+- <code title="get /v1/chat/completions">client.chat.completions.<a href="./src/resources/chat/completions.ts">list</a>({ ...params }) -> CompletionListResponsesOpenAICursorPage</code>
 
 # Completions
 
@@ -275,7 +269,7 @@ Types:
 
 Methods:
 
-- <code title="post /v1/openai/v1/completions">client.completions.<a href="./src/resources/completions.ts">create</a>({ ...params }) -> CompletionCreateResponse</code>
+- <code title="post /v1/completions">client.completions.<a href="./src/resources/completions.ts">create</a>({ ...params }) -> CompletionCreateResponse</code>
 
 # VectorIo
 
@@ -315,12 +309,12 @@ Types:
 
 Methods:
 
-- <code title="post /v1/openai/v1/vector_stores">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">create</a>({ ...params }) -> VectorStore</code>
-- <code title="get /v1/openai/v1/vector_stores/{vector_store_id}">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">retrieve</a>(vectorStoreId) -> VectorStore</code>
-- <code title="post /v1/openai/v1/vector_stores/{vector_store_id}">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">update</a>(vectorStoreId, { ...params }) -> VectorStore</code>
-- <code title="get /v1/openai/v1/vector_stores">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">list</a>({ ...params }) -> VectorStoresOpenAICursorPage</code>
-- <code title="delete /v1/openai/v1/vector_stores/{vector_store_id}">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">delete</a>(vectorStoreId) -> VectorStoreDeleteResponse</code>
-- <code title="post /v1/openai/v1/vector_stores/{vector_store_id}/search">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">search</a>(vectorStoreId, { ...params }) -> VectorStoreSearchResponse</code>
+- <code title="post /v1/vector_stores">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">create</a>({ ...params }) -> VectorStore</code>
+- <code title="get /v1/vector_stores/{vector_store_id}">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">retrieve</a>(vectorStoreId) -> VectorStore</code>
+- <code title="post /v1/vector_stores/{vector_store_id}">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">update</a>(vectorStoreId, { ...params }) -> VectorStore</code>
+- <code title="get /v1/vector_stores">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">list</a>({ ...params }) -> VectorStoresOpenAICursorPage</code>
+- <code title="delete /v1/vector_stores/{vector_store_id}">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">delete</a>(vectorStoreId) -> VectorStoreDeleteResponse</code>
+- <code title="post /v1/vector_stores/{vector_store_id}/search">client.vectorStores.<a href="./src/resources/vector-stores/vector-stores.ts">search</a>(vectorStoreId, { ...params }) -> VectorStoreSearchResponse</code>
 
 ## Files
 
@@ -332,12 +326,12 @@ Types:
 
 Methods:
 
-- <code title="post /v1/openai/v1/vector_stores/{vector_store_id}/files">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">create</a>(vectorStoreId, { ...params }) -> VectorStoreFile</code>
-- <code title="get /v1/openai/v1/vector_stores/{vector_store_id}/files/{file_id}">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">retrieve</a>(vectorStoreId, fileId) -> VectorStoreFile</code>
-- <code title="post /v1/openai/v1/vector_stores/{vector_store_id}/files/{file_id}">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">update</a>(vectorStoreId, fileId, { ...params }) -> VectorStoreFile</code>
-- <code title="get /v1/openai/v1/vector_stores/{vector_store_id}/files">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">list</a>(vectorStoreId, { ...params }) -> VectorStoreFilesOpenAICursorPage</code>
-- <code title="delete /v1/openai/v1/vector_stores/{vector_store_id}/files/{file_id}">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">delete</a>(vectorStoreId, fileId) -> FileDeleteResponse</code>
-- <code title="get /v1/openai/v1/vector_stores/{vector_store_id}/files/{file_id}/content">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">content</a>(vectorStoreId, fileId) -> FileContentResponse</code>
+- <code title="post /v1/vector_stores/{vector_store_id}/files">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">create</a>(vectorStoreId, { ...params }) -> VectorStoreFile</code>
+- <code title="get /v1/vector_stores/{vector_store_id}/files/{file_id}">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">retrieve</a>(vectorStoreId, fileId) -> VectorStoreFile</code>
+- <code title="post /v1/vector_stores/{vector_store_id}/files/{file_id}">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">update</a>(vectorStoreId, fileId, { ...params }) -> VectorStoreFile</code>
+- <code title="get /v1/vector_stores/{vector_store_id}/files">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">list</a>(vectorStoreId, { ...params }) -> VectorStoreFilesOpenAICursorPage</code>
+- <code title="delete /v1/vector_stores/{vector_store_id}/files/{file_id}">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">delete</a>(vectorStoreId, fileId) -> FileDeleteResponse</code>
+- <code title="get /v1/vector_stores/{vector_store_id}/files/{file_id}/content">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">content</a>(vectorStoreId, fileId) -> FileContentResponse</code>
 
 # Models
 
@@ -362,7 +356,7 @@ Types:
 
 Methods:
 
-- <code title="get /v1/openai/v1/models">client.models.openai.<a href="./src/resources/models/openai.ts">list</a>() -> OpenAIListResponse</code>
+- <code title="get /v1/models">client.models.openai.<a href="./src/resources/models/openai.ts">list</a>() -> OpenAIListResponse</code>
 
 # PostTraining
 
@@ -423,7 +417,7 @@ Types:
 
 Methods:
 
-- <code title="post /v1/openai/v1/moderations">client.moderations.<a href="./src/resources/moderations.ts">create</a>({ ...params }) -> CreateResponse</code>
+- <code title="post /v1/moderations">client.moderations.<a href="./src/resources/moderations.ts">create</a>({ ...params }) -> CreateResponse</code>
 
 # Safety
 
@@ -538,8 +532,8 @@ Types:
 
 Methods:
 
-- <code title="post /v1/openai/v1/files">client.files.<a href="./src/resources/files.ts">create</a>({ ...params }) -> File</code>
-- <code title="get /v1/openai/v1/files/{file_id}">client.files.<a href="./src/resources/files.ts">retrieve</a>(fileId) -> File</code>
-- <code title="get /v1/openai/v1/files">client.files.<a href="./src/resources/files.ts">list</a>({ ...params }) -> FilesOpenAICursorPage</code>
-- <code title="delete /v1/openai/v1/files/{file_id}">client.files.<a href="./src/resources/files.ts">delete</a>(fileId) -> DeleteFileResponse</code>
-- <code title="get /v1/openai/v1/files/{file_id}/content">client.files.<a href="./src/resources/files.ts">content</a>(fileId) -> unknown</code>
+- <code title="post /v1/files">client.files.<a href="./src/resources/files.ts">create</a>({ ...params }) -> File</code>
+- <code title="get /v1/files/{file_id}">client.files.<a href="./src/resources/files.ts">retrieve</a>(fileId) -> File</code>
+- <code title="get /v1/files">client.files.<a href="./src/resources/files.ts">list</a>({ ...params }) -> FilesOpenAICursorPage</code>
+- <code title="delete /v1/files/{file_id}">client.files.<a href="./src/resources/files.ts">delete</a>(fileId) -> DeleteFileResponse</code>
+- <code title="get /v1/files/{file_id}/content">client.files.<a href="./src/resources/files.ts">content</a>(fileId) -> unknown</code>

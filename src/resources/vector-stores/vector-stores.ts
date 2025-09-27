@@ -23,14 +23,14 @@ export class VectorStores extends APIResource {
    * Creates a vector store.
    */
   create(body: VectorStoreCreateParams, options?: Core.RequestOptions): Core.APIPromise<VectorStore> {
-    return this._client.post('/v1/openai/v1/vector_stores', { body, ...options });
+    return this._client.post('/v1/vector_stores', { body, ...options });
   }
 
   /**
    * Retrieves a vector store.
    */
   retrieve(vectorStoreId: string, options?: Core.RequestOptions): Core.APIPromise<VectorStore> {
-    return this._client.get(`/v1/openai/v1/vector_stores/${vectorStoreId}`, options);
+    return this._client.get(`/v1/vector_stores/${vectorStoreId}`, options);
   }
 
   /**
@@ -41,7 +41,7 @@ export class VectorStores extends APIResource {
     body: VectorStoreUpdateParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<VectorStore> {
-    return this._client.post(`/v1/openai/v1/vector_stores/${vectorStoreId}`, { body, ...options });
+    return this._client.post(`/v1/vector_stores/${vectorStoreId}`, { body, ...options });
   }
 
   /**
@@ -59,17 +59,14 @@ export class VectorStores extends APIResource {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/v1/openai/v1/vector_stores', VectorStoresOpenAICursorPage, {
-      query,
-      ...options,
-    });
+    return this._client.getAPIList('/v1/vector_stores', VectorStoresOpenAICursorPage, { query, ...options });
   }
 
   /**
    * Delete a vector store.
    */
   delete(vectorStoreId: string, options?: Core.RequestOptions): Core.APIPromise<VectorStoreDeleteResponse> {
-    return this._client.delete(`/v1/openai/v1/vector_stores/${vectorStoreId}`, options);
+    return this._client.delete(`/v1/vector_stores/${vectorStoreId}`, options);
   }
 
   /**
@@ -81,7 +78,7 @@ export class VectorStores extends APIResource {
     body: VectorStoreSearchParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<VectorStoreSearchResponse> {
-    return this._client.post(`/v1/openai/v1/vector_stores/${vectorStoreId}/search`, { body, ...options });
+    return this._client.post(`/v1/vector_stores/${vectorStoreId}/search`, { body, ...options });
   }
 }
 

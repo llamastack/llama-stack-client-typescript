@@ -8,6 +8,8 @@ const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] 
 describe('resource files', () => {
   test('create: only required params', async () => {
     const responsePromise = client.files.create({
+      expires_after_anchor: 'expires_after_anchor',
+      expires_after_seconds: 0,
       file: await toFile(Buffer.from('# my file contents'), 'README.md'),
       purpose: 'assistants',
     });
@@ -22,6 +24,8 @@ describe('resource files', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.files.create({
+      expires_after_anchor: 'expires_after_anchor',
+      expires_after_seconds: 0,
       file: await toFile(Buffer.from('# my file contents'), 'README.md'),
       purpose: 'assistants',
     });
