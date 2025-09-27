@@ -14,7 +14,7 @@ export class Files extends APIResource {
     body: FileCreateParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<VectorStoreFile> {
-    return this._client.post(`/v1/openai/v1/vector_stores/${vectorStoreId}/files`, { body, ...options });
+    return this._client.post(`/v1/vector_stores/${vectorStoreId}/files`, { body, ...options });
   }
 
   /**
@@ -25,7 +25,7 @@ export class Files extends APIResource {
     fileId: string,
     options?: Core.RequestOptions,
   ): Core.APIPromise<VectorStoreFile> {
-    return this._client.get(`/v1/openai/v1/vector_stores/${vectorStoreId}/files/${fileId}`, options);
+    return this._client.get(`/v1/vector_stores/${vectorStoreId}/files/${fileId}`, options);
   }
 
   /**
@@ -37,10 +37,7 @@ export class Files extends APIResource {
     body: FileUpdateParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<VectorStoreFile> {
-    return this._client.post(`/v1/openai/v1/vector_stores/${vectorStoreId}/files/${fileId}`, {
-      body,
-      ...options,
-    });
+    return this._client.post(`/v1/vector_stores/${vectorStoreId}/files/${fileId}`, { body, ...options });
   }
 
   /**
@@ -64,7 +61,7 @@ export class Files extends APIResource {
       return this.list(vectorStoreId, {}, query);
     }
     return this._client.getAPIList(
-      `/v1/openai/v1/vector_stores/${vectorStoreId}/files`,
+      `/v1/vector_stores/${vectorStoreId}/files`,
       VectorStoreFilesOpenAICursorPage,
       { query, ...options },
     );
@@ -78,7 +75,7 @@ export class Files extends APIResource {
     fileId: string,
     options?: Core.RequestOptions,
   ): Core.APIPromise<FileDeleteResponse> {
-    return this._client.delete(`/v1/openai/v1/vector_stores/${vectorStoreId}/files/${fileId}`, options);
+    return this._client.delete(`/v1/vector_stores/${vectorStoreId}/files/${fileId}`, options);
   }
 
   /**
@@ -89,7 +86,7 @@ export class Files extends APIResource {
     fileId: string,
     options?: Core.RequestOptions,
   ): Core.APIPromise<FileContentResponse> {
-    return this._client.get(`/v1/openai/v1/vector_stores/${vectorStoreId}/files/${fileId}/content`, options);
+    return this._client.get(`/v1/vector_stores/${vectorStoreId}/files/${fileId}/content`, options);
   }
 }
 

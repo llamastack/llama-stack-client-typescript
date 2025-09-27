@@ -106,16 +106,6 @@ export namespace AgentConfig {
 }
 
 /**
- * Response from a batch completion request.
- */
-export interface BatchCompletion {
-  /**
-   * List of completion responses, one for each input in the batch
-   */
-  batch: Array<InferenceAPI.CompletionResponse>;
-}
-
-/**
  * Response from a chat completion request.
  */
 export interface ChatCompletionResponse {
@@ -940,7 +930,11 @@ export interface ToolParamDefinition {
 
   description?: string;
 
+  items?: boolean | number | string | Array<unknown> | unknown | null;
+
   required?: boolean;
+
+  title?: string;
 }
 
 /**

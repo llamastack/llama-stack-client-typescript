@@ -29,18 +29,16 @@ export class Responses extends APIResource {
     body: ResponseCreateParams,
     options?: Core.RequestOptions,
   ): APIPromise<ResponseObject> | APIPromise<Stream<ResponseObjectStream>> {
-    return this._client.post('/v1/openai/v1/responses', {
-      body,
-      ...options,
-      stream: body.stream ?? false,
-    }) as APIPromise<ResponseObject> | APIPromise<Stream<ResponseObjectStream>>;
+    return this._client.post('/v1/responses', { body, ...options, stream: body.stream ?? false }) as
+      | APIPromise<ResponseObject>
+      | APIPromise<Stream<ResponseObjectStream>>;
   }
 
   /**
    * Retrieve an OpenAI response by its ID.
    */
   retrieve(responseId: string, options?: Core.RequestOptions): Core.APIPromise<ResponseObject> {
-    return this._client.get(`/v1/openai/v1/responses/${responseId}`, options);
+    return this._client.get(`/v1/responses/${responseId}`, options);
   }
 
   /**
@@ -60,7 +58,7 @@ export class Responses extends APIResource {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/v1/openai/v1/responses', ResponseListResponsesOpenAICursorPage, {
+    return this._client.getAPIList('/v1/responses', ResponseListResponsesOpenAICursorPage, {
       query,
       ...options,
     });
@@ -70,7 +68,7 @@ export class Responses extends APIResource {
    * Delete an OpenAI response by its ID.
    */
   delete(responseId: string, options?: Core.RequestOptions): Core.APIPromise<ResponseDeleteResponse> {
-    return this._client.delete(`/v1/openai/v1/responses/${responseId}`, options);
+    return this._client.delete(`/v1/responses/${responseId}`, options);
   }
 }
 

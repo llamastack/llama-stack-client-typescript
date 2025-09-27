@@ -27,11 +27,9 @@ export class Completions extends APIResource {
     body: CompletionCreateParams,
     options?: Core.RequestOptions,
   ): APIPromise<CompletionCreateResponse> | APIPromise<Stream<CompletionCreateResponse>> {
-    return this._client.post('/v1/openai/v1/completions', {
-      body,
-      ...options,
-      stream: body.stream ?? false,
-    }) as APIPromise<CompletionCreateResponse> | APIPromise<Stream<CompletionCreateResponse>>;
+    return this._client.post('/v1/completions', { body, ...options, stream: body.stream ?? false }) as
+      | APIPromise<CompletionCreateResponse>
+      | APIPromise<Stream<CompletionCreateResponse>>;
   }
 }
 

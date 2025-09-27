@@ -12,16 +12,19 @@ export class Files extends APIResource {
    *
    * - file: The File object (not file name) to be uploaded.
    * - purpose: The intended purpose of the uploaded file.
+   * - expires_after: Optional form values describing expiration for the file.
+   *   Expected expires_after[anchor] = "created_at", expires_after[seconds] =
+   *   {integer}. Seconds must be between 3600 and 2592000 (1 hour to 30 days).
    */
   create(body: FileCreateParams, options?: Core.RequestOptions): Core.APIPromise<File> {
-    return this._client.post('/v1/openai/v1/files', Core.multipartFormRequestOptions({ body, ...options }));
+    return this._client.post('/v1/files', Core.multipartFormRequestOptions({ body, ...options }));
   }
 
   /**
    * Returns information about a specific file.
    */
   retrieve(fileId: string, options?: Core.RequestOptions): Core.APIPromise<File> {
-    return this._client.get(`/v1/openai/v1/files/${fileId}`, options);
+    return this._client.get(`/v1/files/${fileId}`, options);
   }
 
   /**
@@ -36,21 +39,21 @@ export class Files extends APIResource {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/v1/openai/v1/files', FilesOpenAICursorPage, { query, ...options });
+    return this._client.getAPIList('/v1/files', FilesOpenAICursorPage, { query, ...options });
   }
 
   /**
    * Delete a file.
    */
   delete(fileId: string, options?: Core.RequestOptions): Core.APIPromise<DeleteFileResponse> {
-    return this._client.delete(`/v1/openai/v1/files/${fileId}`, options);
+    return this._client.delete(`/v1/files/${fileId}`, options);
   }
 
   /**
    * Returns the contents of the specified file.
    */
   content(fileId: string, options?: Core.RequestOptions): Core.APIPromise<unknown> {
-    return this._client.get(`/v1/openai/v1/files/${fileId}/content`, options);
+    return this._client.get(`/v1/files/${fileId}/content`, options);
   }
 }
 
@@ -149,6 +152,10 @@ export interface ListFilesResponse {
 export type FileContentResponse = unknown;
 
 export interface FileCreateParams {
+  expires_after_anchor: string | null;
+
+  expires_after_seconds: number | null;
+
   file: Core.Uploadable;
 
   /**

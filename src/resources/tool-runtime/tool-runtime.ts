@@ -97,6 +97,16 @@ export namespace ToolDef {
      * (Optional) Default value for the parameter if not provided
      */
     default?: boolean | number | string | Array<unknown> | unknown | null;
+
+    /**
+     * Type of the elements when parameter_type is array
+     */
+    items?: unknown;
+
+    /**
+     * (Optional) Title of the parameter
+     */
+    title?: string;
   }
 }
 

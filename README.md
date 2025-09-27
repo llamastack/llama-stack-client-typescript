@@ -92,17 +92,42 @@ import LlamaStackClient, { toFile } from 'llama-stack-client';
 const client = new LlamaStackClient();
 
 // If you have access to Node `fs` we recommend using `fs.createReadStream()`:
-await client.files.create({ file: fs.createReadStream('/path/to/file'), purpose: 'assistants' });
+await client.files.create({
+  expires_after_anchor: 'expires_after_anchor',
+  expires_after_seconds: 0,
+  file: fs.createReadStream('/path/to/file'),
+  purpose: 'assistants',
+});
 
 // Or if you have the web `File` API you can pass a `File` instance:
-await client.files.create({ file: new File(['my bytes'], 'file'), purpose: 'assistants' });
+await client.files.create({
+  expires_after_anchor: 'expires_after_anchor',
+  expires_after_seconds: 0,
+  file: new File(['my bytes'], 'file'),
+  purpose: 'assistants',
+});
 
 // You can also pass a `fetch` `Response`:
-await client.files.create({ file: await fetch('https://somesite/file'), purpose: 'assistants' });
+await client.files.create({
+  expires_after_anchor: 'expires_after_anchor',
+  expires_after_seconds: 0,
+  file: await fetch('https://somesite/file'),
+  purpose: 'assistants',
+});
 
 // Finally, if none of the above are convenient, you can use our `toFile` helper:
-await client.files.create({ file: await toFile(Buffer.from('my bytes'), 'file'), purpose: 'assistants' });
-await client.files.create({ file: await toFile(new Uint8Array([0, 1, 2]), 'file'), purpose: 'assistants' });
+await client.files.create({
+  expires_after_anchor: 'expires_after_anchor',
+  expires_after_seconds: 0,
+  file: await toFile(Buffer.from('my bytes'), 'file'),
+  purpose: 'assistants',
+});
+await client.files.create({
+  expires_after_anchor: 'expires_after_anchor',
+  expires_after_seconds: 0,
+  file: await toFile(new Uint8Array([0, 1, 2]), 'file'),
+  purpose: 'assistants',
+});
 ```
 
 ## Handling errors

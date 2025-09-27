@@ -22,7 +22,7 @@ export class InputItems extends APIResource {
     if (isRequestOptions(query)) {
       return this.list(responseId, {}, query);
     }
-    return this._client.get(`/v1/openai/v1/responses/${responseId}/input_items`, { query, ...options });
+    return this._client.get(`/v1/responses/${responseId}/input_items`, { query, ...options });
   }
 }
 

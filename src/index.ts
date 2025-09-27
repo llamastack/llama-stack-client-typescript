@@ -51,18 +51,11 @@ import {
 } from './resources/files';
 import {
   ChatCompletionResponseStreamChunk,
-  CompletionResponse,
   EmbeddingsResponse,
   Inference,
-  InferenceBatchChatCompletionParams,
-  InferenceBatchChatCompletionResponse,
-  InferenceBatchCompletionParams,
   InferenceChatCompletionParams,
   InferenceChatCompletionParamsNonStreaming,
   InferenceChatCompletionParamsStreaming,
-  InferenceCompletionParams,
-  InferenceCompletionParamsNonStreaming,
-  InferenceCompletionParamsStreaming,
   InferenceEmbeddingsParams,
   InferenceRerankParams,
   InferenceRerankResponse,
@@ -537,19 +530,12 @@ export declare namespace LlamaStackClient {
   export {
     Inference as Inference,
     type ChatCompletionResponseStreamChunk as ChatCompletionResponseStreamChunk,
-    type CompletionResponse as CompletionResponse,
     type EmbeddingsResponse as EmbeddingsResponse,
     type TokenLogProbs as TokenLogProbs,
-    type InferenceBatchChatCompletionResponse as InferenceBatchChatCompletionResponse,
     type InferenceRerankResponse as InferenceRerankResponse,
-    type InferenceBatchChatCompletionParams as InferenceBatchChatCompletionParams,
-    type InferenceBatchCompletionParams as InferenceBatchCompletionParams,
     type InferenceChatCompletionParams as InferenceChatCompletionParams,
     type InferenceChatCompletionParamsNonStreaming as InferenceChatCompletionParamsNonStreaming,
     type InferenceChatCompletionParamsStreaming as InferenceChatCompletionParamsStreaming,
-    type InferenceCompletionParams as InferenceCompletionParams,
-    type InferenceCompletionParamsNonStreaming as InferenceCompletionParamsNonStreaming,
-    type InferenceCompletionParamsStreaming as InferenceCompletionParamsStreaming,
     type InferenceEmbeddingsParams as InferenceEmbeddingsParams,
     type InferenceRerankParams as InferenceRerankParams,
   };
@@ -711,7 +697,6 @@ export declare namespace LlamaStackClient {
   };
 
   export type AgentConfig = API.AgentConfig;
-  export type BatchCompletion = API.BatchCompletion;
   export type ChatCompletionResponse = API.ChatCompletionResponse;
   export type CompletionMessage = API.CompletionMessage;
   export type ContentDelta = API.ContentDelta;
