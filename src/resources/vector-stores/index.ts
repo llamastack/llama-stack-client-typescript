@@ -1,11 +1,18 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { FileBatches } from './file-batches';
+export {
+  FileBatches,
+  type ListVectorStoreFilesInBatchResponse,
+  type VectorStoreFileBatches,
+  type FileBatchCreateParams,
+  type FileBatchListParams,
+} from './file-batches';
 export {
   VectorStoreFilesOpenAICursorPage,
   Files,
   type VectorStoreFile,
   type FileDeleteResponse,
+  type FileContentResponse,
   type FileCreateParams,
   type FileUpdateParams,
   type FileListParams,

@@ -77,6 +77,17 @@ export class Files extends APIResource {
   ): Core.APIPromise<FileDeleteResponse> {
     return this._client.delete(`/v1/vector_stores/${vectorStoreId}/files/${fileId}`, options);
   }
+
+  /**
+   * Retrieves the contents of a vector store file.
+   */
+  content(
+    vectorStoreId: string,
+    fileId: string,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<FileContentResponse> {
+    return this._client.get(`/v1/vector_stores/${vectorStoreId}/files/${fileId}/content`, options);
+  }
 }
 
 export class VectorStoreFilesOpenAICursorPage extends OpenAICursorPage<VectorStoreFile> {}
@@ -212,6 +223,48 @@ export interface FileDeleteResponse {
   object: string;
 }
 
+/**
+ * Response from retrieving the contents of a vector store file.
+ */
+export interface FileContentResponse {
+  /**
+   * Key-value attributes associated with the file
+   */
+  attributes: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+
+  /**
+   * List of content items from the file
+   */
+  content: Array<FileContentResponse.Content>;
+
+  /**
+   * Unique identifier for the file
+   */
+  file_id: string;
+
+  /**
+   * Name of the file
+   */
+  filename: string;
+}
+
+export namespace FileContentResponse {
+  /**
+   * Content item from a vector store file or search result.
+   */
+  export interface Content {
+    /**
+     * The actual text content
+     */
+    text: string;
+
+    /**
+     * Content type, currently only "text" is supported
+     */
+    type: 'text';
+  }
+}
+
 export interface FileCreateParams {
   /**
    * The ID of the file to attach to the vector store.
@@ -307,6 +360,7 @@ export declare namespace Files {
   export {
     type VectorStoreFile as VectorStoreFile,
     type FileDeleteResponse as FileDeleteResponse,
+    type FileContentResponse as FileContentResponse,
     VectorStoreFilesOpenAICursorPage as VectorStoreFilesOpenAICursorPage,
     type FileCreateParams as FileCreateParams,
     type FileUpdateParams as FileUpdateParams,

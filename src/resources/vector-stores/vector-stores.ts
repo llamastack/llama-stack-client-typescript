@@ -4,9 +4,16 @@ import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
 import * as FileBatchesAPI from './file-batches';
-import { FileBatches } from './file-batches';
+import {
+  FileBatchCreateParams,
+  FileBatchListParams,
+  FileBatches,
+  ListVectorStoreFilesInBatchResponse,
+  VectorStoreFileBatches,
+} from './file-batches';
 import * as FilesAPI from './files';
 import {
+  FileContentResponse,
   FileCreateParams,
   FileDeleteResponse,
   FileListParams,
@@ -453,11 +460,18 @@ export declare namespace VectorStores {
     Files as Files,
     type VectorStoreFile as VectorStoreFile,
     type FileDeleteResponse as FileDeleteResponse,
+    type FileContentResponse as FileContentResponse,
     VectorStoreFilesOpenAICursorPage as VectorStoreFilesOpenAICursorPage,
     type FileCreateParams as FileCreateParams,
     type FileUpdateParams as FileUpdateParams,
     type FileListParams as FileListParams,
   };
 
-  export { FileBatches as FileBatches };
+  export {
+    FileBatches as FileBatches,
+    type ListVectorStoreFilesInBatchResponse as ListVectorStoreFilesInBatchResponse,
+    type VectorStoreFileBatches as VectorStoreFileBatches,
+    type FileBatchCreateParams as FileBatchCreateParams,
+    type FileBatchListParams as FileBatchListParams,
+  };
 }
