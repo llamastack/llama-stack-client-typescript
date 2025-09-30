@@ -259,21 +259,16 @@ export interface TurnResponseEvent {
   /**
    * Event-specific payload containing event data
    */
-  payload: TurnResponseEventPayload;
+  payload:
+    | TurnResponseEvent.AgentTurnResponseStepStartPayload
+    | TurnResponseEvent.AgentTurnResponseStepProgressPayload
+    | TurnResponseEvent.AgentTurnResponseStepCompletePayload
+    | TurnResponseEvent.AgentTurnResponseTurnStartPayload
+    | TurnResponseEvent.AgentTurnResponseTurnCompletePayload
+    | TurnResponseEvent.AgentTurnResponseTurnAwaitingInputPayload;
 }
 
-/**
- * Payload for step start events in agent turn responses.
- */
-export type TurnResponseEventPayload =
-  | TurnResponseEventPayload.AgentTurnResponseStepStartPayload
-  | TurnResponseEventPayload.AgentTurnResponseStepProgressPayload
-  | TurnResponseEventPayload.AgentTurnResponseStepCompletePayload
-  | TurnResponseEventPayload.AgentTurnResponseTurnStartPayload
-  | TurnResponseEventPayload.AgentTurnResponseTurnCompletePayload
-  | TurnResponseEventPayload.AgentTurnResponseTurnAwaitingInputPayload;
-
-export namespace TurnResponseEventPayload {
+export namespace TurnResponseEvent {
   /**
    * Payload for step start events in agent turn responses.
    */
@@ -306,7 +301,10 @@ export namespace TurnResponseEventPayload {
     /**
      * Incremental content changes during step execution
      */
-    delta: Shared.ContentDelta;
+    delta:
+      | AgentTurnResponseStepProgressPayload.TextDelta
+      | AgentTurnResponseStepProgressPayload.ImageDelta
+      | AgentTurnResponseStepProgressPayload.ToolCallDelta;
 
     /**
      * Type of event being reported
@@ -322,6 +320,58 @@ export namespace TurnResponseEventPayload {
      * Type of step being executed
      */
     step_type: 'inference' | 'tool_execution' | 'shield_call' | 'memory_retrieval';
+  }
+
+  export namespace AgentTurnResponseStepProgressPayload {
+    /**
+     * A text content delta for streaming responses.
+     */
+    export interface TextDelta {
+      /**
+       * The incremental text content
+       */
+      text: string;
+
+      /**
+       * Discriminator type of the delta. Always "text"
+       */
+      type: 'text';
+    }
+
+    /**
+     * An image content delta for streaming responses.
+     */
+    export interface ImageDelta {
+      /**
+       * The incremental image data as bytes
+       */
+      image: string;
+
+      /**
+       * Discriminator type of the delta. Always "image"
+       */
+      type: 'image';
+    }
+
+    /**
+     * A tool call content delta for streaming responses.
+     */
+    export interface ToolCallDelta {
+      /**
+       * Current parsing status of the tool call
+       */
+      parse_status: 'started' | 'in_progress' | 'failed' | 'succeeded';
+
+      /**
+       * Either an in-progress tool call string or the final parsed tool call
+       */
+      tool_call: string | Shared.ToolCall;
+
+      /**
+       * Discriminator type of the delta. Always "tool_call"
+       */
+      type: 'tool_call';
+    }
   }
 
   /**
@@ -621,7 +671,6 @@ export declare namespace TurnResource {
     type AgentTurnResponseStreamChunk as AgentTurnResponseStreamChunk,
     type Turn as Turn,
     type TurnResponseEvent as TurnResponseEvent,
-    type TurnResponseEventPayload as TurnResponseEventPayload,
     type TurnCreateParams as TurnCreateParams,
     type TurnCreateParamsNonStreaming as TurnCreateParamsNonStreaming,
     type TurnCreateParamsStreaming as TurnCreateParamsStreaming,

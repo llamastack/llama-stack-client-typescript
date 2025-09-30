@@ -44,7 +44,6 @@ export { Embeddings, type CreateEmbeddingsResponse, type EmbeddingCreateParams }
 export {
   Eval,
   type BenchmarkConfig,
-  type EvalCandidate,
   type EvaluateResponse,
   type Job,
   type EvalEvaluateRowsParams,

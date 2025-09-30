@@ -28,7 +28,6 @@ export {
   type AgentTurnResponseStreamChunk,
   type Turn,
   type TurnResponseEvent,
-  type TurnResponseEventPayload,
   type TurnCreateParams,
   type TurnCreateParamsNonStreaming,
   type TurnCreateParamsStreaming,

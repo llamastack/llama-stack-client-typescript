@@ -151,6 +151,33 @@ export type FileContentResponse = unknown;
 
 export interface FileCreateParams {
   file: Core.Uploadable;
+
+  /**
+   * Valid purpose values for OpenAI Files API.
+   */
+  purpose: 'assistants' | 'batch';
+
+  /**
+   * Control expiration of uploaded files. Params:
+   *
+   * - anchor, must be "created_at"
+   * - seconds, must be int between 3600 and 2592000 (1 hour to 30 days)
+   */
+  expires_after?: FileCreateParams.ExpiresAfter;
+}
+
+export namespace FileCreateParams {
+  /**
+   * Control expiration of uploaded files. Params:
+   *
+   * - anchor, must be "created_at"
+   * - seconds, must be int between 3600 and 2592000 (1 hour to 30 days)
+   */
+  export interface ExpiresAfter {
+    anchor: 'created_at';
+
+    seconds: number;
+  }
 }
 
 export interface FileListParams extends OpenAICursorPageParams {
