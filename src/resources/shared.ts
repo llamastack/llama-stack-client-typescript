@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import * as Shared from './shared';
-import * as InferenceAPI from './inference';
 import * as ToolRuntimeAPI from './tool-runtime/tool-runtime';
 
 /**
@@ -117,12 +116,24 @@ export interface ChatCompletionResponse {
   /**
    * Optional log probabilities for generated tokens
    */
-  logprobs?: Array<InferenceAPI.TokenLogProbs>;
+  logprobs?: Array<ChatCompletionResponse.Logprob>;
 
   /**
    * (Optional) List of metrics associated with the API response
    */
   metrics?: Array<Metric>;
+}
+
+export namespace ChatCompletionResponse {
+  /**
+   * Log probabilities for generated tokens.
+   */
+  export interface Logprob {
+    /**
+     * Dictionary mapping tokens to their log probabilities
+     */
+    logprobs_by_token: { [key: string]: number };
+  }
 }
 
 /**

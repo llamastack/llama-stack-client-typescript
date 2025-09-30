@@ -220,12 +220,11 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/inference.ts">ChatCompletionResponseStreamChunk</a></code>
-- <code><a href="./src/resources/inference.ts">TokenLogProbs</a></code>
+- <code><a href="./src/resources/inference.ts">InferenceRerankResponse</a></code>
 
 Methods:
 
-- <code title="post /v1/inference/chat-completion">client.inference.<a href="./src/resources/inference.ts">chatCompletion</a>({ ...params }) -> ChatCompletionResponse</code>
+- <code title="post /v1alpha/inference/rerank">client.inference.<a href="./src/resources/inference.ts">rerank</a>({ ...params }) -> InferenceRerankResponse</code>
 
 # Embeddings
 

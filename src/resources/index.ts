@@ -62,14 +62,7 @@ export {
   type FileCreateParams,
   type FileListParams,
 } from './files';
-export {
-  Inference,
-  type ChatCompletionResponseStreamChunk,
-  type TokenLogProbs,
-  type InferenceChatCompletionParams,
-  type InferenceChatCompletionParamsNonStreaming,
-  type InferenceChatCompletionParamsStreaming,
-} from './inference';
+export { Inference, type InferenceRerankResponse, type InferenceRerankParams } from './inference';
 export { Inspect, type HealthInfo, type ProviderInfo, type RouteInfo, type VersionInfo } from './inspect';
 export {
   Models,
