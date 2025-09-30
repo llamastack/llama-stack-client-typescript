@@ -3,13 +3,11 @@
 Types:
 
 - <code><a href="./src/resources/shared.ts">AgentConfig</a></code>
-- <code><a href="./src/resources/shared.ts">ChatCompletionResponse</a></code>
 - <code><a href="./src/resources/shared.ts">CompletionMessage</a></code>
 - <code><a href="./src/resources/shared.ts">Document</a></code>
 - <code><a href="./src/resources/shared.ts">InterleavedContent</a></code>
 - <code><a href="./src/resources/shared.ts">InterleavedContentItem</a></code>
 - <code><a href="./src/resources/shared.ts">Message</a></code>
-- <code><a href="./src/resources/shared.ts">Metric</a></code>
 - <code><a href="./src/resources/shared.ts">ParamType</a></code>
 - <code><a href="./src/resources/shared.ts">QueryConfig</a></code>
 - <code><a href="./src/resources/shared.ts">QueryResult</a></code>
@@ -19,7 +17,6 @@ Types:
 - <code><a href="./src/resources/shared.ts">ScoringResult</a></code>
 - <code><a href="./src/resources/shared.ts">SystemMessage</a></code>
 - <code><a href="./src/resources/shared.ts">ToolCall</a></code>
-- <code><a href="./src/resources/shared.ts">ToolParamDefinition</a></code>
 - <code><a href="./src/resources/shared.ts">ToolResponseMessage</a></code>
 - <code><a href="./src/resources/shared.ts">UserMessage</a></code>
 
@@ -97,65 +94,6 @@ Methods:
 
 - <code title="get /v1/responses/{response_id}/input_items">client.responses.inputItems.<a href="./src/resources/responses/input-items.ts">list</a>(responseId, { ...params }) -> InputItemListResponse</code>
 
-# Agents
-
-Types:
-
-- <code><a href="./src/resources/agents/agents.ts">InferenceStep</a></code>
-- <code><a href="./src/resources/agents/agents.ts">MemoryRetrievalStep</a></code>
-- <code><a href="./src/resources/agents/agents.ts">ShieldCallStep</a></code>
-- <code><a href="./src/resources/agents/agents.ts">ToolExecutionStep</a></code>
-- <code><a href="./src/resources/agents/agents.ts">ToolResponse</a></code>
-- <code><a href="./src/resources/agents/agents.ts">AgentCreateResponse</a></code>
-- <code><a href="./src/resources/agents/agents.ts">AgentRetrieveResponse</a></code>
-- <code><a href="./src/resources/agents/agents.ts">AgentListResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/agents">client.agents.<a href="./src/resources/agents/agents.ts">create</a>({ ...params }) -> AgentCreateResponse</code>
-- <code title="get /v1/agents/{agent_id}">client.agents.<a href="./src/resources/agents/agents.ts">retrieve</a>(agentId) -> AgentRetrieveResponse</code>
-- <code title="get /v1/agents">client.agents.<a href="./src/resources/agents/agents.ts">list</a>({ ...params }) -> AgentListResponse</code>
-- <code title="delete /v1/agents/{agent_id}">client.agents.<a href="./src/resources/agents/agents.ts">delete</a>(agentId) -> void</code>
-
-## Session
-
-Types:
-
-- <code><a href="./src/resources/agents/session.ts">Session</a></code>
-- <code><a href="./src/resources/agents/session.ts">SessionCreateResponse</a></code>
-- <code><a href="./src/resources/agents/session.ts">SessionListResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/agents/{agent_id}/session">client.agents.session.<a href="./src/resources/agents/session.ts">create</a>(agentId, { ...params }) -> SessionCreateResponse</code>
-- <code title="get /v1/agents/{agent_id}/session/{session_id}">client.agents.session.<a href="./src/resources/agents/session.ts">retrieve</a>(agentId, sessionId, { ...params }) -> Session</code>
-- <code title="get /v1/agents/{agent_id}/sessions">client.agents.session.<a href="./src/resources/agents/session.ts">list</a>(agentId, { ...params }) -> SessionListResponse</code>
-- <code title="delete /v1/agents/{agent_id}/session/{session_id}">client.agents.session.<a href="./src/resources/agents/session.ts">delete</a>(agentId, sessionId) -> void</code>
-
-## Steps
-
-Types:
-
-- <code><a href="./src/resources/agents/steps.ts">StepRetrieveResponse</a></code>
-
-Methods:
-
-- <code title="get /v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}/step/{step_id}">client.agents.steps.<a href="./src/resources/agents/steps.ts">retrieve</a>(agentId, sessionId, turnId, stepId) -> StepRetrieveResponse</code>
-
-## Turn
-
-Types:
-
-- <code><a href="./src/resources/agents/turn.ts">AgentTurnResponseStreamChunk</a></code>
-- <code><a href="./src/resources/agents/turn.ts">Turn</a></code>
-- <code><a href="./src/resources/agents/turn.ts">TurnResponseEvent</a></code>
-
-Methods:
-
-- <code title="post /v1/agents/{agent_id}/session/{session_id}/turn">client.agents.turn.<a href="./src/resources/agents/turn.ts">create</a>(agentId, sessionId, { ...params }) -> Turn</code>
-- <code title="get /v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}">client.agents.turn.<a href="./src/resources/agents/turn.ts">retrieve</a>(agentId, sessionId, turnId) -> Turn</code>
-- <code title="post /v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}/resume">client.agents.turn.<a href="./src/resources/agents/turn.ts">resume</a>(agentId, sessionId, turnId, { ...params }) -> Turn</code>
-
 # Datasets
 
 Types:
@@ -211,16 +149,6 @@ Methods:
 
 - <code title="get /v1/health">client.inspect.<a href="./src/resources/inspect.ts">health</a>() -> HealthInfo</code>
 - <code title="get /v1/version">client.inspect.<a href="./src/resources/inspect.ts">version</a>() -> VersionInfo</code>
-
-# Inference
-
-Types:
-
-- <code><a href="./src/resources/inference.ts">InferenceRerankResponse</a></code>
-
-Methods:
-
-- <code title="post /v1alpha/inference/rerank">client.inference.<a href="./src/resources/inference.ts">rerank</a>({ ...params }) -> InferenceRerankResponse</code>
 
 # Embeddings
 
@@ -542,3 +470,74 @@ Methods:
 - <code title="get /v1/files">client.files.<a href="./src/resources/files.ts">list</a>({ ...params }) -> FilesOpenAICursorPage</code>
 - <code title="delete /v1/files/{file_id}">client.files.<a href="./src/resources/files.ts">delete</a>(fileId) -> DeleteFileResponse</code>
 - <code title="get /v1/files/{file_id}/content">client.files.<a href="./src/resources/files.ts">content</a>(fileId) -> unknown</code>
+
+# Alpha
+
+## Inference
+
+Types:
+
+- <code><a href="./src/resources/alpha/inference.ts">InferenceRerankResponse</a></code>
+
+Methods:
+
+- <code title="post /v1alpha/inference/rerank">client.alpha.inference.<a href="./src/resources/alpha/inference.ts">rerank</a>({ ...params }) -> InferenceRerankResponse</code>
+
+## Agents
+
+Types:
+
+- <code><a href="./src/resources/alpha/agents/agents.ts">InferenceStep</a></code>
+- <code><a href="./src/resources/alpha/agents/agents.ts">MemoryRetrievalStep</a></code>
+- <code><a href="./src/resources/alpha/agents/agents.ts">ShieldCallStep</a></code>
+- <code><a href="./src/resources/alpha/agents/agents.ts">ToolExecutionStep</a></code>
+- <code><a href="./src/resources/alpha/agents/agents.ts">ToolResponse</a></code>
+- <code><a href="./src/resources/alpha/agents/agents.ts">AgentCreateResponse</a></code>
+- <code><a href="./src/resources/alpha/agents/agents.ts">AgentRetrieveResponse</a></code>
+- <code><a href="./src/resources/alpha/agents/agents.ts">AgentListResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/agents">client.alpha.agents.<a href="./src/resources/alpha/agents/agents.ts">create</a>({ ...params }) -> AgentCreateResponse</code>
+- <code title="get /v1/agents/{agent_id}">client.alpha.agents.<a href="./src/resources/alpha/agents/agents.ts">retrieve</a>(agentId) -> AgentRetrieveResponse</code>
+- <code title="get /v1/agents">client.alpha.agents.<a href="./src/resources/alpha/agents/agents.ts">list</a>({ ...params }) -> AgentListResponse</code>
+- <code title="delete /v1/agents/{agent_id}">client.alpha.agents.<a href="./src/resources/alpha/agents/agents.ts">delete</a>(agentId) -> void</code>
+
+### Session
+
+Types:
+
+- <code><a href="./src/resources/alpha/agents/session.ts">Session</a></code>
+- <code><a href="./src/resources/alpha/agents/session.ts">SessionCreateResponse</a></code>
+- <code><a href="./src/resources/alpha/agents/session.ts">SessionListResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/agents/{agent_id}/session">client.alpha.agents.session.<a href="./src/resources/alpha/agents/session.ts">create</a>(agentId, { ...params }) -> SessionCreateResponse</code>
+- <code title="get /v1/agents/{agent_id}/session/{session_id}">client.alpha.agents.session.<a href="./src/resources/alpha/agents/session.ts">retrieve</a>(agentId, sessionId, { ...params }) -> Session</code>
+- <code title="get /v1/agents/{agent_id}/sessions">client.alpha.agents.session.<a href="./src/resources/alpha/agents/session.ts">list</a>(agentId, { ...params }) -> SessionListResponse</code>
+- <code title="delete /v1/agents/{agent_id}/session/{session_id}">client.alpha.agents.session.<a href="./src/resources/alpha/agents/session.ts">delete</a>(agentId, sessionId) -> void</code>
+
+### Steps
+
+Types:
+
+- <code><a href="./src/resources/alpha/agents/steps.ts">StepRetrieveResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}/step/{step_id}">client.alpha.agents.steps.<a href="./src/resources/alpha/agents/steps.ts">retrieve</a>(agentId, sessionId, turnId, stepId) -> StepRetrieveResponse</code>
+
+### Turn
+
+Types:
+
+- <code><a href="./src/resources/alpha/agents/turn.ts">AgentTurnResponseStreamChunk</a></code>
+- <code><a href="./src/resources/alpha/agents/turn.ts">Turn</a></code>
+- <code><a href="./src/resources/alpha/agents/turn.ts">TurnResponseEvent</a></code>
+
+Methods:
+
+- <code title="post /v1/agents/{agent_id}/session/{session_id}/turn">client.alpha.agents.turn.<a href="./src/resources/alpha/agents/turn.ts">create</a>(agentId, sessionId, { ...params }) -> Turn</code>
+- <code title="get /v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}">client.alpha.agents.turn.<a href="./src/resources/alpha/agents/turn.ts">retrieve</a>(agentId, sessionId, turnId) -> Turn</code>
+- <code title="post /v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}/resume">client.alpha.agents.turn.<a href="./src/resources/alpha/agents/turn.ts">resume</a>(agentId, sessionId, turnId, { ...params }) -> Turn</code>

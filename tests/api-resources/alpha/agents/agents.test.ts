@@ -7,7 +7,7 @@ const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] 
 
 describe('resource agents', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.agents.create({
+    const responsePromise = client.alpha.agents.create({
       agent_config: { instructions: 'instructions', model: 'model' },
     });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource agents', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await client.agents.create({
+    const response = await client.alpha.agents.create({
       agent_config: {
         instructions: 'instructions',
         model: 'model',
@@ -63,7 +63,7 @@ describe('resource agents', () => {
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.agents.retrieve('agent_id');
+    const responsePromise = client.alpha.agents.retrieve('agent_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -75,13 +75,13 @@ describe('resource agents', () => {
 
   test('retrieve: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.agents.retrieve('agent_id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      LlamaStackClient.NotFoundError,
-    );
+    await expect(
+      client.alpha.agents.retrieve('agent_id', { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(LlamaStackClient.NotFoundError);
   });
 
   test('list', async () => {
-    const responsePromise = client.agents.list();
+    const responsePromise = client.alpha.agents.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -93,7 +93,7 @@ describe('resource agents', () => {
 
   test('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.agents.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.alpha.agents.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
       LlamaStackClient.NotFoundError,
     );
   });
@@ -101,12 +101,12 @@ describe('resource agents', () => {
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.agents.list({ limit: 0, start_index: 0 }, { path: '/_stainless_unknown_path' }),
+      client.alpha.agents.list({ limit: 0, start_index: 0 }, { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(LlamaStackClient.NotFoundError);
   });
 
   test('delete', async () => {
-    const responsePromise = client.agents.delete('agent_id');
+    const responsePromise = client.alpha.agents.delete('agent_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -118,8 +118,8 @@ describe('resource agents', () => {
 
   test('delete: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.agents.delete('agent_id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      LlamaStackClient.NotFoundError,
-    );
+    await expect(
+      client.alpha.agents.delete('agent_id', { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(LlamaStackClient.NotFoundError);
   });
 });

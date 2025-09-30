@@ -5,9 +5,13 @@ import { Response } from 'node-fetch';
 
 const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
 
-describe('resource steps', () => {
-  test('retrieve', async () => {
-    const responsePromise = client.agents.steps.retrieve('agent_id', 'session_id', 'turn_id', 'step_id');
+describe('resource inference', () => {
+  test('rerank: only required params', async () => {
+    const responsePromise = client.alpha.inference.rerank({
+      items: ['string'],
+      model: 'model',
+      query: 'string',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -17,12 +21,12 @@ describe('resource steps', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('retrieve: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.agents.steps.retrieve('agent_id', 'session_id', 'turn_id', 'step_id', {
-        path: '/_stainless_unknown_path',
-      }),
-    ).rejects.toThrow(LlamaStackClient.NotFoundError);
+  test('rerank: required and optional params', async () => {
+    const response = await client.alpha.inference.rerank({
+      items: ['string'],
+      model: 'model',
+      query: 'string',
+      max_num_results: 0,
+    });
   });
 });

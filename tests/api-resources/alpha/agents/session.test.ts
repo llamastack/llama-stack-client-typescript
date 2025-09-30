@@ -7,7 +7,7 @@ const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] 
 
 describe('resource session', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.agents.session.create('agent_id', { session_name: 'session_name' });
+    const responsePromise = client.alpha.agents.session.create('agent_id', { session_name: 'session_name' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -18,11 +18,11 @@ describe('resource session', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await client.agents.session.create('agent_id', { session_name: 'session_name' });
+    const response = await client.alpha.agents.session.create('agent_id', { session_name: 'session_name' });
   });
 
   test('retrieve', async () => {
-    const responsePromise = client.agents.session.retrieve('agent_id', 'session_id');
+    const responsePromise = client.alpha.agents.session.retrieve('agent_id', 'session_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -35,14 +35,14 @@ describe('resource session', () => {
   test('retrieve: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.agents.session.retrieve('agent_id', 'session_id', { path: '/_stainless_unknown_path' }),
+      client.alpha.agents.session.retrieve('agent_id', 'session_id', { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(LlamaStackClient.NotFoundError);
   });
 
   test('retrieve: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.agents.session.retrieve(
+      client.alpha.agents.session.retrieve(
         'agent_id',
         'session_id',
         { turn_ids: ['string'] },
@@ -52,7 +52,7 @@ describe('resource session', () => {
   });
 
   test('list', async () => {
-    const responsePromise = client.agents.session.list('agent_id');
+    const responsePromise = client.alpha.agents.session.list('agent_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -65,14 +65,14 @@ describe('resource session', () => {
   test('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.agents.session.list('agent_id', { path: '/_stainless_unknown_path' }),
+      client.alpha.agents.session.list('agent_id', { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(LlamaStackClient.NotFoundError);
   });
 
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.agents.session.list(
+      client.alpha.agents.session.list(
         'agent_id',
         { limit: 0, start_index: 0 },
         { path: '/_stainless_unknown_path' },
@@ -81,7 +81,7 @@ describe('resource session', () => {
   });
 
   test('delete', async () => {
-    const responsePromise = client.agents.session.delete('agent_id', 'session_id');
+    const responsePromise = client.alpha.agents.session.delete('agent_id', 'session_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -94,7 +94,7 @@ describe('resource session', () => {
   test('delete: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.agents.session.delete('agent_id', 'session_id', { path: '/_stainless_unknown_path' }),
+      client.alpha.agents.session.delete('agent_id', 'session_id', { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(LlamaStackClient.NotFoundError);
   });
 });

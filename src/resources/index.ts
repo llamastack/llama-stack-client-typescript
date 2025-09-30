@@ -1,19 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export * from './shared';
-export {
-  Agents,
-  type InferenceStep,
-  type MemoryRetrievalStep,
-  type ShieldCallStep,
-  type ToolExecutionStep,
-  type ToolResponse,
-  type AgentCreateResponse,
-  type AgentRetrieveResponse,
-  type AgentListResponse,
-  type AgentCreateParams,
-  type AgentListParams,
-} from './agents/agents';
+export { Alpha } from './alpha/alpha';
 export {
   Benchmarks,
   type Benchmark,
@@ -61,7 +49,6 @@ export {
   type FileCreateParams,
   type FileListParams,
 } from './files';
-export { Inference, type InferenceRerankResponse, type InferenceRerankParams } from './inference';
 export { Inspect, type HealthInfo, type ProviderInfo, type RouteInfo, type VersionInfo } from './inspect';
 export {
   Models,

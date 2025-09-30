@@ -49,7 +49,6 @@ import {
   FilesOpenAICursorPage,
   ListFilesResponse,
 } from './resources/files';
-import { Inference, InferenceRerankParams, InferenceRerankResponse } from './resources/inference';
 import { HealthInfo, Inspect, ProviderInfo, RouteInfo, VersionInfo } from './resources/inspect';
 import { CreateResponse, ModerationCreateParams, Moderations } from './resources/moderations';
 import { ListProvidersResponse, ProviderListResponse, Providers } from './resources/providers';
@@ -123,19 +122,7 @@ import {
   VectorIoInsertParams,
   VectorIoQueryParams,
 } from './resources/vector-io';
-import {
-  AgentCreateParams,
-  AgentCreateResponse,
-  AgentListParams,
-  AgentListResponse,
-  AgentRetrieveResponse,
-  Agents,
-  InferenceStep,
-  MemoryRetrievalStep,
-  ShieldCallStep,
-  ToolExecutionStep,
-  ToolResponse,
-} from './resources/agents/agents';
+import { Alpha } from './resources/alpha/alpha';
 import { Chat, ChatCompletionChunk } from './resources/chat/chat';
 import {
   BenchmarkConfig,
@@ -309,11 +296,9 @@ export class LlamaStackClient extends Core.APIClient {
   tools: API.Tools = new API.Tools(this);
   toolRuntime: API.ToolRuntime = new API.ToolRuntime(this);
   responses: API.Responses = new API.Responses(this);
-  agents: API.Agents = new API.Agents(this);
   datasets: API.Datasets = new API.Datasets(this);
   eval: API.Eval = new API.Eval(this);
   inspect: API.Inspect = new API.Inspect(this);
-  inference: API.Inference = new API.Inference(this);
   embeddings: API.Embeddings = new API.Embeddings(this);
   chat: API.Chat = new API.Chat(this);
   completions: API.Completions = new API.Completions(this);
@@ -333,6 +318,7 @@ export class LlamaStackClient extends Core.APIClient {
   scoringFunctions: API.ScoringFunctions = new API.ScoringFunctions(this);
   benchmarks: API.Benchmarks = new API.Benchmarks(this);
   files: API.Files = new API.Files(this);
+  alpha: API.Alpha = new API.Alpha(this);
 
   /**
    * Check whether the base URL is set to its default.
@@ -389,11 +375,9 @@ LlamaStackClient.Tools = Tools;
 LlamaStackClient.ToolRuntime = ToolRuntime;
 LlamaStackClient.Responses = Responses;
 LlamaStackClient.ResponseListResponsesOpenAICursorPage = ResponseListResponsesOpenAICursorPage;
-LlamaStackClient.Agents = Agents;
 LlamaStackClient.Datasets = Datasets;
 LlamaStackClient.Eval = Eval;
 LlamaStackClient.Inspect = Inspect;
-LlamaStackClient.Inference = Inference;
 LlamaStackClient.Embeddings = Embeddings;
 LlamaStackClient.Chat = Chat;
 LlamaStackClient.Completions = Completions;
@@ -415,6 +399,7 @@ LlamaStackClient.ScoringFunctions = ScoringFunctions;
 LlamaStackClient.Benchmarks = Benchmarks;
 LlamaStackClient.Files = Files;
 LlamaStackClient.FilesOpenAICursorPage = FilesOpenAICursorPage;
+LlamaStackClient.Alpha = Alpha;
 
 export declare namespace LlamaStackClient {
   export type RequestOptions = Core.RequestOptions;
@@ -470,20 +455,6 @@ export declare namespace LlamaStackClient {
   };
 
   export {
-    Agents as Agents,
-    type InferenceStep as InferenceStep,
-    type MemoryRetrievalStep as MemoryRetrievalStep,
-    type ShieldCallStep as ShieldCallStep,
-    type ToolExecutionStep as ToolExecutionStep,
-    type ToolResponse as ToolResponse,
-    type AgentCreateResponse as AgentCreateResponse,
-    type AgentRetrieveResponse as AgentRetrieveResponse,
-    type AgentListResponse as AgentListResponse,
-    type AgentCreateParams as AgentCreateParams,
-    type AgentListParams as AgentListParams,
-  };
-
-  export {
     Datasets as Datasets,
     type ListDatasetsResponse as ListDatasetsResponse,
     type DatasetRetrieveResponse as DatasetRetrieveResponse,
@@ -512,12 +483,6 @@ export declare namespace LlamaStackClient {
     type ProviderInfo as ProviderInfo,
     type RouteInfo as RouteInfo,
     type VersionInfo as VersionInfo,
-  };
-
-  export {
-    Inference as Inference,
-    type InferenceRerankResponse as InferenceRerankResponse,
-    type InferenceRerankParams as InferenceRerankParams,
   };
 
   export {
@@ -676,14 +641,14 @@ export declare namespace LlamaStackClient {
     type FileListParams as FileListParams,
   };
 
+  export { Alpha as Alpha };
+
   export type AgentConfig = API.AgentConfig;
-  export type ChatCompletionResponse = API.ChatCompletionResponse;
   export type CompletionMessage = API.CompletionMessage;
   export type Document = API.Document;
   export type InterleavedContent = API.InterleavedContent;
   export type InterleavedContentItem = API.InterleavedContentItem;
   export type Message = API.Message;
-  export type Metric = API.Metric;
   export type ParamType = API.ParamType;
   export type QueryConfig = API.QueryConfig;
   export type QueryResult = API.QueryResult;
@@ -693,7 +658,6 @@ export declare namespace LlamaStackClient {
   export type ScoringResult = API.ScoringResult;
   export type SystemMessage = API.SystemMessage;
   export type ToolCall = API.ToolCall;
-  export type ToolParamDefinition = API.ToolParamDefinition;
   export type ToolResponseMessage = API.ToolResponseMessage;
   export type UserMessage = API.UserMessage;
 }

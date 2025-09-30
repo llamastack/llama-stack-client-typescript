@@ -1,12 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { APIPromise } from '../../core';
-import * as Core from '../../core';
+import { APIResource } from '../../../resource';
+import { APIPromise } from '../../../core';
+import * as Core from '../../../core';
 import * as TurnAPI from './turn';
-import * as Shared from '../shared';
+import * as Shared from '../../shared';
 import * as AgentsAPI from './agents';
-import { Stream } from '../../streaming';
+import { Stream } from '../../../streaming';
 
 export class TurnResource extends APIResource {
   /**
@@ -23,24 +23,24 @@ export class TurnResource extends APIResource {
     sessionId: string,
     body: TurnCreateParamsStreaming,
     options?: Core.RequestOptions,
-  ): APIPromise<Stream<AgentTurnResponseStreamChunk>>;
+  ): APIPromise<Stream<unknown>>;
   create(
     agentId: string,
     sessionId: string,
     body: TurnCreateParamsBase,
     options?: Core.RequestOptions,
-  ): APIPromise<Stream<AgentTurnResponseStreamChunk> | Turn>;
+  ): APIPromise<Stream<unknown> | Turn>;
   create(
     agentId: string,
     sessionId: string,
     body: TurnCreateParams,
     options?: Core.RequestOptions,
-  ): APIPromise<Turn> | APIPromise<Stream<AgentTurnResponseStreamChunk>> {
+  ): APIPromise<Turn> | APIPromise<Stream<unknown>> {
     return this._client.post(`/v1/agents/${agentId}/session/${sessionId}/turn`, {
       body,
       ...options,
       stream: body.stream ?? false,
-    }) as APIPromise<Turn> | APIPromise<Stream<AgentTurnResponseStreamChunk>>;
+    }) as APIPromise<Turn> | APIPromise<Stream<unknown>>;
   }
 
   /**
@@ -74,26 +74,26 @@ export class TurnResource extends APIResource {
     turnId: string,
     body: TurnResumeParamsStreaming,
     options?: Core.RequestOptions,
-  ): APIPromise<Stream<AgentTurnResponseStreamChunk>>;
+  ): APIPromise<Stream<unknown>>;
   resume(
     agentId: string,
     sessionId: string,
     turnId: string,
     body: TurnResumeParamsBase,
     options?: Core.RequestOptions,
-  ): APIPromise<Stream<AgentTurnResponseStreamChunk> | Turn>;
+  ): APIPromise<Stream<unknown> | Turn>;
   resume(
     agentId: string,
     sessionId: string,
     turnId: string,
     body: TurnResumeParams,
     options?: Core.RequestOptions,
-  ): APIPromise<Turn> | APIPromise<Stream<AgentTurnResponseStreamChunk>> {
+  ): APIPromise<Turn> | APIPromise<Stream<unknown>> {
     return this._client.post(`/v1/agents/${agentId}/session/${sessionId}/turn/${turnId}/resume`, {
       body,
       ...options,
       stream: body.stream ?? false,
-    }) as APIPromise<Turn> | APIPromise<Stream<AgentTurnResponseStreamChunk>>;
+    }) as APIPromise<Turn> | APIPromise<Stream<unknown>>;
   }
 }
 
