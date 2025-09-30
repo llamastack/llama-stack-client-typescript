@@ -31,36 +31,6 @@ export class FileBatches extends APIResource {
   }
 
   /**
-   * Returns a list of vector store files in a batch.
-   */
-  list(
-    vectorStoreId: string,
-    batchId: string,
-    query?: FileBatchListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<VectorStoreFilesOpenAICursorPage, FilesAPI.VectorStoreFile>;
-  list(
-    vectorStoreId: string,
-    batchId: string,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<VectorStoreFilesOpenAICursorPage, FilesAPI.VectorStoreFile>;
-  list(
-    vectorStoreId: string,
-    batchId: string,
-    query: FileBatchListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<VectorStoreFilesOpenAICursorPage, FilesAPI.VectorStoreFile> {
-    if (isRequestOptions(query)) {
-      return this.list(vectorStoreId, batchId, {}, query);
-    }
-    return this._client.getAPIList(
-      `/v1/vector_stores/${vectorStoreId}/file_batches/${batchId}/files`,
-      VectorStoreFilesOpenAICursorPage,
-      { query, ...options },
-    );
-  }
-
-  /**
    * Cancels a vector store file batch.
    */
   cancel(
@@ -69,6 +39,36 @@ export class FileBatches extends APIResource {
     options?: Core.RequestOptions,
   ): Core.APIPromise<VectorStoreFileBatches> {
     return this._client.post(`/v1/vector_stores/${vectorStoreId}/file_batches/${batchId}/cancel`, options);
+  }
+
+  /**
+   * Returns a list of vector store files in a batch.
+   */
+  listFiles(
+    vectorStoreId: string,
+    batchId: string,
+    query?: FileBatchListFilesParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<VectorStoreFilesOpenAICursorPage, FilesAPI.VectorStoreFile>;
+  listFiles(
+    vectorStoreId: string,
+    batchId: string,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<VectorStoreFilesOpenAICursorPage, FilesAPI.VectorStoreFile>;
+  listFiles(
+    vectorStoreId: string,
+    batchId: string,
+    query: FileBatchListFilesParams | Core.RequestOptions = {},
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<VectorStoreFilesOpenAICursorPage, FilesAPI.VectorStoreFile> {
+    if (isRequestOptions(query)) {
+      return this.listFiles(vectorStoreId, batchId, {}, query);
+    }
+    return this._client.getAPIList(
+      `/v1/vector_stores/${vectorStoreId}/file_batches/${batchId}/files`,
+      VectorStoreFilesOpenAICursorPage,
+      { query, ...options },
+    );
   }
 }
 
@@ -232,7 +232,7 @@ export namespace FileBatchCreateParams {
   }
 }
 
-export interface FileBatchListParams extends OpenAICursorPageParams {
+export interface FileBatchListFilesParams extends OpenAICursorPageParams {
   /**
    * A cursor for use in pagination. `before` is an object ID that defines your place
    * in the list.
@@ -256,7 +256,7 @@ export declare namespace FileBatches {
     type ListVectorStoreFilesInBatchResponse as ListVectorStoreFilesInBatchResponse,
     type VectorStoreFileBatches as VectorStoreFileBatches,
     type FileBatchCreateParams as FileBatchCreateParams,
-    type FileBatchListParams as FileBatchListParams,
+    type FileBatchListFilesParams as FileBatchListFilesParams,
   };
 }
 

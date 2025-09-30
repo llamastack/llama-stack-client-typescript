@@ -5,7 +5,7 @@ export {
   type ListVectorStoreFilesInBatchResponse,
   type VectorStoreFileBatches,
   type FileBatchCreateParams,
-  type FileBatchListParams,
+  type FileBatchListFilesParams,
 } from './file-batches';
 export {
   VectorStoreFilesOpenAICursorPage,
