@@ -113,29 +113,6 @@ Methods:
 - <code title="post /v1/datasets">client.datasets.<a href="./src/resources/datasets.ts">register</a>({ ...params }) -> DatasetRegisterResponse</code>
 - <code title="delete /v1/datasets/{dataset_id}">client.datasets.<a href="./src/resources/datasets.ts">unregister</a>(datasetId) -> void</code>
 
-# Eval
-
-Types:
-
-- <code><a href="./src/resources/eval/eval.ts">BenchmarkConfig</a></code>
-- <code><a href="./src/resources/eval/eval.ts">EvaluateResponse</a></code>
-- <code><a href="./src/resources/eval/eval.ts">Job</a></code>
-
-Methods:
-
-- <code title="post /v1/eval/benchmarks/{benchmark_id}/evaluations">client.eval.<a href="./src/resources/eval/eval.ts">evaluateRows</a>(benchmarkId, { ...params }) -> EvaluateResponse</code>
-- <code title="post /v1/eval/benchmarks/{benchmark_id}/evaluations">client.eval.<a href="./src/resources/eval/eval.ts">evaluateRowsAlpha</a>(benchmarkId, { ...params }) -> EvaluateResponse</code>
-- <code title="post /v1/eval/benchmarks/{benchmark_id}/jobs">client.eval.<a href="./src/resources/eval/eval.ts">runEval</a>(benchmarkId, { ...params }) -> Job</code>
-- <code title="post /v1/eval/benchmarks/{benchmark_id}/jobs">client.eval.<a href="./src/resources/eval/eval.ts">runEvalAlpha</a>(benchmarkId, { ...params }) -> Job</code>
-
-## Jobs
-
-Methods:
-
-- <code title="get /v1/eval/benchmarks/{benchmark_id}/jobs/{job_id}/result">client.eval.jobs.<a href="./src/resources/eval/jobs.ts">retrieve</a>(benchmarkId, jobId) -> EvaluateResponse</code>
-- <code title="delete /v1/eval/benchmarks/{benchmark_id}/jobs/{job_id}">client.eval.jobs.<a href="./src/resources/eval/jobs.ts">cancel</a>(benchmarkId, jobId) -> void</code>
-- <code title="get /v1/eval/benchmarks/{benchmark_id}/jobs/{job_id}">client.eval.jobs.<a href="./src/resources/eval/jobs.ts">status</a>(benchmarkId, jobId) -> Job</code>
-
 # Inspect
 
 Types:
@@ -290,34 +267,6 @@ Types:
 Methods:
 
 - <code title="get /v1/models">client.models.openai.<a href="./src/resources/models/openai.ts">list</a>() -> ModelListResponse</code>
-
-# PostTraining
-
-Types:
-
-- <code><a href="./src/resources/post-training/post-training.ts">AlgorithmConfig</a></code>
-- <code><a href="./src/resources/post-training/post-training.ts">ListPostTrainingJobsResponse</a></code>
-- <code><a href="./src/resources/post-training/post-training.ts">PostTrainingJob</a></code>
-
-Methods:
-
-- <code title="post /v1/post-training/preference-optimize">client.postTraining.<a href="./src/resources/post-training/post-training.ts">preferenceOptimize</a>({ ...params }) -> PostTrainingJob</code>
-- <code title="post /v1/post-training/supervised-fine-tune">client.postTraining.<a href="./src/resources/post-training/post-training.ts">supervisedFineTune</a>({ ...params }) -> PostTrainingJob</code>
-
-## Job
-
-Types:
-
-- <code><a href="./src/resources/post-training/job.ts">JobListResponse</a></code>
-- <code><a href="./src/resources/post-training/job.ts">JobArtifactsResponse</a></code>
-- <code><a href="./src/resources/post-training/job.ts">JobStatusResponse</a></code>
-
-Methods:
-
-- <code title="get /v1/post-training/jobs">client.postTraining.job.<a href="./src/resources/post-training/job.ts">list</a>() -> Array&lt;ListPostTrainingJobsResponse.Data&gt;</code>
-- <code title="get /v1/post-training/job/artifacts">client.postTraining.job.<a href="./src/resources/post-training/job.ts">artifacts</a>({ ...params }) -> JobArtifactsResponse</code>
-- <code title="post /v1/post-training/job/cancel">client.postTraining.job.<a href="./src/resources/post-training/job.ts">cancel</a>({ ...params }) -> void</code>
-- <code title="get /v1/post-training/job/status">client.postTraining.job.<a href="./src/resources/post-training/job.ts">status</a>({ ...params }) -> JobStatusResponse</code>
 
 # Providers
 
@@ -483,6 +432,57 @@ Methods:
 
 - <code title="post /v1alpha/inference/rerank">client.alpha.inference.<a href="./src/resources/alpha/inference.ts">rerank</a>({ ...params }) -> InferenceRerankResponse</code>
 
+## PostTraining
+
+Types:
+
+- <code><a href="./src/resources/alpha/post-training/post-training.ts">AlgorithmConfig</a></code>
+- <code><a href="./src/resources/alpha/post-training/post-training.ts">ListPostTrainingJobsResponse</a></code>
+- <code><a href="./src/resources/alpha/post-training/post-training.ts">PostTrainingJob</a></code>
+
+Methods:
+
+- <code title="post /v1alpha/post-training/preference-optimize">client.alpha.postTraining.<a href="./src/resources/alpha/post-training/post-training.ts">preferenceOptimize</a>({ ...params }) -> PostTrainingJob</code>
+- <code title="post /v1alpha/post-training/supervised-fine-tune">client.alpha.postTraining.<a href="./src/resources/alpha/post-training/post-training.ts">supervisedFineTune</a>({ ...params }) -> PostTrainingJob</code>
+
+### Job
+
+Types:
+
+- <code><a href="./src/resources/alpha/post-training/job.ts">JobListResponse</a></code>
+- <code><a href="./src/resources/alpha/post-training/job.ts">JobArtifactsResponse</a></code>
+- <code><a href="./src/resources/alpha/post-training/job.ts">JobStatusResponse</a></code>
+
+Methods:
+
+- <code title="get /v1alpha/post-training/jobs">client.alpha.postTraining.job.<a href="./src/resources/alpha/post-training/job.ts">list</a>() -> Array&lt;ListPostTrainingJobsResponse.Data&gt;</code>
+- <code title="get /v1alpha/post-training/job/artifacts">client.alpha.postTraining.job.<a href="./src/resources/alpha/post-training/job.ts">artifacts</a>({ ...params }) -> JobArtifactsResponse</code>
+- <code title="post /v1alpha/post-training/job/cancel">client.alpha.postTraining.job.<a href="./src/resources/alpha/post-training/job.ts">cancel</a>({ ...params }) -> void</code>
+- <code title="get /v1alpha/post-training/job/status">client.alpha.postTraining.job.<a href="./src/resources/alpha/post-training/job.ts">status</a>({ ...params }) -> JobStatusResponse</code>
+
+## Eval
+
+Types:
+
+- <code><a href="./src/resources/alpha/eval/eval.ts">BenchmarkConfig</a></code>
+- <code><a href="./src/resources/alpha/eval/eval.ts">EvaluateResponse</a></code>
+- <code><a href="./src/resources/alpha/eval/eval.ts">Job</a></code>
+
+Methods:
+
+- <code title="post /v1alpha/eval/benchmarks/{benchmark_id}/evaluations">client.alpha.eval.<a href="./src/resources/alpha/eval/eval.ts">evaluateRows</a>(benchmarkId, { ...params }) -> EvaluateResponse</code>
+- <code title="post /v1alpha/eval/benchmarks/{benchmark_id}/evaluations">client.alpha.eval.<a href="./src/resources/alpha/eval/eval.ts">evaluateRowsAlpha</a>(benchmarkId, { ...params }) -> EvaluateResponse</code>
+- <code title="post /v1alpha/eval/benchmarks/{benchmark_id}/jobs">client.alpha.eval.<a href="./src/resources/alpha/eval/eval.ts">runEval</a>(benchmarkId, { ...params }) -> Job</code>
+- <code title="post /v1alpha/eval/benchmarks/{benchmark_id}/jobs">client.alpha.eval.<a href="./src/resources/alpha/eval/eval.ts">runEvalAlpha</a>(benchmarkId, { ...params }) -> Job</code>
+
+### Jobs
+
+Methods:
+
+- <code title="get /v1alpha/eval/benchmarks/{benchmark_id}/jobs/{job_id}/result">client.alpha.eval.jobs.<a href="./src/resources/alpha/eval/jobs.ts">retrieve</a>(benchmarkId, jobId) -> EvaluateResponse</code>
+- <code title="delete /v1alpha/eval/benchmarks/{benchmark_id}/jobs/{job_id}">client.alpha.eval.jobs.<a href="./src/resources/alpha/eval/jobs.ts">cancel</a>(benchmarkId, jobId) -> void</code>
+- <code title="get /v1alpha/eval/benchmarks/{benchmark_id}/jobs/{job_id}">client.alpha.eval.jobs.<a href="./src/resources/alpha/eval/jobs.ts">status</a>(benchmarkId, jobId) -> Job</code>
+
 ## Agents
 
 Types:
@@ -498,10 +498,10 @@ Types:
 
 Methods:
 
-- <code title="post /v1/agents">client.alpha.agents.<a href="./src/resources/alpha/agents/agents.ts">create</a>({ ...params }) -> AgentCreateResponse</code>
-- <code title="get /v1/agents/{agent_id}">client.alpha.agents.<a href="./src/resources/alpha/agents/agents.ts">retrieve</a>(agentId) -> AgentRetrieveResponse</code>
-- <code title="get /v1/agents">client.alpha.agents.<a href="./src/resources/alpha/agents/agents.ts">list</a>({ ...params }) -> AgentListResponse</code>
-- <code title="delete /v1/agents/{agent_id}">client.alpha.agents.<a href="./src/resources/alpha/agents/agents.ts">delete</a>(agentId) -> void</code>
+- <code title="post /v1alpha/agents">client.alpha.agents.<a href="./src/resources/alpha/agents/agents.ts">create</a>({ ...params }) -> AgentCreateResponse</code>
+- <code title="get /v1alpha/agents/{agent_id}">client.alpha.agents.<a href="./src/resources/alpha/agents/agents.ts">retrieve</a>(agentId) -> AgentRetrieveResponse</code>
+- <code title="get /v1alpha/agents">client.alpha.agents.<a href="./src/resources/alpha/agents/agents.ts">list</a>({ ...params }) -> AgentListResponse</code>
+- <code title="delete /v1alpha/agents/{agent_id}">client.alpha.agents.<a href="./src/resources/alpha/agents/agents.ts">delete</a>(agentId) -> void</code>
 
 ### Session
 
@@ -513,10 +513,10 @@ Types:
 
 Methods:
 
-- <code title="post /v1/agents/{agent_id}/session">client.alpha.agents.session.<a href="./src/resources/alpha/agents/session.ts">create</a>(agentId, { ...params }) -> SessionCreateResponse</code>
-- <code title="get /v1/agents/{agent_id}/session/{session_id}">client.alpha.agents.session.<a href="./src/resources/alpha/agents/session.ts">retrieve</a>(agentId, sessionId, { ...params }) -> Session</code>
-- <code title="get /v1/agents/{agent_id}/sessions">client.alpha.agents.session.<a href="./src/resources/alpha/agents/session.ts">list</a>(agentId, { ...params }) -> SessionListResponse</code>
-- <code title="delete /v1/agents/{agent_id}/session/{session_id}">client.alpha.agents.session.<a href="./src/resources/alpha/agents/session.ts">delete</a>(agentId, sessionId) -> void</code>
+- <code title="post /v1alpha/agents/{agent_id}/session">client.alpha.agents.session.<a href="./src/resources/alpha/agents/session.ts">create</a>(agentId, { ...params }) -> SessionCreateResponse</code>
+- <code title="get /v1alpha/agents/{agent_id}/session/{session_id}">client.alpha.agents.session.<a href="./src/resources/alpha/agents/session.ts">retrieve</a>(agentId, sessionId, { ...params }) -> Session</code>
+- <code title="get /v1alpha/agents/{agent_id}/sessions">client.alpha.agents.session.<a href="./src/resources/alpha/agents/session.ts">list</a>(agentId, { ...params }) -> SessionListResponse</code>
+- <code title="delete /v1alpha/agents/{agent_id}/session/{session_id}">client.alpha.agents.session.<a href="./src/resources/alpha/agents/session.ts">delete</a>(agentId, sessionId) -> void</code>
 
 ### Steps
 
@@ -526,7 +526,7 @@ Types:
 
 Methods:
 
-- <code title="get /v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}/step/{step_id}">client.alpha.agents.steps.<a href="./src/resources/alpha/agents/steps.ts">retrieve</a>(agentId, sessionId, turnId, stepId) -> StepRetrieveResponse</code>
+- <code title="get /v1alpha/agents/{agent_id}/session/{session_id}/turn/{turn_id}/step/{step_id}">client.alpha.agents.steps.<a href="./src/resources/alpha/agents/steps.ts">retrieve</a>(agentId, sessionId, turnId, stepId) -> StepRetrieveResponse</code>
 
 ### Turn
 
@@ -538,6 +538,6 @@ Types:
 
 Methods:
 
-- <code title="post /v1/agents/{agent_id}/session/{session_id}/turn">client.alpha.agents.turn.<a href="./src/resources/alpha/agents/turn.ts">create</a>(agentId, sessionId, { ...params }) -> Turn</code>
-- <code title="get /v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}">client.alpha.agents.turn.<a href="./src/resources/alpha/agents/turn.ts">retrieve</a>(agentId, sessionId, turnId) -> Turn</code>
-- <code title="post /v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}/resume">client.alpha.agents.turn.<a href="./src/resources/alpha/agents/turn.ts">resume</a>(agentId, sessionId, turnId, { ...params }) -> Turn</code>
+- <code title="post /v1alpha/agents/{agent_id}/session/{session_id}/turn">client.alpha.agents.turn.<a href="./src/resources/alpha/agents/turn.ts">create</a>(agentId, sessionId, { ...params }) -> Turn</code>
+- <code title="get /v1alpha/agents/{agent_id}/session/{session_id}/turn/{turn_id}">client.alpha.agents.turn.<a href="./src/resources/alpha/agents/turn.ts">retrieve</a>(agentId, sessionId, turnId) -> Turn</code>
+- <code title="post /v1alpha/agents/{agent_id}/session/{session_id}/turn/{turn_id}/resume">client.alpha.agents.turn.<a href="./src/resources/alpha/agents/turn.ts">resume</a>(agentId, sessionId, turnId, { ...params }) -> Turn</code>

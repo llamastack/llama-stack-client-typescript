@@ -36,7 +36,7 @@ export class TurnResource extends APIResource {
     body: TurnCreateParams,
     options?: Core.RequestOptions,
   ): APIPromise<Turn> | APIPromise<Stream<AgentTurnResponseStreamChunk>> {
-    return this._client.post(`/v1/agents/${agentId}/session/${sessionId}/turn`, {
+    return this._client.post(`/v1alpha/agents/${agentId}/session/${sessionId}/turn`, {
       body,
       ...options,
       stream: body.stream ?? false,
@@ -52,7 +52,7 @@ export class TurnResource extends APIResource {
     turnId: string,
     options?: Core.RequestOptions,
   ): Core.APIPromise<Turn> {
-    return this._client.get(`/v1/agents/${agentId}/session/${sessionId}/turn/${turnId}`, options);
+    return this._client.get(`/v1alpha/agents/${agentId}/session/${sessionId}/turn/${turnId}`, options);
   }
 
   /**
@@ -89,7 +89,7 @@ export class TurnResource extends APIResource {
     body: TurnResumeParams,
     options?: Core.RequestOptions,
   ): APIPromise<Turn> | APIPromise<Stream<AgentTurnResponseStreamChunk>> {
-    return this._client.post(`/v1/agents/${agentId}/session/${sessionId}/turn/${turnId}/resume`, {
+    return this._client.post(`/v1alpha/agents/${agentId}/session/${sessionId}/turn/${turnId}/resume`, {
       body,
       ...options,
       stream: body.stream ?? false,

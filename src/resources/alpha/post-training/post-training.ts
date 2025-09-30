@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import * as Core from '../../core';
+import { APIResource } from '../../../resource';
+import * as Core from '../../../core';
 import * as JobAPI from './job';
 import {
   Job,
@@ -23,7 +23,7 @@ export class PostTraining extends APIResource {
     body: PostTrainingPreferenceOptimizeParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<PostTrainingJob> {
-    return this._client.post('/v1/post-training/preference-optimize', { body, ...options });
+    return this._client.post('/v1alpha/post-training/preference-optimize', { body, ...options });
   }
 
   /**
@@ -33,7 +33,7 @@ export class PostTraining extends APIResource {
     body: PostTrainingSupervisedFineTuneParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<PostTrainingJob> {
-    return this._client.post('/v1/post-training/supervised-fine-tune', { body, ...options });
+    return this._client.post('/v1alpha/post-training/supervised-fine-tune', { body, ...options });
   }
 }
 

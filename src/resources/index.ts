@@ -30,16 +30,6 @@ export {
 } from './datasets';
 export { Embeddings, type CreateEmbeddingsResponse, type EmbeddingCreateParams } from './embeddings';
 export {
-  Eval,
-  type BenchmarkConfig,
-  type EvaluateResponse,
-  type Job,
-  type EvalEvaluateRowsParams,
-  type EvalEvaluateRowsAlphaParams,
-  type EvalRunEvalParams,
-  type EvalRunEvalAlphaParams,
-} from './eval/eval';
-export {
   FilesOpenAICursorPage,
   Files,
   type DeleteFileResponse,
@@ -58,14 +48,6 @@ export {
   type ModelRegisterParams,
 } from './models/models';
 export { Moderations, type CreateResponse, type ModerationCreateParams } from './moderations';
-export {
-  PostTraining,
-  type AlgorithmConfig,
-  type ListPostTrainingJobsResponse,
-  type PostTrainingJob,
-  type PostTrainingPreferenceOptimizeParams,
-  type PostTrainingSupervisedFineTuneParams,
-} from './post-training/post-training';
 export { Providers, type ListProvidersResponse, type ProviderListResponse } from './providers';
 export {
   ResponseListResponsesOpenAICursorPage,

@@ -39,14 +39,14 @@ export class Agents extends APIResource {
    * Create an agent with the given configuration.
    */
   create(body: AgentCreateParams, options?: Core.RequestOptions): Core.APIPromise<AgentCreateResponse> {
-    return this._client.post('/v1/agents', { body, ...options });
+    return this._client.post('/v1alpha/agents', { body, ...options });
   }
 
   /**
    * Describe an agent by its ID.
    */
   retrieve(agentId: string, options?: Core.RequestOptions): Core.APIPromise<AgentRetrieveResponse> {
-    return this._client.get(`/v1/agents/${agentId}`, options);
+    return this._client.get(`/v1alpha/agents/${agentId}`, options);
   }
 
   /**
@@ -61,14 +61,14 @@ export class Agents extends APIResource {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.get('/v1/agents', { query, ...options });
+    return this._client.get('/v1alpha/agents', { query, ...options });
   }
 
   /**
    * Delete an agent by its ID and its associated sessions and turns.
    */
   delete(agentId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.delete(`/v1/agents/${agentId}`, {
+    return this._client.delete(`/v1alpha/agents/${agentId}`, {
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
     });

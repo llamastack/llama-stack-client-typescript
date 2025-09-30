@@ -16,7 +16,7 @@ export class Steps extends APIResource {
     options?: Core.RequestOptions,
   ): Core.APIPromise<StepRetrieveResponse> {
     return this._client.get(
-      `/v1/agents/${agentId}/session/${sessionId}/turn/${turnId}/step/${stepId}`,
+      `/v1alpha/agents/${agentId}/session/${sessionId}/turn/${turnId}/step/${stepId}`,
       options,
     );
   }
