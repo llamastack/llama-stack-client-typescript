@@ -125,30 +125,12 @@ import {
 import { Alpha } from './resources/alpha/alpha';
 import { Chat, ChatCompletionChunk } from './resources/chat/chat';
 import {
-  BenchmarkConfig,
-  Eval,
-  EvalEvaluateRowsAlphaParams,
-  EvalEvaluateRowsParams,
-  EvalRunEvalAlphaParams,
-  EvalRunEvalParams,
-  EvaluateResponse,
-  Job,
-} from './resources/eval/eval';
-import {
   ListModelsResponse,
   Model,
   ModelListResponse,
   ModelRegisterParams,
   Models,
 } from './resources/models/models';
-import {
-  AlgorithmConfig,
-  ListPostTrainingJobsResponse,
-  PostTraining,
-  PostTrainingJob,
-  PostTrainingPreferenceOptimizeParams,
-  PostTrainingSupervisedFineTuneParams,
-} from './resources/post-training/post-training';
 import {
   ResponseCreateParams,
   ResponseCreateParamsNonStreaming,
@@ -297,7 +279,6 @@ export class LlamaStackClient extends Core.APIClient {
   toolRuntime: API.ToolRuntime = new API.ToolRuntime(this);
   responses: API.Responses = new API.Responses(this);
   datasets: API.Datasets = new API.Datasets(this);
-  eval: API.Eval = new API.Eval(this);
   inspect: API.Inspect = new API.Inspect(this);
   embeddings: API.Embeddings = new API.Embeddings(this);
   chat: API.Chat = new API.Chat(this);
@@ -306,7 +287,6 @@ export class LlamaStackClient extends Core.APIClient {
   vectorDBs: API.VectorDBs = new API.VectorDBs(this);
   vectorStores: API.VectorStores = new API.VectorStores(this);
   models: API.Models = new API.Models(this);
-  postTraining: API.PostTraining = new API.PostTraining(this);
   providers: API.Providers = new API.Providers(this);
   routes: API.Routes = new API.Routes(this);
   moderations: API.Moderations = new API.Moderations(this);
@@ -376,7 +356,6 @@ LlamaStackClient.ToolRuntime = ToolRuntime;
 LlamaStackClient.Responses = Responses;
 LlamaStackClient.ResponseListResponsesOpenAICursorPage = ResponseListResponsesOpenAICursorPage;
 LlamaStackClient.Datasets = Datasets;
-LlamaStackClient.Eval = Eval;
 LlamaStackClient.Inspect = Inspect;
 LlamaStackClient.Embeddings = Embeddings;
 LlamaStackClient.Chat = Chat;
@@ -386,7 +365,6 @@ LlamaStackClient.VectorDBs = VectorDBs;
 LlamaStackClient.VectorStores = VectorStores;
 LlamaStackClient.VectorStoresOpenAICursorPage = VectorStoresOpenAICursorPage;
 LlamaStackClient.Models = Models;
-LlamaStackClient.PostTraining = PostTraining;
 LlamaStackClient.Providers = Providers;
 LlamaStackClient.Routes = Routes;
 LlamaStackClient.Moderations = Moderations;
@@ -467,17 +445,6 @@ export declare namespace LlamaStackClient {
   };
 
   export {
-    Eval as Eval,
-    type BenchmarkConfig as BenchmarkConfig,
-    type EvaluateResponse as EvaluateResponse,
-    type Job as Job,
-    type EvalEvaluateRowsParams as EvalEvaluateRowsParams,
-    type EvalEvaluateRowsAlphaParams as EvalEvaluateRowsAlphaParams,
-    type EvalRunEvalParams as EvalRunEvalParams,
-    type EvalRunEvalAlphaParams as EvalRunEvalAlphaParams,
-  };
-
-  export {
     Inspect as Inspect,
     type HealthInfo as HealthInfo,
     type ProviderInfo as ProviderInfo,
@@ -536,15 +503,6 @@ export declare namespace LlamaStackClient {
     type Model as Model,
     type ModelListResponse as ModelListResponse,
     type ModelRegisterParams as ModelRegisterParams,
-  };
-
-  export {
-    PostTraining as PostTraining,
-    type AlgorithmConfig as AlgorithmConfig,
-    type ListPostTrainingJobsResponse as ListPostTrainingJobsResponse,
-    type PostTrainingJob as PostTrainingJob,
-    type PostTrainingPreferenceOptimizeParams as PostTrainingPreferenceOptimizeParams,
-    type PostTrainingSupervisedFineTuneParams as PostTrainingSupervisedFineTuneParams,
   };
 
   export {

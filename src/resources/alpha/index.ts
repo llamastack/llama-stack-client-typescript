@@ -14,4 +14,22 @@ export {
   type AgentListParams,
 } from './agents/index';
 export { Alpha } from './alpha';
+export {
+  Eval,
+  type BenchmarkConfig,
+  type EvaluateResponse,
+  type Job,
+  type EvalEvaluateRowsParams,
+  type EvalEvaluateRowsAlphaParams,
+  type EvalRunEvalParams,
+  type EvalRunEvalAlphaParams,
+} from './eval/index';
 export { Inference, type InferenceRerankResponse, type InferenceRerankParams } from './inference';
+export {
+  PostTraining,
+  type AlgorithmConfig,
+  type ListPostTrainingJobsResponse,
+  type PostTrainingJob,
+  type PostTrainingPreferenceOptimizeParams,
+  type PostTrainingSupervisedFineTuneParams,
+} from './post-training/index';

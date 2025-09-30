@@ -7,7 +7,7 @@ const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] 
 
 describe('resource eval', () => {
   test('evaluateRows: only required params', async () => {
-    const responsePromise = client.eval.evaluateRows('benchmark_id', {
+    const responsePromise = client.alpha.eval.evaluateRows('benchmark_id', {
       benchmark_config: {
         eval_candidate: { model: 'model', sampling_params: { strategy: { type: 'greedy' } }, type: 'model' },
         scoring_params: {
@@ -32,7 +32,7 @@ describe('resource eval', () => {
   });
 
   test('evaluateRows: required and optional params', async () => {
-    const response = await client.eval.evaluateRows('benchmark_id', {
+    const response = await client.alpha.eval.evaluateRows('benchmark_id', {
       benchmark_config: {
         eval_candidate: {
           model: 'model',
@@ -62,7 +62,7 @@ describe('resource eval', () => {
   });
 
   test('evaluateRowsAlpha: only required params', async () => {
-    const responsePromise = client.eval.evaluateRowsAlpha('benchmark_id', {
+    const responsePromise = client.alpha.eval.evaluateRowsAlpha('benchmark_id', {
       benchmark_config: {
         eval_candidate: { model: 'model', sampling_params: { strategy: { type: 'greedy' } }, type: 'model' },
         scoring_params: {
@@ -87,7 +87,7 @@ describe('resource eval', () => {
   });
 
   test('evaluateRowsAlpha: required and optional params', async () => {
-    const response = await client.eval.evaluateRowsAlpha('benchmark_id', {
+    const response = await client.alpha.eval.evaluateRowsAlpha('benchmark_id', {
       benchmark_config: {
         eval_candidate: {
           model: 'model',
@@ -117,7 +117,7 @@ describe('resource eval', () => {
   });
 
   test('runEval: only required params', async () => {
-    const responsePromise = client.eval.runEval('benchmark_id', {
+    const responsePromise = client.alpha.eval.runEval('benchmark_id', {
       benchmark_config: {
         eval_candidate: { model: 'model', sampling_params: { strategy: { type: 'greedy' } }, type: 'model' },
         scoring_params: {
@@ -140,7 +140,7 @@ describe('resource eval', () => {
   });
 
   test('runEval: required and optional params', async () => {
-    const response = await client.eval.runEval('benchmark_id', {
+    const response = await client.alpha.eval.runEval('benchmark_id', {
       benchmark_config: {
         eval_candidate: {
           model: 'model',
@@ -168,7 +168,7 @@ describe('resource eval', () => {
   });
 
   test('runEvalAlpha: only required params', async () => {
-    const responsePromise = client.eval.runEvalAlpha('benchmark_id', {
+    const responsePromise = client.alpha.eval.runEvalAlpha('benchmark_id', {
       benchmark_config: {
         eval_candidate: { model: 'model', sampling_params: { strategy: { type: 'greedy' } }, type: 'model' },
         scoring_params: {
@@ -191,7 +191,7 @@ describe('resource eval', () => {
   });
 
   test('runEvalAlpha: required and optional params', async () => {
-    const response = await client.eval.runEvalAlpha('benchmark_id', {
+    const response = await client.alpha.eval.runEvalAlpha('benchmark_id', {
       benchmark_config: {
         eval_candidate: {
           model: 'model',

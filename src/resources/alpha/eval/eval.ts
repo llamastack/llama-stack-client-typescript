@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import * as Core from '../../core';
-import * as ScoringFunctionsAPI from '../scoring-functions';
-import * as Shared from '../shared';
+import { APIResource } from '../../../resource';
+import * as Core from '../../../core';
+import * as ScoringFunctionsAPI from '../../scoring-functions';
+import * as Shared from '../../shared';
 import * as JobsAPI from './jobs';
 import { Jobs } from './jobs';
 
@@ -18,7 +18,7 @@ export class Eval extends APIResource {
     body: EvalEvaluateRowsParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<EvaluateResponse> {
-    return this._client.post(`/v1/eval/benchmarks/${benchmarkId}/evaluations`, { body, ...options });
+    return this._client.post(`/v1alpha/eval/benchmarks/${benchmarkId}/evaluations`, { body, ...options });
   }
 
   /**
@@ -29,14 +29,14 @@ export class Eval extends APIResource {
     body: EvalEvaluateRowsAlphaParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<EvaluateResponse> {
-    return this._client.post(`/v1/eval/benchmarks/${benchmarkId}/evaluations`, { body, ...options });
+    return this._client.post(`/v1alpha/eval/benchmarks/${benchmarkId}/evaluations`, { body, ...options });
   }
 
   /**
    * Run an evaluation on a benchmark.
    */
   runEval(benchmarkId: string, body: EvalRunEvalParams, options?: Core.RequestOptions): Core.APIPromise<Job> {
-    return this._client.post(`/v1/eval/benchmarks/${benchmarkId}/jobs`, { body, ...options });
+    return this._client.post(`/v1alpha/eval/benchmarks/${benchmarkId}/jobs`, { body, ...options });
   }
 
   /**
@@ -47,7 +47,7 @@ export class Eval extends APIResource {
     body: EvalRunEvalAlphaParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<Job> {
-    return this._client.post(`/v1/eval/benchmarks/${benchmarkId}/jobs`, { body, ...options });
+    return this._client.post(`/v1alpha/eval/benchmarks/${benchmarkId}/jobs`, { body, ...options });
   }
 }
 
