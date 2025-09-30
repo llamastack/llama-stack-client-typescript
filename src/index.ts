@@ -51,14 +51,10 @@ import {
 } from './resources/files';
 import {
   ChatCompletionResponseStreamChunk,
-  EmbeddingsResponse,
   Inference,
   InferenceChatCompletionParams,
   InferenceChatCompletionParamsNonStreaming,
   InferenceChatCompletionParamsStreaming,
-  InferenceEmbeddingsParams,
-  InferenceRerankParams,
-  InferenceRerankResponse,
   TokenLogProbs,
 } from './resources/inference';
 import { HealthInfo, Inspect, ProviderInfo, RouteInfo, VersionInfo } from './resources/inspect';
@@ -530,14 +526,10 @@ export declare namespace LlamaStackClient {
   export {
     Inference as Inference,
     type ChatCompletionResponseStreamChunk as ChatCompletionResponseStreamChunk,
-    type EmbeddingsResponse as EmbeddingsResponse,
     type TokenLogProbs as TokenLogProbs,
-    type InferenceRerankResponse as InferenceRerankResponse,
     type InferenceChatCompletionParams as InferenceChatCompletionParams,
     type InferenceChatCompletionParamsNonStreaming as InferenceChatCompletionParamsNonStreaming,
     type InferenceChatCompletionParamsStreaming as InferenceChatCompletionParamsStreaming,
-    type InferenceEmbeddingsParams as InferenceEmbeddingsParams,
-    type InferenceRerankParams as InferenceRerankParams,
   };
 
   export {
