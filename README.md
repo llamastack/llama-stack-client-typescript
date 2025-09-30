@@ -32,28 +32,6 @@ const model = await client.models.register({ model_id: 'model_id' });
 console.log(model.identifier);
 ```
 
-## Streaming responses
-
-We provide support for streaming responses using Server Sent Events (SSE).
-
-```ts
-import LlamaStackClient from 'llama-stack-client';
-
-const client = new LlamaStackClient();
-
-const stream = await client.inference.chatCompletion({
-  messages: [{ content: 'string', role: 'user' }],
-  model_id: 'model_id',
-  stream: true,
-});
-for await (const chatCompletionResponseStreamChunk of stream) {
-  console.log(chatCompletionResponseStreamChunk.completion_message);
-}
-```
-
-If you need to cancel a stream, you can `break` from the loop
-or call `stream.controller.abort()`.
-
 ### Request & Response types
 
 This library includes TypeScript definitions for all request params and response fields. You may import and use them like so:
@@ -64,13 +42,7 @@ import LlamaStackClient from 'llama-stack-client';
 
 const client = new LlamaStackClient();
 
-const params: LlamaStackClient.InferenceChatCompletionParams = {
-  messages: [{ content: 'string', role: 'user' }],
-  model_id: 'model_id',
-};
-const chatCompletionResponse: LlamaStackClient.ChatCompletionResponse = await client.inference.chatCompletion(
-  params,
-);
+const toolGroups: LlamaStackClient.ToolgroupListResponse = await client.toolgroups.list();
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -113,17 +85,15 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const chatCompletionResponse = await client.inference
-  .chatCompletion({ messages: [{ content: 'string', role: 'user' }], model_id: 'model_id' })
-  .catch(async (err) => {
-    if (err instanceof LlamaStackClient.APIError) {
-      console.log(err.status); // 400
-      console.log(err.name); // BadRequestError
-      console.log(err.headers); // {server: 'nginx', ...}
-    } else {
-      throw err;
-    }
-  });
+const toolGroups = await client.toolgroups.list().catch(async (err) => {
+  if (err instanceof LlamaStackClient.APIError) {
+    console.log(err.status); // 400
+    console.log(err.name); // BadRequestError
+    console.log(err.headers); // {server: 'nginx', ...}
+  } else {
+    throw err;
+  }
+});
 ```
 
 Error codes are as follows:
@@ -155,7 +125,7 @@ const client = new LlamaStackClient({
 });
 
 // Or, configure per-request:
-await client.inference.chatCompletion({ messages: [{ content: 'string', role: 'user' }], model_id: 'model_id' }, {
+await client.toolgroups.list({
   maxRetries: 5,
 });
 ```
@@ -172,7 +142,7 @@ const client = new LlamaStackClient({
 });
 
 // Override per-request:
-await client.inference.chatCompletion({ messages: [{ content: 'string', role: 'user' }], model_id: 'model_id' }, {
+await client.toolgroups.list({
   timeout: 5 * 1000,
 });
 ```
@@ -193,17 +163,13 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new LlamaStackClient();
 
-const response = await client.inference
-  .chatCompletion({ messages: [{ content: 'string', role: 'user' }], model_id: 'model_id' })
-  .asResponse();
+const response = await client.toolgroups.list().asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: chatCompletionResponse, response: raw } = await client.inference
-  .chatCompletion({ messages: [{ content: 'string', role: 'user' }], model_id: 'model_id' })
-  .withResponse();
+const { data: toolGroups, response: raw } = await client.toolgroups.list().withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(chatCompletionResponse.completion_message);
+console.log(toolGroups);
 ```
 
 ### Making custom/undocumented requests
@@ -307,12 +273,9 @@ const client = new LlamaStackClient({
 });
 
 // Override per-request:
-await client.inference.chatCompletion(
-  { messages: [{ content: 'string', role: 'user' }], model_id: 'model_id' },
-  {
-    httpAgent: new http.Agent({ keepAlive: false }),
-  },
-);
+await client.toolgroups.list({
+  httpAgent: new http.Agent({ keepAlive: false }),
+});
 ```
 
 ## Semantic versioning

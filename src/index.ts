@@ -49,14 +49,7 @@ import {
   FilesOpenAICursorPage,
   ListFilesResponse,
 } from './resources/files';
-import {
-  ChatCompletionResponseStreamChunk,
-  Inference,
-  InferenceChatCompletionParams,
-  InferenceChatCompletionParamsNonStreaming,
-  InferenceChatCompletionParamsStreaming,
-  TokenLogProbs,
-} from './resources/inference';
+import { Inference, InferenceRerankParams, InferenceRerankResponse } from './resources/inference';
 import { HealthInfo, Inspect, ProviderInfo, RouteInfo, VersionInfo } from './resources/inspect';
 import { CreateResponse, ModerationCreateParams, Moderations } from './resources/moderations';
 import { ListProvidersResponse, ProviderListResponse, Providers } from './resources/providers';
@@ -525,11 +518,8 @@ export declare namespace LlamaStackClient {
 
   export {
     Inference as Inference,
-    type ChatCompletionResponseStreamChunk as ChatCompletionResponseStreamChunk,
-    type TokenLogProbs as TokenLogProbs,
-    type InferenceChatCompletionParams as InferenceChatCompletionParams,
-    type InferenceChatCompletionParamsNonStreaming as InferenceChatCompletionParamsNonStreaming,
-    type InferenceChatCompletionParamsStreaming as InferenceChatCompletionParamsStreaming,
+    type InferenceRerankResponse as InferenceRerankResponse,
+    type InferenceRerankParams as InferenceRerankParams,
   };
 
   export {

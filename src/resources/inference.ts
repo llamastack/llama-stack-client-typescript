@@ -1,242 +1,178 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../resource';
-import { APIPromise } from '../core';
 import * as Core from '../core';
-import * as InferenceAPI from './inference';
-import * as Shared from './shared';
-import { Stream } from '../streaming';
 
 export class Inference extends APIResource {
   /**
-   * Generate a chat completion for the given messages using the specified model.
-   *
-   * @deprecated /v1/inference/chat-completion is deprecated. Please use /v1/chat/completions.
+   * Rerank a list of documents based on their relevance to a query.
    */
-  chatCompletion(
-    body: InferenceChatCompletionParamsNonStreaming,
+  rerank(
+    body: InferenceRerankParams,
     options?: Core.RequestOptions,
-  ): APIPromise<Shared.ChatCompletionResponse>;
-  chatCompletion(
-    body: InferenceChatCompletionParamsStreaming,
-    options?: Core.RequestOptions,
-  ): APIPromise<Stream<ChatCompletionResponseStreamChunk>>;
-  chatCompletion(
-    body: InferenceChatCompletionParamsBase,
-    options?: Core.RequestOptions,
-  ): APIPromise<Stream<ChatCompletionResponseStreamChunk> | Shared.ChatCompletionResponse>;
-  chatCompletion(
-    body: InferenceChatCompletionParams,
-    options?: Core.RequestOptions,
-  ): APIPromise<Shared.ChatCompletionResponse> | APIPromise<Stream<ChatCompletionResponseStreamChunk>> {
-    return this._client.post('/v1/inference/chat-completion', {
-      body,
-      ...options,
-      stream: body.stream ?? false,
-    }) as APIPromise<Shared.ChatCompletionResponse> | APIPromise<Stream<ChatCompletionResponseStreamChunk>>;
+  ): Core.APIPromise<InferenceRerankResponse> {
+    return (
+      this._client.post('/v1alpha/inference/rerank', { body, ...options }) as Core.APIPromise<{
+        data: InferenceRerankResponse;
+      }>
+    )._thenUnwrap((obj) => obj.data);
   }
 }
 
 /**
- * A chunk of a streamed chat completion response.
+ * List of rerank result objects, sorted by relevance score (descending)
  */
-export interface ChatCompletionResponseStreamChunk {
+export type InferenceRerankResponse = Array<InferenceRerankResponse.InferenceRerankResponseItem>;
+
+export namespace InferenceRerankResponse {
   /**
-   * The event containing the new content
+   * A single rerank result from a reranking response.
    */
-  event: ChatCompletionResponseStreamChunk.Event;
-
-  /**
-   * (Optional) List of metrics associated with the API response
-   */
-  metrics?: Array<Shared.Metric>;
-}
-
-export namespace ChatCompletionResponseStreamChunk {
-  /**
-   * The event containing the new content
-   */
-  export interface Event {
+  export interface InferenceRerankResponseItem {
     /**
-     * Content generated since last event. This can be one or more tokens, or a tool
-     * call.
+     * The original index of the document in the input list
      */
-    delta: Shared.ContentDelta;
+    index: number;
 
     /**
-     * Type of the event
+     * The relevance score from the model output. Values are inverted when applicable
+     * so that higher scores indicate greater relevance.
      */
-    event_type: 'start' | 'complete' | 'progress';
-
-    /**
-     * Optional log probabilities for generated tokens
-     */
-    logprobs?: Array<InferenceAPI.TokenLogProbs>;
-
-    /**
-     * Optional reason why generation stopped, if complete
-     */
-    stop_reason?: 'end_of_turn' | 'end_of_message' | 'out_of_tokens';
+    relevance_score: number;
   }
 }
 
-/**
- * Log probabilities for generated tokens.
- */
-export interface TokenLogProbs {
+export interface InferenceRerankParams {
   /**
-   * Dictionary mapping tokens to their log probabilities
+   * List of items to rerank. Each item can be a string, text content part, or image
+   * content part. Each input must not exceed the model's max input token length.
    */
-  logprobs_by_token: { [key: string]: number };
+  items: Array<
+    | string
+    | InferenceRerankParams.OpenAIChatCompletionContentPartTextParam
+    | InferenceRerankParams.OpenAIChatCompletionContentPartImageParam
+  >;
+
+  /**
+   * The identifier of the reranking model to use.
+   */
+  model: string;
+
+  /**
+   * The search query to rank items against. Can be a string, text content part, or
+   * image content part. The input must not exceed the model's max input token
+   * length.
+   */
+  query:
+    | string
+    | InferenceRerankParams.OpenAIChatCompletionContentPartTextParam
+    | InferenceRerankParams.OpenAIChatCompletionContentPartImageParam;
+
+  /**
+   * (Optional) Maximum number of results to return. Default: returns all.
+   */
+  max_num_results?: number;
 }
 
-export type InferenceChatCompletionParams =
-  | InferenceChatCompletionParamsNonStreaming
-  | InferenceChatCompletionParamsStreaming;
-
-export interface InferenceChatCompletionParamsBase {
+export namespace InferenceRerankParams {
   /**
-   * List of messages in the conversation.
+   * Text content part for OpenAI-compatible chat completion messages.
    */
-  messages: Array<Shared.Message>;
-
-  /**
-   * The identifier of the model to use. The model must be registered with Llama
-   * Stack and available via the /models endpoint.
-   */
-  model_id: string;
-
-  /**
-   * (Optional) If specified, log probabilities for each token position will be
-   * returned.
-   */
-  logprobs?: InferenceChatCompletionParams.Logprobs;
-
-  /**
-   * (Optional) Grammar specification for guided (structured) decoding. There are two
-   * options: - `ResponseFormat.json_schema`: The grammar is a JSON schema. Most
-   * providers support this format. - `ResponseFormat.grammar`: The grammar is a BNF
-   * grammar. This format is more flexible, but not all providers support it.
-   */
-  response_format?: Shared.ResponseFormat;
-
-  /**
-   * Parameters to control the sampling strategy.
-   */
-  sampling_params?: Shared.SamplingParams;
-
-  /**
-   * (Optional) If True, generate an SSE event stream of the response. Defaults to
-   * False.
-   */
-  stream?: boolean;
-
-  /**
-   * (Optional) Whether tool use is required or automatic. Defaults to
-   * ToolChoice.auto. .. deprecated:: Use tool_config instead.
-   */
-  tool_choice?: 'auto' | 'required' | 'none';
-
-  /**
-   * (Optional) Configuration for tool use.
-   */
-  tool_config?: InferenceChatCompletionParams.ToolConfig;
-
-  /**
-   * (Optional) Instructs the model how to format tool calls. By default, Llama Stack
-   * will attempt to use a format that is best adapted to the model. -
-   * `ToolPromptFormat.json`: The tool calls are formatted as a JSON object. -
-   * `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
-   * <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
-   * are output as Python syntax -- a list of function calls. .. deprecated:: Use
-   * tool_config instead.
-   */
-  tool_prompt_format?: 'json' | 'function_tag' | 'python_list';
-
-  /**
-   * (Optional) List of tool definitions available to the model.
-   */
-  tools?: Array<InferenceChatCompletionParams.Tool>;
-}
-
-export namespace InferenceChatCompletionParams {
-  /**
-   * (Optional) If specified, log probabilities for each token position will be
-   * returned.
-   */
-  export interface Logprobs {
+  export interface OpenAIChatCompletionContentPartTextParam {
     /**
-     * How many tokens (for each position) to return log probabilities for.
+     * The text content of the message
      */
-    top_k?: number;
+    text: string;
+
+    /**
+     * Must be "text" to identify this as text content
+     */
+    type: 'text';
   }
 
   /**
-   * (Optional) Configuration for tool use.
+   * Image content part for OpenAI-compatible chat completion messages.
    */
-  export interface ToolConfig {
+  export interface OpenAIChatCompletionContentPartImageParam {
     /**
-     * (Optional) Config for how to override the default system prompt. -
-     * `SystemMessageBehavior.append`: Appends the provided system message to the
-     * default system prompt. - `SystemMessageBehavior.replace`: Replaces the default
-     * system prompt with the provided system message. The system message can include
-     * the string '{{function_definitions}}' to indicate where the function definitions
-     * should be inserted.
+     * Image URL specification and processing details
      */
-    system_message_behavior?: 'append' | 'replace';
+    image_url: OpenAIChatCompletionContentPartImageParam.ImageURL;
 
     /**
-     * (Optional) Whether tool use is automatic, required, or none. Can also specify a
-     * tool name to use a specific tool. Defaults to ToolChoice.auto.
+     * Must be "image_url" to identify this as image content
      */
-    tool_choice?: 'auto' | 'required' | 'none' | (string & {});
-
-    /**
-     * (Optional) Instructs the model how to format tool calls. By default, Llama Stack
-     * will attempt to use a format that is best adapted to the model. -
-     * `ToolPromptFormat.json`: The tool calls are formatted as a JSON object. -
-     * `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
-     * <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
-     * are output as Python syntax -- a list of function calls.
-     */
-    tool_prompt_format?: 'json' | 'function_tag' | 'python_list';
+    type: 'image_url';
   }
 
-  export interface Tool {
-    tool_name: 'brave_search' | 'wolfram_alpha' | 'photogen' | 'code_interpreter' | (string & {});
+  export namespace OpenAIChatCompletionContentPartImageParam {
+    /**
+     * Image URL specification and processing details
+     */
+    export interface ImageURL {
+      /**
+       * URL of the image to include in the message
+       */
+      url: string;
 
-    description?: string;
-
-    parameters?: { [key: string]: Shared.ToolParamDefinition };
+      /**
+       * (Optional) Level of detail for image processing. Can be "low", "high", or "auto"
+       */
+      detail?: string;
+    }
   }
 
-  export type InferenceChatCompletionParamsNonStreaming =
-    InferenceAPI.InferenceChatCompletionParamsNonStreaming;
-  export type InferenceChatCompletionParamsStreaming = InferenceAPI.InferenceChatCompletionParamsStreaming;
-}
-
-export interface InferenceChatCompletionParamsNonStreaming extends InferenceChatCompletionParamsBase {
   /**
-   * (Optional) If True, generate an SSE event stream of the response. Defaults to
-   * False.
+   * Text content part for OpenAI-compatible chat completion messages.
    */
-  stream?: false;
-}
+  export interface OpenAIChatCompletionContentPartTextParam {
+    /**
+     * The text content of the message
+     */
+    text: string;
 
-export interface InferenceChatCompletionParamsStreaming extends InferenceChatCompletionParamsBase {
+    /**
+     * Must be "text" to identify this as text content
+     */
+    type: 'text';
+  }
+
   /**
-   * (Optional) If True, generate an SSE event stream of the response. Defaults to
-   * False.
+   * Image content part for OpenAI-compatible chat completion messages.
    */
-  stream: true;
+  export interface OpenAIChatCompletionContentPartImageParam {
+    /**
+     * Image URL specification and processing details
+     */
+    image_url: OpenAIChatCompletionContentPartImageParam.ImageURL;
+
+    /**
+     * Must be "image_url" to identify this as image content
+     */
+    type: 'image_url';
+  }
+
+  export namespace OpenAIChatCompletionContentPartImageParam {
+    /**
+     * Image URL specification and processing details
+     */
+    export interface ImageURL {
+      /**
+       * URL of the image to include in the message
+       */
+      url: string;
+
+      /**
+       * (Optional) Level of detail for image processing. Can be "low", "high", or "auto"
+       */
+      detail?: string;
+    }
+  }
 }
 
 export declare namespace Inference {
   export {
-    type ChatCompletionResponseStreamChunk as ChatCompletionResponseStreamChunk,
-    type TokenLogProbs as TokenLogProbs,
-    type InferenceChatCompletionParams as InferenceChatCompletionParams,
-    type InferenceChatCompletionParamsNonStreaming as InferenceChatCompletionParamsNonStreaming,
-    type InferenceChatCompletionParamsStreaming as InferenceChatCompletionParamsStreaming,
+    type InferenceRerankResponse as InferenceRerankResponse,
+    type InferenceRerankParams as InferenceRerankParams,
   };
 }
