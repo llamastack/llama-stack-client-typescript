@@ -6,7 +6,7 @@ import * as Core from '../../core';
 import * as FileBatchesAPI from './file-batches';
 import {
   FileBatchCreateParams,
-  FileBatchListParams,
+  FileBatchListFilesParams,
   FileBatches,
   ListVectorStoreFilesInBatchResponse,
   VectorStoreFileBatches,
@@ -472,6 +472,6 @@ export declare namespace VectorStores {
     type ListVectorStoreFilesInBatchResponse as ListVectorStoreFilesInBatchResponse,
     type VectorStoreFileBatches as VectorStoreFileBatches,
     type FileBatchCreateParams as FileBatchCreateParams,
-    type FileBatchListParams as FileBatchListParams,
+    type FileBatchListFilesParams as FileBatchListFilesParams,
   };
 }

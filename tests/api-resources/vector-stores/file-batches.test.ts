@@ -47,38 +47,6 @@ describe('resource fileBatches', () => {
     ).rejects.toThrow(LlamaStackClient.NotFoundError);
   });
 
-  test('list', async () => {
-    const responsePromise = client.vectorStores.fileBatches.list('vector_store_id', 'batch_id');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.vectorStores.fileBatches.list('vector_store_id', 'batch_id', {
-        path: '/_stainless_unknown_path',
-      }),
-    ).rejects.toThrow(LlamaStackClient.NotFoundError);
-  });
-
-  test('list: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.vectorStores.fileBatches.list(
-        'vector_store_id',
-        'batch_id',
-        { after: 'after', before: 'before', filter: 'filter', limit: 0, order: 'order' },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(LlamaStackClient.NotFoundError);
-  });
-
   test('cancel', async () => {
     const responsePromise = client.vectorStores.fileBatches.cancel('vector_store_id', 'batch_id');
     const rawResponse = await responsePromise.asResponse();
@@ -96,6 +64,38 @@ describe('resource fileBatches', () => {
       client.vectorStores.fileBatches.cancel('vector_store_id', 'batch_id', {
         path: '/_stainless_unknown_path',
       }),
+    ).rejects.toThrow(LlamaStackClient.NotFoundError);
+  });
+
+  test('listFiles', async () => {
+    const responsePromise = client.vectorStores.fileBatches.listFiles('vector_store_id', 'batch_id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('listFiles: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.vectorStores.fileBatches.listFiles('vector_store_id', 'batch_id', {
+        path: '/_stainless_unknown_path',
+      }),
+    ).rejects.toThrow(LlamaStackClient.NotFoundError);
+  });
+
+  test('listFiles: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.vectorStores.fileBatches.listFiles(
+        'vector_store_id',
+        'batch_id',
+        { after: 'after', before: 'before', filter: 'filter', limit: 0, order: 'order' },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(LlamaStackClient.NotFoundError);
   });
 });

@@ -240,8 +240,8 @@ Methods:
 
 - <code title="post /v1/vector_stores/{vector_store_id}/file_batches">client.vectorStores.fileBatches.<a href="./src/resources/vector-stores/file-batches.ts">create</a>(vectorStoreId, { ...params }) -> VectorStoreFileBatches</code>
 - <code title="get /v1/vector_stores/{vector_store_id}/file_batches/{batch_id}">client.vectorStores.fileBatches.<a href="./src/resources/vector-stores/file-batches.ts">retrieve</a>(vectorStoreId, batchId) -> VectorStoreFileBatches</code>
-- <code title="get /v1/vector_stores/{vector_store_id}/file_batches/{batch_id}/files">client.vectorStores.fileBatches.<a href="./src/resources/vector-stores/file-batches.ts">list</a>(vectorStoreId, batchId, { ...params }) -> VectorStoreFilesOpenAICursorPage</code>
 - <code title="post /v1/vector_stores/{vector_store_id}/file_batches/{batch_id}/cancel">client.vectorStores.fileBatches.<a href="./src/resources/vector-stores/file-batches.ts">cancel</a>(vectorStoreId, batchId) -> VectorStoreFileBatches</code>
+- <code title="get /v1/vector_stores/{vector_store_id}/file_batches/{batch_id}/files">client.vectorStores.fileBatches.<a href="./src/resources/vector-stores/file-batches.ts">listFiles</a>(vectorStoreId, batchId, { ...params }) -> VectorStoreFilesOpenAICursorPage</code>
 
 # Models
 
