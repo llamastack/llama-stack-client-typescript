@@ -23,24 +23,24 @@ export class TurnResource extends APIResource {
     sessionId: string,
     body: TurnCreateParamsStreaming,
     options?: Core.RequestOptions,
-  ): APIPromise<Stream<unknown>>;
+  ): APIPromise<Stream<AgentTurnResponseStreamChunk>>;
   create(
     agentId: string,
     sessionId: string,
     body: TurnCreateParamsBase,
     options?: Core.RequestOptions,
-  ): APIPromise<Stream<unknown> | Turn>;
+  ): APIPromise<Stream<AgentTurnResponseStreamChunk> | Turn>;
   create(
     agentId: string,
     sessionId: string,
     body: TurnCreateParams,
     options?: Core.RequestOptions,
-  ): APIPromise<Turn> | APIPromise<Stream<unknown>> {
+  ): APIPromise<Turn> | APIPromise<Stream<AgentTurnResponseStreamChunk>> {
     return this._client.post(`/v1/agents/${agentId}/session/${sessionId}/turn`, {
       body,
       ...options,
       stream: body.stream ?? false,
-    }) as APIPromise<Turn> | APIPromise<Stream<unknown>>;
+    }) as APIPromise<Turn> | APIPromise<Stream<AgentTurnResponseStreamChunk>>;
   }
 
   /**
@@ -74,26 +74,26 @@ export class TurnResource extends APIResource {
     turnId: string,
     body: TurnResumeParamsStreaming,
     options?: Core.RequestOptions,
-  ): APIPromise<Stream<unknown>>;
+  ): APIPromise<Stream<AgentTurnResponseStreamChunk>>;
   resume(
     agentId: string,
     sessionId: string,
     turnId: string,
     body: TurnResumeParamsBase,
     options?: Core.RequestOptions,
-  ): APIPromise<Stream<unknown> | Turn>;
+  ): APIPromise<Stream<AgentTurnResponseStreamChunk> | Turn>;
   resume(
     agentId: string,
     sessionId: string,
     turnId: string,
     body: TurnResumeParams,
     options?: Core.RequestOptions,
-  ): APIPromise<Turn> | APIPromise<Stream<unknown>> {
+  ): APIPromise<Turn> | APIPromise<Stream<AgentTurnResponseStreamChunk>> {
     return this._client.post(`/v1/agents/${agentId}/session/${sessionId}/turn/${turnId}/resume`, {
       body,
       ...options,
       stream: body.stream ?? false,
-    }) as APIPromise<Turn> | APIPromise<Stream<unknown>>;
+    }) as APIPromise<Turn> | APIPromise<Stream<AgentTurnResponseStreamChunk>>;
   }
 }
 
