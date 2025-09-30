@@ -104,38 +104,6 @@ export namespace AgentConfig {
 }
 
 /**
- * Response from a chat completion request.
- */
-export interface ChatCompletionResponse {
-  /**
-   * The complete response message
-   */
-  completion_message: CompletionMessage;
-
-  /**
-   * Optional log probabilities for generated tokens
-   */
-  logprobs?: Array<ChatCompletionResponse.Logprob>;
-
-  /**
-   * (Optional) List of metrics associated with the API response
-   */
-  metrics?: Array<Metric>;
-}
-
-export namespace ChatCompletionResponse {
-  /**
-   * Log probabilities for generated tokens.
-   */
-  export interface Logprob {
-    /**
-     * Dictionary mapping tokens to their log probabilities
-     */
-    logprobs_by_token: { [key: string]: number };
-  }
-}
-
-/**
  * A message containing the model's (assistant) response in a chat conversation.
  */
 export interface CompletionMessage {
@@ -414,26 +382,6 @@ export namespace InterleavedContentItem {
  * A message from the user in a chat conversation.
  */
 export type Message = UserMessage | SystemMessage | ToolResponseMessage | CompletionMessage;
-
-/**
- * A metric value included in API responses.
- */
-export interface Metric {
-  /**
-   * The name of the metric
-   */
-  metric: string;
-
-  /**
-   * The numeric value of the metric
-   */
-  value: number;
-
-  /**
-   * (Optional) The unit of measurement for the metric value
-   */
-  unit?: string;
-}
 
 /**
  * Parameter type for string values.
@@ -865,20 +813,6 @@ export interface ToolCall {
   tool_name: 'brave_search' | 'wolfram_alpha' | 'photogen' | 'code_interpreter' | (string & {});
 
   arguments_json?: string;
-}
-
-export interface ToolParamDefinition {
-  param_type: string;
-
-  default?: boolean | number | string | Array<unknown> | unknown | null;
-
-  description?: string;
-
-  items?: boolean | number | string | Array<unknown> | unknown | null;
-
-  required?: boolean;
-
-  title?: string;
 }
 
 /**
