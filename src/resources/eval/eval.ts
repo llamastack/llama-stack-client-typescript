@@ -58,7 +58,7 @@ export interface BenchmarkConfig {
   /**
    * The candidate to evaluate.
    */
-  eval_candidate: EvalCandidate;
+  eval_candidate: BenchmarkConfig.ModelCandidate | BenchmarkConfig.AgentCandidate;
 
   /**
    * Map between scoring function id and parameters for each scoring function you
@@ -73,12 +73,7 @@ export interface BenchmarkConfig {
   num_examples?: number;
 }
 
-/**
- * A model candidate for evaluation.
- */
-export type EvalCandidate = EvalCandidate.ModelCandidate | EvalCandidate.AgentCandidate;
-
-export namespace EvalCandidate {
+export namespace BenchmarkConfig {
   /**
    * A model candidate for evaluation.
    */
@@ -197,7 +192,6 @@ Eval.Jobs = Jobs;
 export declare namespace Eval {
   export {
     type BenchmarkConfig as BenchmarkConfig,
-    type EvalCandidate as EvalCandidate,
     type EvaluateResponse as EvaluateResponse,
     type Job as Job,
     type EvalEvaluateRowsParams as EvalEvaluateRowsParams,

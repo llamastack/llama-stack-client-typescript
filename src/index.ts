@@ -140,7 +140,6 @@ import { Chat, ChatCompletionChunk } from './resources/chat/chat';
 import {
   BenchmarkConfig,
   Eval,
-  EvalCandidate,
   EvalEvaluateRowsAlphaParams,
   EvalEvaluateRowsParams,
   EvalRunEvalAlphaParams,
@@ -499,7 +498,6 @@ export declare namespace LlamaStackClient {
   export {
     Eval as Eval,
     type BenchmarkConfig as BenchmarkConfig,
-    type EvalCandidate as EvalCandidate,
     type EvaluateResponse as EvaluateResponse,
     type Job as Job,
     type EvalEvaluateRowsParams as EvalEvaluateRowsParams,
@@ -681,7 +679,6 @@ export declare namespace LlamaStackClient {
   export type AgentConfig = API.AgentConfig;
   export type ChatCompletionResponse = API.ChatCompletionResponse;
   export type CompletionMessage = API.CompletionMessage;
-  export type ContentDelta = API.ContentDelta;
   export type Document = API.Document;
   export type InterleavedContent = API.InterleavedContent;
   export type InterleavedContentItem = API.InterleavedContentItem;
@@ -689,7 +686,6 @@ export declare namespace LlamaStackClient {
   export type Metric = API.Metric;
   export type ParamType = API.ParamType;
   export type QueryConfig = API.QueryConfig;
-  export type QueryGeneratorConfig = API.QueryGeneratorConfig;
   export type QueryResult = API.QueryResult;
   export type ResponseFormat = API.ResponseFormat;
   export type SafetyViolation = API.SafetyViolation;

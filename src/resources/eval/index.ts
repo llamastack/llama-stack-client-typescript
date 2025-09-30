@@ -3,7 +3,6 @@
 export {
   Eval,
   type BenchmarkConfig,
-  type EvalCandidate,
   type EvaluateResponse,
   type Job,
   type EvalEvaluateRowsParams,

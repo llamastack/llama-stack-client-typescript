@@ -5,7 +5,6 @@ Types:
 - <code><a href="./src/resources/shared.ts">AgentConfig</a></code>
 - <code><a href="./src/resources/shared.ts">ChatCompletionResponse</a></code>
 - <code><a href="./src/resources/shared.ts">CompletionMessage</a></code>
-- <code><a href="./src/resources/shared.ts">ContentDelta</a></code>
 - <code><a href="./src/resources/shared.ts">Document</a></code>
 - <code><a href="./src/resources/shared.ts">InterleavedContent</a></code>
 - <code><a href="./src/resources/shared.ts">InterleavedContentItem</a></code>
@@ -13,7 +12,6 @@ Types:
 - <code><a href="./src/resources/shared.ts">Metric</a></code>
 - <code><a href="./src/resources/shared.ts">ParamType</a></code>
 - <code><a href="./src/resources/shared.ts">QueryConfig</a></code>
-- <code><a href="./src/resources/shared.ts">QueryGeneratorConfig</a></code>
 - <code><a href="./src/resources/shared.ts">QueryResult</a></code>
 - <code><a href="./src/resources/shared.ts">ResponseFormat</a></code>
 - <code><a href="./src/resources/shared.ts">SafetyViolation</a></code>
@@ -151,7 +149,6 @@ Types:
 - <code><a href="./src/resources/agents/turn.ts">AgentTurnResponseStreamChunk</a></code>
 - <code><a href="./src/resources/agents/turn.ts">Turn</a></code>
 - <code><a href="./src/resources/agents/turn.ts">TurnResponseEvent</a></code>
-- <code><a href="./src/resources/agents/turn.ts">TurnResponseEventPayload</a></code>
 
 Methods:
 
@@ -183,7 +180,6 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/eval/eval.ts">BenchmarkConfig</a></code>
-- <code><a href="./src/resources/eval/eval.ts">EvalCandidate</a></code>
 - <code><a href="./src/resources/eval/eval.ts">EvaluateResponse</a></code>
 - <code><a href="./src/resources/eval/eval.ts">Job</a></code>
 
