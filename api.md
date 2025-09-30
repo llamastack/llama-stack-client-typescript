@@ -221,15 +221,11 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/inference.ts">ChatCompletionResponseStreamChunk</a></code>
-- <code><a href="./src/resources/inference.ts">EmbeddingsResponse</a></code>
 - <code><a href="./src/resources/inference.ts">TokenLogProbs</a></code>
-- <code><a href="./src/resources/inference.ts">InferenceRerankResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/inference/chat-completion">client.inference.<a href="./src/resources/inference.ts">chatCompletion</a>({ ...params }) -> ChatCompletionResponse</code>
-- <code title="post /v1/inference/embeddings">client.inference.<a href="./src/resources/inference.ts">embeddings</a>({ ...params }) -> EmbeddingsResponse</code>
-- <code title="post /v1/inference/rerank">client.inference.<a href="./src/resources/inference.ts">rerank</a>({ ...params }) -> InferenceRerankResponse</code>
 
 # Embeddings
 
@@ -356,7 +352,7 @@ Types:
 
 Methods:
 
-- <code title="get /v1/models">client.models.openai.<a href="./src/resources/models/openai.ts">list</a>() -> OpenAIListResponse</code>
+- <code title="get /v1/models">client.models.openai.<a href="./src/resources/models/openai.ts">list</a>() -> ModelListResponse</code>
 
 # PostTraining
 

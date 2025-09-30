@@ -65,14 +65,10 @@ export {
 export {
   Inference,
   type ChatCompletionResponseStreamChunk,
-  type EmbeddingsResponse,
   type TokenLogProbs,
-  type InferenceRerankResponse,
   type InferenceChatCompletionParams,
   type InferenceChatCompletionParamsNonStreaming,
   type InferenceChatCompletionParamsStreaming,
-  type InferenceEmbeddingsParams,
-  type InferenceRerankParams,
 } from './inference';
 export { Inspect, type HealthInfo, type ProviderInfo, type RouteInfo, type VersionInfo } from './inspect';
 export {

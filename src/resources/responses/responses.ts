@@ -149,11 +149,6 @@ export interface ResponseObject {
    * (Optional) Truncation strategy applied to the response
    */
   truncation?: string;
-
-  /**
-   * (Optional) User identifier associated with the request
-   */
-  user?: string;
 }
 
 export namespace ResponseObject {
@@ -1884,11 +1879,6 @@ export interface ResponseListResponse {
    * (Optional) Truncation strategy applied to the response
    */
   truncation?: string;
-
-  /**
-   * (Optional) User identifier associated with the request
-   */
-  user?: string;
 }
 
 export namespace ResponseListResponse {

@@ -54,45 +54,4 @@ describe('resource inference', () => {
       ],
     });
   });
-
-  test('embeddings: only required params', async () => {
-    const responsePromise = client.inference.embeddings({ contents: ['string'], model_id: 'model_id' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('embeddings: required and optional params', async () => {
-    const response = await client.inference.embeddings({
-      contents: ['string'],
-      model_id: 'model_id',
-      output_dimension: 0,
-      task_type: 'query',
-      text_truncation: 'none',
-    });
-  });
-
-  test('rerank: only required params', async () => {
-    const responsePromise = client.inference.rerank({ items: ['string'], model: 'model', query: 'string' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('rerank: required and optional params', async () => {
-    const response = await client.inference.rerank({
-      items: ['string'],
-      model: 'model',
-      query: 'string',
-      max_num_results: 0,
-    });
-  });
 });

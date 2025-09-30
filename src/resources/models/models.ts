@@ -16,7 +16,7 @@ export class Models extends APIResource {
   }
 
   /**
-   * List models using the OpenAI API.
+   * List all models.
    */
   list(options?: Core.RequestOptions): Core.APIPromise<ModelListResponse> {
     return (
@@ -43,7 +43,7 @@ export class Models extends APIResource {
 }
 
 export interface ListModelsResponse {
-  data: Array<Model>;
+  data: ModelListResponse;
 }
 
 /**
@@ -81,22 +81,7 @@ export interface Model {
   provider_resource_id?: string;
 }
 
-export type ModelListResponse = Array<ModelListResponse.ModelListResponseItem>;
-
-export namespace ModelListResponse {
-  /**
-   * A model from OpenAI.
-   */
-  export interface ModelListResponseItem {
-    id: string;
-
-    created: number;
-
-    object: 'model';
-
-    owned_by: string;
-  }
-}
+export type ModelListResponse = Array<Model>;
 
 export interface ModelRegisterParams {
   /**

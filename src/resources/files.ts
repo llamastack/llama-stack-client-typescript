@@ -13,8 +13,6 @@ export class Files extends APIResource {
    * - file: The File object (not file name) to be uploaded.
    * - purpose: The intended purpose of the uploaded file.
    * - expires_after: Optional form values describing expiration for the file.
-   *   Expected expires_after[anchor] = "created_at", expires_after[seconds] =
-   *   {integer}. Seconds must be between 3600 and 2592000 (1 hour to 30 days).
    */
   create(body: FileCreateParams, options?: Core.RequestOptions): Core.APIPromise<File> {
     return this._client.post('/v1/files', Core.multipartFormRequestOptions({ body, ...options }));
@@ -152,16 +150,7 @@ export interface ListFilesResponse {
 export type FileContentResponse = unknown;
 
 export interface FileCreateParams {
-  expires_after_anchor: string | null;
-
-  expires_after_seconds: number | null;
-
   file: Core.Uploadable;
-
-  /**
-   * Valid purpose values for OpenAI Files API.
-   */
-  purpose: 'assistants' | 'batch';
 }
 
 export interface FileListParams extends OpenAICursorPageParams {
