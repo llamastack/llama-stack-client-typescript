@@ -3,9 +3,10 @@
 import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
+import * as FileBatchesAPI from './file-batches';
+import { FileBatches } from './file-batches';
 import * as FilesAPI from './files';
 import {
-  FileContentResponse,
   FileCreateParams,
   FileDeleteResponse,
   FileListParams,
@@ -18,6 +19,7 @@ import { OpenAICursorPage, type OpenAICursorPageParams } from '../../pagination'
 
 export class VectorStores extends APIResource {
   files: FilesAPI.Files = new FilesAPI.Files(this._client);
+  fileBatches: FileBatchesAPI.FileBatches = new FileBatchesAPI.FileBatches(this._client);
 
   /**
    * Creates a vector store.
@@ -432,6 +434,7 @@ export namespace VectorStoreSearchParams {
 VectorStores.VectorStoresOpenAICursorPage = VectorStoresOpenAICursorPage;
 VectorStores.Files = Files;
 VectorStores.VectorStoreFilesOpenAICursorPage = VectorStoreFilesOpenAICursorPage;
+VectorStores.FileBatches = FileBatches;
 
 export declare namespace VectorStores {
   export {
@@ -450,10 +453,11 @@ export declare namespace VectorStores {
     Files as Files,
     type VectorStoreFile as VectorStoreFile,
     type FileDeleteResponse as FileDeleteResponse,
-    type FileContentResponse as FileContentResponse,
     VectorStoreFilesOpenAICursorPage as VectorStoreFilesOpenAICursorPage,
     type FileCreateParams as FileCreateParams,
     type FileUpdateParams as FileUpdateParams,
     type FileListParams as FileListParams,
   };
+
+  export { FileBatches as FileBatches };
 }

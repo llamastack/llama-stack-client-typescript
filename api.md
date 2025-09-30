@@ -313,7 +313,6 @@ Types:
 
 - <code><a href="./src/resources/vector-stores/files.ts">VectorStoreFile</a></code>
 - <code><a href="./src/resources/vector-stores/files.ts">FileDeleteResponse</a></code>
-- <code><a href="./src/resources/vector-stores/files.ts">FileContentResponse</a></code>
 
 Methods:
 
@@ -322,7 +321,8 @@ Methods:
 - <code title="post /v1/vector_stores/{vector_store_id}/files/{file_id}">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">update</a>(vectorStoreId, fileId, { ...params }) -> VectorStoreFile</code>
 - <code title="get /v1/vector_stores/{vector_store_id}/files">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">list</a>(vectorStoreId, { ...params }) -> VectorStoreFilesOpenAICursorPage</code>
 - <code title="delete /v1/vector_stores/{vector_store_id}/files/{file_id}">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">delete</a>(vectorStoreId, fileId) -> FileDeleteResponse</code>
-- <code title="get /v1/vector_stores/{vector_store_id}/files/{file_id}/content">client.vectorStores.files.<a href="./src/resources/vector-stores/files.ts">content</a>(vectorStoreId, fileId) -> FileContentResponse</code>
+
+## FileBatches
 
 # Models
 
@@ -524,7 +524,5 @@ Types:
 Methods:
 
 - <code title="post /v1/files">client.files.<a href="./src/resources/files.ts">create</a>({ ...params }) -> File</code>
-- <code title="get /v1/files/{file_id}">client.files.<a href="./src/resources/files.ts">retrieve</a>(fileId) -> File</code>
 - <code title="get /v1/files">client.files.<a href="./src/resources/files.ts">list</a>({ ...params }) -> FilesOpenAICursorPage</code>
-- <code title="delete /v1/files/{file_id}">client.files.<a href="./src/resources/files.ts">delete</a>(fileId) -> DeleteFileResponse</code>
 - <code title="get /v1/files/{file_id}/content">client.files.<a href="./src/resources/files.ts">content</a>(fileId) -> unknown</code>

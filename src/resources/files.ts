@@ -19,13 +19,6 @@ export class Files extends APIResource {
   }
 
   /**
-   * Returns information about a specific file.
-   */
-  retrieve(fileId: string, options?: Core.RequestOptions): Core.APIPromise<File> {
-    return this._client.get(`/v1/files/${fileId}`, options);
-  }
-
-  /**
    * Returns a list of files that belong to the user's organization.
    */
   list(query?: FileListParams, options?: Core.RequestOptions): Core.PagePromise<FilesOpenAICursorPage, File>;
@@ -38,13 +31,6 @@ export class Files extends APIResource {
       return this.list({}, query);
     }
     return this._client.getAPIList('/v1/files', FilesOpenAICursorPage, { query, ...options });
-  }
-
-  /**
-   * Delete a file.
-   */
-  delete(fileId: string, options?: Core.RequestOptions): Core.APIPromise<DeleteFileResponse> {
-    return this._client.delete(`/v1/files/${fileId}`, options);
   }
 
   /**
