@@ -38,6 +38,8 @@ export interface InputItemListResponse {
     | InputItemListResponse.OpenAIResponseOutputMessageFileSearchToolCall
     | InputItemListResponse.OpenAIResponseOutputMessageFunctionToolCall
     | InputItemListResponse.OpenAIResponseInputFunctionToolCallOutput
+    | InputItemListResponse.OpenAIResponseMcpApprovalRequest
+    | InputItemListResponse.OpenAIResponseMcpApprovalResponse
     | InputItemListResponse.OpenAIResponseMessage
   >;
 
@@ -179,6 +181,36 @@ export namespace InputItemListResponse {
     id?: string;
 
     status?: string;
+  }
+
+  /**
+   * A request for human approval of a tool invocation.
+   */
+  export interface OpenAIResponseMcpApprovalRequest {
+    id: string;
+
+    arguments: string;
+
+    name: string;
+
+    server_label: string;
+
+    type: 'mcp_approval_request';
+  }
+
+  /**
+   * A response to an MCP approval request.
+   */
+  export interface OpenAIResponseMcpApprovalResponse {
+    approval_request_id: string;
+
+    approve: boolean;
+
+    type: 'mcp_approval_response';
+
+    id?: string;
+
+    reason?: string;
   }
 
   /**

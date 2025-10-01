@@ -58,56 +58,19 @@ export interface ToolDef {
   description?: string;
 
   /**
+   * (Optional) JSON Schema for tool inputs (MCP inputSchema)
+   */
+  input_schema?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+
+  /**
    * (Optional) Additional metadata about the tool
    */
   metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   /**
-   * (Optional) List of parameters this tool accepts
+   * (Optional) JSON Schema for tool outputs (MCP outputSchema)
    */
-  parameters?: Array<ToolDef.Parameter>;
-}
-
-export namespace ToolDef {
-  /**
-   * Parameter definition for a tool.
-   */
-  export interface Parameter {
-    /**
-     * Human-readable description of what the parameter does
-     */
-    description: string;
-
-    /**
-     * Name of the parameter
-     */
-    name: string;
-
-    /**
-     * Type of the parameter (e.g., string, integer)
-     */
-    parameter_type: string;
-
-    /**
-     * Whether this parameter is required for tool invocation
-     */
-    required: boolean;
-
-    /**
-     * (Optional) Default value for the parameter if not provided
-     */
-    default?: boolean | number | string | Array<unknown> | unknown | null;
-
-    /**
-     * Type of the elements when parameter_type is array
-     */
-    items?: unknown;
-
-    /**
-     * (Optional) Title of the parameter
-     */
-    title?: string;
-  }
+  output_schema?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 }
 
 /**

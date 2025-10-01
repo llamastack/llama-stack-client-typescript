@@ -51,11 +51,6 @@ export interface Tool {
 
   identifier: string;
 
-  /**
-   * List of parameters this tool accepts
-   */
-  parameters: Array<Tool.Parameter>;
-
   provider_id: string;
 
   /**
@@ -69,53 +64,21 @@ export interface Tool {
   type: 'tool';
 
   /**
+   * JSON Schema for the tool's input parameters
+   */
+  input_schema?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+
+  /**
    * (Optional) Additional metadata about the tool
    */
   metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
-  provider_resource_id?: string;
-}
-
-export namespace Tool {
   /**
-   * Parameter definition for a tool.
+   * JSON Schema for the tool's output
    */
-  export interface Parameter {
-    /**
-     * Human-readable description of what the parameter does
-     */
-    description: string;
+  output_schema?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
-    /**
-     * Name of the parameter
-     */
-    name: string;
-
-    /**
-     * Type of the parameter (e.g., string, integer)
-     */
-    parameter_type: string;
-
-    /**
-     * Whether this parameter is required for tool invocation
-     */
-    required: boolean;
-
-    /**
-     * (Optional) Default value for the parameter if not provided
-     */
-    default?: boolean | number | string | Array<unknown> | unknown | null;
-
-    /**
-     * Type of the elements when parameter_type is array
-     */
-    items?: unknown;
-
-    /**
-     * (Optional) Title of the parameter
-     */
-    title?: string;
-  }
+  provider_resource_id?: string;
 }
 
 /**
