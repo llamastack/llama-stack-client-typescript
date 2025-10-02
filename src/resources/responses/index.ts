@@ -6,10 +6,10 @@ export {
   Responses,
   type ResponseObject,
   type ResponseObjectStream,
-  type ResponseCreateResponse,
   type ResponseListResponse,
   type ResponseDeleteResponse,
   type ResponseCreateParams,
   type ResponseCreateParamsNonStreaming,
+  type ResponseCreateParamsStreaming,
   type ResponseListParams,
 } from './responses';

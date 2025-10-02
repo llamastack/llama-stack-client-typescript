@@ -6,8 +6,8 @@ import { Response } from 'node-fetch';
 const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
 
 describe('resource responses', () => {
-  test('create', async () => {
-    const responsePromise = client.responses.create({});
+  test('create: only required params', async () => {
+    const responsePromise = client.responses.create({ input: 'string', model: 'model' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -15,6 +15,30 @@ describe('resource responses', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('create: required and optional params', async () => {
+    const response = await client.responses.create({
+      input: 'string',
+      model: 'model',
+      include: ['string'],
+      instructions: 'instructions',
+      max_infer_iters: 0,
+      previous_response_id: 'previous_response_id',
+      store: true,
+      stream: false,
+      temperature: 0,
+      text: {
+        format: {
+          type: 'text',
+          description: 'description',
+          name: 'name',
+          schema: { foo: true },
+          strict: true,
+        },
+      },
+      tools: [{ type: 'web_search', search_context_size: 'search_context_size' }],
+    });
   });
 
   test('retrieve', async () => {
