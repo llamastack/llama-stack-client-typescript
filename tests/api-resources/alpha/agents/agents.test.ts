@@ -28,9 +28,18 @@ describe('resource agents', () => {
           {
             name: 'name',
             description: 'description',
-            input_schema: { foo: true },
             metadata: { foo: true },
-            output_schema: { foo: true },
+            parameters: [
+              {
+                description: 'description',
+                name: 'name',
+                parameter_type: 'parameter_type',
+                required: true,
+                default: true,
+                items: {},
+                title: 'title',
+              },
+            ],
           },
         ],
         enable_session_persistence: true,
