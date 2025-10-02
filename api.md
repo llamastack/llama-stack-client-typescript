@@ -72,13 +72,12 @@ Types:
 
 - <code><a href="./src/resources/responses/responses.ts">ResponseObject</a></code>
 - <code><a href="./src/resources/responses/responses.ts">ResponseObjectStream</a></code>
-- <code><a href="./src/resources/responses/responses.ts">ResponseCreateResponse</a></code>
 - <code><a href="./src/resources/responses/responses.ts">ResponseListResponse</a></code>
 - <code><a href="./src/resources/responses/responses.ts">ResponseDeleteResponse</a></code>
 
 Methods:
 
-- <code title="post /v1/responses">client.responses.<a href="./src/resources/responses/responses.ts">create</a>({ ...params }) -> ResponseCreateResponse</code>
+- <code title="post /v1/responses">client.responses.<a href="./src/resources/responses/responses.ts">create</a>({ ...params }) -> ResponseObject</code>
 - <code title="get /v1/responses/{response_id}">client.responses.<a href="./src/resources/responses/responses.ts">retrieve</a>(responseId) -> ResponseObject</code>
 - <code title="get /v1/responses">client.responses.<a href="./src/resources/responses/responses.ts">list</a>({ ...params }) -> ResponseListResponsesOpenAICursorPage</code>
 - <code title="delete /v1/responses/{response_id}">client.responses.<a href="./src/resources/responses/responses.ts">delete</a>(responseId) -> ResponseDeleteResponse</code>
