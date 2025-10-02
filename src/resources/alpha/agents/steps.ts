@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import * as Core from '../../core';
+import { APIResource } from '../../../resource';
+import * as Core from '../../../core';
 import * as AgentsAPI from './agents';
 
 export class Steps extends APIResource {
@@ -16,7 +16,7 @@ export class Steps extends APIResource {
     options?: Core.RequestOptions,
   ): Core.APIPromise<StepRetrieveResponse> {
     return this._client.get(
-      `/v1/agents/${agentId}/session/${sessionId}/turn/${turnId}/step/${stepId}`,
+      `/v1alpha/agents/${agentId}/session/${sessionId}/turn/${turnId}/step/${stepId}`,
       options,
     );
   }

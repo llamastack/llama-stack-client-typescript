@@ -41,13 +41,13 @@ import LlamaStackClient from 'llama-stack-client';
 
 const client = new LlamaStackClient();
 
-const stream = await client.inference.chatCompletion({
+const stream = await client.chat.completions.create({
   messages: [{ content: 'string', role: 'user' }],
-  model_id: 'model_id',
+  model: 'model',
   stream: true,
 });
-for await (const chatCompletionResponseStreamChunk of stream) {
-  console.log(chatCompletionResponseStreamChunk.completion_message);
+for await (const chatCompletionChunk of stream) {
+  console.log(chatCompletionChunk);
 }
 ```
 
@@ -64,11 +64,11 @@ import LlamaStackClient from 'llama-stack-client';
 
 const client = new LlamaStackClient();
 
-const params: LlamaStackClient.InferenceChatCompletionParams = {
+const params: LlamaStackClient.Chat.CompletionCreateParams = {
   messages: [{ content: 'string', role: 'user' }],
-  model_id: 'model_id',
+  model: 'model',
 };
-const chatCompletionResponse: LlamaStackClient.ChatCompletionResponse = await client.inference.chatCompletion(
+const completion: LlamaStackClient.Chat.CompletionCreateResponse = await client.chat.completions.create(
   params,
 );
 ```
@@ -113,8 +113,8 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const chatCompletionResponse = await client.inference
-  .chatCompletion({ messages: [{ content: 'string', role: 'user' }], model_id: 'model_id' })
+const completion = await client.chat.completions
+  .create({ messages: [{ content: 'string', role: 'user' }], model: 'model' })
   .catch(async (err) => {
     if (err instanceof LlamaStackClient.APIError) {
       console.log(err.status); // 400
@@ -155,7 +155,7 @@ const client = new LlamaStackClient({
 });
 
 // Or, configure per-request:
-await client.inference.chatCompletion({ messages: [{ content: 'string', role: 'user' }], model_id: 'model_id' }, {
+await client.chat.completions.create({ messages: [{ content: 'string', role: 'user' }], model: 'model' }, {
   maxRetries: 5,
 });
 ```
@@ -172,7 +172,7 @@ const client = new LlamaStackClient({
 });
 
 // Override per-request:
-await client.inference.chatCompletion({ messages: [{ content: 'string', role: 'user' }], model_id: 'model_id' }, {
+await client.chat.completions.create({ messages: [{ content: 'string', role: 'user' }], model: 'model' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -193,17 +193,17 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new LlamaStackClient();
 
-const response = await client.inference
-  .chatCompletion({ messages: [{ content: 'string', role: 'user' }], model_id: 'model_id' })
+const response = await client.chat.completions
+  .create({ messages: [{ content: 'string', role: 'user' }], model: 'model' })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: chatCompletionResponse, response: raw } = await client.inference
-  .chatCompletion({ messages: [{ content: 'string', role: 'user' }], model_id: 'model_id' })
+const { data: completion, response: raw } = await client.chat.completions
+  .create({ messages: [{ content: 'string', role: 'user' }], model: 'model' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(chatCompletionResponse.completion_message);
+console.log(completion);
 ```
 
 ### Making custom/undocumented requests
@@ -307,8 +307,8 @@ const client = new LlamaStackClient({
 });
 
 // Override per-request:
-await client.inference.chatCompletion(
-  { messages: [{ content: 'string', role: 'user' }], model_id: 'model_id' },
+await client.chat.completions.create(
+  { messages: [{ content: 'string', role: 'user' }], model: 'model' },
   {
     httpAgent: new http.Agent({ keepAlive: false }),
   },

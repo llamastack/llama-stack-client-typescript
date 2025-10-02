@@ -7,7 +7,7 @@ const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] 
 
 describe('resource postTraining', () => {
   test('preferenceOptimize: only required params', async () => {
-    const responsePromise = client.postTraining.preferenceOptimize({
+    const responsePromise = client.alpha.postTraining.preferenceOptimize({
       algorithm_config: { beta: 0, loss_type: 'sigmoid' },
       finetuned_model: 'finetuned_model',
       hyperparam_search_config: { foo: true },
@@ -25,7 +25,7 @@ describe('resource postTraining', () => {
   });
 
   test('preferenceOptimize: required and optional params', async () => {
-    const response = await client.postTraining.preferenceOptimize({
+    const response = await client.alpha.postTraining.preferenceOptimize({
       algorithm_config: { beta: 0, loss_type: 'sigmoid' },
       finetuned_model: 'finetuned_model',
       hyperparam_search_config: { foo: true },
@@ -58,7 +58,7 @@ describe('resource postTraining', () => {
   });
 
   test('supervisedFineTune: only required params', async () => {
-    const responsePromise = client.postTraining.supervisedFineTune({
+    const responsePromise = client.alpha.postTraining.supervisedFineTune({
       hyperparam_search_config: { foo: true },
       job_uuid: 'job_uuid',
       logger_config: { foo: true },
@@ -74,7 +74,7 @@ describe('resource postTraining', () => {
   });
 
   test('supervisedFineTune: required and optional params', async () => {
-    const response = await client.postTraining.supervisedFineTune({
+    const response = await client.alpha.postTraining.supervisedFineTune({
       hyperparam_search_config: { foo: true },
       job_uuid: 'job_uuid',
       logger_config: { foo: true },

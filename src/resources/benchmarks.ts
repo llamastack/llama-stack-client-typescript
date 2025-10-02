@@ -8,7 +8,7 @@ export class Benchmarks extends APIResource {
    * Get a benchmark by its ID.
    */
   retrieve(benchmarkId: string, options?: Core.RequestOptions): Core.APIPromise<Benchmark> {
-    return this._client.get(`/v1/eval/benchmarks/${benchmarkId}`, options);
+    return this._client.get(`/v1alpha/eval/benchmarks/${benchmarkId}`, options);
   }
 
   /**
@@ -16,7 +16,9 @@ export class Benchmarks extends APIResource {
    */
   list(options?: Core.RequestOptions): Core.APIPromise<BenchmarkListResponse> {
     return (
-      this._client.get('/v1/eval/benchmarks', options) as Core.APIPromise<{ data: BenchmarkListResponse }>
+      this._client.get('/v1alpha/eval/benchmarks', options) as Core.APIPromise<{
+        data: BenchmarkListResponse;
+      }>
     )._thenUnwrap((obj) => obj.data);
   }
 
@@ -24,7 +26,7 @@ export class Benchmarks extends APIResource {
    * Register a benchmark.
    */
   register(body: BenchmarkRegisterParams, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.post('/v1/eval/benchmarks', {
+    return this._client.post('/v1alpha/eval/benchmarks', {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },

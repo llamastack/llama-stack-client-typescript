@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
+import { APIResource } from '../../../resource';
+import { isRequestOptions } from '../../../core';
+import * as Core from '../../../core';
 import * as TurnAPI from './turn';
 
 export class SessionResource extends APIResource {
@@ -14,7 +14,7 @@ export class SessionResource extends APIResource {
     body: SessionCreateParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<SessionCreateResponse> {
-    return this._client.post(`/v1/agents/${agentId}/session`, { body, ...options });
+    return this._client.post(`/v1alpha/agents/${agentId}/session`, { body, ...options });
   }
 
   /**
@@ -36,7 +36,7 @@ export class SessionResource extends APIResource {
     if (isRequestOptions(query)) {
       return this.retrieve(agentId, sessionId, {}, query);
     }
-    return this._client.get(`/v1/agents/${agentId}/session/${sessionId}`, { query, ...options });
+    return this._client.get(`/v1alpha/agents/${agentId}/session/${sessionId}`, { query, ...options });
   }
 
   /**
@@ -56,14 +56,14 @@ export class SessionResource extends APIResource {
     if (isRequestOptions(query)) {
       return this.list(agentId, {}, query);
     }
-    return this._client.get(`/v1/agents/${agentId}/sessions`, { query, ...options });
+    return this._client.get(`/v1alpha/agents/${agentId}/sessions`, { query, ...options });
   }
 
   /**
    * Delete an agent session by its ID and its associated turns.
    */
   delete(agentId: string, sessionId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.delete(`/v1/agents/${agentId}/session/${sessionId}`, {
+    return this._client.delete(`/v1alpha/agents/${agentId}/session/${sessionId}`, {
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
     });

@@ -1,19 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export * from './shared';
-export {
-  Agents,
-  type InferenceStep,
-  type MemoryRetrievalStep,
-  type ShieldCallStep,
-  type ToolExecutionStep,
-  type ToolResponse,
-  type AgentCreateResponse,
-  type AgentRetrieveResponse,
-  type AgentListResponse,
-  type AgentCreateParams,
-  type AgentListParams,
-} from './agents/agents';
+export { Alpha } from './alpha/alpha';
 export {
   Benchmarks,
   type Benchmark,
@@ -42,17 +30,6 @@ export {
 } from './datasets';
 export { Embeddings, type CreateEmbeddingsResponse, type EmbeddingCreateParams } from './embeddings';
 export {
-  Eval,
-  type BenchmarkConfig,
-  type EvalCandidate,
-  type EvaluateResponse,
-  type Job,
-  type EvalEvaluateRowsParams,
-  type EvalEvaluateRowsAlphaParams,
-  type EvalRunEvalParams,
-  type EvalRunEvalAlphaParams,
-} from './eval/eval';
-export {
   FilesOpenAICursorPage,
   Files,
   type DeleteFileResponse,
@@ -62,25 +39,6 @@ export {
   type FileCreateParams,
   type FileListParams,
 } from './files';
-export {
-  Inference,
-  type ChatCompletionResponseStreamChunk,
-  type CompletionResponse,
-  type EmbeddingsResponse,
-  type TokenLogProbs,
-  type InferenceBatchChatCompletionResponse,
-  type InferenceRerankResponse,
-  type InferenceBatchChatCompletionParams,
-  type InferenceBatchCompletionParams,
-  type InferenceChatCompletionParams,
-  type InferenceChatCompletionParamsNonStreaming,
-  type InferenceChatCompletionParamsStreaming,
-  type InferenceCompletionParams,
-  type InferenceCompletionParamsNonStreaming,
-  type InferenceCompletionParamsStreaming,
-  type InferenceEmbeddingsParams,
-  type InferenceRerankParams,
-} from './inference';
 export { Inspect, type HealthInfo, type ProviderInfo, type RouteInfo, type VersionInfo } from './inspect';
 export {
   Models,
@@ -90,14 +48,6 @@ export {
   type ModelRegisterParams,
 } from './models/models';
 export { Moderations, type CreateResponse, type ModerationCreateParams } from './moderations';
-export {
-  PostTraining,
-  type AlgorithmConfig,
-  type ListPostTrainingJobsResponse,
-  type PostTrainingJob,
-  type PostTrainingPreferenceOptimizeParams,
-  type PostTrainingSupervisedFineTuneParams,
-} from './post-training/post-training';
 export { Providers, type ListProvidersResponse, type ProviderListResponse } from './providers';
 export {
   ResponseListResponsesOpenAICursorPage,
@@ -153,7 +103,6 @@ export {
   type TelemetryQuerySpansResponse,
   type TelemetryQueryTracesResponse,
   type TelemetryGetSpanTreeParams,
-  type TelemetryLogEventParams,
   type TelemetryQueryMetricsParams,
   type TelemetryQuerySpansParams,
   type TelemetryQueryTracesParams,
@@ -174,13 +123,7 @@ export {
   type ToolgroupListResponse,
   type ToolgroupRegisterParams,
 } from './toolgroups';
-export {
-  Tools,
-  type ListToolsResponse,
-  type Tool,
-  type ToolListResponse,
-  type ToolListParams,
-} from './tools';
+export { Tools, type ToolListResponse, type ToolListParams } from './tools';
 export {
   VectorDBs,
   type ListVectorDBsResponse,

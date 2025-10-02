@@ -29,18 +29,16 @@ export class Responses extends APIResource {
     body: ResponseCreateParams,
     options?: Core.RequestOptions,
   ): APIPromise<ResponseObject> | APIPromise<Stream<ResponseObjectStream>> {
-    return this._client.post('/v1/openai/v1/responses', {
-      body,
-      ...options,
-      stream: body.stream ?? false,
-    }) as APIPromise<ResponseObject> | APIPromise<Stream<ResponseObjectStream>>;
+    return this._client.post('/v1/responses', { body, ...options, stream: body.stream ?? false }) as
+      | APIPromise<ResponseObject>
+      | APIPromise<Stream<ResponseObjectStream>>;
   }
 
   /**
    * Retrieve an OpenAI response by its ID.
    */
   retrieve(responseId: string, options?: Core.RequestOptions): Core.APIPromise<ResponseObject> {
-    return this._client.get(`/v1/openai/v1/responses/${responseId}`, options);
+    return this._client.get(`/v1/responses/${responseId}`, options);
   }
 
   /**
@@ -60,7 +58,7 @@ export class Responses extends APIResource {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/v1/openai/v1/responses', ResponseListResponsesOpenAICursorPage, {
+    return this._client.getAPIList('/v1/responses', ResponseListResponsesOpenAICursorPage, {
       query,
       ...options,
     });
@@ -70,7 +68,7 @@ export class Responses extends APIResource {
    * Delete an OpenAI response by its ID.
    */
   delete(responseId: string, options?: Core.RequestOptions): Core.APIPromise<ResponseDeleteResponse> {
-    return this._client.delete(`/v1/openai/v1/responses/${responseId}`, options);
+    return this._client.delete(`/v1/responses/${responseId}`, options);
   }
 }
 
@@ -110,6 +108,7 @@ export interface ResponseObject {
     | ResponseObject.OpenAIResponseOutputMessageFunctionToolCall
     | ResponseObject.OpenAIResponseOutputMessageMcpCall
     | ResponseObject.OpenAIResponseOutputMessageMcpListTools
+    | ResponseObject.OpenAIResponseMcpApprovalRequest
   >;
 
   /**
@@ -151,11 +150,6 @@ export interface ResponseObject {
    * (Optional) Truncation strategy applied to the response
    */
   truncation?: string;
-
-  /**
-   * (Optional) User identifier associated with the request
-   */
-  user?: string;
 }
 
 export namespace ResponseObject {
@@ -516,6 +510,21 @@ export namespace ResponseObject {
   }
 
   /**
+   * A request for human approval of a tool invocation.
+   */
+  export interface OpenAIResponseMcpApprovalRequest {
+    id: string;
+
+    arguments: string;
+
+    name: string;
+
+    server_label: string;
+
+    type: 'mcp_approval_request';
+  }
+
+  /**
    * Text formatting configuration for the response
    */
   export interface Text {
@@ -630,7 +639,8 @@ export namespace ResponseObjectStream {
       | OpenAIResponseObjectStreamResponseOutputItemAdded.OpenAIResponseOutputMessageFileSearchToolCall
       | OpenAIResponseObjectStreamResponseOutputItemAdded.OpenAIResponseOutputMessageFunctionToolCall
       | OpenAIResponseObjectStreamResponseOutputItemAdded.OpenAIResponseOutputMessageMcpCall
-      | OpenAIResponseObjectStreamResponseOutputItemAdded.OpenAIResponseOutputMessageMcpListTools;
+      | OpenAIResponseObjectStreamResponseOutputItemAdded.OpenAIResponseOutputMessageMcpListTools
+      | OpenAIResponseObjectStreamResponseOutputItemAdded.OpenAIResponseMcpApprovalRequest;
 
     /**
      * Index position of this item in the output list
@@ -1009,6 +1019,21 @@ export namespace ResponseObjectStream {
         description?: string;
       }
     }
+
+    /**
+     * A request for human approval of a tool invocation.
+     */
+    export interface OpenAIResponseMcpApprovalRequest {
+      id: string;
+
+      arguments: string;
+
+      name: string;
+
+      server_label: string;
+
+      type: 'mcp_approval_request';
+    }
   }
 
   /**
@@ -1024,7 +1049,8 @@ export namespace ResponseObjectStream {
       | OpenAIResponseObjectStreamResponseOutputItemDone.OpenAIResponseOutputMessageFileSearchToolCall
       | OpenAIResponseObjectStreamResponseOutputItemDone.OpenAIResponseOutputMessageFunctionToolCall
       | OpenAIResponseObjectStreamResponseOutputItemDone.OpenAIResponseOutputMessageMcpCall
-      | OpenAIResponseObjectStreamResponseOutputItemDone.OpenAIResponseOutputMessageMcpListTools;
+      | OpenAIResponseObjectStreamResponseOutputItemDone.OpenAIResponseOutputMessageMcpListTools
+      | OpenAIResponseObjectStreamResponseOutputItemDone.OpenAIResponseMcpApprovalRequest;
 
     /**
      * Index position of this item in the output list
@@ -1402,6 +1428,21 @@ export namespace ResponseObjectStream {
          */
         description?: string;
       }
+    }
+
+    /**
+     * A request for human approval of a tool invocation.
+     */
+    export interface OpenAIResponseMcpApprovalRequest {
+      id: string;
+
+      arguments: string;
+
+      name: string;
+
+      server_label: string;
+
+      type: 'mcp_approval_request';
     }
   }
 
@@ -1822,6 +1863,8 @@ export interface ResponseListResponse {
     | ResponseListResponse.OpenAIResponseOutputMessageFileSearchToolCall
     | ResponseListResponse.OpenAIResponseOutputMessageFunctionToolCall
     | ResponseListResponse.OpenAIResponseInputFunctionToolCallOutput
+    | ResponseListResponse.OpenAIResponseMcpApprovalRequest
+    | ResponseListResponse.OpenAIResponseMcpApprovalResponse
     | ResponseListResponse.OpenAIResponseMessage
   >;
 
@@ -1845,6 +1888,7 @@ export interface ResponseListResponse {
     | ResponseListResponse.OpenAIResponseOutputMessageFunctionToolCall
     | ResponseListResponse.OpenAIResponseOutputMessageMcpCall
     | ResponseListResponse.OpenAIResponseOutputMessageMcpListTools
+    | ResponseListResponse.OpenAIResponseMcpApprovalRequest
   >;
 
   /**
@@ -1886,11 +1930,6 @@ export interface ResponseListResponse {
    * (Optional) Truncation strategy applied to the response
    */
   truncation?: string;
-
-  /**
-   * (Optional) User identifier associated with the request
-   */
-  user?: string;
 }
 
 export namespace ResponseListResponse {
@@ -2025,6 +2064,36 @@ export namespace ResponseListResponse {
     id?: string;
 
     status?: string;
+  }
+
+  /**
+   * A request for human approval of a tool invocation.
+   */
+  export interface OpenAIResponseMcpApprovalRequest {
+    id: string;
+
+    arguments: string;
+
+    name: string;
+
+    server_label: string;
+
+    type: 'mcp_approval_request';
+  }
+
+  /**
+   * A response to an MCP approval request.
+   */
+  export interface OpenAIResponseMcpApprovalResponse {
+    approval_request_id: string;
+
+    approve: boolean;
+
+    type: 'mcp_approval_response';
+
+    id?: string;
+
+    reason?: string;
   }
 
   /**
@@ -2536,6 +2605,21 @@ export namespace ResponseListResponse {
   }
 
   /**
+   * A request for human approval of a tool invocation.
+   */
+  export interface OpenAIResponseMcpApprovalRequest {
+    id: string;
+
+    arguments: string;
+
+    name: string;
+
+    server_label: string;
+
+    type: 'mcp_approval_request';
+  }
+
+  /**
    * Text formatting configuration for the response
    */
   export interface Text {
@@ -2628,6 +2712,8 @@ export interface ResponseCreateParamsBase {
         | ResponseCreateParams.OpenAIResponseOutputMessageFileSearchToolCall
         | ResponseCreateParams.OpenAIResponseOutputMessageFunctionToolCall
         | ResponseCreateParams.OpenAIResponseInputFunctionToolCallOutput
+        | ResponseCreateParams.OpenAIResponseMcpApprovalRequest
+        | ResponseCreateParams.OpenAIResponseMcpApprovalResponse
         | ResponseCreateParams.OpenAIResponseMessage
       >;
 
@@ -2803,6 +2889,36 @@ export namespace ResponseCreateParams {
     id?: string;
 
     status?: string;
+  }
+
+  /**
+   * A request for human approval of a tool invocation.
+   */
+  export interface OpenAIResponseMcpApprovalRequest {
+    id: string;
+
+    arguments: string;
+
+    name: string;
+
+    server_label: string;
+
+    type: 'mcp_approval_request';
+  }
+
+  /**
+   * A response to an MCP approval request.
+   */
+  export interface OpenAIResponseMcpApprovalResponse {
+    approval_request_id: string;
+
+    approve: boolean;
+
+    type: 'mcp_approval_response';
+
+    id?: string;
+
+    reason?: string;
   }
 
   /**

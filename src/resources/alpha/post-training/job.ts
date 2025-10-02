@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import * as Core from '../../core';
+import { APIResource } from '../../../resource';
+import * as Core from '../../../core';
 import * as PostTrainingAPI from './post-training';
 
 export class Job extends APIResource {
@@ -12,7 +12,7 @@ export class Job extends APIResource {
     options?: Core.RequestOptions,
   ): Core.APIPromise<Array<PostTrainingAPI.ListPostTrainingJobsResponse.Data>> {
     return (
-      this._client.get('/v1/post-training/jobs', options) as Core.APIPromise<{
+      this._client.get('/v1alpha/post-training/jobs', options) as Core.APIPromise<{
         data: Array<PostTrainingAPI.ListPostTrainingJobsResponse.Data>;
       }>
     )._thenUnwrap((obj) => obj.data);
@@ -22,14 +22,14 @@ export class Job extends APIResource {
    * Get the artifacts of a training job.
    */
   artifacts(query: JobArtifactsParams, options?: Core.RequestOptions): Core.APIPromise<JobArtifactsResponse> {
-    return this._client.get('/v1/post-training/job/artifacts', { query, ...options });
+    return this._client.get('/v1alpha/post-training/job/artifacts', { query, ...options });
   }
 
   /**
    * Cancel a training job.
    */
   cancel(body: JobCancelParams, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.post('/v1/post-training/job/cancel', {
+    return this._client.post('/v1alpha/post-training/job/cancel', {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
@@ -40,7 +40,7 @@ export class Job extends APIResource {
    * Get the status of a training job.
    */
   status(query: JobStatusParams, options?: Core.RequestOptions): Core.APIPromise<JobStatusResponse> {
-    return this._client.get('/v1/post-training/job/status', { query, ...options });
+    return this._client.get('/v1alpha/post-training/job/status', { query, ...options });
   }
 }
 

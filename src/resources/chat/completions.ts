@@ -30,18 +30,16 @@ export class Completions extends APIResource {
     body: CompletionCreateParams,
     options?: Core.RequestOptions,
   ): APIPromise<CompletionCreateResponse> | APIPromise<Stream<ChatAPI.ChatCompletionChunk>> {
-    return this._client.post('/v1/openai/v1/chat/completions', {
-      body,
-      ...options,
-      stream: body.stream ?? false,
-    }) as APIPromise<CompletionCreateResponse> | APIPromise<Stream<ChatAPI.ChatCompletionChunk>>;
+    return this._client.post('/v1/chat/completions', { body, ...options, stream: body.stream ?? false }) as
+      | APIPromise<CompletionCreateResponse>
+      | APIPromise<Stream<ChatAPI.ChatCompletionChunk>>;
   }
 
   /**
    * Describe a chat completion by its ID.
    */
   retrieve(completionId: string, options?: Core.RequestOptions): Core.APIPromise<CompletionRetrieveResponse> {
-    return this._client.get(`/v1/openai/v1/chat/completions/${completionId}`, options);
+    return this._client.get(`/v1/chat/completions/${completionId}`, options);
   }
 
   /**
@@ -61,11 +59,10 @@ export class Completions extends APIResource {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList(
-      '/v1/openai/v1/chat/completions',
-      CompletionListResponsesOpenAICursorPage,
-      { query, ...options },
-    );
+    return this._client.getAPIList('/v1/chat/completions', CompletionListResponsesOpenAICursorPage, {
+      query,
+      ...options,
+    });
   }
 }
 

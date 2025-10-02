@@ -7,7 +7,7 @@ const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] 
 
 describe('resource job', () => {
   test('list', async () => {
-    const responsePromise = client.postTraining.job.list();
+    const responsePromise = client.alpha.postTraining.job.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -19,13 +19,13 @@ describe('resource job', () => {
 
   test('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.postTraining.job.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.alpha.postTraining.job.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
       LlamaStackClient.NotFoundError,
     );
   });
 
   test('artifacts: only required params', async () => {
-    const responsePromise = client.postTraining.job.artifacts({ job_uuid: 'job_uuid' });
+    const responsePromise = client.alpha.postTraining.job.artifacts({ job_uuid: 'job_uuid' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -36,11 +36,11 @@ describe('resource job', () => {
   });
 
   test('artifacts: required and optional params', async () => {
-    const response = await client.postTraining.job.artifacts({ job_uuid: 'job_uuid' });
+    const response = await client.alpha.postTraining.job.artifacts({ job_uuid: 'job_uuid' });
   });
 
   test('cancel: only required params', async () => {
-    const responsePromise = client.postTraining.job.cancel({ job_uuid: 'job_uuid' });
+    const responsePromise = client.alpha.postTraining.job.cancel({ job_uuid: 'job_uuid' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -51,11 +51,11 @@ describe('resource job', () => {
   });
 
   test('cancel: required and optional params', async () => {
-    const response = await client.postTraining.job.cancel({ job_uuid: 'job_uuid' });
+    const response = await client.alpha.postTraining.job.cancel({ job_uuid: 'job_uuid' });
   });
 
   test('status: only required params', async () => {
-    const responsePromise = client.postTraining.job.status({ job_uuid: 'job_uuid' });
+    const responsePromise = client.alpha.postTraining.job.status({ job_uuid: 'job_uuid' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -66,6 +66,6 @@ describe('resource job', () => {
   });
 
   test('status: required and optional params', async () => {
-    const response = await client.postTraining.job.status({ job_uuid: 'job_uuid' });
+    const response = await client.alpha.postTraining.job.status({ job_uuid: 'job_uuid' });
   });
 });

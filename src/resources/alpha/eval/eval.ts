@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import * as Core from '../../core';
-import * as ScoringFunctionsAPI from '../scoring-functions';
-import * as Shared from '../shared';
+import { APIResource } from '../../../resource';
+import * as Core from '../../../core';
+import * as ScoringFunctionsAPI from '../../scoring-functions';
+import * as Shared from '../../shared';
 import * as JobsAPI from './jobs';
 import { Jobs } from './jobs';
 
@@ -18,7 +18,7 @@ export class Eval extends APIResource {
     body: EvalEvaluateRowsParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<EvaluateResponse> {
-    return this._client.post(`/v1/eval/benchmarks/${benchmarkId}/evaluations`, { body, ...options });
+    return this._client.post(`/v1alpha/eval/benchmarks/${benchmarkId}/evaluations`, { body, ...options });
   }
 
   /**
@@ -29,14 +29,14 @@ export class Eval extends APIResource {
     body: EvalEvaluateRowsAlphaParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<EvaluateResponse> {
-    return this._client.post(`/v1/eval/benchmarks/${benchmarkId}/evaluations`, { body, ...options });
+    return this._client.post(`/v1alpha/eval/benchmarks/${benchmarkId}/evaluations`, { body, ...options });
   }
 
   /**
    * Run an evaluation on a benchmark.
    */
   runEval(benchmarkId: string, body: EvalRunEvalParams, options?: Core.RequestOptions): Core.APIPromise<Job> {
-    return this._client.post(`/v1/eval/benchmarks/${benchmarkId}/jobs`, { body, ...options });
+    return this._client.post(`/v1alpha/eval/benchmarks/${benchmarkId}/jobs`, { body, ...options });
   }
 
   /**
@@ -47,7 +47,7 @@ export class Eval extends APIResource {
     body: EvalRunEvalAlphaParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<Job> {
-    return this._client.post(`/v1/eval/benchmarks/${benchmarkId}/jobs`, { body, ...options });
+    return this._client.post(`/v1alpha/eval/benchmarks/${benchmarkId}/jobs`, { body, ...options });
   }
 }
 
@@ -58,7 +58,7 @@ export interface BenchmarkConfig {
   /**
    * The candidate to evaluate.
    */
-  eval_candidate: EvalCandidate;
+  eval_candidate: BenchmarkConfig.ModelCandidate | BenchmarkConfig.AgentCandidate;
 
   /**
    * Map between scoring function id and parameters for each scoring function you
@@ -73,12 +73,7 @@ export interface BenchmarkConfig {
   num_examples?: number;
 }
 
-/**
- * A model candidate for evaluation.
- */
-export type EvalCandidate = EvalCandidate.ModelCandidate | EvalCandidate.AgentCandidate;
-
-export namespace EvalCandidate {
+export namespace BenchmarkConfig {
   /**
    * A model candidate for evaluation.
    */
@@ -197,7 +192,6 @@ Eval.Jobs = Jobs;
 export declare namespace Eval {
   export {
     type BenchmarkConfig as BenchmarkConfig,
-    type EvalCandidate as EvalCandidate,
     type EvaluateResponse as EvaluateResponse,
     type Job as Job,
     type EvalEvaluateRowsParams as EvalEvaluateRowsParams,
