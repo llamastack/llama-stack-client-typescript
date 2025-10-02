@@ -13,7 +13,13 @@ import {
 } from './pagination';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
-import { Benchmark, Benchmarks, ListBenchmarksResponse } from './resources/benchmarks';
+import {
+  Benchmark,
+  BenchmarkListResponse,
+  BenchmarkRegisterParams,
+  Benchmarks,
+  ListBenchmarksResponse,
+} from './resources/benchmarks';
 import {
   CompletionCreateParams,
   CompletionCreateParamsNonStreaming,
@@ -21,7 +27,17 @@ import {
   CompletionCreateResponse,
   Completions,
 } from './resources/completions';
-import { Datasets, ListDatasetsResponse } from './resources/datasets';
+import {
+  DatasetAppendrowsParams,
+  DatasetIterrowsParams,
+  DatasetIterrowsResponse,
+  DatasetListResponse,
+  DatasetRegisterParams,
+  DatasetRegisterResponse,
+  DatasetRetrieveResponse,
+  Datasets,
+  ListDatasetsResponse,
+} from './resources/datasets';
 import { CreateEmbeddingsResponse, EmbeddingCreateParams, Embeddings } from './resources/embeddings';
 import {
   DeleteFileResponse,
@@ -71,7 +87,16 @@ import {
   QuerySpansResponse,
   SpanWithStatus,
   Telemetry,
-  TelemetryLogEventParams,
+  TelemetryGetSpanResponse,
+  TelemetryGetSpanTreeParams,
+  TelemetryGetSpanTreeResponse,
+  TelemetryQueryMetricsParams,
+  TelemetryQueryMetricsResponse,
+  TelemetryQuerySpansParams,
+  TelemetryQuerySpansResponse,
+  TelemetryQueryTracesParams,
+  TelemetryQueryTracesResponse,
+  TelemetrySaveSpansToDatasetParams,
   Trace,
 } from './resources/telemetry';
 import {
@@ -400,7 +425,17 @@ export declare namespace LlamaStackClient {
     type ResponseListParams as ResponseListParams,
   };
 
-  export { Datasets as Datasets, type ListDatasetsResponse as ListDatasetsResponse };
+  export {
+    Datasets as Datasets,
+    type ListDatasetsResponse as ListDatasetsResponse,
+    type DatasetRetrieveResponse as DatasetRetrieveResponse,
+    type DatasetListResponse as DatasetListResponse,
+    type DatasetIterrowsResponse as DatasetIterrowsResponse,
+    type DatasetRegisterResponse as DatasetRegisterResponse,
+    type DatasetAppendrowsParams as DatasetAppendrowsParams,
+    type DatasetIterrowsParams as DatasetIterrowsParams,
+    type DatasetRegisterParams as DatasetRegisterParams,
+  };
 
   export {
     Inspect as Inspect,
@@ -508,7 +543,16 @@ export declare namespace LlamaStackClient {
     type QuerySpansResponse as QuerySpansResponse,
     type SpanWithStatus as SpanWithStatus,
     type Trace as Trace,
-    type TelemetryLogEventParams as TelemetryLogEventParams,
+    type TelemetryGetSpanResponse as TelemetryGetSpanResponse,
+    type TelemetryGetSpanTreeResponse as TelemetryGetSpanTreeResponse,
+    type TelemetryQueryMetricsResponse as TelemetryQueryMetricsResponse,
+    type TelemetryQuerySpansResponse as TelemetryQuerySpansResponse,
+    type TelemetryQueryTracesResponse as TelemetryQueryTracesResponse,
+    type TelemetryGetSpanTreeParams as TelemetryGetSpanTreeParams,
+    type TelemetryQueryMetricsParams as TelemetryQueryMetricsParams,
+    type TelemetryQuerySpansParams as TelemetryQuerySpansParams,
+    type TelemetryQueryTracesParams as TelemetryQueryTracesParams,
+    type TelemetrySaveSpansToDatasetParams as TelemetrySaveSpansToDatasetParams,
   };
 
   export {
@@ -532,6 +576,8 @@ export declare namespace LlamaStackClient {
     Benchmarks as Benchmarks,
     type Benchmark as Benchmark,
     type ListBenchmarksResponse as ListBenchmarksResponse,
+    type BenchmarkListResponse as BenchmarkListResponse,
+    type BenchmarkRegisterParams as BenchmarkRegisterParams,
   };
 
   export {
