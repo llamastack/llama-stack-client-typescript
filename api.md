@@ -98,6 +98,19 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/datasets.ts">ListDatasetsResponse</a></code>
+- <code><a href="./src/resources/datasets.ts">DatasetRetrieveResponse</a></code>
+- <code><a href="./src/resources/datasets.ts">DatasetListResponse</a></code>
+- <code><a href="./src/resources/datasets.ts">DatasetIterrowsResponse</a></code>
+- <code><a href="./src/resources/datasets.ts">DatasetRegisterResponse</a></code>
+
+Methods:
+
+- <code title="get /v1beta/datasets/{dataset_id}">client.datasets.<a href="./src/resources/datasets.ts">retrieve</a>(datasetId) -> DatasetRetrieveResponse</code>
+- <code title="get /v1beta/datasets">client.datasets.<a href="./src/resources/datasets.ts">list</a>() -> DatasetListResponse</code>
+- <code title="post /v1beta/datasetio/append-rows/{dataset_id}">client.datasets.<a href="./src/resources/datasets.ts">appendrows</a>(datasetId, { ...params }) -> void</code>
+- <code title="get /v1beta/datasetio/iterrows/{dataset_id}">client.datasets.<a href="./src/resources/datasets.ts">iterrows</a>(datasetId, { ...params }) -> DatasetIterrowsResponse</code>
+- <code title="post /v1beta/datasets">client.datasets.<a href="./src/resources/datasets.ts">register</a>({ ...params }) -> DatasetRegisterResponse</code>
+- <code title="delete /v1beta/datasets/{dataset_id}">client.datasets.<a href="./src/resources/datasets.ts">unregister</a>(datasetId) -> void</code>
 
 # Inspect
 
@@ -331,10 +344,21 @@ Types:
 - <code><a href="./src/resources/telemetry.ts">QuerySpansResponse</a></code>
 - <code><a href="./src/resources/telemetry.ts">SpanWithStatus</a></code>
 - <code><a href="./src/resources/telemetry.ts">Trace</a></code>
+- <code><a href="./src/resources/telemetry.ts">TelemetryGetSpanResponse</a></code>
+- <code><a href="./src/resources/telemetry.ts">TelemetryGetSpanTreeResponse</a></code>
+- <code><a href="./src/resources/telemetry.ts">TelemetryQueryMetricsResponse</a></code>
+- <code><a href="./src/resources/telemetry.ts">TelemetryQuerySpansResponse</a></code>
+- <code><a href="./src/resources/telemetry.ts">TelemetryQueryTracesResponse</a></code>
 
 Methods:
 
-- <code title="post /v1/telemetry/events">client.telemetry.<a href="./src/resources/telemetry.ts">logEvent</a>({ ...params }) -> void</code>
+- <code title="get /v1alpha/telemetry/traces/{trace_id}/spans/{span_id}">client.telemetry.<a href="./src/resources/telemetry.ts">getSpan</a>(traceId, spanId) -> TelemetryGetSpanResponse</code>
+- <code title="post /v1alpha/telemetry/spans/{span_id}/tree">client.telemetry.<a href="./src/resources/telemetry.ts">getSpanTree</a>(spanId, { ...params }) -> TelemetryGetSpanTreeResponse</code>
+- <code title="get /v1alpha/telemetry/traces/{trace_id}">client.telemetry.<a href="./src/resources/telemetry.ts">getTrace</a>(traceId) -> Trace</code>
+- <code title="post /v1alpha/telemetry/metrics/{metric_name}">client.telemetry.<a href="./src/resources/telemetry.ts">queryMetrics</a>(metricName, { ...params }) -> TelemetryQueryMetricsResponse</code>
+- <code title="post /v1alpha/telemetry/spans">client.telemetry.<a href="./src/resources/telemetry.ts">querySpans</a>({ ...params }) -> TelemetryQuerySpansResponse</code>
+- <code title="post /v1alpha/telemetry/traces">client.telemetry.<a href="./src/resources/telemetry.ts">queryTraces</a>({ ...params }) -> TelemetryQueryTracesResponse</code>
+- <code title="post /v1alpha/telemetry/spans/export">client.telemetry.<a href="./src/resources/telemetry.ts">saveSpansToDataset</a>({ ...params }) -> void</code>
 
 # Scoring
 
@@ -369,6 +393,13 @@ Types:
 
 - <code><a href="./src/resources/benchmarks.ts">Benchmark</a></code>
 - <code><a href="./src/resources/benchmarks.ts">ListBenchmarksResponse</a></code>
+- <code><a href="./src/resources/benchmarks.ts">BenchmarkListResponse</a></code>
+
+Methods:
+
+- <code title="get /v1alpha/eval/benchmarks/{benchmark_id}">client.benchmarks.<a href="./src/resources/benchmarks.ts">retrieve</a>(benchmarkId) -> Benchmark</code>
+- <code title="get /v1alpha/eval/benchmarks">client.benchmarks.<a href="./src/resources/benchmarks.ts">list</a>() -> BenchmarkListResponse</code>
+- <code title="post /v1alpha/eval/benchmarks">client.benchmarks.<a href="./src/resources/benchmarks.ts">register</a>({ ...params }) -> void</code>
 
 # Files
 

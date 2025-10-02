@@ -2,7 +2,13 @@
 
 export * from './shared';
 export { Alpha } from './alpha/alpha';
-export { Benchmarks, type Benchmark, type ListBenchmarksResponse } from './benchmarks';
+export {
+  Benchmarks,
+  type Benchmark,
+  type ListBenchmarksResponse,
+  type BenchmarkListResponse,
+  type BenchmarkRegisterParams,
+} from './benchmarks';
 export { Chat, type ChatCompletionChunk } from './chat/chat';
 export {
   Completions,
@@ -11,7 +17,17 @@ export {
   type CompletionCreateParamsNonStreaming,
   type CompletionCreateParamsStreaming,
 } from './completions';
-export { Datasets, type ListDatasetsResponse } from './datasets';
+export {
+  Datasets,
+  type ListDatasetsResponse,
+  type DatasetRetrieveResponse,
+  type DatasetListResponse,
+  type DatasetIterrowsResponse,
+  type DatasetRegisterResponse,
+  type DatasetAppendrowsParams,
+  type DatasetIterrowsParams,
+  type DatasetRegisterParams,
+} from './datasets';
 export { Embeddings, type CreateEmbeddingsResponse, type EmbeddingCreateParams } from './embeddings';
 export {
   FilesOpenAICursorPage,
@@ -81,7 +97,16 @@ export {
   type QuerySpansResponse,
   type SpanWithStatus,
   type Trace,
-  type TelemetryLogEventParams,
+  type TelemetryGetSpanResponse,
+  type TelemetryGetSpanTreeResponse,
+  type TelemetryQueryMetricsResponse,
+  type TelemetryQuerySpansResponse,
+  type TelemetryQueryTracesResponse,
+  type TelemetryGetSpanTreeParams,
+  type TelemetryQueryMetricsParams,
+  type TelemetryQuerySpansParams,
+  type TelemetryQueryTracesParams,
+  type TelemetrySaveSpansToDatasetParams,
 } from './telemetry';
 export {
   ToolRuntime,
