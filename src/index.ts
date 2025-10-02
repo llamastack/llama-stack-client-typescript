@@ -81,7 +81,7 @@ import {
   ToolgroupRegisterParams,
   Toolgroups,
 } from './resources/toolgroups';
-import { ListToolsResponse, Tool, ToolListParams, ToolListResponse, Tools } from './resources/tools';
+import { ToolListParams, ToolListResponse, Tools } from './resources/tools';
 import {
   ListVectorDBsResponse,
   VectorDBListResponse,
@@ -376,13 +376,7 @@ export declare namespace LlamaStackClient {
     type ToolgroupRegisterParams as ToolgroupRegisterParams,
   };
 
-  export {
-    Tools as Tools,
-    type ListToolsResponse as ListToolsResponse,
-    type Tool as Tool,
-    type ToolListResponse as ToolListResponse,
-    type ToolListParams as ToolListParams,
-  };
+  export { Tools as Tools, type ToolListResponse as ToolListResponse, type ToolListParams as ToolListParams };
 
   export {
     ToolRuntime as ToolRuntime,

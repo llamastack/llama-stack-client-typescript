@@ -98,13 +98,7 @@ export {
   type ToolgroupListResponse,
   type ToolgroupRegisterParams,
 } from './toolgroups';
-export {
-  Tools,
-  type ListToolsResponse,
-  type Tool,
-  type ToolListResponse,
-  type ToolListParams,
-} from './tools';
+export { Tools, type ToolListResponse, type ToolListParams } from './tools';
 export {
   VectorDBs,
   type ListVectorDBsResponse,

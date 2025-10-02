@@ -3,6 +3,7 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
+import * as ToolRuntimeAPI from './tool-runtime/tool-runtime';
 
 export class Tools extends APIResource {
   /**
@@ -25,103 +26,15 @@ export class Tools extends APIResource {
   /**
    * Get a tool by its name.
    */
-  get(toolName: string, options?: Core.RequestOptions): Core.APIPromise<Tool> {
+  get(toolName: string, options?: Core.RequestOptions): Core.APIPromise<ToolRuntimeAPI.ToolDef> {
     return this._client.get(`/v1/tools/${toolName}`, options);
   }
 }
 
 /**
- * Response containing a list of tools.
+ * List of tool definitions
  */
-export interface ListToolsResponse {
-  /**
-   * List of tools
-   */
-  data: ToolListResponse;
-}
-
-/**
- * A tool that can be invoked by agents.
- */
-export interface Tool {
-  /**
-   * Human-readable description of what the tool does
-   */
-  description: string;
-
-  identifier: string;
-
-  /**
-   * List of parameters this tool accepts
-   */
-  parameters: Array<Tool.Parameter>;
-
-  provider_id: string;
-
-  /**
-   * ID of the tool group this tool belongs to
-   */
-  toolgroup_id: string;
-
-  /**
-   * Type of resource, always 'tool'
-   */
-  type: 'tool';
-
-  /**
-   * (Optional) Additional metadata about the tool
-   */
-  metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-  provider_resource_id?: string;
-}
-
-export namespace Tool {
-  /**
-   * Parameter definition for a tool.
-   */
-  export interface Parameter {
-    /**
-     * Human-readable description of what the parameter does
-     */
-    description: string;
-
-    /**
-     * Name of the parameter
-     */
-    name: string;
-
-    /**
-     * Type of the parameter (e.g., string, integer)
-     */
-    parameter_type: string;
-
-    /**
-     * Whether this parameter is required for tool invocation
-     */
-    required: boolean;
-
-    /**
-     * (Optional) Default value for the parameter if not provided
-     */
-    default?: boolean | number | string | Array<unknown> | unknown | null;
-
-    /**
-     * Type of the elements when parameter_type is array
-     */
-    items?: unknown;
-
-    /**
-     * (Optional) Title of the parameter
-     */
-    title?: string;
-  }
-}
-
-/**
- * List of tools
- */
-export type ToolListResponse = Array<Tool>;
+export type ToolListResponse = Array<ToolRuntimeAPI.ToolDef>;
 
 export interface ToolListParams {
   /**
@@ -131,10 +44,5 @@ export interface ToolListParams {
 }
 
 export declare namespace Tools {
-  export {
-    type ListToolsResponse as ListToolsResponse,
-    type Tool as Tool,
-    type ToolListResponse as ToolListResponse,
-    type ToolListParams as ToolListParams,
-  };
+  export { type ToolListResponse as ToolListResponse, type ToolListParams as ToolListParams };
 }

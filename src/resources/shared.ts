@@ -796,23 +796,11 @@ export interface SystemMessage {
 }
 
 export interface ToolCall {
-  arguments:
-    | string
-    | {
-        [key: string]:
-          | string
-          | number
-          | boolean
-          | Array<string | number | boolean | null>
-          | { [key: string]: string | number | boolean | null }
-          | null;
-      };
+  arguments: string;
 
   call_id: string;
 
   tool_name: 'brave_search' | 'wolfram_alpha' | 'photogen' | 'code_interpreter' | (string & {});
-
-  arguments_json?: string;
 }
 
 /**

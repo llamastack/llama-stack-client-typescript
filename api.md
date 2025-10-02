@@ -39,14 +39,12 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/tools.ts">ListToolsResponse</a></code>
-- <code><a href="./src/resources/tools.ts">Tool</a></code>
 - <code><a href="./src/resources/tools.ts">ToolListResponse</a></code>
 
 Methods:
 
 - <code title="get /v1/tools">client.tools.<a href="./src/resources/tools.ts">list</a>({ ...params }) -> ToolListResponse</code>
-- <code title="get /v1/tools/{tool_name}">client.tools.<a href="./src/resources/tools.ts">get</a>(toolName) -> Tool</code>
+- <code title="get /v1/tools/{tool_name}">client.tools.<a href="./src/resources/tools.ts">get</a>(toolName) -> ToolDef</code>
 
 # ToolRuntime
 
