@@ -110,13 +110,7 @@ export namespace AlgorithmConfig {
 }
 
 export interface ListPostTrainingJobsResponse {
-  data: Array<ListPostTrainingJobsResponse.Data>;
-}
-
-export namespace ListPostTrainingJobsResponse {
-  export interface Data {
-    job_uuid: string;
-  }
+  data: JobAPI.JobListResponse;
 }
 
 export interface PostTrainingJob {

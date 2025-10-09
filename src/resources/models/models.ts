@@ -3,7 +3,7 @@
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
 import * as OpenAIAPI from './openai';
-import { OpenAI, OpenAIListResponse } from './openai';
+import { OpenAI } from './openai';
 
 export class Models extends APIResource {
   openai: OpenAIAPI.OpenAI = new OpenAIAPI.OpenAI(this._client);
@@ -120,5 +120,5 @@ export declare namespace Models {
     type ModelRegisterParams as ModelRegisterParams,
   };
 
-  export { OpenAI as OpenAI, type OpenAIListResponse as OpenAIListResponse };
+  export { OpenAI as OpenAI };
 }

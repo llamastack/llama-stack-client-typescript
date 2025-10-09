@@ -14,9 +14,3 @@ export class OpenAI extends APIResource {
     )._thenUnwrap((obj) => obj.data);
   }
 }
-
-export type OpenAIListResponse = Array<ModelsAPI.Model>;
-
-export declare namespace OpenAI {
-  export { type OpenAIListResponse as OpenAIListResponse };
-}
