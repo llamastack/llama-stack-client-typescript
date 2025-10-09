@@ -2,19 +2,14 @@
 
 import { APIResource } from '../../../resource';
 import * as Core from '../../../core';
-import * as PostTrainingAPI from './post-training';
 
 export class Job extends APIResource {
   /**
    * Get all training jobs.
    */
-  list(
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<Array<PostTrainingAPI.ListPostTrainingJobsResponse.Data>> {
+  list(options?: Core.RequestOptions): Core.APIPromise<JobListResponse> {
     return (
-      this._client.get('/v1alpha/post-training/jobs', options) as Core.APIPromise<{
-        data: Array<PostTrainingAPI.ListPostTrainingJobsResponse.Data>;
-      }>
+      this._client.get('/v1alpha/post-training/jobs', options) as Core.APIPromise<{ data: JobListResponse }>
     )._thenUnwrap((obj) => obj.data);
   }
 

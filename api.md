@@ -258,10 +258,6 @@ Methods:
 
 ## OpenAI
 
-Types:
-
-- <code><a href="./src/resources/models/openai.ts">OpenAIListResponse</a></code>
-
 Methods:
 
 - <code title="get /v1/models">client.models.openai.<a href="./src/resources/models/openai.ts">list</a>() -> ModelListResponse</code>
@@ -452,7 +448,7 @@ Types:
 
 Methods:
 
-- <code title="get /v1alpha/post-training/jobs">client.alpha.postTraining.job.<a href="./src/resources/alpha/post-training/job.ts">list</a>() -> Array&lt;ListPostTrainingJobsResponse.Data&gt;</code>
+- <code title="get /v1alpha/post-training/jobs">client.alpha.postTraining.job.<a href="./src/resources/alpha/post-training/job.ts">list</a>() -> JobListResponse</code>
 - <code title="get /v1alpha/post-training/job/artifacts">client.alpha.postTraining.job.<a href="./src/resources/alpha/post-training/job.ts">artifacts</a>({ ...params }) -> JobArtifactsResponse</code>
 - <code title="post /v1alpha/post-training/job/cancel">client.alpha.postTraining.job.<a href="./src/resources/alpha/post-training/job.ts">cancel</a>({ ...params }) -> void</code>
 - <code title="get /v1alpha/post-training/job/status">client.alpha.postTraining.job.<a href="./src/resources/alpha/post-training/job.ts">status</a>({ ...params }) -> JobStatusResponse</code>
