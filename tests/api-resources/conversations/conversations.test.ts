@@ -5,9 +5,9 @@ import { Response } from 'node-fetch';
 
 const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
 
-describe('resource responses', () => {
-  test('create: only required params', async () => {
-    const responsePromise = client.responses.create({ input: 'string', model: 'model' });
+describe('resource conversations', () => {
+  test('create', async () => {
+    const responsePromise = client.conversations.create({});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -17,33 +17,8 @@ describe('resource responses', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('create: required and optional params', async () => {
-    const response = await client.responses.create({
-      input: 'string',
-      model: 'model',
-      conversation: 'conversation',
-      include: ['string'],
-      instructions: 'instructions',
-      max_infer_iters: 0,
-      previous_response_id: 'previous_response_id',
-      store: true,
-      stream: false,
-      temperature: 0,
-      text: {
-        format: {
-          type: 'text',
-          description: 'description',
-          name: 'name',
-          schema: { foo: true },
-          strict: true,
-        },
-      },
-      tools: [{ type: 'web_search', search_context_size: 'search_context_size' }],
-    });
-  });
-
   test('retrieve', async () => {
-    const responsePromise = client.responses.retrieve('response_id');
+    const responsePromise = client.conversations.retrieve('conversation_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -56,12 +31,12 @@ describe('resource responses', () => {
   test('retrieve: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.responses.retrieve('response_id', { path: '/_stainless_unknown_path' }),
+      client.conversations.retrieve('conversation_id', { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(LlamaStackClient.NotFoundError);
   });
 
-  test('list', async () => {
-    const responsePromise = client.responses.list();
+  test('update: only required params', async () => {
+    const responsePromise = client.conversations.update('conversation_id', { metadata: { foo: 'string' } });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -71,25 +46,12 @@ describe('resource responses', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('list: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.responses.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
-      LlamaStackClient.NotFoundError,
-    );
-  });
-
-  test('list: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.responses.list(
-        { after: 'after', limit: 0, model: 'model', order: 'asc' },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(LlamaStackClient.NotFoundError);
+  test('update: required and optional params', async () => {
+    const response = await client.conversations.update('conversation_id', { metadata: { foo: 'string' } });
   });
 
   test('delete', async () => {
-    const responsePromise = client.responses.delete('response_id');
+    const responsePromise = client.conversations.delete('conversation_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -102,7 +64,7 @@ describe('resource responses', () => {
   test('delete: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.responses.delete('response_id', { path: '/_stainless_unknown_path' }),
+      client.conversations.delete('conversation_id', { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(LlamaStackClient.NotFoundError);
   });
 });

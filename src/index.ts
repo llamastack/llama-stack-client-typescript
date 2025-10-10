@@ -124,6 +124,13 @@ import {
 import { Alpha } from './resources/alpha/alpha';
 import { Chat, ChatCompletionChunk } from './resources/chat/chat';
 import {
+  ConversationCreateParams,
+  ConversationDeleteResponse,
+  ConversationObject,
+  ConversationUpdateParams,
+  Conversations,
+} from './resources/conversations/conversations';
+import {
   ListModelsResponse,
   Model,
   ModelListResponse,
@@ -277,6 +284,7 @@ export class LlamaStackClient extends Core.APIClient {
   tools: API.Tools = new API.Tools(this);
   toolRuntime: API.ToolRuntime = new API.ToolRuntime(this);
   responses: API.Responses = new API.Responses(this);
+  conversations: API.Conversations = new API.Conversations(this);
   datasets: API.Datasets = new API.Datasets(this);
   inspect: API.Inspect = new API.Inspect(this);
   embeddings: API.Embeddings = new API.Embeddings(this);
@@ -354,6 +362,7 @@ LlamaStackClient.Tools = Tools;
 LlamaStackClient.ToolRuntime = ToolRuntime;
 LlamaStackClient.Responses = Responses;
 LlamaStackClient.ResponseListResponsesOpenAICursorPage = ResponseListResponsesOpenAICursorPage;
+LlamaStackClient.Conversations = Conversations;
 LlamaStackClient.Datasets = Datasets;
 LlamaStackClient.Inspect = Inspect;
 LlamaStackClient.Embeddings = Embeddings;
@@ -423,6 +432,14 @@ export declare namespace LlamaStackClient {
     type ResponseCreateParamsNonStreaming as ResponseCreateParamsNonStreaming,
     type ResponseCreateParamsStreaming as ResponseCreateParamsStreaming,
     type ResponseListParams as ResponseListParams,
+  };
+
+  export {
+    Conversations as Conversations,
+    type ConversationObject as ConversationObject,
+    type ConversationDeleteResponse as ConversationDeleteResponse,
+    type ConversationCreateParams as ConversationCreateParams,
+    type ConversationUpdateParams as ConversationUpdateParams,
   };
 
   export {

@@ -6,7 +6,7 @@ import * as Core from '../../core';
 
 export class InputItems extends APIResource {
   /**
-   * List input items for a given OpenAI response.
+   * List input items.
    */
   list(
     responseId: string,

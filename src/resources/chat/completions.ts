@@ -11,8 +11,8 @@ import { Stream } from '../../streaming';
 
 export class Completions extends APIResource {
   /**
-   * Generate an OpenAI-compatible chat completion for the given messages using the
-   * specified model.
+   * Create chat completions. Generate an OpenAI-compatible chat completion for the
+   * given messages using the specified model.
    */
   create(
     body: CompletionCreateParamsNonStreaming,
@@ -36,14 +36,14 @@ export class Completions extends APIResource {
   }
 
   /**
-   * Describe a chat completion by its ID.
+   * Get chat completion. Describe a chat completion by its ID.
    */
   retrieve(completionId: string, options?: Core.RequestOptions): Core.APIPromise<CompletionRetrieveResponse> {
     return this._client.get(`/v1/chat/completions/${completionId}`, options);
   }
 
   /**
-   * List all chat completions.
+   * List chat completions.
    */
   list(
     query?: CompletionListParams,
@@ -104,6 +104,11 @@ export namespace CompletionCreateResponse {
      * The object type, which will be "chat.completion"
      */
     object: 'chat.completion';
+
+    /**
+     * Token usage information for the completion
+     */
+    usage?: OpenAIChatCompletion.Usage;
   }
 
   export namespace OpenAIChatCompletion {
@@ -501,6 +506,58 @@ export namespace CompletionCreateResponse {
         }
       }
     }
+
+    /**
+     * Token usage information for the completion
+     */
+    export interface Usage {
+      /**
+       * Number of tokens in the completion
+       */
+      completion_tokens: number;
+
+      /**
+       * Number of tokens in the prompt
+       */
+      prompt_tokens: number;
+
+      /**
+       * Total tokens used (prompt + completion)
+       */
+      total_tokens: number;
+
+      /**
+       * Token details for output tokens in OpenAI chat completion usage.
+       */
+      completion_tokens_details?: Usage.CompletionTokensDetails;
+
+      /**
+       * Token details for prompt tokens in OpenAI chat completion usage.
+       */
+      prompt_tokens_details?: Usage.PromptTokensDetails;
+    }
+
+    export namespace Usage {
+      /**
+       * Token details for output tokens in OpenAI chat completion usage.
+       */
+      export interface CompletionTokensDetails {
+        /**
+         * Number of tokens used for reasoning (o1/o3 models)
+         */
+        reasoning_tokens?: number;
+      }
+
+      /**
+       * Token details for prompt tokens in OpenAI chat completion usage.
+       */
+      export interface PromptTokensDetails {
+        /**
+         * Number of tokens retrieved from cache
+         */
+        cached_tokens?: number;
+      }
+    }
   }
 }
 
@@ -537,6 +594,11 @@ export interface CompletionRetrieveResponse {
    * The object type, which will be "chat.completion"
    */
   object: 'chat.completion';
+
+  /**
+   * Token usage information for the completion
+   */
+  usage?: CompletionRetrieveResponse.Usage;
 }
 
 export namespace CompletionRetrieveResponse {
@@ -1224,6 +1286,58 @@ export namespace CompletionRetrieveResponse {
       type: 'text';
     }
   }
+
+  /**
+   * Token usage information for the completion
+   */
+  export interface Usage {
+    /**
+     * Number of tokens in the completion
+     */
+    completion_tokens: number;
+
+    /**
+     * Number of tokens in the prompt
+     */
+    prompt_tokens: number;
+
+    /**
+     * Total tokens used (prompt + completion)
+     */
+    total_tokens: number;
+
+    /**
+     * Token details for output tokens in OpenAI chat completion usage.
+     */
+    completion_tokens_details?: Usage.CompletionTokensDetails;
+
+    /**
+     * Token details for prompt tokens in OpenAI chat completion usage.
+     */
+    prompt_tokens_details?: Usage.PromptTokensDetails;
+  }
+
+  export namespace Usage {
+    /**
+     * Token details for output tokens in OpenAI chat completion usage.
+     */
+    export interface CompletionTokensDetails {
+      /**
+       * Number of tokens used for reasoning (o1/o3 models)
+       */
+      reasoning_tokens?: number;
+    }
+
+    /**
+     * Token details for prompt tokens in OpenAI chat completion usage.
+     */
+    export interface PromptTokensDetails {
+      /**
+       * Number of tokens retrieved from cache
+       */
+      cached_tokens?: number;
+    }
+  }
 }
 
 export interface CompletionListResponse {
@@ -1259,6 +1373,11 @@ export interface CompletionListResponse {
    * The object type, which will be "chat.completion"
    */
   object: 'chat.completion';
+
+  /**
+   * Token usage information for the completion
+   */
+  usage?: CompletionListResponse.Usage;
 }
 
 export namespace CompletionListResponse {
@@ -1944,6 +2063,58 @@ export namespace CompletionListResponse {
        * Must be "text" to identify this as text content
        */
       type: 'text';
+    }
+  }
+
+  /**
+   * Token usage information for the completion
+   */
+  export interface Usage {
+    /**
+     * Number of tokens in the completion
+     */
+    completion_tokens: number;
+
+    /**
+     * Number of tokens in the prompt
+     */
+    prompt_tokens: number;
+
+    /**
+     * Total tokens used (prompt + completion)
+     */
+    total_tokens: number;
+
+    /**
+     * Token details for output tokens in OpenAI chat completion usage.
+     */
+    completion_tokens_details?: Usage.CompletionTokensDetails;
+
+    /**
+     * Token details for prompt tokens in OpenAI chat completion usage.
+     */
+    prompt_tokens_details?: Usage.PromptTokensDetails;
+  }
+
+  export namespace Usage {
+    /**
+     * Token details for output tokens in OpenAI chat completion usage.
+     */
+    export interface CompletionTokensDetails {
+      /**
+       * Number of tokens used for reasoning (o1/o3 models)
+       */
+      reasoning_tokens?: number;
+    }
+
+    /**
+     * Token details for prompt tokens in OpenAI chat completion usage.
+     */
+    export interface PromptTokensDetails {
+      /**
+       * Number of tokens retrieved from cache
+       */
+      cached_tokens?: number;
     }
   }
 }

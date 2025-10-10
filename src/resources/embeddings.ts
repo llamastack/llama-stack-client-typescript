@@ -5,8 +5,8 @@ import * as Core from '../core';
 
 export class Embeddings extends APIResource {
   /**
-   * Generate OpenAI-compatible embeddings for the given input using the specified
-   * model.
+   * Create embeddings. Generate OpenAI-compatible embeddings for the given input
+   * using the specified model.
    */
   create(
     body: EmbeddingCreateParams,

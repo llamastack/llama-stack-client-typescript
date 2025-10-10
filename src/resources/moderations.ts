@@ -5,7 +5,8 @@ import * as Core from '../core';
 
 export class Moderations extends APIResource {
   /**
-   * Classifies if text and/or image inputs are potentially harmful.
+   * Create moderation. Classifies if text and/or image inputs are potentially
+   * harmful.
    */
   create(body: ModerationCreateParams, options?: Core.RequestOptions): Core.APIPromise<CreateResponse> {
     return this._client.post('/v1/moderations', { body, ...options });

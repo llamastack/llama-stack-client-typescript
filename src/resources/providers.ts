@@ -6,14 +6,14 @@ import * as InspectAPI from './inspect';
 
 export class Providers extends APIResource {
   /**
-   * Get detailed information about a specific provider.
+   * Get provider. Get detailed information about a specific provider.
    */
   retrieve(providerId: string, options?: Core.RequestOptions): Core.APIPromise<InspectAPI.ProviderInfo> {
     return this._client.get(`/v1/providers/${providerId}`, options);
   }
 
   /**
-   * List all available providers.
+   * List providers. List all available providers.
    */
   list(options?: Core.RequestOptions): Core.APIPromise<ProviderListResponse> {
     return (
