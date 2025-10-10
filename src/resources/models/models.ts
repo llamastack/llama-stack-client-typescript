@@ -9,7 +9,7 @@ export class Models extends APIResource {
   openai: OpenAIAPI.OpenAI = new OpenAIAPI.OpenAI(this._client);
 
   /**
-   * Get a model by its identifier.
+   * Get model. Get a model by its identifier.
    */
   retrieve(modelId: string, options?: Core.RequestOptions): Core.APIPromise<Model> {
     return this._client.get(`/v1/models/${modelId}`, options);
@@ -25,14 +25,14 @@ export class Models extends APIResource {
   }
 
   /**
-   * Register a model.
+   * Register model. Register a model.
    */
   register(body: ModelRegisterParams, options?: Core.RequestOptions): Core.APIPromise<Model> {
     return this._client.post('/v1/models', { body, ...options });
   }
 
   /**
-   * Unregister a model.
+   * Unregister model. Unregister a model.
    */
   unregister(modelId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.delete(`/v1/models/${modelId}`, {

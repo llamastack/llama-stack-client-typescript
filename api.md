@@ -92,6 +92,34 @@ Methods:
 
 - <code title="get /v1/responses/{response_id}/input_items">client.responses.inputItems.<a href="./src/resources/responses/input-items.ts">list</a>(responseId, { ...params }) -> InputItemListResponse</code>
 
+# Conversations
+
+Types:
+
+- <code><a href="./src/resources/conversations/conversations.ts">ConversationObject</a></code>
+- <code><a href="./src/resources/conversations/conversations.ts">ConversationDeleteResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/conversations">client.conversations.<a href="./src/resources/conversations/conversations.ts">create</a>({ ...params }) -> ConversationObject</code>
+- <code title="get /v1/conversations/{conversation_id}">client.conversations.<a href="./src/resources/conversations/conversations.ts">retrieve</a>(conversationId) -> ConversationObject</code>
+- <code title="post /v1/conversations/{conversation_id}">client.conversations.<a href="./src/resources/conversations/conversations.ts">update</a>(conversationId, { ...params }) -> ConversationObject</code>
+- <code title="delete /v1/conversations/{conversation_id}">client.conversations.<a href="./src/resources/conversations/conversations.ts">delete</a>(conversationId) -> ConversationDeleteResponse</code>
+
+## Items
+
+Types:
+
+- <code><a href="./src/resources/conversations/items.ts">ItemCreateResponse</a></code>
+- <code><a href="./src/resources/conversations/items.ts">ItemListResponse</a></code>
+- <code><a href="./src/resources/conversations/items.ts">ItemGetResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/conversations/{conversation_id}/items">client.conversations.items.<a href="./src/resources/conversations/items.ts">create</a>(conversationId, { ...params }) -> ItemCreateResponse</code>
+- <code title="get /v1/conversations/{conversation_id}/items">client.conversations.items.<a href="./src/resources/conversations/items.ts">list</a>(conversationId, { ...params }) -> ItemListResponse</code>
+- <code title="get /v1/conversations/{conversation_id}/items/{item_id}">client.conversations.items.<a href="./src/resources/conversations/items.ts">get</a>(conversationId, itemId) -> ItemGetResponse</code>
+
 # Datasets
 
 Types:

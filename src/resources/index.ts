@@ -18,6 +18,13 @@ export {
   type CompletionCreateParamsStreaming,
 } from './completions';
 export {
+  Conversations,
+  type ConversationObject,
+  type ConversationDeleteResponse,
+  type ConversationCreateParams,
+  type ConversationUpdateParams,
+} from './conversations/conversations';
+export {
   Datasets,
   type ListDatasetsResponse,
   type DatasetRetrieveResponse,

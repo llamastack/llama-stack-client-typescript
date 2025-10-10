@@ -6,7 +6,7 @@ import * as Shared from './shared';
 
 export class Safety extends APIResource {
   /**
-   * Run a shield.
+   * Run shield. Run a shield.
    */
   runShield(body: SafetyRunShieldParams, options?: Core.RequestOptions): Core.APIPromise<RunShieldResponse> {
     return this._client.post('/v1/safety/run-shield', { body, ...options });

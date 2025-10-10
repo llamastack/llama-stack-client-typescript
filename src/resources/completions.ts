@@ -8,8 +8,8 @@ import { Stream } from '../streaming';
 
 export class Completions extends APIResource {
   /**
-   * Generate an OpenAI-compatible completion for the given prompt using the
-   * specified model.
+   * Create completion. Generate an OpenAI-compatible completion for the given prompt
+   * using the specified model.
    */
   create(
     body: CompletionCreateParamsNonStreaming,

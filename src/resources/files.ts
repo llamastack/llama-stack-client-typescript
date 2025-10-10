@@ -7,8 +7,9 @@ import { OpenAICursorPage, type OpenAICursorPageParams } from '../pagination';
 
 export class Files extends APIResource {
   /**
-   * Upload a file that can be used across various endpoints. The file upload should
-   * be a multipart form request with:
+   * Upload file. Upload a file that can be used across various endpoints.
+   *
+   * The file upload should be a multipart form request with:
    *
    * - file: The File object (not file name) to be uploaded.
    * - purpose: The intended purpose of the uploaded file.
@@ -19,14 +20,14 @@ export class Files extends APIResource {
   }
 
   /**
-   * Returns information about a specific file.
+   * Retrieve file. Returns information about a specific file.
    */
   retrieve(fileId: string, options?: Core.RequestOptions): Core.APIPromise<File> {
     return this._client.get(`/v1/files/${fileId}`, options);
   }
 
   /**
-   * Returns a list of files that belong to the user's organization.
+   * List files. Returns a list of files that belong to the user's organization.
    */
   list(query?: FileListParams, options?: Core.RequestOptions): Core.PagePromise<FilesOpenAICursorPage, File>;
   list(options?: Core.RequestOptions): Core.PagePromise<FilesOpenAICursorPage, File>;
@@ -41,14 +42,14 @@ export class Files extends APIResource {
   }
 
   /**
-   * Delete a file.
+   * Delete file.
    */
   delete(fileId: string, options?: Core.RequestOptions): Core.APIPromise<DeleteFileResponse> {
     return this._client.delete(`/v1/files/${fileId}`, options);
   }
 
   /**
-   * Returns the contents of the specified file.
+   * Retrieve file content. Returns the contents of the specified file.
    */
   content(fileId: string, options?: Core.RequestOptions): Core.APIPromise<unknown> {
     return this._client.get(`/v1/files/${fileId}/content`, options);
