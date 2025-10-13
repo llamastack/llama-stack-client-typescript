@@ -1,7 +1,5 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Shared from './shared';
-import * as InferenceAPI from './inference';
 import * as ToolRuntimeAPI from './tool-runtime/tool-runtime';
 
 /**
@@ -106,36 +104,6 @@ export namespace AgentConfig {
 }
 
 /**
- * Response from a batch completion request.
- */
-export interface BatchCompletion {
-  /**
-   * List of completion responses, one for each input in the batch
-   */
-  batch: Array<InferenceAPI.CompletionResponse>;
-}
-
-/**
- * Response from a chat completion request.
- */
-export interface ChatCompletionResponse {
-  /**
-   * The complete response message
-   */
-  completion_message: CompletionMessage;
-
-  /**
-   * Optional log probabilities for generated tokens
-   */
-  logprobs?: Array<InferenceAPI.TokenLogProbs>;
-
-  /**
-   * (Optional) List of metrics associated with the API response
-   */
-  metrics?: Array<Metric>;
-}
-
-/**
  * A message containing the model's (assistant) response in a chat conversation.
  */
 export interface CompletionMessage {
@@ -163,63 +131,6 @@ export interface CompletionMessage {
    * List of tool calls. Each tool call is a ToolCall object.
    */
   tool_calls?: Array<ToolCall>;
-}
-
-/**
- * A text content delta for streaming responses.
- */
-export type ContentDelta = ContentDelta.TextDelta | ContentDelta.ImageDelta | ContentDelta.ToolCallDelta;
-
-export namespace ContentDelta {
-  /**
-   * A text content delta for streaming responses.
-   */
-  export interface TextDelta {
-    /**
-     * The incremental text content
-     */
-    text: string;
-
-    /**
-     * Discriminator type of the delta. Always "text"
-     */
-    type: 'text';
-  }
-
-  /**
-   * An image content delta for streaming responses.
-   */
-  export interface ImageDelta {
-    /**
-     * The incremental image data as bytes
-     */
-    image: string;
-
-    /**
-     * Discriminator type of the delta. Always "image"
-     */
-    type: 'image';
-  }
-
-  /**
-   * A tool call content delta for streaming responses.
-   */
-  export interface ToolCallDelta {
-    /**
-     * Current parsing status of the tool call
-     */
-    parse_status: 'started' | 'in_progress' | 'failed' | 'succeeded';
-
-    /**
-     * Either an in-progress tool call string or the final parsed tool call
-     */
-    tool_call: string | Shared.ToolCall;
-
-    /**
-     * Discriminator type of the delta. Always "tool_call"
-     */
-    type: 'tool_call';
-  }
 }
 
 /**
@@ -473,26 +384,6 @@ export namespace InterleavedContentItem {
 export type Message = UserMessage | SystemMessage | ToolResponseMessage | CompletionMessage;
 
 /**
- * A metric value included in API responses.
- */
-export interface Metric {
-  /**
-   * The name of the metric
-   */
-  metric: string;
-
-  /**
-   * The numeric value of the metric
-   */
-  value: number;
-
-  /**
-   * (Optional) The unit of measurement for the metric value
-   */
-  unit?: string;
-}
-
-/**
  * Parameter type for string values.
  */
 export type ParamType =
@@ -634,7 +525,7 @@ export interface QueryConfig {
   /**
    * Configuration for the query generator.
    */
-  query_generator_config: QueryGeneratorConfig;
+  query_generator_config: QueryConfig.DefaultRagQueryGeneratorConfig | QueryConfig.LlmragQueryGeneratorConfig;
 
   /**
    * Search mode for retrieval—either "vector", "keyword", or "hybrid". Default
@@ -649,47 +540,6 @@ export interface QueryConfig {
 }
 
 export namespace QueryConfig {
-  /**
-   * Reciprocal Rank Fusion (RRF) ranker configuration.
-   */
-  export interface RrfRanker {
-    /**
-     * The impact factor for RRF scoring. Higher values give more weight to
-     * higher-ranked results. Must be greater than 0
-     */
-    impact_factor: number;
-
-    /**
-     * The type of ranker, always "rrf"
-     */
-    type: 'rrf';
-  }
-
-  /**
-   * Weighted ranker configuration that combines vector and keyword scores.
-   */
-  export interface WeightedRanker {
-    /**
-     * Weight factor between 0 and 1. 0 means only use keyword scores, 1 means only use
-     * vector scores, values in between blend both scores.
-     */
-    alpha: number;
-
-    /**
-     * The type of ranker, always "weighted"
-     */
-    type: 'weighted';
-  }
-}
-
-/**
- * Configuration for the default RAG query generator.
- */
-export type QueryGeneratorConfig =
-  | QueryGeneratorConfig.DefaultRagQueryGeneratorConfig
-  | QueryGeneratorConfig.LlmragQueryGeneratorConfig;
-
-export namespace QueryGeneratorConfig {
   /**
    * Configuration for the default RAG query generator.
    */
@@ -723,6 +573,38 @@ export namespace QueryGeneratorConfig {
      * Type of query generator, always 'llm'
      */
     type: 'llm';
+  }
+
+  /**
+   * Reciprocal Rank Fusion (RRF) ranker configuration.
+   */
+  export interface RrfRanker {
+    /**
+     * The impact factor for RRF scoring. Higher values give more weight to
+     * higher-ranked results. Must be greater than 0
+     */
+    impact_factor: number;
+
+    /**
+     * The type of ranker, always "rrf"
+     */
+    type: 'rrf';
+  }
+
+  /**
+   * Weighted ranker configuration that combines vector and keyword scores.
+   */
+  export interface WeightedRanker {
+    /**
+     * Weight factor between 0 and 1. 0 means only use keyword scores, 1 means only use
+     * vector scores, values in between blend both scores.
+     */
+    alpha: number;
+
+    /**
+     * The type of ranker, always "weighted"
+     */
+    type: 'weighted';
   }
 }
 
@@ -914,33 +796,11 @@ export interface SystemMessage {
 }
 
 export interface ToolCall {
-  arguments:
-    | string
-    | {
-        [key: string]:
-          | string
-          | number
-          | boolean
-          | Array<string | number | boolean | null>
-          | { [key: string]: string | number | boolean | null }
-          | null;
-      };
+  arguments: string;
 
   call_id: string;
 
   tool_name: 'brave_search' | 'wolfram_alpha' | 'photogen' | 'code_interpreter' | (string & {});
-
-  arguments_json?: string;
-}
-
-export interface ToolParamDefinition {
-  param_type: string;
-
-  default?: boolean | number | string | Array<unknown> | unknown | null;
-
-  description?: string;
-
-  required?: boolean;
 }
 
 /**

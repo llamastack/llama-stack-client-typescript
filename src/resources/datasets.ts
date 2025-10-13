@@ -9,7 +9,7 @@ export class Datasets extends APIResource {
    * Get a dataset by its ID.
    */
   retrieve(datasetId: string, options?: Core.RequestOptions): Core.APIPromise<DatasetRetrieveResponse> {
-    return this._client.get(`/v1/datasets/${datasetId}`, options);
+    return this._client.get(`/v1beta/datasets/${datasetId}`, options);
   }
 
   /**
@@ -17,7 +17,7 @@ export class Datasets extends APIResource {
    */
   list(options?: Core.RequestOptions): Core.APIPromise<DatasetListResponse> {
     return (
-      this._client.get('/v1/datasets', options) as Core.APIPromise<{ data: DatasetListResponse }>
+      this._client.get('/v1beta/datasets', options) as Core.APIPromise<{ data: DatasetListResponse }>
     )._thenUnwrap((obj) => obj.data);
   }
 
@@ -29,7 +29,7 @@ export class Datasets extends APIResource {
     body: DatasetAppendrowsParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<void> {
-    return this._client.post(`/v1/datasetio/append-rows/${datasetId}`, {
+    return this._client.post(`/v1beta/datasetio/append-rows/${datasetId}`, {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
@@ -61,7 +61,7 @@ export class Datasets extends APIResource {
     if (isRequestOptions(query)) {
       return this.iterrows(datasetId, {}, query);
     }
-    return this._client.get(`/v1/datasetio/iterrows/${datasetId}`, { query, ...options });
+    return this._client.get(`/v1beta/datasetio/iterrows/${datasetId}`, { query, ...options });
   }
 
   /**
@@ -71,14 +71,14 @@ export class Datasets extends APIResource {
     body: DatasetRegisterParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<DatasetRegisterResponse> {
-    return this._client.post('/v1/datasets', { body, ...options });
+    return this._client.post('/v1beta/datasets', { body, ...options });
   }
 
   /**
    * Unregister a dataset by its ID.
    */
   unregister(datasetId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.delete(`/v1/datasets/${datasetId}`, {
+    return this._client.delete(`/v1beta/datasets/${datasetId}`, {
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
     });

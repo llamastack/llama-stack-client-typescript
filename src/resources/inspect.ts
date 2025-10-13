@@ -5,14 +5,14 @@ import * as Core from '../core';
 
 export class Inspect extends APIResource {
   /**
-   * Get the current health status of the service.
+   * Get health status. Get the current health status of the service.
    */
   health(options?: Core.RequestOptions): Core.APIPromise<HealthInfo> {
     return this._client.get('/v1/health', options);
   }
 
   /**
-   * Get the version of the service.
+   * Get version. Get the version of the service.
    */
   version(options?: Core.RequestOptions): Core.APIPromise<VersionInfo> {
     return this._client.get('/v1/version', options);

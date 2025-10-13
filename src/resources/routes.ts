@@ -6,7 +6,8 @@ import * as InspectAPI from './inspect';
 
 export class Routes extends APIResource {
   /**
-   * List all available API routes with their methods and implementing providers.
+   * List routes. List all available API routes with their methods and implementing
+   * providers.
    */
   list(options?: Core.RequestOptions): Core.APIPromise<RouteListResponse> {
     return (

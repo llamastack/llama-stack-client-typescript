@@ -12,7 +12,7 @@ export class Telemetry extends APIResource {
     spanId: string,
     options?: Core.RequestOptions,
   ): Core.APIPromise<TelemetryGetSpanResponse> {
-    return this._client.get(`/v1/telemetry/traces/${traceId}/spans/${spanId}`, options);
+    return this._client.get(`/v1alpha/telemetry/traces/${traceId}/spans/${spanId}`, options);
   }
 
   /**
@@ -24,7 +24,7 @@ export class Telemetry extends APIResource {
     options?: Core.RequestOptions,
   ): Core.APIPromise<TelemetryGetSpanTreeResponse> {
     return (
-      this._client.post(`/v1/telemetry/spans/${spanId}/tree`, { body, ...options }) as Core.APIPromise<{
+      this._client.post(`/v1alpha/telemetry/spans/${spanId}/tree`, { body, ...options }) as Core.APIPromise<{
         data: TelemetryGetSpanTreeResponse;
       }>
     )._thenUnwrap((obj) => obj.data);
@@ -34,18 +34,7 @@ export class Telemetry extends APIResource {
    * Get a trace by its ID.
    */
   getTrace(traceId: string, options?: Core.RequestOptions): Core.APIPromise<Trace> {
-    return this._client.get(`/v1/telemetry/traces/${traceId}`, options);
-  }
-
-  /**
-   * Log an event.
-   */
-  logEvent(body: TelemetryLogEventParams, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.post('/v1/telemetry/events', {
-      body,
-      ...options,
-      headers: { Accept: '*/*', ...options?.headers },
-    });
+    return this._client.get(`/v1alpha/telemetry/traces/${traceId}`, options);
   }
 
   /**
@@ -57,7 +46,7 @@ export class Telemetry extends APIResource {
     options?: Core.RequestOptions,
   ): Core.APIPromise<TelemetryQueryMetricsResponse> {
     return (
-      this._client.post(`/v1/telemetry/metrics/${metricName}`, { body, ...options }) as Core.APIPromise<{
+      this._client.post(`/v1alpha/telemetry/metrics/${metricName}`, { body, ...options }) as Core.APIPromise<{
         data: TelemetryQueryMetricsResponse;
       }>
     )._thenUnwrap((obj) => obj.data);
@@ -71,7 +60,7 @@ export class Telemetry extends APIResource {
     options?: Core.RequestOptions,
   ): Core.APIPromise<TelemetryQuerySpansResponse> {
     return (
-      this._client.post('/v1/telemetry/spans', { body, ...options }) as Core.APIPromise<{
+      this._client.post('/v1alpha/telemetry/spans', { body, ...options }) as Core.APIPromise<{
         data: TelemetryQuerySpansResponse;
       }>
     )._thenUnwrap((obj) => obj.data);
@@ -85,7 +74,7 @@ export class Telemetry extends APIResource {
     options?: Core.RequestOptions,
   ): Core.APIPromise<TelemetryQueryTracesResponse> {
     return (
-      this._client.post('/v1/telemetry/traces', { body, ...options }) as Core.APIPromise<{
+      this._client.post('/v1alpha/telemetry/traces', { body, ...options }) as Core.APIPromise<{
         data: TelemetryQueryTracesResponse;
       }>
     )._thenUnwrap((obj) => obj.data);
@@ -98,7 +87,7 @@ export class Telemetry extends APIResource {
     body: TelemetrySaveSpansToDatasetParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<void> {
-    return this._client.post('/v1/telemetry/spans/export', {
+    return this._client.post('/v1alpha/telemetry/spans/export', {
       body,
       ...options,
       headers: { Accept: '*/*', ...options?.headers },
@@ -542,18 +531,6 @@ export interface TelemetryGetSpanTreeParams {
   max_depth?: number;
 }
 
-export interface TelemetryLogEventParams {
-  /**
-   * The event to log.
-   */
-  event: Event;
-
-  /**
-   * The time to live of the event.
-   */
-  ttl_seconds: number;
-}
-
 export interface TelemetryQueryMetricsParams {
   /**
    * The type of query to perform.
@@ -677,7 +654,6 @@ export declare namespace Telemetry {
     type TelemetryQuerySpansResponse as TelemetryQuerySpansResponse,
     type TelemetryQueryTracesResponse as TelemetryQueryTracesResponse,
     type TelemetryGetSpanTreeParams as TelemetryGetSpanTreeParams,
-    type TelemetryLogEventParams as TelemetryLogEventParams,
     type TelemetryQueryMetricsParams as TelemetryQueryMetricsParams,
     type TelemetryQuerySpansParams as TelemetryQuerySpansParams,
     type TelemetryQueryTracesParams as TelemetryQueryTracesParams,
