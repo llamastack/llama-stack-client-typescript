@@ -108,14 +108,6 @@ import {
 } from './resources/toolgroups';
 import { ToolListParams, ToolListResponse, Tools } from './resources/tools';
 import {
-  ListVectorDBsResponse,
-  VectorDBListResponse,
-  VectorDBRegisterParams,
-  VectorDBRegisterResponse,
-  VectorDBRetrieveResponse,
-  VectorDBs,
-} from './resources/vector-dbs';
-import {
   QueryChunksResponse,
   VectorIo,
   VectorIoInsertParams,
@@ -291,7 +283,6 @@ export class LlamaStackClient extends Core.APIClient {
   chat: API.Chat = new API.Chat(this);
   completions: API.Completions = new API.Completions(this);
   vectorIo: API.VectorIo = new API.VectorIo(this);
-  vectorDBs: API.VectorDBs = new API.VectorDBs(this);
   vectorStores: API.VectorStores = new API.VectorStores(this);
   models: API.Models = new API.Models(this);
   providers: API.Providers = new API.Providers(this);
@@ -369,7 +360,6 @@ LlamaStackClient.Embeddings = Embeddings;
 LlamaStackClient.Chat = Chat;
 LlamaStackClient.Completions = Completions;
 LlamaStackClient.VectorIo = VectorIo;
-LlamaStackClient.VectorDBs = VectorDBs;
 LlamaStackClient.VectorStores = VectorStores;
 LlamaStackClient.VectorStoresOpenAICursorPage = VectorStoresOpenAICursorPage;
 LlamaStackClient.Models = Models;
@@ -483,15 +473,6 @@ export declare namespace LlamaStackClient {
     type QueryChunksResponse as QueryChunksResponse,
     type VectorIoInsertParams as VectorIoInsertParams,
     type VectorIoQueryParams as VectorIoQueryParams,
-  };
-
-  export {
-    VectorDBs as VectorDBs,
-    type ListVectorDBsResponse as ListVectorDBsResponse,
-    type VectorDBRetrieveResponse as VectorDBRetrieveResponse,
-    type VectorDBListResponse as VectorDBListResponse,
-    type VectorDBRegisterResponse as VectorDBRegisterResponse,
-    type VectorDBRegisterParams as VectorDBRegisterParams,
   };
 
   export {

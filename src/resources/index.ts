@@ -132,14 +132,6 @@ export {
 } from './toolgroups';
 export { Tools, type ToolListResponse, type ToolListParams } from './tools';
 export {
-  VectorDBs,
-  type ListVectorDBsResponse,
-  type VectorDBRetrieveResponse,
-  type VectorDBListResponse,
-  type VectorDBRegisterResponse,
-  type VectorDBRegisterParams,
-} from './vector-dbs';
-export {
   VectorIo,
   type QueryChunksResponse,
   type VectorIoInsertParams,

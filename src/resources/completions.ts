@@ -172,8 +172,6 @@ export interface CompletionCreateParamsBase {
    */
   frequency_penalty?: number;
 
-  guided_choice?: Array<string>;
-
   /**
    * (Optional) The logit bias to use.
    */
@@ -198,8 +196,6 @@ export interface CompletionCreateParamsBase {
    * (Optional) The penalty for repeated tokens.
    */
   presence_penalty?: number;
-
-  prompt_logprobs?: number;
 
   /**
    * (Optional) The seed to use.

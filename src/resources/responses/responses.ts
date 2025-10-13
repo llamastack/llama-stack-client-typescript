@@ -800,6 +800,18 @@ export type ResponseObjectStream =
   | ResponseObjectStream.OpenAIResponseObjectStreamResponseMcpCallCompleted
   | ResponseObjectStream.OpenAIResponseObjectStreamResponseContentPartAdded
   | ResponseObjectStream.OpenAIResponseObjectStreamResponseContentPartDone
+  | ResponseObjectStream.OpenAIResponseObjectStreamResponseReasoningTextDelta
+  | ResponseObjectStream.OpenAIResponseObjectStreamResponseReasoningTextDone
+  | ResponseObjectStream.OpenAIResponseObjectStreamResponseReasoningSummaryPartAdded
+  | ResponseObjectStream.OpenAIResponseObjectStreamResponseReasoningSummaryPartDone
+  | ResponseObjectStream.OpenAIResponseObjectStreamResponseReasoningSummaryTextDelta
+  | ResponseObjectStream.OpenAIResponseObjectStreamResponseReasoningSummaryTextDone
+  | ResponseObjectStream.OpenAIResponseObjectStreamResponseRefusalDelta
+  | ResponseObjectStream.OpenAIResponseObjectStreamResponseRefusalDone
+  | ResponseObjectStream.OpenAIResponseObjectStreamResponseOutputTextAnnotationAdded
+  | ResponseObjectStream.OpenAIResponseObjectStreamResponseFileSearchCallInProgress
+  | ResponseObjectStream.OpenAIResponseObjectStreamResponseFileSearchCallSearching
+  | ResponseObjectStream.OpenAIResponseObjectStreamResponseFileSearchCallCompleted
   | ResponseObjectStream.OpenAIResponseObjectStreamResponseIncomplete
   | ResponseObjectStream.OpenAIResponseObjectStreamResponseFailed
   | ResponseObjectStream.OpenAIResponseObjectStreamResponseCompleted;
@@ -2313,6 +2325,518 @@ export namespace ResponseObjectStream {
        */
       type: 'reasoning_text';
     }
+  }
+
+  /**
+   * Streaming event for incremental reasoning text updates.
+   */
+  export interface OpenAIResponseObjectStreamResponseReasoningTextDelta {
+    /**
+     * Index position of the reasoning content part
+     */
+    content_index: number;
+
+    /**
+     * Incremental reasoning text being added
+     */
+    delta: string;
+
+    /**
+     * Unique identifier of the output item being updated
+     */
+    item_id: string;
+
+    /**
+     * Index position of the item in the output list
+     */
+    output_index: number;
+
+    /**
+     * Sequential number for ordering streaming events
+     */
+    sequence_number: number;
+
+    /**
+     * Event type identifier, always "response.reasoning_text.delta"
+     */
+    type: 'response.reasoning_text.delta';
+  }
+
+  /**
+   * Streaming event for when reasoning text is completed.
+   */
+  export interface OpenAIResponseObjectStreamResponseReasoningTextDone {
+    /**
+     * Index position of the reasoning content part
+     */
+    content_index: number;
+
+    /**
+     * Unique identifier of the completed output item
+     */
+    item_id: string;
+
+    /**
+     * Index position of the item in the output list
+     */
+    output_index: number;
+
+    /**
+     * Sequential number for ordering streaming events
+     */
+    sequence_number: number;
+
+    /**
+     * Final complete reasoning text
+     */
+    text: string;
+
+    /**
+     * Event type identifier, always "response.reasoning_text.done"
+     */
+    type: 'response.reasoning_text.done';
+  }
+
+  /**
+   * Streaming event for when a new reasoning summary part is added.
+   */
+  export interface OpenAIResponseObjectStreamResponseReasoningSummaryPartAdded {
+    /**
+     * Unique identifier of the output item
+     */
+    item_id: string;
+
+    /**
+     * Index position of the output item
+     */
+    output_index: number;
+
+    /**
+     * The summary part that was added
+     */
+    part: OpenAIResponseObjectStreamResponseReasoningSummaryPartAdded.Part;
+
+    /**
+     * Sequential number for ordering streaming events
+     */
+    sequence_number: number;
+
+    /**
+     * Index of the summary part within the reasoning summary
+     */
+    summary_index: number;
+
+    /**
+     * Event type identifier, always "response.reasoning_summary_part.added"
+     */
+    type: 'response.reasoning_summary_part.added';
+  }
+
+  export namespace OpenAIResponseObjectStreamResponseReasoningSummaryPartAdded {
+    /**
+     * The summary part that was added
+     */
+    export interface Part {
+      /**
+       * Summary text
+       */
+      text: string;
+
+      /**
+       * Content part type identifier, always "summary_text"
+       */
+      type: 'summary_text';
+    }
+  }
+
+  /**
+   * Streaming event for when a reasoning summary part is completed.
+   */
+  export interface OpenAIResponseObjectStreamResponseReasoningSummaryPartDone {
+    /**
+     * Unique identifier of the output item
+     */
+    item_id: string;
+
+    /**
+     * Index position of the output item
+     */
+    output_index: number;
+
+    /**
+     * The completed summary part
+     */
+    part: OpenAIResponseObjectStreamResponseReasoningSummaryPartDone.Part;
+
+    /**
+     * Sequential number for ordering streaming events
+     */
+    sequence_number: number;
+
+    /**
+     * Index of the summary part within the reasoning summary
+     */
+    summary_index: number;
+
+    /**
+     * Event type identifier, always "response.reasoning_summary_part.done"
+     */
+    type: 'response.reasoning_summary_part.done';
+  }
+
+  export namespace OpenAIResponseObjectStreamResponseReasoningSummaryPartDone {
+    /**
+     * The completed summary part
+     */
+    export interface Part {
+      /**
+       * Summary text
+       */
+      text: string;
+
+      /**
+       * Content part type identifier, always "summary_text"
+       */
+      type: 'summary_text';
+    }
+  }
+
+  /**
+   * Streaming event for incremental reasoning summary text updates.
+   */
+  export interface OpenAIResponseObjectStreamResponseReasoningSummaryTextDelta {
+    /**
+     * Incremental summary text being added
+     */
+    delta: string;
+
+    /**
+     * Unique identifier of the output item
+     */
+    item_id: string;
+
+    /**
+     * Index position of the output item
+     */
+    output_index: number;
+
+    /**
+     * Sequential number for ordering streaming events
+     */
+    sequence_number: number;
+
+    /**
+     * Index of the summary part within the reasoning summary
+     */
+    summary_index: number;
+
+    /**
+     * Event type identifier, always "response.reasoning_summary_text.delta"
+     */
+    type: 'response.reasoning_summary_text.delta';
+  }
+
+  /**
+   * Streaming event for when reasoning summary text is completed.
+   */
+  export interface OpenAIResponseObjectStreamResponseReasoningSummaryTextDone {
+    /**
+     * Unique identifier of the output item
+     */
+    item_id: string;
+
+    /**
+     * Index position of the output item
+     */
+    output_index: number;
+
+    /**
+     * Sequential number for ordering streaming events
+     */
+    sequence_number: number;
+
+    /**
+     * Index of the summary part within the reasoning summary
+     */
+    summary_index: number;
+
+    /**
+     * Final complete summary text
+     */
+    text: string;
+
+    /**
+     * Event type identifier, always "response.reasoning_summary_text.done"
+     */
+    type: 'response.reasoning_summary_text.done';
+  }
+
+  /**
+   * Streaming event for incremental refusal text updates.
+   */
+  export interface OpenAIResponseObjectStreamResponseRefusalDelta {
+    /**
+     * Index position of the content part
+     */
+    content_index: number;
+
+    /**
+     * Incremental refusal text being added
+     */
+    delta: string;
+
+    /**
+     * Unique identifier of the output item
+     */
+    item_id: string;
+
+    /**
+     * Index position of the item in the output list
+     */
+    output_index: number;
+
+    /**
+     * Sequential number for ordering streaming events
+     */
+    sequence_number: number;
+
+    /**
+     * Event type identifier, always "response.refusal.delta"
+     */
+    type: 'response.refusal.delta';
+  }
+
+  /**
+   * Streaming event for when refusal text is completed.
+   */
+  export interface OpenAIResponseObjectStreamResponseRefusalDone {
+    /**
+     * Index position of the content part
+     */
+    content_index: number;
+
+    /**
+     * Unique identifier of the output item
+     */
+    item_id: string;
+
+    /**
+     * Index position of the item in the output list
+     */
+    output_index: number;
+
+    /**
+     * Final complete refusal text
+     */
+    refusal: string;
+
+    /**
+     * Sequential number for ordering streaming events
+     */
+    sequence_number: number;
+
+    /**
+     * Event type identifier, always "response.refusal.done"
+     */
+    type: 'response.refusal.done';
+  }
+
+  /**
+   * Streaming event for when an annotation is added to output text.
+   */
+  export interface OpenAIResponseObjectStreamResponseOutputTextAnnotationAdded {
+    /**
+     * The annotation object being added
+     */
+    annotation:
+      | OpenAIResponseObjectStreamResponseOutputTextAnnotationAdded.OpenAIResponseAnnotationFileCitation
+      | OpenAIResponseObjectStreamResponseOutputTextAnnotationAdded.OpenAIResponseAnnotationCitation
+      | OpenAIResponseObjectStreamResponseOutputTextAnnotationAdded.OpenAIResponseAnnotationContainerFileCitation
+      | OpenAIResponseObjectStreamResponseOutputTextAnnotationAdded.OpenAIResponseAnnotationFilePath;
+
+    /**
+     * Index of the annotation within the content part
+     */
+    annotation_index: number;
+
+    /**
+     * Index position of the content part within the output item
+     */
+    content_index: number;
+
+    /**
+     * Unique identifier of the item to which the annotation is being added
+     */
+    item_id: string;
+
+    /**
+     * Index position of the output item in the response's output array
+     */
+    output_index: number;
+
+    /**
+     * Sequential number for ordering streaming events
+     */
+    sequence_number: number;
+
+    /**
+     * Event type identifier, always "response.output_text.annotation.added"
+     */
+    type: 'response.output_text.annotation.added';
+  }
+
+  export namespace OpenAIResponseObjectStreamResponseOutputTextAnnotationAdded {
+    /**
+     * File citation annotation for referencing specific files in response content.
+     */
+    export interface OpenAIResponseAnnotationFileCitation {
+      /**
+       * Unique identifier of the referenced file
+       */
+      file_id: string;
+
+      /**
+       * Name of the referenced file
+       */
+      filename: string;
+
+      /**
+       * Position index of the citation within the content
+       */
+      index: number;
+
+      /**
+       * Annotation type identifier, always "file_citation"
+       */
+      type: 'file_citation';
+    }
+
+    /**
+     * URL citation annotation for referencing external web resources.
+     */
+    export interface OpenAIResponseAnnotationCitation {
+      /**
+       * End position of the citation span in the content
+       */
+      end_index: number;
+
+      /**
+       * Start position of the citation span in the content
+       */
+      start_index: number;
+
+      /**
+       * Title of the referenced web resource
+       */
+      title: string;
+
+      /**
+       * Annotation type identifier, always "url_citation"
+       */
+      type: 'url_citation';
+
+      /**
+       * URL of the referenced web resource
+       */
+      url: string;
+    }
+
+    export interface OpenAIResponseAnnotationContainerFileCitation {
+      container_id: string;
+
+      end_index: number;
+
+      file_id: string;
+
+      filename: string;
+
+      start_index: number;
+
+      type: 'container_file_citation';
+    }
+
+    export interface OpenAIResponseAnnotationFilePath {
+      file_id: string;
+
+      index: number;
+
+      type: 'file_path';
+    }
+  }
+
+  /**
+   * Streaming event for file search calls in progress.
+   */
+  export interface OpenAIResponseObjectStreamResponseFileSearchCallInProgress {
+    /**
+     * Unique identifier of the file search call
+     */
+    item_id: string;
+
+    /**
+     * Index position of the item in the output list
+     */
+    output_index: number;
+
+    /**
+     * Sequential number for ordering streaming events
+     */
+    sequence_number: number;
+
+    /**
+     * Event type identifier, always "response.file_search_call.in_progress"
+     */
+    type: 'response.file_search_call.in_progress';
+  }
+
+  /**
+   * Streaming event for file search currently searching.
+   */
+  export interface OpenAIResponseObjectStreamResponseFileSearchCallSearching {
+    /**
+     * Unique identifier of the file search call
+     */
+    item_id: string;
+
+    /**
+     * Index position of the item in the output list
+     */
+    output_index: number;
+
+    /**
+     * Sequential number for ordering streaming events
+     */
+    sequence_number: number;
+
+    /**
+     * Event type identifier, always "response.file_search_call.searching"
+     */
+    type: 'response.file_search_call.searching';
+  }
+
+  /**
+   * Streaming event for completed file search calls.
+   */
+  export interface OpenAIResponseObjectStreamResponseFileSearchCallCompleted {
+    /**
+     * Unique identifier of the completed file search call
+     */
+    item_id: string;
+
+    /**
+     * Index position of the item in the output list
+     */
+    output_index: number;
+
+    /**
+     * Sequential number for ordering streaming events
+     */
+    sequence_number: number;
+
+    /**
+     * Event type identifier, always "response.file_search_call.completed"
+     */
+    type: 'response.file_search_call.completed';
   }
 
   /**
