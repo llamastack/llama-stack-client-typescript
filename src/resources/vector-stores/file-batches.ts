@@ -9,7 +9,8 @@ import { type OpenAICursorPageParams } from '../../pagination';
 
 export class FileBatches extends APIResource {
   /**
-   * Create a vector store file batch.
+   * Create a vector store file batch. Generate an OpenAI-compatible vector store
+   * file batch for the given vector store.
    */
   create(
     vectorStoreId: string,
@@ -171,17 +172,17 @@ export namespace VectorStoreFileBatches {
 
 export interface FileBatchCreateParams {
   /**
-   * A list of File IDs that the vector store should use.
+   * A list of File IDs that the vector store should use
    */
   file_ids: Array<string>;
 
   /**
-   * (Optional) Key-value attributes to store with the files.
+   * (Optional) Key-value attributes to store with the files
    */
   attributes?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
   /**
-   * (Optional) The chunking strategy used to chunk the file(s). Defaults to auto.
+   * (Optional) The chunking strategy used to chunk the file(s). Defaults to auto
    */
   chunking_strategy?:
     | FileBatchCreateParams.VectorStoreChunkingStrategyAuto

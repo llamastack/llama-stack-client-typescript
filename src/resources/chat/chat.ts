@@ -90,6 +90,11 @@ export namespace ChatCompletionChunk {
       content?: string;
 
       /**
+       * (Optional) The reasoning content from the model (non-standard, for o1/o3 models)
+       */
+      reasoning_content?: string;
+
+      /**
        * (Optional) The refusal of the delta
        */
       refusal?: string;

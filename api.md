@@ -204,22 +204,6 @@ Methods:
 - <code title="post /v1/vector-io/insert">client.vectorIo.<a href="./src/resources/vector-io.ts">insert</a>({ ...params }) -> void</code>
 - <code title="post /v1/vector-io/query">client.vectorIo.<a href="./src/resources/vector-io.ts">query</a>({ ...params }) -> QueryChunksResponse</code>
 
-# VectorDBs
-
-Types:
-
-- <code><a href="./src/resources/vector-dbs.ts">ListVectorDBsResponse</a></code>
-- <code><a href="./src/resources/vector-dbs.ts">VectorDBRetrieveResponse</a></code>
-- <code><a href="./src/resources/vector-dbs.ts">VectorDBListResponse</a></code>
-- <code><a href="./src/resources/vector-dbs.ts">VectorDBRegisterResponse</a></code>
-
-Methods:
-
-- <code title="get /v1/vector-dbs/{vector_db_id}">client.vectorDBs.<a href="./src/resources/vector-dbs.ts">retrieve</a>(vectorDBId) -> VectorDBRetrieveResponse</code>
-- <code title="get /v1/vector-dbs">client.vectorDBs.<a href="./src/resources/vector-dbs.ts">list</a>() -> VectorDBListResponse</code>
-- <code title="post /v1/vector-dbs">client.vectorDBs.<a href="./src/resources/vector-dbs.ts">register</a>({ ...params }) -> VectorDBRegisterResponse</code>
-- <code title="delete /v1/vector-dbs/{vector_db_id}">client.vectorDBs.<a href="./src/resources/vector-dbs.ts">unregister</a>(vectorDBId) -> void</code>
-
 # VectorStores
 
 Types:
