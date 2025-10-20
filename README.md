@@ -27,7 +27,9 @@ import LlamaStackClient from 'llama-stack-client';
 
 const client = new LlamaStackClient();
 
-const models = await client.models.list();
+const healthInfo = await client.inspect.health();
+
+console.log(healthInfo.status);
 ```
 
 ### Request & Response types
@@ -40,7 +42,7 @@ import LlamaStackClient from 'llama-stack-client';
 
 const client = new LlamaStackClient();
 
-const models: LlamaStackClient.ModelListResponse = await client.models.list();
+const healthInfo: LlamaStackClient.HealthInfo = await client.inspect.health();
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -83,7 +85,7 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const models = await client.models.list().catch(async (err) => {
+const healthInfo = await client.inspect.health().catch(async (err) => {
   if (err instanceof LlamaStackClient.APIError) {
     console.log(err.status); // 400
     console.log(err.name); // BadRequestError
@@ -123,7 +125,7 @@ const client = new LlamaStackClient({
 });
 
 // Or, configure per-request:
-await client.models.list({
+await client.inspect.health({
   maxRetries: 5,
 });
 ```
@@ -140,7 +142,7 @@ const client = new LlamaStackClient({
 });
 
 // Override per-request:
-await client.models.list({
+await client.inspect.health({
   timeout: 5 * 1000,
 });
 ```
@@ -161,13 +163,13 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new LlamaStackClient();
 
-const response = await client.models.list().asResponse();
+const response = await client.inspect.health().asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: models, response: raw } = await client.models.list().withResponse();
+const { data: healthInfo, response: raw } = await client.inspect.health().withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(models);
+console.log(healthInfo.status);
 ```
 
 ### Making custom/undocumented requests
@@ -271,7 +273,7 @@ const client = new LlamaStackClient({
 });
 
 // Override per-request:
-await client.models.list({
+await client.inspect.health({
   httpAgent: new http.Agent({ keepAlive: false }),
 });
 ```
