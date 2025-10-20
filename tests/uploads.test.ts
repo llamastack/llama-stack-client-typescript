@@ -1,3 +1,9 @@
+// Copyright (c) Meta Platforms, Inc. and affiliates.
+// All rights reserved.
+//
+// This source code is licensed under the terms described in the LICENSE file in
+// the root directory of this source tree.
+
 import fs from 'fs';
 import { toFile, type ResponseLike } from 'llama-stack-client/uploads';
 import { File } from 'llama-stack-client/_shims/index';
