@@ -40,6 +40,8 @@ export interface InputItemListResponse {
     | InputItemListResponse.OpenAIResponseInputFunctionToolCallOutput
     | InputItemListResponse.OpenAIResponseMcpApprovalRequest
     | InputItemListResponse.OpenAIResponseMcpApprovalResponse
+    | InputItemListResponse.OpenAIResponseOutputMessageMcpCall
+    | InputItemListResponse.OpenAIResponseOutputMessageMcpListTools
     | InputItemListResponse.OpenAIResponseMessage
   >;
 
@@ -214,6 +216,93 @@ export namespace InputItemListResponse {
   }
 
   /**
+   * Model Context Protocol (MCP) call output message for OpenAI responses.
+   */
+  export interface OpenAIResponseOutputMessageMcpCall {
+    /**
+     * Unique identifier for this MCP call
+     */
+    id: string;
+
+    /**
+     * JSON string containing the MCP call arguments
+     */
+    arguments: string;
+
+    /**
+     * Name of the MCP method being called
+     */
+    name: string;
+
+    /**
+     * Label identifying the MCP server handling the call
+     */
+    server_label: string;
+
+    /**
+     * Tool call type identifier, always "mcp_call"
+     */
+    type: 'mcp_call';
+
+    /**
+     * (Optional) Error message if the MCP call failed
+     */
+    error?: string;
+
+    /**
+     * (Optional) Output result from the successful MCP call
+     */
+    output?: string;
+  }
+
+  /**
+   * MCP list tools output message containing available tools from an MCP server.
+   */
+  export interface OpenAIResponseOutputMessageMcpListTools {
+    /**
+     * Unique identifier for this MCP list tools operation
+     */
+    id: string;
+
+    /**
+     * Label identifying the MCP server providing the tools
+     */
+    server_label: string;
+
+    /**
+     * List of available tools provided by the MCP server
+     */
+    tools: Array<OpenAIResponseOutputMessageMcpListTools.Tool>;
+
+    /**
+     * Tool call type identifier, always "mcp_list_tools"
+     */
+    type: 'mcp_list_tools';
+  }
+
+  export namespace OpenAIResponseOutputMessageMcpListTools {
+    /**
+     * Tool definition returned by MCP list tools operation.
+     */
+    export interface Tool {
+      /**
+       * JSON schema defining the tool's input parameters
+       */
+      input_schema: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+
+      /**
+       * Name of the tool
+       */
+      name: string;
+
+      /**
+       * (Optional) Description of what the tool does
+       */
+      description?: string;
+    }
+  }
+
+  /**
    * Corresponds to the various Message types in the Responses API. They are all
    * under one type because the Responses API gives them all the same "type" value,
    * and there is no way to tell them apart in certain scenarios.
@@ -225,7 +314,10 @@ export namespace InputItemListResponse {
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
         >
-      | Array<OpenAIResponseMessage.UnionMember2>;
+      | Array<
+          | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessage.OpenAIResponseContentPartRefusal
+        >;
 
     role: 'system' | 'developer' | 'user' | 'assistant';
 
@@ -272,12 +364,12 @@ export namespace InputItemListResponse {
       image_url?: string;
     }
 
-    export interface UnionMember2 {
+    export interface OpenAIResponseOutputMessageContentOutputText {
       annotations: Array<
-        | UnionMember2.OpenAIResponseAnnotationFileCitation
-        | UnionMember2.OpenAIResponseAnnotationCitation
-        | UnionMember2.OpenAIResponseAnnotationContainerFileCitation
-        | UnionMember2.OpenAIResponseAnnotationFilePath
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
       >;
 
       text: string;
@@ -285,7 +377,7 @@ export namespace InputItemListResponse {
       type: 'output_text';
     }
 
-    export namespace UnionMember2 {
+    export namespace OpenAIResponseOutputMessageContentOutputText {
       /**
        * File citation annotation for referencing specific files in response content.
        */
@@ -362,6 +454,21 @@ export namespace InputItemListResponse {
 
         type: 'file_path';
       }
+    }
+
+    /**
+     * Refusal content within a streamed response part.
+     */
+    export interface OpenAIResponseContentPartRefusal {
+      /**
+       * Refusal text supplied by the model
+       */
+      refusal: string;
+
+      /**
+       * Content part type identifier, always "refusal"
+       */
+      type: 'refusal';
     }
   }
 }

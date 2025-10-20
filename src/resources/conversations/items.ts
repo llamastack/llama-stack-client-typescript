@@ -5,7 +5,7 @@ import * as Core from '../../core';
 
 export class Items extends APIResource {
   /**
-   * Create items in the conversation.
+   * Create items. Create items in the conversation.
    */
   create(
     conversationId: string,
@@ -16,7 +16,7 @@ export class Items extends APIResource {
   }
 
   /**
-   * List items in the conversation.
+   * List items. List items in the conversation.
    */
   list(
     conversationId: string,
@@ -27,7 +27,7 @@ export class Items extends APIResource {
   }
 
   /**
-   * Retrieve a conversation item.
+   * Retrieve an item. Retrieve a conversation item.
    */
   get(
     conversationId: string,
@@ -44,9 +44,12 @@ export class Items extends APIResource {
 export interface ItemCreateResponse {
   data: Array<
     | ItemCreateResponse.OpenAIResponseMessage
-    | ItemCreateResponse.OpenAIResponseOutputMessageFunctionToolCall
-    | ItemCreateResponse.OpenAIResponseOutputMessageFileSearchToolCall
     | ItemCreateResponse.OpenAIResponseOutputMessageWebSearchToolCall
+    | ItemCreateResponse.OpenAIResponseOutputMessageFileSearchToolCall
+    | ItemCreateResponse.OpenAIResponseOutputMessageFunctionToolCall
+    | ItemCreateResponse.OpenAIResponseInputFunctionToolCallOutput
+    | ItemCreateResponse.OpenAIResponseMcpApprovalRequest
+    | ItemCreateResponse.OpenAIResponseMcpApprovalResponse
     | ItemCreateResponse.OpenAIResponseOutputMessageMcpCall
     | ItemCreateResponse.OpenAIResponseOutputMessageMcpListTools
   >;
@@ -73,7 +76,10 @@ export namespace ItemCreateResponse {
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
         >
-      | Array<OpenAIResponseMessage.UnionMember2>;
+      | Array<
+          | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessage.OpenAIResponseContentPartRefusal
+        >;
 
     role: 'system' | 'developer' | 'user' | 'assistant';
 
@@ -120,12 +126,12 @@ export namespace ItemCreateResponse {
       image_url?: string;
     }
 
-    export interface UnionMember2 {
+    export interface OpenAIResponseOutputMessageContentOutputText {
       annotations: Array<
-        | UnionMember2.OpenAIResponseAnnotationFileCitation
-        | UnionMember2.OpenAIResponseAnnotationCitation
-        | UnionMember2.OpenAIResponseAnnotationContainerFileCitation
-        | UnionMember2.OpenAIResponseAnnotationFilePath
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
       >;
 
       text: string;
@@ -133,7 +139,7 @@ export namespace ItemCreateResponse {
       type: 'output_text';
     }
 
-    export namespace UnionMember2 {
+    export namespace OpenAIResponseOutputMessageContentOutputText {
       /**
        * File citation annotation for referencing specific files in response content.
        */
@@ -211,41 +217,41 @@ export namespace ItemCreateResponse {
         type: 'file_path';
       }
     }
+
+    /**
+     * Refusal content within a streamed response part.
+     */
+    export interface OpenAIResponseContentPartRefusal {
+      /**
+       * Refusal text supplied by the model
+       */
+      refusal: string;
+
+      /**
+       * Content part type identifier, always "refusal"
+       */
+      type: 'refusal';
+    }
   }
 
   /**
-   * Function tool call output message for OpenAI responses.
+   * Web search tool call output message for OpenAI responses.
    */
-  export interface OpenAIResponseOutputMessageFunctionToolCall {
+  export interface OpenAIResponseOutputMessageWebSearchToolCall {
     /**
-     * JSON string containing the function arguments
+     * Unique identifier for this tool call
      */
-    arguments: string;
+    id: string;
 
     /**
-     * Unique identifier for the function call
+     * Current status of the web search operation
      */
-    call_id: string;
+    status: string;
 
     /**
-     * Name of the function being called
+     * Tool call type identifier, always "web_search_call"
      */
-    name: string;
-
-    /**
-     * Tool call type identifier, always "function_call"
-     */
-    type: 'function_call';
-
-    /**
-     * (Optional) Additional identifier for the tool call
-     */
-    id?: string;
-
-    /**
-     * (Optional) Current status of the function call execution
-     */
-    status?: string;
+    type: 'web_search_call';
   }
 
   /**
@@ -311,23 +317,84 @@ export namespace ItemCreateResponse {
   }
 
   /**
-   * Web search tool call output message for OpenAI responses.
+   * Function tool call output message for OpenAI responses.
    */
-  export interface OpenAIResponseOutputMessageWebSearchToolCall {
+  export interface OpenAIResponseOutputMessageFunctionToolCall {
     /**
-     * Unique identifier for this tool call
+     * JSON string containing the function arguments
      */
+    arguments: string;
+
+    /**
+     * Unique identifier for the function call
+     */
+    call_id: string;
+
+    /**
+     * Name of the function being called
+     */
+    name: string;
+
+    /**
+     * Tool call type identifier, always "function_call"
+     */
+    type: 'function_call';
+
+    /**
+     * (Optional) Additional identifier for the tool call
+     */
+    id?: string;
+
+    /**
+     * (Optional) Current status of the function call execution
+     */
+    status?: string;
+  }
+
+  /**
+   * This represents the output of a function call that gets passed back to the
+   * model.
+   */
+  export interface OpenAIResponseInputFunctionToolCallOutput {
+    call_id: string;
+
+    output: string;
+
+    type: 'function_call_output';
+
+    id?: string;
+
+    status?: string;
+  }
+
+  /**
+   * A request for human approval of a tool invocation.
+   */
+  export interface OpenAIResponseMcpApprovalRequest {
     id: string;
 
-    /**
-     * Current status of the web search operation
-     */
-    status: string;
+    arguments: string;
 
-    /**
-     * Tool call type identifier, always "web_search_call"
-     */
-    type: 'web_search_call';
+    name: string;
+
+    server_label: string;
+
+    type: 'mcp_approval_request';
+  }
+
+  /**
+   * A response to an MCP approval request.
+   */
+  export interface OpenAIResponseMcpApprovalResponse {
+    approval_request_id: string;
+
+    approve: boolean;
+
+    type: 'mcp_approval_response';
+
+    id?: string;
+
+    reason?: string;
   }
 
   /**
@@ -424,9 +491,12 @@ export namespace ItemCreateResponse {
 export interface ItemListResponse {
   data: Array<
     | ItemListResponse.OpenAIResponseMessage
-    | ItemListResponse.OpenAIResponseOutputMessageFunctionToolCall
-    | ItemListResponse.OpenAIResponseOutputMessageFileSearchToolCall
     | ItemListResponse.OpenAIResponseOutputMessageWebSearchToolCall
+    | ItemListResponse.OpenAIResponseOutputMessageFileSearchToolCall
+    | ItemListResponse.OpenAIResponseOutputMessageFunctionToolCall
+    | ItemListResponse.OpenAIResponseInputFunctionToolCallOutput
+    | ItemListResponse.OpenAIResponseMcpApprovalRequest
+    | ItemListResponse.OpenAIResponseMcpApprovalResponse
     | ItemListResponse.OpenAIResponseOutputMessageMcpCall
     | ItemListResponse.OpenAIResponseOutputMessageMcpListTools
   >;
@@ -453,7 +523,10 @@ export namespace ItemListResponse {
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
         >
-      | Array<OpenAIResponseMessage.UnionMember2>;
+      | Array<
+          | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessage.OpenAIResponseContentPartRefusal
+        >;
 
     role: 'system' | 'developer' | 'user' | 'assistant';
 
@@ -500,12 +573,12 @@ export namespace ItemListResponse {
       image_url?: string;
     }
 
-    export interface UnionMember2 {
+    export interface OpenAIResponseOutputMessageContentOutputText {
       annotations: Array<
-        | UnionMember2.OpenAIResponseAnnotationFileCitation
-        | UnionMember2.OpenAIResponseAnnotationCitation
-        | UnionMember2.OpenAIResponseAnnotationContainerFileCitation
-        | UnionMember2.OpenAIResponseAnnotationFilePath
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
       >;
 
       text: string;
@@ -513,7 +586,7 @@ export namespace ItemListResponse {
       type: 'output_text';
     }
 
-    export namespace UnionMember2 {
+    export namespace OpenAIResponseOutputMessageContentOutputText {
       /**
        * File citation annotation for referencing specific files in response content.
        */
@@ -591,41 +664,41 @@ export namespace ItemListResponse {
         type: 'file_path';
       }
     }
+
+    /**
+     * Refusal content within a streamed response part.
+     */
+    export interface OpenAIResponseContentPartRefusal {
+      /**
+       * Refusal text supplied by the model
+       */
+      refusal: string;
+
+      /**
+       * Content part type identifier, always "refusal"
+       */
+      type: 'refusal';
+    }
   }
 
   /**
-   * Function tool call output message for OpenAI responses.
+   * Web search tool call output message for OpenAI responses.
    */
-  export interface OpenAIResponseOutputMessageFunctionToolCall {
+  export interface OpenAIResponseOutputMessageWebSearchToolCall {
     /**
-     * JSON string containing the function arguments
+     * Unique identifier for this tool call
      */
-    arguments: string;
+    id: string;
 
     /**
-     * Unique identifier for the function call
+     * Current status of the web search operation
      */
-    call_id: string;
+    status: string;
 
     /**
-     * Name of the function being called
+     * Tool call type identifier, always "web_search_call"
      */
-    name: string;
-
-    /**
-     * Tool call type identifier, always "function_call"
-     */
-    type: 'function_call';
-
-    /**
-     * (Optional) Additional identifier for the tool call
-     */
-    id?: string;
-
-    /**
-     * (Optional) Current status of the function call execution
-     */
-    status?: string;
+    type: 'web_search_call';
   }
 
   /**
@@ -691,23 +764,84 @@ export namespace ItemListResponse {
   }
 
   /**
-   * Web search tool call output message for OpenAI responses.
+   * Function tool call output message for OpenAI responses.
    */
-  export interface OpenAIResponseOutputMessageWebSearchToolCall {
+  export interface OpenAIResponseOutputMessageFunctionToolCall {
     /**
-     * Unique identifier for this tool call
+     * JSON string containing the function arguments
      */
+    arguments: string;
+
+    /**
+     * Unique identifier for the function call
+     */
+    call_id: string;
+
+    /**
+     * Name of the function being called
+     */
+    name: string;
+
+    /**
+     * Tool call type identifier, always "function_call"
+     */
+    type: 'function_call';
+
+    /**
+     * (Optional) Additional identifier for the tool call
+     */
+    id?: string;
+
+    /**
+     * (Optional) Current status of the function call execution
+     */
+    status?: string;
+  }
+
+  /**
+   * This represents the output of a function call that gets passed back to the
+   * model.
+   */
+  export interface OpenAIResponseInputFunctionToolCallOutput {
+    call_id: string;
+
+    output: string;
+
+    type: 'function_call_output';
+
+    id?: string;
+
+    status?: string;
+  }
+
+  /**
+   * A request for human approval of a tool invocation.
+   */
+  export interface OpenAIResponseMcpApprovalRequest {
     id: string;
 
-    /**
-     * Current status of the web search operation
-     */
-    status: string;
+    arguments: string;
 
-    /**
-     * Tool call type identifier, always "web_search_call"
-     */
-    type: 'web_search_call';
+    name: string;
+
+    server_label: string;
+
+    type: 'mcp_approval_request';
+  }
+
+  /**
+   * A response to an MCP approval request.
+   */
+  export interface OpenAIResponseMcpApprovalResponse {
+    approval_request_id: string;
+
+    approve: boolean;
+
+    type: 'mcp_approval_response';
+
+    id?: string;
+
+    reason?: string;
   }
 
   /**
@@ -805,9 +939,12 @@ export namespace ItemListResponse {
  */
 export type ItemGetResponse =
   | ItemGetResponse.OpenAIResponseMessage
-  | ItemGetResponse.OpenAIResponseOutputMessageFunctionToolCall
-  | ItemGetResponse.OpenAIResponseOutputMessageFileSearchToolCall
   | ItemGetResponse.OpenAIResponseOutputMessageWebSearchToolCall
+  | ItemGetResponse.OpenAIResponseOutputMessageFileSearchToolCall
+  | ItemGetResponse.OpenAIResponseOutputMessageFunctionToolCall
+  | ItemGetResponse.OpenAIResponseInputFunctionToolCallOutput
+  | ItemGetResponse.OpenAIResponseMcpApprovalRequest
+  | ItemGetResponse.OpenAIResponseMcpApprovalResponse
   | ItemGetResponse.OpenAIResponseOutputMessageMcpCall
   | ItemGetResponse.OpenAIResponseOutputMessageMcpListTools;
 
@@ -824,7 +961,10 @@ export namespace ItemGetResponse {
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
         >
-      | Array<OpenAIResponseMessage.UnionMember2>;
+      | Array<
+          | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessage.OpenAIResponseContentPartRefusal
+        >;
 
     role: 'system' | 'developer' | 'user' | 'assistant';
 
@@ -871,12 +1011,12 @@ export namespace ItemGetResponse {
       image_url?: string;
     }
 
-    export interface UnionMember2 {
+    export interface OpenAIResponseOutputMessageContentOutputText {
       annotations: Array<
-        | UnionMember2.OpenAIResponseAnnotationFileCitation
-        | UnionMember2.OpenAIResponseAnnotationCitation
-        | UnionMember2.OpenAIResponseAnnotationContainerFileCitation
-        | UnionMember2.OpenAIResponseAnnotationFilePath
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
       >;
 
       text: string;
@@ -884,7 +1024,7 @@ export namespace ItemGetResponse {
       type: 'output_text';
     }
 
-    export namespace UnionMember2 {
+    export namespace OpenAIResponseOutputMessageContentOutputText {
       /**
        * File citation annotation for referencing specific files in response content.
        */
@@ -962,41 +1102,41 @@ export namespace ItemGetResponse {
         type: 'file_path';
       }
     }
+
+    /**
+     * Refusal content within a streamed response part.
+     */
+    export interface OpenAIResponseContentPartRefusal {
+      /**
+       * Refusal text supplied by the model
+       */
+      refusal: string;
+
+      /**
+       * Content part type identifier, always "refusal"
+       */
+      type: 'refusal';
+    }
   }
 
   /**
-   * Function tool call output message for OpenAI responses.
+   * Web search tool call output message for OpenAI responses.
    */
-  export interface OpenAIResponseOutputMessageFunctionToolCall {
+  export interface OpenAIResponseOutputMessageWebSearchToolCall {
     /**
-     * JSON string containing the function arguments
+     * Unique identifier for this tool call
      */
-    arguments: string;
+    id: string;
 
     /**
-     * Unique identifier for the function call
+     * Current status of the web search operation
      */
-    call_id: string;
+    status: string;
 
     /**
-     * Name of the function being called
+     * Tool call type identifier, always "web_search_call"
      */
-    name: string;
-
-    /**
-     * Tool call type identifier, always "function_call"
-     */
-    type: 'function_call';
-
-    /**
-     * (Optional) Additional identifier for the tool call
-     */
-    id?: string;
-
-    /**
-     * (Optional) Current status of the function call execution
-     */
-    status?: string;
+    type: 'web_search_call';
   }
 
   /**
@@ -1062,23 +1202,84 @@ export namespace ItemGetResponse {
   }
 
   /**
-   * Web search tool call output message for OpenAI responses.
+   * Function tool call output message for OpenAI responses.
    */
-  export interface OpenAIResponseOutputMessageWebSearchToolCall {
+  export interface OpenAIResponseOutputMessageFunctionToolCall {
     /**
-     * Unique identifier for this tool call
+     * JSON string containing the function arguments
      */
+    arguments: string;
+
+    /**
+     * Unique identifier for the function call
+     */
+    call_id: string;
+
+    /**
+     * Name of the function being called
+     */
+    name: string;
+
+    /**
+     * Tool call type identifier, always "function_call"
+     */
+    type: 'function_call';
+
+    /**
+     * (Optional) Additional identifier for the tool call
+     */
+    id?: string;
+
+    /**
+     * (Optional) Current status of the function call execution
+     */
+    status?: string;
+  }
+
+  /**
+   * This represents the output of a function call that gets passed back to the
+   * model.
+   */
+  export interface OpenAIResponseInputFunctionToolCallOutput {
+    call_id: string;
+
+    output: string;
+
+    type: 'function_call_output';
+
+    id?: string;
+
+    status?: string;
+  }
+
+  /**
+   * A request for human approval of a tool invocation.
+   */
+  export interface OpenAIResponseMcpApprovalRequest {
     id: string;
 
-    /**
-     * Current status of the web search operation
-     */
-    status: string;
+    arguments: string;
 
-    /**
-     * Tool call type identifier, always "web_search_call"
-     */
-    type: 'web_search_call';
+    name: string;
+
+    server_label: string;
+
+    type: 'mcp_approval_request';
+  }
+
+  /**
+   * A response to an MCP approval request.
+   */
+  export interface OpenAIResponseMcpApprovalResponse {
+    approval_request_id: string;
+
+    approve: boolean;
+
+    type: 'mcp_approval_response';
+
+    id?: string;
+
+    reason?: string;
   }
 
   /**
@@ -1175,9 +1376,12 @@ export interface ItemCreateParams {
    */
   items: Array<
     | ItemCreateParams.OpenAIResponseMessage
-    | ItemCreateParams.OpenAIResponseOutputMessageFunctionToolCall
-    | ItemCreateParams.OpenAIResponseOutputMessageFileSearchToolCall
     | ItemCreateParams.OpenAIResponseOutputMessageWebSearchToolCall
+    | ItemCreateParams.OpenAIResponseOutputMessageFileSearchToolCall
+    | ItemCreateParams.OpenAIResponseOutputMessageFunctionToolCall
+    | ItemCreateParams.OpenAIResponseInputFunctionToolCallOutput
+    | ItemCreateParams.OpenAIResponseMcpApprovalRequest
+    | ItemCreateParams.OpenAIResponseMcpApprovalResponse
     | ItemCreateParams.OpenAIResponseOutputMessageMcpCall
     | ItemCreateParams.OpenAIResponseOutputMessageMcpListTools
   >;
@@ -1196,7 +1400,10 @@ export namespace ItemCreateParams {
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
         >
-      | Array<OpenAIResponseMessage.UnionMember2>;
+      | Array<
+          | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessage.OpenAIResponseContentPartRefusal
+        >;
 
     role: 'system' | 'developer' | 'user' | 'assistant';
 
@@ -1243,12 +1450,12 @@ export namespace ItemCreateParams {
       image_url?: string;
     }
 
-    export interface UnionMember2 {
+    export interface OpenAIResponseOutputMessageContentOutputText {
       annotations: Array<
-        | UnionMember2.OpenAIResponseAnnotationFileCitation
-        | UnionMember2.OpenAIResponseAnnotationCitation
-        | UnionMember2.OpenAIResponseAnnotationContainerFileCitation
-        | UnionMember2.OpenAIResponseAnnotationFilePath
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
       >;
 
       text: string;
@@ -1256,7 +1463,7 @@ export namespace ItemCreateParams {
       type: 'output_text';
     }
 
-    export namespace UnionMember2 {
+    export namespace OpenAIResponseOutputMessageContentOutputText {
       /**
        * File citation annotation for referencing specific files in response content.
        */
@@ -1334,41 +1541,41 @@ export namespace ItemCreateParams {
         type: 'file_path';
       }
     }
+
+    /**
+     * Refusal content within a streamed response part.
+     */
+    export interface OpenAIResponseContentPartRefusal {
+      /**
+       * Refusal text supplied by the model
+       */
+      refusal: string;
+
+      /**
+       * Content part type identifier, always "refusal"
+       */
+      type: 'refusal';
+    }
   }
 
   /**
-   * Function tool call output message for OpenAI responses.
+   * Web search tool call output message for OpenAI responses.
    */
-  export interface OpenAIResponseOutputMessageFunctionToolCall {
+  export interface OpenAIResponseOutputMessageWebSearchToolCall {
     /**
-     * JSON string containing the function arguments
+     * Unique identifier for this tool call
      */
-    arguments: string;
+    id: string;
 
     /**
-     * Unique identifier for the function call
+     * Current status of the web search operation
      */
-    call_id: string;
+    status: string;
 
     /**
-     * Name of the function being called
+     * Tool call type identifier, always "web_search_call"
      */
-    name: string;
-
-    /**
-     * Tool call type identifier, always "function_call"
-     */
-    type: 'function_call';
-
-    /**
-     * (Optional) Additional identifier for the tool call
-     */
-    id?: string;
-
-    /**
-     * (Optional) Current status of the function call execution
-     */
-    status?: string;
+    type: 'web_search_call';
   }
 
   /**
@@ -1434,23 +1641,84 @@ export namespace ItemCreateParams {
   }
 
   /**
-   * Web search tool call output message for OpenAI responses.
+   * Function tool call output message for OpenAI responses.
    */
-  export interface OpenAIResponseOutputMessageWebSearchToolCall {
+  export interface OpenAIResponseOutputMessageFunctionToolCall {
     /**
-     * Unique identifier for this tool call
+     * JSON string containing the function arguments
      */
+    arguments: string;
+
+    /**
+     * Unique identifier for the function call
+     */
+    call_id: string;
+
+    /**
+     * Name of the function being called
+     */
+    name: string;
+
+    /**
+     * Tool call type identifier, always "function_call"
+     */
+    type: 'function_call';
+
+    /**
+     * (Optional) Additional identifier for the tool call
+     */
+    id?: string;
+
+    /**
+     * (Optional) Current status of the function call execution
+     */
+    status?: string;
+  }
+
+  /**
+   * This represents the output of a function call that gets passed back to the
+   * model.
+   */
+  export interface OpenAIResponseInputFunctionToolCallOutput {
+    call_id: string;
+
+    output: string;
+
+    type: 'function_call_output';
+
+    id?: string;
+
+    status?: string;
+  }
+
+  /**
+   * A request for human approval of a tool invocation.
+   */
+  export interface OpenAIResponseMcpApprovalRequest {
     id: string;
 
-    /**
-     * Current status of the web search operation
-     */
-    status: string;
+    arguments: string;
 
-    /**
-     * Tool call type identifier, always "web_search_call"
-     */
-    type: 'web_search_call';
+    name: string;
+
+    server_label: string;
+
+    type: 'mcp_approval_request';
+  }
+
+  /**
+   * A response to an MCP approval request.
+   */
+  export interface OpenAIResponseMcpApprovalResponse {
+    approval_request_id: string;
+
+    approve: boolean;
+
+    type: 'mcp_approval_response';
+
+    id?: string;
+
+    reason?: string;
   }
 
   /**

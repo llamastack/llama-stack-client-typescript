@@ -137,7 +137,7 @@ export interface MemoryRetrievalStep {
   /**
    * The IDs of the vector databases to retrieve context from.
    */
-  vector_db_ids: string;
+  vector_store_ids: string;
 
   /**
    * The time the step completed.

@@ -27,17 +27,6 @@ import {
   CompletionCreateResponse,
   Completions,
 } from './resources/completions';
-import {
-  DatasetAppendrowsParams,
-  DatasetIterrowsParams,
-  DatasetIterrowsResponse,
-  DatasetListResponse,
-  DatasetRegisterParams,
-  DatasetRegisterResponse,
-  DatasetRetrieveResponse,
-  Datasets,
-  ListDatasetsResponse,
-} from './resources/datasets';
 import { CreateEmbeddingsResponse, EmbeddingCreateParams, Embeddings } from './resources/embeddings';
 import {
   DeleteFileResponse,
@@ -82,24 +71,6 @@ import {
   SyntheticDataGenerationResponse,
 } from './resources/synthetic-data-generation';
 import {
-  Event,
-  QueryCondition,
-  QuerySpansResponse,
-  SpanWithStatus,
-  Telemetry,
-  TelemetryGetSpanResponse,
-  TelemetryGetSpanTreeParams,
-  TelemetryGetSpanTreeResponse,
-  TelemetryQueryMetricsParams,
-  TelemetryQueryMetricsResponse,
-  TelemetryQuerySpansParams,
-  TelemetryQuerySpansResponse,
-  TelemetryQueryTracesParams,
-  TelemetryQueryTracesResponse,
-  TelemetrySaveSpansToDatasetParams,
-  Trace,
-} from './resources/telemetry';
-import {
   ListToolGroupsResponse,
   ToolGroup,
   ToolgroupListResponse,
@@ -114,6 +85,7 @@ import {
   VectorIoQueryParams,
 } from './resources/vector-io';
 import { Alpha } from './resources/alpha/alpha';
+import { Beta } from './resources/beta/beta';
 import { Chat, ChatCompletionChunk } from './resources/chat/chat';
 import {
   ConversationCreateParams,
@@ -277,7 +249,6 @@ export class LlamaStackClient extends Core.APIClient {
   toolRuntime: API.ToolRuntime = new API.ToolRuntime(this);
   responses: API.Responses = new API.Responses(this);
   conversations: API.Conversations = new API.Conversations(this);
-  datasets: API.Datasets = new API.Datasets(this);
   inspect: API.Inspect = new API.Inspect(this);
   embeddings: API.Embeddings = new API.Embeddings(this);
   chat: API.Chat = new API.Chat(this);
@@ -291,11 +262,11 @@ export class LlamaStackClient extends Core.APIClient {
   safety: API.Safety = new API.Safety(this);
   shields: API.Shields = new API.Shields(this);
   syntheticDataGeneration: API.SyntheticDataGeneration = new API.SyntheticDataGeneration(this);
-  telemetry: API.Telemetry = new API.Telemetry(this);
   scoring: API.Scoring = new API.Scoring(this);
   scoringFunctions: API.ScoringFunctions = new API.ScoringFunctions(this);
   benchmarks: API.Benchmarks = new API.Benchmarks(this);
   files: API.Files = new API.Files(this);
+  beta: API.Beta = new API.Beta(this);
   alpha: API.Alpha = new API.Alpha(this);
 
   /**
@@ -354,7 +325,6 @@ LlamaStackClient.ToolRuntime = ToolRuntime;
 LlamaStackClient.Responses = Responses;
 LlamaStackClient.ResponseListResponsesOpenAICursorPage = ResponseListResponsesOpenAICursorPage;
 LlamaStackClient.Conversations = Conversations;
-LlamaStackClient.Datasets = Datasets;
 LlamaStackClient.Inspect = Inspect;
 LlamaStackClient.Embeddings = Embeddings;
 LlamaStackClient.Chat = Chat;
@@ -369,12 +339,12 @@ LlamaStackClient.Moderations = Moderations;
 LlamaStackClient.Safety = Safety;
 LlamaStackClient.Shields = Shields;
 LlamaStackClient.SyntheticDataGeneration = SyntheticDataGeneration;
-LlamaStackClient.Telemetry = Telemetry;
 LlamaStackClient.Scoring = Scoring;
 LlamaStackClient.ScoringFunctions = ScoringFunctions;
 LlamaStackClient.Benchmarks = Benchmarks;
 LlamaStackClient.Files = Files;
 LlamaStackClient.FilesOpenAICursorPage = FilesOpenAICursorPage;
+LlamaStackClient.Beta = Beta;
 LlamaStackClient.Alpha = Alpha;
 
 export declare namespace LlamaStackClient {
@@ -430,18 +400,6 @@ export declare namespace LlamaStackClient {
     type ConversationDeleteResponse as ConversationDeleteResponse,
     type ConversationCreateParams as ConversationCreateParams,
     type ConversationUpdateParams as ConversationUpdateParams,
-  };
-
-  export {
-    Datasets as Datasets,
-    type ListDatasetsResponse as ListDatasetsResponse,
-    type DatasetRetrieveResponse as DatasetRetrieveResponse,
-    type DatasetListResponse as DatasetListResponse,
-    type DatasetIterrowsResponse as DatasetIterrowsResponse,
-    type DatasetRegisterResponse as DatasetRegisterResponse,
-    type DatasetAppendrowsParams as DatasetAppendrowsParams,
-    type DatasetIterrowsParams as DatasetIterrowsParams,
-    type DatasetRegisterParams as DatasetRegisterParams,
   };
 
   export {
@@ -535,25 +493,6 @@ export declare namespace LlamaStackClient {
   };
 
   export {
-    Telemetry as Telemetry,
-    type Event as Event,
-    type QueryCondition as QueryCondition,
-    type QuerySpansResponse as QuerySpansResponse,
-    type SpanWithStatus as SpanWithStatus,
-    type Trace as Trace,
-    type TelemetryGetSpanResponse as TelemetryGetSpanResponse,
-    type TelemetryGetSpanTreeResponse as TelemetryGetSpanTreeResponse,
-    type TelemetryQueryMetricsResponse as TelemetryQueryMetricsResponse,
-    type TelemetryQuerySpansResponse as TelemetryQuerySpansResponse,
-    type TelemetryQueryTracesResponse as TelemetryQueryTracesResponse,
-    type TelemetryGetSpanTreeParams as TelemetryGetSpanTreeParams,
-    type TelemetryQueryMetricsParams as TelemetryQueryMetricsParams,
-    type TelemetryQuerySpansParams as TelemetryQuerySpansParams,
-    type TelemetryQueryTracesParams as TelemetryQueryTracesParams,
-    type TelemetrySaveSpansToDatasetParams as TelemetrySaveSpansToDatasetParams,
-  };
-
-  export {
     Scoring as Scoring,
     type ScoringScoreResponse as ScoringScoreResponse,
     type ScoringScoreBatchResponse as ScoringScoreBatchResponse,
@@ -588,6 +527,8 @@ export declare namespace LlamaStackClient {
     type FileCreateParams as FileCreateParams,
     type FileListParams as FileListParams,
   };
+
+  export { Beta as Beta };
 
   export { Alpha as Alpha };
 
