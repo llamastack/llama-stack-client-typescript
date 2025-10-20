@@ -27,10 +27,7 @@ import LlamaStackClient from 'llama-stack-client';
 
 const client = new LlamaStackClient();
 
-const page = await client.chat.completions.list();
-const completionListResponse = page.data[0];
-
-console.log(completionListResponse.id);
+const models = await client.models.list();
 ```
 
 ### Request & Response types
@@ -43,8 +40,7 @@ import LlamaStackClient from 'llama-stack-client';
 
 const client = new LlamaStackClient();
 
-const [completionListResponse]: [LlamaStackClient.Chat.CompletionListResponse] =
-  await client.chat.completions.list();
+const models: LlamaStackClient.ModelListResponse = await client.models.list();
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -87,7 +83,7 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const page = await client.chat.completions.list().catch(async (err) => {
+const models = await client.models.list().catch(async (err) => {
   if (err instanceof LlamaStackClient.APIError) {
     console.log(err.status); // 400
     console.log(err.name); // BadRequestError
@@ -127,7 +123,7 @@ const client = new LlamaStackClient({
 });
 
 // Or, configure per-request:
-await client.chat.completions.list({
+await client.models.list({
   maxRetries: 5,
 });
 ```
@@ -144,7 +140,7 @@ const client = new LlamaStackClient({
 });
 
 // Override per-request:
-await client.chat.completions.list({
+await client.models.list({
   timeout: 5 * 1000,
 });
 ```
@@ -152,37 +148,6 @@ await client.chat.completions.list({
 On timeout, an `APIConnectionTimeoutError` is thrown.
 
 Note that requests which time out will be [retried twice by default](#retries).
-
-## Auto-pagination
-
-List methods in the LlamaStackClient API are paginated.
-You can use the `for await … of` syntax to iterate through items across all pages:
-
-```ts
-async function fetchAllCompletionListResponses(params) {
-  const allCompletionListResponses = [];
-  // Automatically fetches more pages as needed.
-  for await (const completionListResponse of client.chat.completions.list()) {
-    allCompletionListResponses.push(completionListResponse);
-  }
-  return allCompletionListResponses;
-}
-```
-
-Alternatively, you can request a single page at a time:
-
-```ts
-let page = await client.chat.completions.list();
-for (const completionListResponse of page.data) {
-  console.log(completionListResponse);
-}
-
-// Convenience methods are provided for manually paginating:
-while (page.hasNextPage()) {
-  page = await page.getNextPage();
-  // ...
-}
-```
 
 ## Advanced Usage
 
@@ -196,15 +161,13 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new LlamaStackClient();
 
-const response = await client.chat.completions.list().asResponse();
+const response = await client.models.list().asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: page, response: raw } = await client.chat.completions.list().withResponse();
+const { data: models, response: raw } = await client.models.list().withResponse();
 console.log(raw.headers.get('X-My-Header'));
-for await (const completionListResponse of page) {
-  console.log(completionListResponse.id);
-}
+console.log(models);
 ```
 
 ### Making custom/undocumented requests
@@ -308,7 +271,7 @@ const client = new LlamaStackClient({
 });
 
 // Override per-request:
-await client.chat.completions.list({
+await client.models.list({
   httpAgent: new http.Agent({ keepAlive: false }),
 });
 ```
