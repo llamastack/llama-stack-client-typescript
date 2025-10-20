@@ -349,3 +349,7 @@ If you are interested in other runtime environments, please open or upvote an is
 ## Contributing
 
 See [the contributing documentation](./CONTRIBUTING.md).
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

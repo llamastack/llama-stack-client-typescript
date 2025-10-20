@@ -1,3 +1,9 @@
+// Copyright (c) Meta Platforms, Inc. and affiliates.
+// All rights reserved.
+//
+// This source code is licensed under the terms described in the LICENSE file in
+// the root directory of this source tree.
+
 import { encode, is_buffer, maybe_map } from './utils';
 import { default_format, formatters } from './formats';
 import type { NonNullableProperties, StringifyOptions } from './types';
