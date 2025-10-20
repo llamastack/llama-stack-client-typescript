@@ -27,9 +27,10 @@ import LlamaStackClient from 'llama-stack-client';
 
 const client = new LlamaStackClient();
 
-const model = await client.models.register({ model_id: 'model_id' });
+const page = await client.chat.completions.list();
+const completionListResponse = page.data[0];
 
-console.log(model.identifier);
+console.log(completionListResponse.id);
 ```
 
 ### Request & Response types
