@@ -132,6 +132,11 @@ export interface ResponseObject {
   error?: ResponseObject.Error;
 
   /**
+   * (Optional) System message inserted into the model's context
+   */
+  instructions?: string;
+
+  /**
    * (Optional) ID of the previous response in a conversation
    */
   previous_response_id?: string;
@@ -180,7 +185,10 @@ export namespace ResponseObject {
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
         >
-      | Array<OpenAIResponseMessage.UnionMember2>;
+      | Array<
+          | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessage.OpenAIResponseContentPartRefusal
+        >;
 
     role: 'system' | 'developer' | 'user' | 'assistant';
 
@@ -227,12 +235,12 @@ export namespace ResponseObject {
       image_url?: string;
     }
 
-    export interface UnionMember2 {
+    export interface OpenAIResponseOutputMessageContentOutputText {
       annotations: Array<
-        | UnionMember2.OpenAIResponseAnnotationFileCitation
-        | UnionMember2.OpenAIResponseAnnotationCitation
-        | UnionMember2.OpenAIResponseAnnotationContainerFileCitation
-        | UnionMember2.OpenAIResponseAnnotationFilePath
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
       >;
 
       text: string;
@@ -240,7 +248,7 @@ export namespace ResponseObject {
       type: 'output_text';
     }
 
-    export namespace UnionMember2 {
+    export namespace OpenAIResponseOutputMessageContentOutputText {
       /**
        * File citation annotation for referencing specific files in response content.
        */
@@ -317,6 +325,21 @@ export namespace ResponseObject {
 
         type: 'file_path';
       }
+    }
+
+    /**
+     * Refusal content within a streamed response part.
+     */
+    export interface OpenAIResponseContentPartRefusal {
+      /**
+       * Refusal text supplied by the model
+       */
+      refusal: string;
+
+      /**
+       * Content part type identifier, always "refusal"
+       */
+      type: 'refusal';
     }
   }
 
@@ -902,7 +925,10 @@ export namespace ResponseObjectStream {
             | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
             | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
           >
-        | Array<OpenAIResponseMessage.UnionMember2>;
+        | Array<
+            | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
+            | OpenAIResponseMessage.OpenAIResponseContentPartRefusal
+          >;
 
       role: 'system' | 'developer' | 'user' | 'assistant';
 
@@ -949,12 +975,12 @@ export namespace ResponseObjectStream {
         image_url?: string;
       }
 
-      export interface UnionMember2 {
+      export interface OpenAIResponseOutputMessageContentOutputText {
         annotations: Array<
-          | UnionMember2.OpenAIResponseAnnotationFileCitation
-          | UnionMember2.OpenAIResponseAnnotationCitation
-          | UnionMember2.OpenAIResponseAnnotationContainerFileCitation
-          | UnionMember2.OpenAIResponseAnnotationFilePath
+          | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
+          | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
+          | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
+          | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
         >;
 
         text: string;
@@ -962,7 +988,7 @@ export namespace ResponseObjectStream {
         type: 'output_text';
       }
 
-      export namespace UnionMember2 {
+      export namespace OpenAIResponseOutputMessageContentOutputText {
         /**
          * File citation annotation for referencing specific files in response content.
          */
@@ -1039,6 +1065,21 @@ export namespace ResponseObjectStream {
 
           type: 'file_path';
         }
+      }
+
+      /**
+       * Refusal content within a streamed response part.
+       */
+      export interface OpenAIResponseContentPartRefusal {
+        /**
+         * Refusal text supplied by the model
+         */
+        refusal: string;
+
+        /**
+         * Content part type identifier, always "refusal"
+         */
+        type: 'refusal';
       }
     }
 
@@ -1312,7 +1353,10 @@ export namespace ResponseObjectStream {
             | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
             | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
           >
-        | Array<OpenAIResponseMessage.UnionMember2>;
+        | Array<
+            | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
+            | OpenAIResponseMessage.OpenAIResponseContentPartRefusal
+          >;
 
       role: 'system' | 'developer' | 'user' | 'assistant';
 
@@ -1359,12 +1403,12 @@ export namespace ResponseObjectStream {
         image_url?: string;
       }
 
-      export interface UnionMember2 {
+      export interface OpenAIResponseOutputMessageContentOutputText {
         annotations: Array<
-          | UnionMember2.OpenAIResponseAnnotationFileCitation
-          | UnionMember2.OpenAIResponseAnnotationCitation
-          | UnionMember2.OpenAIResponseAnnotationContainerFileCitation
-          | UnionMember2.OpenAIResponseAnnotationFilePath
+          | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
+          | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
+          | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
+          | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
         >;
 
         text: string;
@@ -1372,7 +1416,7 @@ export namespace ResponseObjectStream {
         type: 'output_text';
       }
 
-      export namespace UnionMember2 {
+      export namespace OpenAIResponseOutputMessageContentOutputText {
         /**
          * File citation annotation for referencing specific files in response content.
          */
@@ -1449,6 +1493,21 @@ export namespace ResponseObjectStream {
 
           type: 'file_path';
         }
+      }
+
+      /**
+       * Refusal content within a streamed response part.
+       */
+      export interface OpenAIResponseContentPartRefusal {
+        /**
+         * Refusal text supplied by the model
+         */
+        refusal: string;
+
+        /**
+         * Content part type identifier, always "refusal"
+         */
+        type: 'refusal';
       }
     }
 
@@ -2919,6 +2978,8 @@ export interface ResponseListResponse {
     | ResponseListResponse.OpenAIResponseInputFunctionToolCallOutput
     | ResponseListResponse.OpenAIResponseMcpApprovalRequest
     | ResponseListResponse.OpenAIResponseMcpApprovalResponse
+    | ResponseListResponse.OpenAIResponseOutputMessageMcpCall
+    | ResponseListResponse.OpenAIResponseOutputMessageMcpListTools
     | ResponseListResponse.OpenAIResponseMessage
   >;
 
@@ -2964,6 +3025,11 @@ export interface ResponseListResponse {
    * (Optional) Error details if the response generation failed
    */
   error?: ResponseListResponse.Error;
+
+  /**
+   * (Optional) System message inserted into the model's context
+   */
+  instructions?: string;
 
   /**
    * (Optional) ID of the previous response in a conversation
@@ -3166,154 +3232,89 @@ export namespace ResponseListResponse {
   }
 
   /**
-   * Corresponds to the various Message types in the Responses API. They are all
-   * under one type because the Responses API gives them all the same "type" value,
-   * and there is no way to tell them apart in certain scenarios.
+   * Model Context Protocol (MCP) call output message for OpenAI responses.
    */
-  export interface OpenAIResponseMessage {
-    content:
-      | string
-      | Array<
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
-        >
-      | Array<OpenAIResponseMessage.UnionMember2>;
+  export interface OpenAIResponseOutputMessageMcpCall {
+    /**
+     * Unique identifier for this MCP call
+     */
+    id: string;
 
-    role: 'system' | 'developer' | 'user' | 'assistant';
+    /**
+     * JSON string containing the MCP call arguments
+     */
+    arguments: string;
 
-    type: 'message';
+    /**
+     * Name of the MCP method being called
+     */
+    name: string;
 
-    id?: string;
+    /**
+     * Label identifying the MCP server handling the call
+     */
+    server_label: string;
 
-    status?: string;
+    /**
+     * Tool call type identifier, always "mcp_call"
+     */
+    type: 'mcp_call';
+
+    /**
+     * (Optional) Error message if the MCP call failed
+     */
+    error?: string;
+
+    /**
+     * (Optional) Output result from the successful MCP call
+     */
+    output?: string;
   }
 
-  export namespace OpenAIResponseMessage {
+  /**
+   * MCP list tools output message containing available tools from an MCP server.
+   */
+  export interface OpenAIResponseOutputMessageMcpListTools {
     /**
-     * Text content for input messages in OpenAI response format.
+     * Unique identifier for this MCP list tools operation
      */
-    export interface OpenAIResponseInputMessageContentText {
-      /**
-       * The text content of the input message
-       */
-      text: string;
-
-      /**
-       * Content type identifier, always "input_text"
-       */
-      type: 'input_text';
-    }
+    id: string;
 
     /**
-     * Image content for input messages in OpenAI response format.
+     * Label identifying the MCP server providing the tools
      */
-    export interface OpenAIResponseInputMessageContentImage {
+    server_label: string;
+
+    /**
+     * List of available tools provided by the MCP server
+     */
+    tools: Array<OpenAIResponseOutputMessageMcpListTools.Tool>;
+
+    /**
+     * Tool call type identifier, always "mcp_list_tools"
+     */
+    type: 'mcp_list_tools';
+  }
+
+  export namespace OpenAIResponseOutputMessageMcpListTools {
+    /**
+     * Tool definition returned by MCP list tools operation.
+     */
+    export interface Tool {
       /**
-       * Level of detail for image processing, can be "low", "high", or "auto"
+       * JSON schema defining the tool's input parameters
        */
-      detail: 'low' | 'high' | 'auto';
-
-      /**
-       * Content type identifier, always "input_image"
-       */
-      type: 'input_image';
-
-      /**
-       * (Optional) URL of the image content
-       */
-      image_url?: string;
-    }
-
-    export interface UnionMember2 {
-      annotations: Array<
-        | UnionMember2.OpenAIResponseAnnotationFileCitation
-        | UnionMember2.OpenAIResponseAnnotationCitation
-        | UnionMember2.OpenAIResponseAnnotationContainerFileCitation
-        | UnionMember2.OpenAIResponseAnnotationFilePath
-      >;
-
-      text: string;
-
-      type: 'output_text';
-    }
-
-    export namespace UnionMember2 {
-      /**
-       * File citation annotation for referencing specific files in response content.
-       */
-      export interface OpenAIResponseAnnotationFileCitation {
-        /**
-         * Unique identifier of the referenced file
-         */
-        file_id: string;
-
-        /**
-         * Name of the referenced file
-         */
-        filename: string;
-
-        /**
-         * Position index of the citation within the content
-         */
-        index: number;
-
-        /**
-         * Annotation type identifier, always "file_citation"
-         */
-        type: 'file_citation';
-      }
+      input_schema: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
       /**
-       * URL citation annotation for referencing external web resources.
+       * Name of the tool
        */
-      export interface OpenAIResponseAnnotationCitation {
-        /**
-         * End position of the citation span in the content
-         */
-        end_index: number;
+      name: string;
 
-        /**
-         * Start position of the citation span in the content
-         */
-        start_index: number;
-
-        /**
-         * Title of the referenced web resource
-         */
-        title: string;
-
-        /**
-         * Annotation type identifier, always "url_citation"
-         */
-        type: 'url_citation';
-
-        /**
-         * URL of the referenced web resource
-         */
-        url: string;
-      }
-
-      export interface OpenAIResponseAnnotationContainerFileCitation {
-        container_id: string;
-
-        end_index: number;
-
-        file_id: string;
-
-        filename: string;
-
-        start_index: number;
-
-        type: 'container_file_citation';
-      }
-
-      export interface OpenAIResponseAnnotationFilePath {
-        file_id: string;
-
-        index: number;
-
-        type: 'file_path';
-      }
+      /**
+       * (Optional) Description of what the tool does
+       */
+      description?: string;
     }
   }
 
@@ -3329,7 +3330,10 @@ export namespace ResponseListResponse {
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
         >
-      | Array<OpenAIResponseMessage.UnionMember2>;
+      | Array<
+          | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessage.OpenAIResponseContentPartRefusal
+        >;
 
     role: 'system' | 'developer' | 'user' | 'assistant';
 
@@ -3376,12 +3380,12 @@ export namespace ResponseListResponse {
       image_url?: string;
     }
 
-    export interface UnionMember2 {
+    export interface OpenAIResponseOutputMessageContentOutputText {
       annotations: Array<
-        | UnionMember2.OpenAIResponseAnnotationFileCitation
-        | UnionMember2.OpenAIResponseAnnotationCitation
-        | UnionMember2.OpenAIResponseAnnotationContainerFileCitation
-        | UnionMember2.OpenAIResponseAnnotationFilePath
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
       >;
 
       text: string;
@@ -3389,7 +3393,7 @@ export namespace ResponseListResponse {
       type: 'output_text';
     }
 
-    export namespace UnionMember2 {
+    export namespace OpenAIResponseOutputMessageContentOutputText {
       /**
        * File citation annotation for referencing specific files in response content.
        */
@@ -3466,6 +3470,191 @@ export namespace ResponseListResponse {
 
         type: 'file_path';
       }
+    }
+
+    /**
+     * Refusal content within a streamed response part.
+     */
+    export interface OpenAIResponseContentPartRefusal {
+      /**
+       * Refusal text supplied by the model
+       */
+      refusal: string;
+
+      /**
+       * Content part type identifier, always "refusal"
+       */
+      type: 'refusal';
+    }
+  }
+
+  /**
+   * Corresponds to the various Message types in the Responses API. They are all
+   * under one type because the Responses API gives them all the same "type" value,
+   * and there is no way to tell them apart in certain scenarios.
+   */
+  export interface OpenAIResponseMessage {
+    content:
+      | string
+      | Array<
+          | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
+          | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
+        >
+      | Array<
+          | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessage.OpenAIResponseContentPartRefusal
+        >;
+
+    role: 'system' | 'developer' | 'user' | 'assistant';
+
+    type: 'message';
+
+    id?: string;
+
+    status?: string;
+  }
+
+  export namespace OpenAIResponseMessage {
+    /**
+     * Text content for input messages in OpenAI response format.
+     */
+    export interface OpenAIResponseInputMessageContentText {
+      /**
+       * The text content of the input message
+       */
+      text: string;
+
+      /**
+       * Content type identifier, always "input_text"
+       */
+      type: 'input_text';
+    }
+
+    /**
+     * Image content for input messages in OpenAI response format.
+     */
+    export interface OpenAIResponseInputMessageContentImage {
+      /**
+       * Level of detail for image processing, can be "low", "high", or "auto"
+       */
+      detail: 'low' | 'high' | 'auto';
+
+      /**
+       * Content type identifier, always "input_image"
+       */
+      type: 'input_image';
+
+      /**
+       * (Optional) URL of the image content
+       */
+      image_url?: string;
+    }
+
+    export interface OpenAIResponseOutputMessageContentOutputText {
+      annotations: Array<
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
+      >;
+
+      text: string;
+
+      type: 'output_text';
+    }
+
+    export namespace OpenAIResponseOutputMessageContentOutputText {
+      /**
+       * File citation annotation for referencing specific files in response content.
+       */
+      export interface OpenAIResponseAnnotationFileCitation {
+        /**
+         * Unique identifier of the referenced file
+         */
+        file_id: string;
+
+        /**
+         * Name of the referenced file
+         */
+        filename: string;
+
+        /**
+         * Position index of the citation within the content
+         */
+        index: number;
+
+        /**
+         * Annotation type identifier, always "file_citation"
+         */
+        type: 'file_citation';
+      }
+
+      /**
+       * URL citation annotation for referencing external web resources.
+       */
+      export interface OpenAIResponseAnnotationCitation {
+        /**
+         * End position of the citation span in the content
+         */
+        end_index: number;
+
+        /**
+         * Start position of the citation span in the content
+         */
+        start_index: number;
+
+        /**
+         * Title of the referenced web resource
+         */
+        title: string;
+
+        /**
+         * Annotation type identifier, always "url_citation"
+         */
+        type: 'url_citation';
+
+        /**
+         * URL of the referenced web resource
+         */
+        url: string;
+      }
+
+      export interface OpenAIResponseAnnotationContainerFileCitation {
+        container_id: string;
+
+        end_index: number;
+
+        file_id: string;
+
+        filename: string;
+
+        start_index: number;
+
+        type: 'container_file_citation';
+      }
+
+      export interface OpenAIResponseAnnotationFilePath {
+        file_id: string;
+
+        index: number;
+
+        type: 'file_path';
+      }
+    }
+
+    /**
+     * Refusal content within a streamed response part.
+     */
+    export interface OpenAIResponseContentPartRefusal {
+      /**
+       * Refusal text supplied by the model
+       */
+      refusal: string;
+
+      /**
+       * Content part type identifier, always "refusal"
+       */
+      type: 'refusal';
     }
   }
 
@@ -3959,6 +4148,8 @@ export interface ResponseCreateParamsBase {
         | ResponseCreateParams.OpenAIResponseInputFunctionToolCallOutput
         | ResponseCreateParams.OpenAIResponseMcpApprovalRequest
         | ResponseCreateParams.OpenAIResponseMcpApprovalResponse
+        | ResponseCreateParams.OpenAIResponseOutputMessageMcpCall
+        | ResponseCreateParams.OpenAIResponseOutputMessageMcpListTools
         | ResponseCreateParams.OpenAIResponseMessage
       >;
 
@@ -4174,6 +4365,93 @@ export namespace ResponseCreateParams {
   }
 
   /**
+   * Model Context Protocol (MCP) call output message for OpenAI responses.
+   */
+  export interface OpenAIResponseOutputMessageMcpCall {
+    /**
+     * Unique identifier for this MCP call
+     */
+    id: string;
+
+    /**
+     * JSON string containing the MCP call arguments
+     */
+    arguments: string;
+
+    /**
+     * Name of the MCP method being called
+     */
+    name: string;
+
+    /**
+     * Label identifying the MCP server handling the call
+     */
+    server_label: string;
+
+    /**
+     * Tool call type identifier, always "mcp_call"
+     */
+    type: 'mcp_call';
+
+    /**
+     * (Optional) Error message if the MCP call failed
+     */
+    error?: string;
+
+    /**
+     * (Optional) Output result from the successful MCP call
+     */
+    output?: string;
+  }
+
+  /**
+   * MCP list tools output message containing available tools from an MCP server.
+   */
+  export interface OpenAIResponseOutputMessageMcpListTools {
+    /**
+     * Unique identifier for this MCP list tools operation
+     */
+    id: string;
+
+    /**
+     * Label identifying the MCP server providing the tools
+     */
+    server_label: string;
+
+    /**
+     * List of available tools provided by the MCP server
+     */
+    tools: Array<OpenAIResponseOutputMessageMcpListTools.Tool>;
+
+    /**
+     * Tool call type identifier, always "mcp_list_tools"
+     */
+    type: 'mcp_list_tools';
+  }
+
+  export namespace OpenAIResponseOutputMessageMcpListTools {
+    /**
+     * Tool definition returned by MCP list tools operation.
+     */
+    export interface Tool {
+      /**
+       * JSON schema defining the tool's input parameters
+       */
+      input_schema: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+
+      /**
+       * Name of the tool
+       */
+      name: string;
+
+      /**
+       * (Optional) Description of what the tool does
+       */
+      description?: string;
+    }
+  }
+
+  /**
    * Corresponds to the various Message types in the Responses API. They are all
    * under one type because the Responses API gives them all the same "type" value,
    * and there is no way to tell them apart in certain scenarios.
@@ -4185,7 +4463,10 @@ export namespace ResponseCreateParams {
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
         >
-      | Array<OpenAIResponseMessage.UnionMember2>;
+      | Array<
+          | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessage.OpenAIResponseContentPartRefusal
+        >;
 
     role: 'system' | 'developer' | 'user' | 'assistant';
 
@@ -4232,12 +4513,12 @@ export namespace ResponseCreateParams {
       image_url?: string;
     }
 
-    export interface UnionMember2 {
+    export interface OpenAIResponseOutputMessageContentOutputText {
       annotations: Array<
-        | UnionMember2.OpenAIResponseAnnotationFileCitation
-        | UnionMember2.OpenAIResponseAnnotationCitation
-        | UnionMember2.OpenAIResponseAnnotationContainerFileCitation
-        | UnionMember2.OpenAIResponseAnnotationFilePath
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
+        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
       >;
 
       text: string;
@@ -4245,7 +4526,7 @@ export namespace ResponseCreateParams {
       type: 'output_text';
     }
 
-    export namespace UnionMember2 {
+    export namespace OpenAIResponseOutputMessageContentOutputText {
       /**
        * File citation annotation for referencing specific files in response content.
        */
@@ -4322,6 +4603,21 @@ export namespace ResponseCreateParams {
 
         type: 'file_path';
       }
+    }
+
+    /**
+     * Refusal content within a streamed response part.
+     */
+    export interface OpenAIResponseContentPartRefusal {
+      /**
+       * Refusal text supplied by the model
+       */
+      refusal: string;
+
+      /**
+       * Content part type identifier, always "refusal"
+       */
+      type: 'refusal';
     }
   }
 

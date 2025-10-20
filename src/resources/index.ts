@@ -9,6 +9,7 @@ export {
   type BenchmarkListResponse,
   type BenchmarkRegisterParams,
 } from './benchmarks';
+export { Beta } from './beta/beta';
 export { Chat, type ChatCompletionChunk } from './chat/chat';
 export {
   Completions,
@@ -24,17 +25,6 @@ export {
   type ConversationCreateParams,
   type ConversationUpdateParams,
 } from './conversations/conversations';
-export {
-  Datasets,
-  type ListDatasetsResponse,
-  type DatasetRetrieveResponse,
-  type DatasetListResponse,
-  type DatasetIterrowsResponse,
-  type DatasetRegisterResponse,
-  type DatasetAppendrowsParams,
-  type DatasetIterrowsParams,
-  type DatasetRegisterParams,
-} from './datasets';
 export { Embeddings, type CreateEmbeddingsResponse, type EmbeddingCreateParams } from './embeddings';
 export {
   FilesOpenAICursorPage,
@@ -97,24 +87,6 @@ export {
   type SyntheticDataGenerationResponse,
   type SyntheticDataGenerationGenerateParams,
 } from './synthetic-data-generation';
-export {
-  Telemetry,
-  type Event,
-  type QueryCondition,
-  type QuerySpansResponse,
-  type SpanWithStatus,
-  type Trace,
-  type TelemetryGetSpanResponse,
-  type TelemetryGetSpanTreeResponse,
-  type TelemetryQueryMetricsResponse,
-  type TelemetryQuerySpansResponse,
-  type TelemetryQueryTracesResponse,
-  type TelemetryGetSpanTreeParams,
-  type TelemetryQueryMetricsParams,
-  type TelemetryQuerySpansParams,
-  type TelemetryQueryTracesParams,
-  type TelemetrySaveSpansToDatasetParams,
-} from './telemetry';
 export {
   ToolRuntime,
   type ToolDef,

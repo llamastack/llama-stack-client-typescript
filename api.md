@@ -120,25 +120,6 @@ Methods:
 - <code title="get /v1/conversations/{conversation_id}/items">client.conversations.items.<a href="./src/resources/conversations/items.ts">list</a>(conversationId, { ...params }) -> ItemListResponse</code>
 - <code title="get /v1/conversations/{conversation_id}/items/{item_id}">client.conversations.items.<a href="./src/resources/conversations/items.ts">get</a>(conversationId, itemId) -> ItemGetResponse</code>
 
-# Datasets
-
-Types:
-
-- <code><a href="./src/resources/datasets.ts">ListDatasetsResponse</a></code>
-- <code><a href="./src/resources/datasets.ts">DatasetRetrieveResponse</a></code>
-- <code><a href="./src/resources/datasets.ts">DatasetListResponse</a></code>
-- <code><a href="./src/resources/datasets.ts">DatasetIterrowsResponse</a></code>
-- <code><a href="./src/resources/datasets.ts">DatasetRegisterResponse</a></code>
-
-Methods:
-
-- <code title="get /v1beta/datasets/{dataset_id}">client.datasets.<a href="./src/resources/datasets.ts">retrieve</a>(datasetId) -> DatasetRetrieveResponse</code>
-- <code title="get /v1beta/datasets">client.datasets.<a href="./src/resources/datasets.ts">list</a>() -> DatasetListResponse</code>
-- <code title="post /v1beta/datasetio/append-rows/{dataset_id}">client.datasets.<a href="./src/resources/datasets.ts">appendrows</a>(datasetId, { ...params }) -> void</code>
-- <code title="get /v1beta/datasetio/iterrows/{dataset_id}">client.datasets.<a href="./src/resources/datasets.ts">iterrows</a>(datasetId, { ...params }) -> DatasetIterrowsResponse</code>
-- <code title="post /v1beta/datasets">client.datasets.<a href="./src/resources/datasets.ts">register</a>({ ...params }) -> DatasetRegisterResponse</code>
-- <code title="delete /v1beta/datasets/{dataset_id}">client.datasets.<a href="./src/resources/datasets.ts">unregister</a>(datasetId) -> void</code>
-
 # Inspect
 
 Types:
@@ -342,31 +323,6 @@ Methods:
 
 - <code title="post /v1/synthetic-data-generation/generate">client.syntheticDataGeneration.<a href="./src/resources/synthetic-data-generation.ts">generate</a>({ ...params }) -> SyntheticDataGenerationResponse</code>
 
-# Telemetry
-
-Types:
-
-- <code><a href="./src/resources/telemetry.ts">Event</a></code>
-- <code><a href="./src/resources/telemetry.ts">QueryCondition</a></code>
-- <code><a href="./src/resources/telemetry.ts">QuerySpansResponse</a></code>
-- <code><a href="./src/resources/telemetry.ts">SpanWithStatus</a></code>
-- <code><a href="./src/resources/telemetry.ts">Trace</a></code>
-- <code><a href="./src/resources/telemetry.ts">TelemetryGetSpanResponse</a></code>
-- <code><a href="./src/resources/telemetry.ts">TelemetryGetSpanTreeResponse</a></code>
-- <code><a href="./src/resources/telemetry.ts">TelemetryQueryMetricsResponse</a></code>
-- <code><a href="./src/resources/telemetry.ts">TelemetryQuerySpansResponse</a></code>
-- <code><a href="./src/resources/telemetry.ts">TelemetryQueryTracesResponse</a></code>
-
-Methods:
-
-- <code title="get /v1alpha/telemetry/traces/{trace_id}/spans/{span_id}">client.telemetry.<a href="./src/resources/telemetry.ts">getSpan</a>(traceId, spanId) -> TelemetryGetSpanResponse</code>
-- <code title="post /v1alpha/telemetry/spans/{span_id}/tree">client.telemetry.<a href="./src/resources/telemetry.ts">getSpanTree</a>(spanId, { ...params }) -> TelemetryGetSpanTreeResponse</code>
-- <code title="get /v1alpha/telemetry/traces/{trace_id}">client.telemetry.<a href="./src/resources/telemetry.ts">getTrace</a>(traceId) -> Trace</code>
-- <code title="post /v1alpha/telemetry/metrics/{metric_name}">client.telemetry.<a href="./src/resources/telemetry.ts">queryMetrics</a>(metricName, { ...params }) -> TelemetryQueryMetricsResponse</code>
-- <code title="post /v1alpha/telemetry/spans">client.telemetry.<a href="./src/resources/telemetry.ts">querySpans</a>({ ...params }) -> TelemetryQuerySpansResponse</code>
-- <code title="post /v1alpha/telemetry/traces">client.telemetry.<a href="./src/resources/telemetry.ts">queryTraces</a>({ ...params }) -> TelemetryQueryTracesResponse</code>
-- <code title="post /v1alpha/telemetry/spans/export">client.telemetry.<a href="./src/resources/telemetry.ts">saveSpansToDataset</a>({ ...params }) -> void</code>
-
 # Scoring
 
 Types:
@@ -424,6 +380,27 @@ Methods:
 - <code title="get /v1/files">client.files.<a href="./src/resources/files.ts">list</a>({ ...params }) -> FilesOpenAICursorPage</code>
 - <code title="delete /v1/files/{file_id}">client.files.<a href="./src/resources/files.ts">delete</a>(fileId) -> DeleteFileResponse</code>
 - <code title="get /v1/files/{file_id}/content">client.files.<a href="./src/resources/files.ts">content</a>(fileId) -> unknown</code>
+
+# Beta
+
+## Datasets
+
+Types:
+
+- <code><a href="./src/resources/beta/datasets.ts">ListDatasetsResponse</a></code>
+- <code><a href="./src/resources/beta/datasets.ts">DatasetRetrieveResponse</a></code>
+- <code><a href="./src/resources/beta/datasets.ts">DatasetListResponse</a></code>
+- <code><a href="./src/resources/beta/datasets.ts">DatasetIterrowsResponse</a></code>
+- <code><a href="./src/resources/beta/datasets.ts">DatasetRegisterResponse</a></code>
+
+Methods:
+
+- <code title="get /v1beta/datasets/{dataset_id}">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">retrieve</a>(datasetId) -> DatasetRetrieveResponse</code>
+- <code title="get /v1beta/datasets">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">list</a>() -> DatasetListResponse</code>
+- <code title="post /v1beta/datasetio/append-rows/{dataset_id}">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">appendrows</a>(datasetId, { ...params }) -> void</code>
+- <code title="get /v1beta/datasetio/iterrows/{dataset_id}">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">iterrows</a>(datasetId, { ...params }) -> DatasetIterrowsResponse</code>
+- <code title="post /v1beta/datasets">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">register</a>({ ...params }) -> DatasetRegisterResponse</code>
+- <code title="delete /v1beta/datasets/{dataset_id}">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">unregister</a>(datasetId) -> void</code>
 
 # Alpha
 
