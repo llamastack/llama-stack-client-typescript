@@ -32,28 +32,6 @@ const model = await client.models.register({ model_id: 'model_id' });
 console.log(model.identifier);
 ```
 
-## Streaming responses
-
-We provide support for streaming responses using Server Sent Events (SSE).
-
-```ts
-import LlamaStackClient from 'llama-stack-client';
-
-const client = new LlamaStackClient();
-
-const stream = await client.chat.completions.create({
-  messages: [{ content: 'string', role: 'user' }],
-  model: 'model',
-  stream: true,
-});
-for await (const chatCompletionChunk of stream) {
-  console.log(chatCompletionChunk);
-}
-```
-
-If you need to cancel a stream, you can `break` from the loop
-or call `stream.controller.abort()`.
-
 ### Request & Response types
 
 This library includes TypeScript definitions for all request params and response fields. You may import and use them like so:
@@ -64,13 +42,8 @@ import LlamaStackClient from 'llama-stack-client';
 
 const client = new LlamaStackClient();
 
-const params: LlamaStackClient.Chat.CompletionCreateParams = {
-  messages: [{ content: 'string', role: 'user' }],
-  model: 'model',
-};
-const completion: LlamaStackClient.Chat.CompletionCreateResponse = await client.chat.completions.create(
-  params,
-);
+const [completionListResponse]: [LlamaStackClient.Chat.CompletionListResponse] =
+  await client.chat.completions.list();
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -113,17 +86,15 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const completion = await client.chat.completions
-  .create({ messages: [{ content: 'string', role: 'user' }], model: 'model' })
-  .catch(async (err) => {
-    if (err instanceof LlamaStackClient.APIError) {
-      console.log(err.status); // 400
-      console.log(err.name); // BadRequestError
-      console.log(err.headers); // {server: 'nginx', ...}
-    } else {
-      throw err;
-    }
-  });
+const page = await client.chat.completions.list().catch(async (err) => {
+  if (err instanceof LlamaStackClient.APIError) {
+    console.log(err.status); // 400
+    console.log(err.name); // BadRequestError
+    console.log(err.headers); // {server: 'nginx', ...}
+  } else {
+    throw err;
+  }
+});
 ```
 
 Error codes are as follows:
@@ -155,7 +126,7 @@ const client = new LlamaStackClient({
 });
 
 // Or, configure per-request:
-await client.chat.completions.create({ messages: [{ content: 'string', role: 'user' }], model: 'model' }, {
+await client.chat.completions.list({
   maxRetries: 5,
 });
 ```
@@ -172,7 +143,7 @@ const client = new LlamaStackClient({
 });
 
 // Override per-request:
-await client.chat.completions.create({ messages: [{ content: 'string', role: 'user' }], model: 'model' }, {
+await client.chat.completions.list({
   timeout: 5 * 1000,
 });
 ```
@@ -180,6 +151,37 @@ await client.chat.completions.create({ messages: [{ content: 'string', role: 'us
 On timeout, an `APIConnectionTimeoutError` is thrown.
 
 Note that requests which time out will be [retried twice by default](#retries).
+
+## Auto-pagination
+
+List methods in the LlamaStackClient API are paginated.
+You can use the `for await … of` syntax to iterate through items across all pages:
+
+```ts
+async function fetchAllCompletionListResponses(params) {
+  const allCompletionListResponses = [];
+  // Automatically fetches more pages as needed.
+  for await (const completionListResponse of client.chat.completions.list()) {
+    allCompletionListResponses.push(completionListResponse);
+  }
+  return allCompletionListResponses;
+}
+```
+
+Alternatively, you can request a single page at a time:
+
+```ts
+let page = await client.chat.completions.list();
+for (const completionListResponse of page.data) {
+  console.log(completionListResponse);
+}
+
+// Convenience methods are provided for manually paginating:
+while (page.hasNextPage()) {
+  page = await page.getNextPage();
+  // ...
+}
+```
 
 ## Advanced Usage
 
@@ -193,17 +195,15 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new LlamaStackClient();
 
-const response = await client.chat.completions
-  .create({ messages: [{ content: 'string', role: 'user' }], model: 'model' })
-  .asResponse();
+const response = await client.chat.completions.list().asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: completion, response: raw } = await client.chat.completions
-  .create({ messages: [{ content: 'string', role: 'user' }], model: 'model' })
-  .withResponse();
+const { data: page, response: raw } = await client.chat.completions.list().withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(completion);
+for await (const completionListResponse of page) {
+  console.log(completionListResponse.id);
+}
 ```
 
 ### Making custom/undocumented requests
@@ -307,12 +307,9 @@ const client = new LlamaStackClient({
 });
 
 // Override per-request:
-await client.chat.completions.create(
-  { messages: [{ content: 'string', role: 'user' }], model: 'model' },
-  {
-    httpAgent: new http.Agent({ keepAlive: false }),
-  },
-);
+await client.chat.completions.list({
+  httpAgent: new http.Agent({ keepAlive: false }),
+});
 ```
 
 ## Semantic versioning
