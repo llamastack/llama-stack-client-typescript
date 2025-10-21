@@ -9,7 +9,7 @@ describe('resource vectorIo', () => {
   test('insert: only required params', async () => {
     const responsePromise = client.vectorIo.insert({
       chunks: [{ content: 'string', metadata: { foo: true } }],
-      vector_store_id: 'vector_store_id',
+      vector_db_id: 'vector_db_id',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -43,13 +43,13 @@ describe('resource vectorIo', () => {
           stored_chunk_id: 'stored_chunk_id',
         },
       ],
-      vector_store_id: 'vector_store_id',
+      vector_db_id: 'vector_db_id',
       ttl_seconds: 0,
     });
   });
 
   test('query: only required params', async () => {
-    const responsePromise = client.vectorIo.query({ query: 'string', vector_store_id: 'vector_store_id' });
+    const responsePromise = client.vectorIo.query({ query: 'string', vector_db_id: 'vector_db_id' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -62,7 +62,7 @@ describe('resource vectorIo', () => {
   test('query: required and optional params', async () => {
     const response = await client.vectorIo.query({
       query: 'string',
-      vector_store_id: 'vector_store_id',
+      vector_db_id: 'vector_db_id',
       params: { foo: true },
     });
   });

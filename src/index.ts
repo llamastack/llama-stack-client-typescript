@@ -70,6 +70,7 @@ import {
   SyntheticDataGenerationGenerateParams,
   SyntheticDataGenerationResponse,
 } from './resources/synthetic-data-generation';
+import { Telemetry } from './resources/telemetry';
 import {
   ListToolGroupsResponse,
   ToolGroup,
@@ -262,12 +263,13 @@ export class LlamaStackClient extends Core.APIClient {
   safety: API.Safety = new API.Safety(this);
   shields: API.Shields = new API.Shields(this);
   syntheticDataGeneration: API.SyntheticDataGeneration = new API.SyntheticDataGeneration(this);
+  telemetry: API.Telemetry = new API.Telemetry(this);
   scoring: API.Scoring = new API.Scoring(this);
   scoringFunctions: API.ScoringFunctions = new API.ScoringFunctions(this);
   benchmarks: API.Benchmarks = new API.Benchmarks(this);
   files: API.Files = new API.Files(this);
-  beta: API.Beta = new API.Beta(this);
   alpha: API.Alpha = new API.Alpha(this);
+  beta: API.Beta = new API.Beta(this);
 
   /**
    * Check whether the base URL is set to its default.
@@ -339,13 +341,14 @@ LlamaStackClient.Moderations = Moderations;
 LlamaStackClient.Safety = Safety;
 LlamaStackClient.Shields = Shields;
 LlamaStackClient.SyntheticDataGeneration = SyntheticDataGeneration;
+LlamaStackClient.Telemetry = Telemetry;
 LlamaStackClient.Scoring = Scoring;
 LlamaStackClient.ScoringFunctions = ScoringFunctions;
 LlamaStackClient.Benchmarks = Benchmarks;
 LlamaStackClient.Files = Files;
 LlamaStackClient.FilesOpenAICursorPage = FilesOpenAICursorPage;
-LlamaStackClient.Beta = Beta;
 LlamaStackClient.Alpha = Alpha;
+LlamaStackClient.Beta = Beta;
 
 export declare namespace LlamaStackClient {
   export type RequestOptions = Core.RequestOptions;
@@ -492,6 +495,8 @@ export declare namespace LlamaStackClient {
     type SyntheticDataGenerationGenerateParams as SyntheticDataGenerationGenerateParams,
   };
 
+  export { Telemetry as Telemetry };
+
   export {
     Scoring as Scoring,
     type ScoringScoreResponse as ScoringScoreResponse,
@@ -528,9 +533,9 @@ export declare namespace LlamaStackClient {
     type FileListParams as FileListParams,
   };
 
-  export { Beta as Beta };
-
   export { Alpha as Alpha };
+
+  export { Beta as Beta };
 
   export type AgentConfig = API.AgentConfig;
   export type CompletionMessage = API.CompletionMessage;

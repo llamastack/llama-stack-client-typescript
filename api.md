@@ -323,6 +323,8 @@ Methods:
 
 - <code title="post /v1/synthetic-data-generation/generate">client.syntheticDataGeneration.<a href="./src/resources/synthetic-data-generation.ts">generate</a>({ ...params }) -> SyntheticDataGenerationResponse</code>
 
+# Telemetry
+
 # Scoring
 
 Types:
@@ -380,27 +382,6 @@ Methods:
 - <code title="get /v1/files">client.files.<a href="./src/resources/files.ts">list</a>({ ...params }) -> FilesOpenAICursorPage</code>
 - <code title="delete /v1/files/{file_id}">client.files.<a href="./src/resources/files.ts">delete</a>(fileId) -> DeleteFileResponse</code>
 - <code title="get /v1/files/{file_id}/content">client.files.<a href="./src/resources/files.ts">content</a>(fileId) -> unknown</code>
-
-# Beta
-
-## Datasets
-
-Types:
-
-- <code><a href="./src/resources/beta/datasets.ts">ListDatasetsResponse</a></code>
-- <code><a href="./src/resources/beta/datasets.ts">DatasetRetrieveResponse</a></code>
-- <code><a href="./src/resources/beta/datasets.ts">DatasetListResponse</a></code>
-- <code><a href="./src/resources/beta/datasets.ts">DatasetIterrowsResponse</a></code>
-- <code><a href="./src/resources/beta/datasets.ts">DatasetRegisterResponse</a></code>
-
-Methods:
-
-- <code title="get /v1beta/datasets/{dataset_id}">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">retrieve</a>(datasetId) -> DatasetRetrieveResponse</code>
-- <code title="get /v1beta/datasets">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">list</a>() -> DatasetListResponse</code>
-- <code title="post /v1beta/datasetio/append-rows/{dataset_id}">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">appendrows</a>(datasetId, { ...params }) -> void</code>
-- <code title="get /v1beta/datasetio/iterrows/{dataset_id}">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">iterrows</a>(datasetId, { ...params }) -> DatasetIterrowsResponse</code>
-- <code title="post /v1beta/datasets">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">register</a>({ ...params }) -> DatasetRegisterResponse</code>
-- <code title="delete /v1beta/datasets/{dataset_id}">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">unregister</a>(datasetId) -> void</code>
 
 # Alpha
 
@@ -523,3 +504,24 @@ Methods:
 - <code title="post /v1alpha/agents/{agent_id}/session/{session_id}/turn">client.alpha.agents.turn.<a href="./src/resources/alpha/agents/turn.ts">create</a>(agentId, sessionId, { ...params }) -> Turn</code>
 - <code title="get /v1alpha/agents/{agent_id}/session/{session_id}/turn/{turn_id}">client.alpha.agents.turn.<a href="./src/resources/alpha/agents/turn.ts">retrieve</a>(agentId, sessionId, turnId) -> Turn</code>
 - <code title="post /v1alpha/agents/{agent_id}/session/{session_id}/turn/{turn_id}/resume">client.alpha.agents.turn.<a href="./src/resources/alpha/agents/turn.ts">resume</a>(agentId, sessionId, turnId, { ...params }) -> Turn</code>
+
+# Beta
+
+## Datasets
+
+Types:
+
+- <code><a href="./src/resources/beta/datasets.ts">ListDatasetsResponse</a></code>
+- <code><a href="./src/resources/beta/datasets.ts">DatasetRetrieveResponse</a></code>
+- <code><a href="./src/resources/beta/datasets.ts">DatasetListResponse</a></code>
+- <code><a href="./src/resources/beta/datasets.ts">DatasetIterrowsResponse</a></code>
+- <code><a href="./src/resources/beta/datasets.ts">DatasetRegisterResponse</a></code>
+
+Methods:
+
+- <code title="get /v1beta/datasets/{dataset_id}">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">retrieve</a>(datasetId) -> DatasetRetrieveResponse</code>
+- <code title="get /v1beta/datasets">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">list</a>() -> DatasetListResponse</code>
+- <code title="post /v1beta/datasetio/append-rows/{dataset_id}">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">appendrows</a>(datasetId, { ...params }) -> void</code>
+- <code title="get /v1beta/datasetio/iterrows/{dataset_id}">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">iterrows</a>(datasetId, { ...params }) -> DatasetIterrowsResponse</code>
+- <code title="post /v1beta/datasets">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">register</a>({ ...params }) -> DatasetRegisterResponse</code>
+- <code title="delete /v1beta/datasets/{dataset_id}">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">unregister</a>(datasetId) -> void</code>
