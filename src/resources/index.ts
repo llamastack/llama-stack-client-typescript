@@ -87,6 +87,7 @@ export {
   type SyntheticDataGenerationResponse,
   type SyntheticDataGenerationGenerateParams,
 } from './synthetic-data-generation';
+export { Telemetry } from './telemetry';
 export {
   ToolRuntime,
   type ToolDef,

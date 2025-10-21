@@ -27,10 +27,32 @@ import LlamaStackClient from 'llama-stack-client';
 
 const client = new LlamaStackClient();
 
-const healthInfo = await client.inspect.health();
+const model = await client.models.register({ model_id: 'model_id' });
 
-console.log(healthInfo.status);
+console.log(model.identifier);
 ```
+
+## Streaming responses
+
+We provide support for streaming responses using Server Sent Events (SSE).
+
+```ts
+import LlamaStackClient from 'llama-stack-client';
+
+const client = new LlamaStackClient();
+
+const stream = await client.chat.completions.create({
+  messages: [{ content: 'string', role: 'user' }],
+  model: 'model',
+  stream: true,
+});
+for await (const chatCompletionChunk of stream) {
+  console.log(chatCompletionChunk);
+}
+```
+
+If you need to cancel a stream, you can `break` from the loop
+or call `stream.controller.abort()`.
 
 ### Request & Response types
 
@@ -42,7 +64,13 @@ import LlamaStackClient from 'llama-stack-client';
 
 const client = new LlamaStackClient();
 
-const healthInfo: LlamaStackClient.HealthInfo = await client.inspect.health();
+const params: LlamaStackClient.Chat.CompletionCreateParams = {
+  messages: [{ content: 'string', role: 'user' }],
+  model: 'model',
+};
+const completion: LlamaStackClient.Chat.CompletionCreateResponse = await client.chat.completions.create(
+  params,
+);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -85,15 +113,17 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const healthInfo = await client.inspect.health().catch(async (err) => {
-  if (err instanceof LlamaStackClient.APIError) {
-    console.log(err.status); // 400
-    console.log(err.name); // BadRequestError
-    console.log(err.headers); // {server: 'nginx', ...}
-  } else {
-    throw err;
-  }
-});
+const completion = await client.chat.completions
+  .create({ messages: [{ content: 'string', role: 'user' }], model: 'model' })
+  .catch(async (err) => {
+    if (err instanceof LlamaStackClient.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 ```
 
 Error codes are as follows:
@@ -125,7 +155,7 @@ const client = new LlamaStackClient({
 });
 
 // Or, configure per-request:
-await client.inspect.health({
+await client.chat.completions.create({ messages: [{ content: 'string', role: 'user' }], model: 'model' }, {
   maxRetries: 5,
 });
 ```
@@ -142,7 +172,7 @@ const client = new LlamaStackClient({
 });
 
 // Override per-request:
-await client.inspect.health({
+await client.chat.completions.create({ messages: [{ content: 'string', role: 'user' }], model: 'model' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -163,13 +193,17 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new LlamaStackClient();
 
-const response = await client.inspect.health().asResponse();
+const response = await client.chat.completions
+  .create({ messages: [{ content: 'string', role: 'user' }], model: 'model' })
+  .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: healthInfo, response: raw } = await client.inspect.health().withResponse();
+const { data: completion, response: raw } = await client.chat.completions
+  .create({ messages: [{ content: 'string', role: 'user' }], model: 'model' })
+  .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(healthInfo.status);
+console.log(completion);
 ```
 
 ### Making custom/undocumented requests
@@ -273,9 +307,12 @@ const client = new LlamaStackClient({
 });
 
 // Override per-request:
-await client.inspect.health({
-  httpAgent: new http.Agent({ keepAlive: false }),
-});
+await client.chat.completions.create(
+  { messages: [{ content: 'string', role: 'user' }], model: 'model' },
+  {
+    httpAgent: new http.Agent({ keepAlive: false }),
+  },
+);
 ```
 
 ## Semantic versioning

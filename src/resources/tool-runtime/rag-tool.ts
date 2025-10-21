@@ -38,7 +38,7 @@ export interface RagToolInsertParams {
   /**
    * ID of the vector database to store the document embeddings
    */
-  vector_store_id: string;
+  vector_db_id: string;
 }
 
 export interface RagToolQueryParams {
@@ -50,7 +50,7 @@ export interface RagToolQueryParams {
   /**
    * List of vector database IDs to search within
    */
-  vector_store_ids: Array<string>;
+  vector_db_ids: Array<string>;
 
   /**
    * (Optional) Configuration parameters for the query operation
