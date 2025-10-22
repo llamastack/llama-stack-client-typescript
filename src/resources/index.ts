@@ -2,13 +2,6 @@
 
 export * from './shared';
 export { Alpha } from './alpha/alpha';
-export {
-  Benchmarks,
-  type Benchmark,
-  type ListBenchmarksResponse,
-  type BenchmarkListResponse,
-  type BenchmarkRegisterParams,
-} from './benchmarks';
 export { Beta } from './beta/beta';
 export { Chat, type ChatCompletionChunk } from './chat/chat';
 export {

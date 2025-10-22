@@ -15,6 +15,13 @@ export {
 } from './agents/index';
 export { Alpha } from './alpha';
 export {
+  Benchmarks,
+  type Benchmark,
+  type ListBenchmarksResponse,
+  type BenchmarkListResponse,
+  type BenchmarkRegisterParams,
+} from './benchmarks';
+export {
   Eval,
   type BenchmarkConfig,
   type EvaluateResponse,

@@ -14,13 +14,6 @@ import {
 import * as Uploads from './uploads';
 import * as API from './resources/index';
 import {
-  Benchmark,
-  BenchmarkListResponse,
-  BenchmarkRegisterParams,
-  Benchmarks,
-  ListBenchmarksResponse,
-} from './resources/benchmarks';
-import {
   CompletionCreateParams,
   CompletionCreateParamsNonStreaming,
   CompletionCreateParamsStreaming,
@@ -264,7 +257,6 @@ export class LlamaStackClient extends Core.APIClient {
   syntheticDataGeneration: API.SyntheticDataGeneration = new API.SyntheticDataGeneration(this);
   scoring: API.Scoring = new API.Scoring(this);
   scoringFunctions: API.ScoringFunctions = new API.ScoringFunctions(this);
-  benchmarks: API.Benchmarks = new API.Benchmarks(this);
   files: API.Files = new API.Files(this);
   alpha: API.Alpha = new API.Alpha(this);
   beta: API.Beta = new API.Beta(this);
@@ -341,7 +333,6 @@ LlamaStackClient.Shields = Shields;
 LlamaStackClient.SyntheticDataGeneration = SyntheticDataGeneration;
 LlamaStackClient.Scoring = Scoring;
 LlamaStackClient.ScoringFunctions = ScoringFunctions;
-LlamaStackClient.Benchmarks = Benchmarks;
 LlamaStackClient.Files = Files;
 LlamaStackClient.FilesOpenAICursorPage = FilesOpenAICursorPage;
 LlamaStackClient.Alpha = Alpha;
@@ -507,14 +498,6 @@ export declare namespace LlamaStackClient {
     type ScoringFnParams as ScoringFnParams,
     type ScoringFunctionListResponse as ScoringFunctionListResponse,
     type ScoringFunctionRegisterParams as ScoringFunctionRegisterParams,
-  };
-
-  export {
-    Benchmarks as Benchmarks,
-    type Benchmark as Benchmark,
-    type ListBenchmarksResponse as ListBenchmarksResponse,
-    type BenchmarkListResponse as BenchmarkListResponse,
-    type BenchmarkRegisterParams as BenchmarkRegisterParams,
   };
 
   export {
