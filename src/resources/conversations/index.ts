@@ -8,6 +8,7 @@ export {
   type ConversationUpdateParams,
 } from './conversations';
 export {
+  ItemListResponsesOpenAICursorPage,
   Items,
   type ItemCreateResponse,
   type ItemListResponse,

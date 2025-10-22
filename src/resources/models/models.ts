@@ -63,7 +63,7 @@ export interface Model {
   /**
    * The type of model (LLM or embedding model)
    */
-  model_type: 'llm' | 'embedding';
+  model_type: 'llm' | 'embedding' | 'rerank';
 
   /**
    * ID of the provider that owns this resource
@@ -97,7 +97,7 @@ export interface ModelRegisterParams {
   /**
    * The type of model to register.
    */
-  model_type?: 'llm' | 'embedding';
+  model_type?: 'llm' | 'embedding' | 'rerank';
 
   /**
    * The identifier of the provider.
