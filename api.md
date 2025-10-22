@@ -350,20 +350,6 @@ Methods:
 - <code title="get /v1/scoring-functions">client.scoringFunctions.<a href="./src/resources/scoring-functions.ts">list</a>() -> ScoringFunctionListResponse</code>
 - <code title="post /v1/scoring-functions">client.scoringFunctions.<a href="./src/resources/scoring-functions.ts">register</a>({ ...params }) -> void</code>
 
-# Benchmarks
-
-Types:
-
-- <code><a href="./src/resources/benchmarks.ts">Benchmark</a></code>
-- <code><a href="./src/resources/benchmarks.ts">ListBenchmarksResponse</a></code>
-- <code><a href="./src/resources/benchmarks.ts">BenchmarkListResponse</a></code>
-
-Methods:
-
-- <code title="get /v1alpha/eval/benchmarks/{benchmark_id}">client.benchmarks.<a href="./src/resources/benchmarks.ts">retrieve</a>(benchmarkId) -> Benchmark</code>
-- <code title="get /v1alpha/eval/benchmarks">client.benchmarks.<a href="./src/resources/benchmarks.ts">list</a>() -> BenchmarkListResponse</code>
-- <code title="post /v1alpha/eval/benchmarks">client.benchmarks.<a href="./src/resources/benchmarks.ts">register</a>({ ...params }) -> void</code>
-
 # Files
 
 Types:
@@ -420,6 +406,20 @@ Methods:
 - <code title="get /v1alpha/post-training/job/artifacts">client.alpha.postTraining.job.<a href="./src/resources/alpha/post-training/job.ts">artifacts</a>({ ...params }) -> JobArtifactsResponse</code>
 - <code title="post /v1alpha/post-training/job/cancel">client.alpha.postTraining.job.<a href="./src/resources/alpha/post-training/job.ts">cancel</a>({ ...params }) -> void</code>
 - <code title="get /v1alpha/post-training/job/status">client.alpha.postTraining.job.<a href="./src/resources/alpha/post-training/job.ts">status</a>({ ...params }) -> JobStatusResponse</code>
+
+## Benchmarks
+
+Types:
+
+- <code><a href="./src/resources/alpha/benchmarks.ts">Benchmark</a></code>
+- <code><a href="./src/resources/alpha/benchmarks.ts">ListBenchmarksResponse</a></code>
+- <code><a href="./src/resources/alpha/benchmarks.ts">BenchmarkListResponse</a></code>
+
+Methods:
+
+- <code title="get /v1alpha/eval/benchmarks/{benchmark_id}">client.alpha.benchmarks.<a href="./src/resources/alpha/benchmarks.ts">retrieve</a>(benchmarkId) -> Benchmark</code>
+- <code title="get /v1alpha/eval/benchmarks">client.alpha.benchmarks.<a href="./src/resources/alpha/benchmarks.ts">list</a>() -> BenchmarkListResponse</code>
+- <code title="post /v1alpha/eval/benchmarks">client.alpha.benchmarks.<a href="./src/resources/alpha/benchmarks.ts">register</a>({ ...params }) -> void</code>
 
 ## Eval
 

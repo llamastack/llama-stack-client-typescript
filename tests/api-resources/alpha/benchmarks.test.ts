@@ -7,7 +7,7 @@ const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] 
 
 describe('resource benchmarks', () => {
   test('retrieve', async () => {
-    const responsePromise = client.benchmarks.retrieve('benchmark_id');
+    const responsePromise = client.alpha.benchmarks.retrieve('benchmark_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -20,12 +20,12 @@ describe('resource benchmarks', () => {
   test('retrieve: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.benchmarks.retrieve('benchmark_id', { path: '/_stainless_unknown_path' }),
+      client.alpha.benchmarks.retrieve('benchmark_id', { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(LlamaStackClient.NotFoundError);
   });
 
   test('list', async () => {
-    const responsePromise = client.benchmarks.list();
+    const responsePromise = client.alpha.benchmarks.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -37,13 +37,13 @@ describe('resource benchmarks', () => {
 
   test('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.benchmarks.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.alpha.benchmarks.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
       LlamaStackClient.NotFoundError,
     );
   });
 
   test('register: only required params', async () => {
-    const responsePromise = client.benchmarks.register({
+    const responsePromise = client.alpha.benchmarks.register({
       benchmark_id: 'benchmark_id',
       dataset_id: 'dataset_id',
       scoring_functions: ['string'],
@@ -58,7 +58,7 @@ describe('resource benchmarks', () => {
   });
 
   test('register: required and optional params', async () => {
-    const response = await client.benchmarks.register({
+    const response = await client.alpha.benchmarks.register({
       benchmark_id: 'benchmark_id',
       dataset_id: 'dataset_id',
       scoring_functions: ['string'],
