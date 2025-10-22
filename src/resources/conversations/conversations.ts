@@ -9,6 +9,7 @@ import {
   ItemGetResponse,
   ItemListParams,
   ItemListResponse,
+  ItemListResponsesOpenAICursorPage,
   Items,
 } from './items';
 
@@ -526,6 +527,7 @@ export interface ConversationUpdateParams {
 }
 
 Conversations.Items = Items;
+Conversations.ItemListResponsesOpenAICursorPage = ItemListResponsesOpenAICursorPage;
 
 export declare namespace Conversations {
   export {
@@ -540,6 +542,7 @@ export declare namespace Conversations {
     type ItemCreateResponse as ItemCreateResponse,
     type ItemListResponse as ItemListResponse,
     type ItemGetResponse as ItemGetResponse,
+    ItemListResponsesOpenAICursorPage as ItemListResponsesOpenAICursorPage,
     type ItemCreateParams as ItemCreateParams,
     type ItemListParams as ItemListParams,
   };

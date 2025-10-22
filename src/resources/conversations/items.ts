@@ -1,7 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../resource';
+import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
+import { OpenAICursorPage, type OpenAICursorPageParams } from '../../pagination';
 
 export class Items extends APIResource {
   /**
@@ -20,10 +22,26 @@ export class Items extends APIResource {
    */
   list(
     conversationId: string,
-    query: ItemListParams,
+    query?: ItemListParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<ItemListResponse> {
-    return this._client.get(`/v1/conversations/${conversationId}/items`, { query, ...options });
+  ): Core.PagePromise<ItemListResponsesOpenAICursorPage, ItemListResponse>;
+  list(
+    conversationId: string,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<ItemListResponsesOpenAICursorPage, ItemListResponse>;
+  list(
+    conversationId: string,
+    query: ItemListParams | Core.RequestOptions = {},
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<ItemListResponsesOpenAICursorPage, ItemListResponse> {
+    if (isRequestOptions(query)) {
+      return this.list(conversationId, {}, query);
+    }
+    return this._client.getAPIList(
+      `/v1/conversations/${conversationId}/items`,
+      ItemListResponsesOpenAICursorPage,
+      { query, ...options },
+    );
   }
 
   /**
@@ -37,6 +55,8 @@ export class Items extends APIResource {
     return this._client.get(`/v1/conversations/${conversationId}/items/${itemId}`, options);
   }
 }
+
+export class ItemListResponsesOpenAICursorPage extends OpenAICursorPage<ItemListResponse> {}
 
 /**
  * List of conversation items with pagination.
@@ -486,29 +506,20 @@ export namespace ItemCreateResponse {
 }
 
 /**
- * List of conversation items with pagination.
+ * Corresponds to the various Message types in the Responses API. They are all
+ * under one type because the Responses API gives them all the same "type" value,
+ * and there is no way to tell them apart in certain scenarios.
  */
-export interface ItemListResponse {
-  data: Array<
-    | ItemListResponse.OpenAIResponseMessage
-    | ItemListResponse.OpenAIResponseOutputMessageWebSearchToolCall
-    | ItemListResponse.OpenAIResponseOutputMessageFileSearchToolCall
-    | ItemListResponse.OpenAIResponseOutputMessageFunctionToolCall
-    | ItemListResponse.OpenAIResponseInputFunctionToolCallOutput
-    | ItemListResponse.OpenAIResponseMcpApprovalRequest
-    | ItemListResponse.OpenAIResponseMcpApprovalResponse
-    | ItemListResponse.OpenAIResponseOutputMessageMcpCall
-    | ItemListResponse.OpenAIResponseOutputMessageMcpListTools
-  >;
-
-  has_more: boolean;
-
-  object: string;
-
-  first_id?: string;
-
-  last_id?: string;
-}
+export type ItemListResponse =
+  | ItemListResponse.OpenAIResponseMessage
+  | ItemListResponse.OpenAIResponseOutputMessageWebSearchToolCall
+  | ItemListResponse.OpenAIResponseOutputMessageFileSearchToolCall
+  | ItemListResponse.OpenAIResponseOutputMessageFunctionToolCall
+  | ItemListResponse.OpenAIResponseInputFunctionToolCallOutput
+  | ItemListResponse.OpenAIResponseMcpApprovalRequest
+  | ItemListResponse.OpenAIResponseMcpApprovalResponse
+  | ItemListResponse.OpenAIResponseOutputMessageMcpCall
+  | ItemListResponse.OpenAIResponseOutputMessageMcpListTools;
 
 export namespace ItemListResponse {
   /**
@@ -1809,42 +1820,34 @@ export namespace ItemCreateParams {
   }
 }
 
-export interface ItemListParams {
-  /**
-   * An item ID to list items after, used in pagination.
-   */
-  after: string | unknown;
-
+export interface ItemListParams extends OpenAICursorPageParams {
   /**
    * Specify additional output data to include in the response.
    */
-  include:
-    | Array<
-        | 'code_interpreter_call.outputs'
-        | 'computer_call_output.output.image_url'
-        | 'file_search_call.results'
-        | 'message.input_image.image_url'
-        | 'message.output_text.logprobs'
-        | 'reasoning.encrypted_content'
-      >
-    | unknown;
-
-  /**
-   * A limit on the number of objects to be returned (1-100, default 20).
-   */
-  limit: number | unknown;
+  include?: Array<
+    | 'web_search_call.action.sources'
+    | 'code_interpreter_call.outputs'
+    | 'computer_call_output.output.image_url'
+    | 'file_search_call.results'
+    | 'message.input_image.image_url'
+    | 'message.output_text.logprobs'
+    | 'reasoning.encrypted_content'
+  >;
 
   /**
    * The order to return items in (asc or desc, default desc).
    */
-  order: 'asc' | 'desc' | unknown;
+  order?: 'asc' | 'desc';
 }
+
+Items.ItemListResponsesOpenAICursorPage = ItemListResponsesOpenAICursorPage;
 
 export declare namespace Items {
   export {
     type ItemCreateResponse as ItemCreateResponse,
     type ItemListResponse as ItemListResponse,
     type ItemGetResponse as ItemGetResponse,
+    ItemListResponsesOpenAICursorPage as ItemListResponsesOpenAICursorPage,
     type ItemCreateParams as ItemCreateParams,
     type ItemListParams as ItemListParams,
   };

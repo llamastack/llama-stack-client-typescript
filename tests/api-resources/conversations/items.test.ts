@@ -25,13 +25,8 @@ describe('resource items', () => {
     });
   });
 
-  test('list: only required params', async () => {
-    const responsePromise = client.conversations.items.list('conversation_id', {
-      after: 'string',
-      include: ['code_interpreter_call.outputs'],
-      limit: 0,
-      order: 'asc',
-    });
+  test('list', async () => {
+    const responsePromise = client.conversations.items.list('conversation_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -41,13 +36,22 @@ describe('resource items', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('list: required and optional params', async () => {
-    const response = await client.conversations.items.list('conversation_id', {
-      after: 'string',
-      include: ['code_interpreter_call.outputs'],
-      limit: 0,
-      order: 'asc',
-    });
+  test('list: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.conversations.items.list('conversation_id', { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(LlamaStackClient.NotFoundError);
+  });
+
+  test('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.conversations.items.list(
+        'conversation_id',
+        { after: 'after', include: ['web_search_call.action.sources'], limit: 0, order: 'asc' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(LlamaStackClient.NotFoundError);
   });
 
   test('get', async () => {

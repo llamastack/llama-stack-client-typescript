@@ -70,7 +70,6 @@ import {
   SyntheticDataGenerationGenerateParams,
   SyntheticDataGenerationResponse,
 } from './resources/synthetic-data-generation';
-import { Telemetry } from './resources/telemetry';
 import {
   ListToolGroupsResponse,
   ToolGroup,
@@ -263,7 +262,6 @@ export class LlamaStackClient extends Core.APIClient {
   safety: API.Safety = new API.Safety(this);
   shields: API.Shields = new API.Shields(this);
   syntheticDataGeneration: API.SyntheticDataGeneration = new API.SyntheticDataGeneration(this);
-  telemetry: API.Telemetry = new API.Telemetry(this);
   scoring: API.Scoring = new API.Scoring(this);
   scoringFunctions: API.ScoringFunctions = new API.ScoringFunctions(this);
   benchmarks: API.Benchmarks = new API.Benchmarks(this);
@@ -341,7 +339,6 @@ LlamaStackClient.Moderations = Moderations;
 LlamaStackClient.Safety = Safety;
 LlamaStackClient.Shields = Shields;
 LlamaStackClient.SyntheticDataGeneration = SyntheticDataGeneration;
-LlamaStackClient.Telemetry = Telemetry;
 LlamaStackClient.Scoring = Scoring;
 LlamaStackClient.ScoringFunctions = ScoringFunctions;
 LlamaStackClient.Benchmarks = Benchmarks;
@@ -494,8 +491,6 @@ export declare namespace LlamaStackClient {
     type SyntheticDataGenerationResponse as SyntheticDataGenerationResponse,
     type SyntheticDataGenerationGenerateParams as SyntheticDataGenerationGenerateParams,
   };
-
-  export { Telemetry as Telemetry };
 
   export {
     Scoring as Scoring,
