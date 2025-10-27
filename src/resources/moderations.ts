@@ -72,9 +72,9 @@ export interface ModerationCreateParams {
   input: string | Array<string>;
 
   /**
-   * The content moderation model you would like to use.
+   * (Optional) The content moderation model you would like to use.
    */
-  model: string;
+  model?: string;
 }
 
 export declare namespace Moderations {
