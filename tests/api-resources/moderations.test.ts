@@ -7,7 +7,7 @@ const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] 
 
 describe('resource moderations', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.moderations.create({ input: 'string', model: 'model' });
+    const responsePromise = client.moderations.create({ input: 'string' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
