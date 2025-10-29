@@ -2,17 +2,7 @@
 
 import { APIResource } from '../../resource';
 import * as DatasetsAPI from './datasets';
-import {
-  DatasetAppendrowsParams,
-  DatasetIterrowsParams,
-  DatasetIterrowsResponse,
-  DatasetListResponse,
-  DatasetRegisterParams,
-  DatasetRegisterResponse,
-  DatasetRetrieveResponse,
-  Datasets,
-  ListDatasetsResponse,
-} from './datasets';
+import { Datasets } from './datasets';
 
 export class Beta extends APIResource {
   datasets: DatasetsAPI.Datasets = new DatasetsAPI.Datasets(this._client);
@@ -21,15 +11,5 @@ export class Beta extends APIResource {
 Beta.Datasets = Datasets;
 
 export declare namespace Beta {
-  export {
-    Datasets as Datasets,
-    type ListDatasetsResponse as ListDatasetsResponse,
-    type DatasetRetrieveResponse as DatasetRetrieveResponse,
-    type DatasetListResponse as DatasetListResponse,
-    type DatasetIterrowsResponse as DatasetIterrowsResponse,
-    type DatasetRegisterResponse as DatasetRegisterResponse,
-    type DatasetAppendrowsParams as DatasetAppendrowsParams,
-    type DatasetIterrowsParams as DatasetIterrowsParams,
-    type DatasetRegisterParams as DatasetRegisterParams,
-  };
+  export { Datasets as Datasets };
 }

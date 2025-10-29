@@ -2,7 +2,6 @@
 
 Types:
 
-- <code><a href="./src/resources/shared.ts">AgentConfig</a></code>
 - <code><a href="./src/resources/shared.ts">CompletionMessage</a></code>
 - <code><a href="./src/resources/shared.ts">Document</a></code>
 - <code><a href="./src/resources/shared.ts">InterleavedContent</a></code>
@@ -11,9 +10,7 @@ Types:
 - <code><a href="./src/resources/shared.ts">ParamType</a></code>
 - <code><a href="./src/resources/shared.ts">QueryConfig</a></code>
 - <code><a href="./src/resources/shared.ts">QueryResult</a></code>
-- <code><a href="./src/resources/shared.ts">ResponseFormat</a></code>
 - <code><a href="./src/resources/shared.ts">SafetyViolation</a></code>
-- <code><a href="./src/resources/shared.ts">SamplingParams</a></code>
 - <code><a href="./src/resources/shared.ts">ScoringResult</a></code>
 - <code><a href="./src/resources/shared.ts">SystemMessage</a></code>
 - <code><a href="./src/resources/shared.ts">ToolCall</a></code>
@@ -276,7 +273,7 @@ Types:
 
 Methods:
 
-- <code title="get /v1/inspect/routes">client.routes.<a href="./src/resources/routes.ts">list</a>() -> RouteListResponse</code>
+- <code title="get /v1/inspect/routes">client.routes.<a href="./src/resources/routes.ts">list</a>({ ...params }) -> RouteListResponse</code>
 
 # Moderations
 
@@ -371,155 +368,24 @@ Methods:
 
 ## Inference
 
-Types:
-
-- <code><a href="./src/resources/alpha/inference.ts">InferenceRerankResponse</a></code>
-
-Methods:
-
-- <code title="post /v1alpha/inference/rerank">client.alpha.inference.<a href="./src/resources/alpha/inference.ts">rerank</a>({ ...params }) -> InferenceRerankResponse</code>
-
 ## PostTraining
-
-Types:
-
-- <code><a href="./src/resources/alpha/post-training/post-training.ts">AlgorithmConfig</a></code>
-- <code><a href="./src/resources/alpha/post-training/post-training.ts">ListPostTrainingJobsResponse</a></code>
-- <code><a href="./src/resources/alpha/post-training/post-training.ts">PostTrainingJob</a></code>
-
-Methods:
-
-- <code title="post /v1alpha/post-training/preference-optimize">client.alpha.postTraining.<a href="./src/resources/alpha/post-training/post-training.ts">preferenceOptimize</a>({ ...params }) -> PostTrainingJob</code>
-- <code title="post /v1alpha/post-training/supervised-fine-tune">client.alpha.postTraining.<a href="./src/resources/alpha/post-training/post-training.ts">supervisedFineTune</a>({ ...params }) -> PostTrainingJob</code>
 
 ### Job
 
-Types:
-
-- <code><a href="./src/resources/alpha/post-training/job.ts">JobListResponse</a></code>
-- <code><a href="./src/resources/alpha/post-training/job.ts">JobArtifactsResponse</a></code>
-- <code><a href="./src/resources/alpha/post-training/job.ts">JobStatusResponse</a></code>
-
-Methods:
-
-- <code title="get /v1alpha/post-training/jobs">client.alpha.postTraining.job.<a href="./src/resources/alpha/post-training/job.ts">list</a>() -> JobListResponse</code>
-- <code title="get /v1alpha/post-training/job/artifacts">client.alpha.postTraining.job.<a href="./src/resources/alpha/post-training/job.ts">artifacts</a>({ ...params }) -> JobArtifactsResponse</code>
-- <code title="post /v1alpha/post-training/job/cancel">client.alpha.postTraining.job.<a href="./src/resources/alpha/post-training/job.ts">cancel</a>({ ...params }) -> void</code>
-- <code title="get /v1alpha/post-training/job/status">client.alpha.postTraining.job.<a href="./src/resources/alpha/post-training/job.ts">status</a>({ ...params }) -> JobStatusResponse</code>
-
 ## Benchmarks
-
-Types:
-
-- <code><a href="./src/resources/alpha/benchmarks.ts">Benchmark</a></code>
-- <code><a href="./src/resources/alpha/benchmarks.ts">ListBenchmarksResponse</a></code>
-- <code><a href="./src/resources/alpha/benchmarks.ts">BenchmarkListResponse</a></code>
-
-Methods:
-
-- <code title="get /v1alpha/eval/benchmarks/{benchmark_id}">client.alpha.benchmarks.<a href="./src/resources/alpha/benchmarks.ts">retrieve</a>(benchmarkId) -> Benchmark</code>
-- <code title="get /v1alpha/eval/benchmarks">client.alpha.benchmarks.<a href="./src/resources/alpha/benchmarks.ts">list</a>() -> BenchmarkListResponse</code>
-- <code title="post /v1alpha/eval/benchmarks">client.alpha.benchmarks.<a href="./src/resources/alpha/benchmarks.ts">register</a>({ ...params }) -> void</code>
 
 ## Eval
 
-Types:
-
-- <code><a href="./src/resources/alpha/eval/eval.ts">BenchmarkConfig</a></code>
-- <code><a href="./src/resources/alpha/eval/eval.ts">EvaluateResponse</a></code>
-- <code><a href="./src/resources/alpha/eval/eval.ts">Job</a></code>
-
-Methods:
-
-- <code title="post /v1alpha/eval/benchmarks/{benchmark_id}/evaluations">client.alpha.eval.<a href="./src/resources/alpha/eval/eval.ts">evaluateRows</a>(benchmarkId, { ...params }) -> EvaluateResponse</code>
-- <code title="post /v1alpha/eval/benchmarks/{benchmark_id}/evaluations">client.alpha.eval.<a href="./src/resources/alpha/eval/eval.ts">evaluateRowsAlpha</a>(benchmarkId, { ...params }) -> EvaluateResponse</code>
-- <code title="post /v1alpha/eval/benchmarks/{benchmark_id}/jobs">client.alpha.eval.<a href="./src/resources/alpha/eval/eval.ts">runEval</a>(benchmarkId, { ...params }) -> Job</code>
-- <code title="post /v1alpha/eval/benchmarks/{benchmark_id}/jobs">client.alpha.eval.<a href="./src/resources/alpha/eval/eval.ts">runEvalAlpha</a>(benchmarkId, { ...params }) -> Job</code>
-
 ### Jobs
-
-Methods:
-
-- <code title="get /v1alpha/eval/benchmarks/{benchmark_id}/jobs/{job_id}/result">client.alpha.eval.jobs.<a href="./src/resources/alpha/eval/jobs.ts">retrieve</a>(benchmarkId, jobId) -> EvaluateResponse</code>
-- <code title="delete /v1alpha/eval/benchmarks/{benchmark_id}/jobs/{job_id}">client.alpha.eval.jobs.<a href="./src/resources/alpha/eval/jobs.ts">cancel</a>(benchmarkId, jobId) -> void</code>
-- <code title="get /v1alpha/eval/benchmarks/{benchmark_id}/jobs/{job_id}">client.alpha.eval.jobs.<a href="./src/resources/alpha/eval/jobs.ts">status</a>(benchmarkId, jobId) -> Job</code>
 
 ## Agents
 
-Types:
-
-- <code><a href="./src/resources/alpha/agents/agents.ts">InferenceStep</a></code>
-- <code><a href="./src/resources/alpha/agents/agents.ts">MemoryRetrievalStep</a></code>
-- <code><a href="./src/resources/alpha/agents/agents.ts">ShieldCallStep</a></code>
-- <code><a href="./src/resources/alpha/agents/agents.ts">ToolExecutionStep</a></code>
-- <code><a href="./src/resources/alpha/agents/agents.ts">ToolResponse</a></code>
-- <code><a href="./src/resources/alpha/agents/agents.ts">AgentCreateResponse</a></code>
-- <code><a href="./src/resources/alpha/agents/agents.ts">AgentRetrieveResponse</a></code>
-- <code><a href="./src/resources/alpha/agents/agents.ts">AgentListResponse</a></code>
-
-Methods:
-
-- <code title="post /v1alpha/agents">client.alpha.agents.<a href="./src/resources/alpha/agents/agents.ts">create</a>({ ...params }) -> AgentCreateResponse</code>
-- <code title="get /v1alpha/agents/{agent_id}">client.alpha.agents.<a href="./src/resources/alpha/agents/agents.ts">retrieve</a>(agentId) -> AgentRetrieveResponse</code>
-- <code title="get /v1alpha/agents">client.alpha.agents.<a href="./src/resources/alpha/agents/agents.ts">list</a>({ ...params }) -> AgentListResponse</code>
-- <code title="delete /v1alpha/agents/{agent_id}">client.alpha.agents.<a href="./src/resources/alpha/agents/agents.ts">delete</a>(agentId) -> void</code>
-
 ### Session
-
-Types:
-
-- <code><a href="./src/resources/alpha/agents/session.ts">Session</a></code>
-- <code><a href="./src/resources/alpha/agents/session.ts">SessionCreateResponse</a></code>
-- <code><a href="./src/resources/alpha/agents/session.ts">SessionListResponse</a></code>
-
-Methods:
-
-- <code title="post /v1alpha/agents/{agent_id}/session">client.alpha.agents.session.<a href="./src/resources/alpha/agents/session.ts">create</a>(agentId, { ...params }) -> SessionCreateResponse</code>
-- <code title="get /v1alpha/agents/{agent_id}/session/{session_id}">client.alpha.agents.session.<a href="./src/resources/alpha/agents/session.ts">retrieve</a>(agentId, sessionId, { ...params }) -> Session</code>
-- <code title="get /v1alpha/agents/{agent_id}/sessions">client.alpha.agents.session.<a href="./src/resources/alpha/agents/session.ts">list</a>(agentId, { ...params }) -> SessionListResponse</code>
-- <code title="delete /v1alpha/agents/{agent_id}/session/{session_id}">client.alpha.agents.session.<a href="./src/resources/alpha/agents/session.ts">delete</a>(agentId, sessionId) -> void</code>
 
 ### Steps
 
-Types:
-
-- <code><a href="./src/resources/alpha/agents/steps.ts">StepRetrieveResponse</a></code>
-
-Methods:
-
-- <code title="get /v1alpha/agents/{agent_id}/session/{session_id}/turn/{turn_id}/step/{step_id}">client.alpha.agents.steps.<a href="./src/resources/alpha/agents/steps.ts">retrieve</a>(agentId, sessionId, turnId, stepId) -> StepRetrieveResponse</code>
-
 ### Turn
-
-Types:
-
-- <code><a href="./src/resources/alpha/agents/turn.ts">AgentTurnResponseStreamChunk</a></code>
-- <code><a href="./src/resources/alpha/agents/turn.ts">Turn</a></code>
-- <code><a href="./src/resources/alpha/agents/turn.ts">TurnResponseEvent</a></code>
-
-Methods:
-
-- <code title="post /v1alpha/agents/{agent_id}/session/{session_id}/turn">client.alpha.agents.turn.<a href="./src/resources/alpha/agents/turn.ts">create</a>(agentId, sessionId, { ...params }) -> Turn</code>
-- <code title="get /v1alpha/agents/{agent_id}/session/{session_id}/turn/{turn_id}">client.alpha.agents.turn.<a href="./src/resources/alpha/agents/turn.ts">retrieve</a>(agentId, sessionId, turnId) -> Turn</code>
-- <code title="post /v1alpha/agents/{agent_id}/session/{session_id}/turn/{turn_id}/resume">client.alpha.agents.turn.<a href="./src/resources/alpha/agents/turn.ts">resume</a>(agentId, sessionId, turnId, { ...params }) -> Turn</code>
 
 # Beta
 
 ## Datasets
-
-Types:
-
-- <code><a href="./src/resources/beta/datasets.ts">ListDatasetsResponse</a></code>
-- <code><a href="./src/resources/beta/datasets.ts">DatasetRetrieveResponse</a></code>
-- <code><a href="./src/resources/beta/datasets.ts">DatasetListResponse</a></code>
-- <code><a href="./src/resources/beta/datasets.ts">DatasetIterrowsResponse</a></code>
-- <code><a href="./src/resources/beta/datasets.ts">DatasetRegisterResponse</a></code>
-
-Methods:
-
-- <code title="get /v1beta/datasets/{dataset_id}">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">retrieve</a>(datasetId) -> DatasetRetrieveResponse</code>
-- <code title="get /v1beta/datasets">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">list</a>() -> DatasetListResponse</code>
-- <code title="post /v1beta/datasetio/append-rows/{dataset_id}">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">appendrows</a>(datasetId, { ...params }) -> void</code>
-- <code title="get /v1beta/datasetio/iterrows/{dataset_id}">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">iterrows</a>(datasetId, { ...params }) -> DatasetIterrowsResponse</code>
-- <code title="post /v1beta/datasets">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">register</a>({ ...params }) -> DatasetRegisterResponse</code>
-- <code title="delete /v1beta/datasets/{dataset_id}">client.beta.datasets.<a href="./src/resources/beta/datasets.ts">unregister</a>(datasetId) -> void</code>
