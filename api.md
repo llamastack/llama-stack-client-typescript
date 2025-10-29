@@ -276,7 +276,7 @@ Types:
 
 Methods:
 
-- <code title="get /v1/inspect/routes">client.routes.<a href="./src/resources/routes.ts">list</a>({ ...params }) -> RouteListResponse</code>
+- <code title="get /v1/inspect/routes">client.routes.<a href="./src/resources/routes.ts">list</a>() -> RouteListResponse</code>
 
 # Moderations
 
