@@ -142,11 +142,6 @@ export interface ResponseObject {
   previous_response_id?: string;
 
   /**
-   * (Optional) Reference to a prompt template and its variables.
-   */
-  prompt?: ResponseObject.Prompt;
-
-  /**
    * (Optional) Sampling temperature used for generation
    */
   temperature?: number;
@@ -189,7 +184,6 @@ export namespace ResponseObject {
       | Array<
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentFile
         >
       | Array<
           | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
@@ -236,44 +230,9 @@ export namespace ResponseObject {
       type: 'input_image';
 
       /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
-
-      /**
        * (Optional) URL of the image content
        */
       image_url?: string;
-    }
-
-    /**
-     * File content for input messages in OpenAI response format.
-     */
-    export interface OpenAIResponseInputMessageContentFile {
-      /**
-       * The type of the input item. Always `input_file`.
-       */
-      type: 'input_file';
-
-      /**
-       * The data of the file to be sent to the model.
-       */
-      file_data?: string;
-
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
-
-      /**
-       * The URL of the file to be sent to the model.
-       */
-      file_url?: string;
-
-      /**
-       * The name of the file to be sent to the model.
-       */
-      filename?: string;
     }
 
     export interface OpenAIResponseOutputMessageContentOutputText {
@@ -663,105 +622,6 @@ export namespace ResponseObject {
   }
 
   /**
-   * (Optional) Reference to a prompt template and its variables.
-   */
-  export interface Prompt {
-    /**
-     * Unique identifier of the prompt template
-     */
-    id: string;
-
-    /**
-     * Dictionary of variable names to OpenAIResponseInputMessageContent structure for
-     * template substitution. The substitution values can either be strings, or other
-     * Response input types like images or files.
-     */
-    variables?: {
-      [key: string]:
-        | Prompt.OpenAIResponseInputMessageContentText
-        | Prompt.OpenAIResponseInputMessageContentImage
-        | Prompt.OpenAIResponseInputMessageContentFile;
-    };
-
-    /**
-     * Version number of the prompt to use (defaults to latest if not specified)
-     */
-    version?: string;
-  }
-
-  export namespace Prompt {
-    /**
-     * Text content for input messages in OpenAI response format.
-     */
-    export interface OpenAIResponseInputMessageContentText {
-      /**
-       * The text content of the input message
-       */
-      text: string;
-
-      /**
-       * Content type identifier, always "input_text"
-       */
-      type: 'input_text';
-    }
-
-    /**
-     * Image content for input messages in OpenAI response format.
-     */
-    export interface OpenAIResponseInputMessageContentImage {
-      /**
-       * Level of detail for image processing, can be "low", "high", or "auto"
-       */
-      detail: 'low' | 'high' | 'auto';
-
-      /**
-       * Content type identifier, always "input_image"
-       */
-      type: 'input_image';
-
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
-
-      /**
-       * (Optional) URL of the image content
-       */
-      image_url?: string;
-    }
-
-    /**
-     * File content for input messages in OpenAI response format.
-     */
-    export interface OpenAIResponseInputMessageContentFile {
-      /**
-       * The type of the input item. Always `input_file`.
-       */
-      type: 'input_file';
-
-      /**
-       * The data of the file to be sent to the model.
-       */
-      file_data?: string;
-
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
-
-      /**
-       * The URL of the file to be sent to the model.
-       */
-      file_url?: string;
-
-      /**
-       * The name of the file to be sent to the model.
-       */
-      filename?: string;
-    }
-  }
-
-  /**
    * Web search tool configuration for OpenAI response inputs.
    */
   export interface OpenAIResponseInputToolWebSearch {
@@ -1064,7 +924,6 @@ export namespace ResponseObjectStream {
         | Array<
             | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
             | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
-            | OpenAIResponseMessage.OpenAIResponseInputMessageContentFile
           >
         | Array<
             | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
@@ -1111,44 +970,9 @@ export namespace ResponseObjectStream {
         type: 'input_image';
 
         /**
-         * (Optional) The ID of the file to be sent to the model.
-         */
-        file_id?: string;
-
-        /**
          * (Optional) URL of the image content
          */
         image_url?: string;
-      }
-
-      /**
-       * File content for input messages in OpenAI response format.
-       */
-      export interface OpenAIResponseInputMessageContentFile {
-        /**
-         * The type of the input item. Always `input_file`.
-         */
-        type: 'input_file';
-
-        /**
-         * The data of the file to be sent to the model.
-         */
-        file_data?: string;
-
-        /**
-         * (Optional) The ID of the file to be sent to the model.
-         */
-        file_id?: string;
-
-        /**
-         * The URL of the file to be sent to the model.
-         */
-        file_url?: string;
-
-        /**
-         * The name of the file to be sent to the model.
-         */
-        filename?: string;
       }
 
       export interface OpenAIResponseOutputMessageContentOutputText {
@@ -1528,7 +1352,6 @@ export namespace ResponseObjectStream {
         | Array<
             | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
             | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
-            | OpenAIResponseMessage.OpenAIResponseInputMessageContentFile
           >
         | Array<
             | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
@@ -1575,44 +1398,9 @@ export namespace ResponseObjectStream {
         type: 'input_image';
 
         /**
-         * (Optional) The ID of the file to be sent to the model.
-         */
-        file_id?: string;
-
-        /**
          * (Optional) URL of the image content
          */
         image_url?: string;
-      }
-
-      /**
-       * File content for input messages in OpenAI response format.
-       */
-      export interface OpenAIResponseInputMessageContentFile {
-        /**
-         * The type of the input item. Always `input_file`.
-         */
-        type: 'input_file';
-
-        /**
-         * The data of the file to be sent to the model.
-         */
-        file_data?: string;
-
-        /**
-         * (Optional) The ID of the file to be sent to the model.
-         */
-        file_id?: string;
-
-        /**
-         * The URL of the file to be sent to the model.
-         */
-        file_url?: string;
-
-        /**
-         * The name of the file to be sent to the model.
-         */
-        filename?: string;
       }
 
       export interface OpenAIResponseOutputMessageContentOutputText {
@@ -3250,11 +3038,6 @@ export interface ResponseListResponse {
   previous_response_id?: string;
 
   /**
-   * (Optional) Reference to a prompt template and its variables.
-   */
-  prompt?: ResponseListResponse.Prompt;
-
-  /**
    * (Optional) Sampling temperature used for generation
    */
   temperature?: number;
@@ -3297,7 +3080,6 @@ export namespace ResponseListResponse {
       | Array<
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentFile
         >
       | Array<
           | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
@@ -3344,44 +3126,9 @@ export namespace ResponseListResponse {
       type: 'input_image';
 
       /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
-
-      /**
        * (Optional) URL of the image content
        */
       image_url?: string;
-    }
-
-    /**
-     * File content for input messages in OpenAI response format.
-     */
-    export interface OpenAIResponseInputMessageContentFile {
-      /**
-       * The type of the input item. Always `input_file`.
-       */
-      type: 'input_file';
-
-      /**
-       * The data of the file to be sent to the model.
-       */
-      file_data?: string;
-
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
-
-      /**
-       * The URL of the file to be sent to the model.
-       */
-      file_url?: string;
-
-      /**
-       * The name of the file to be sent to the model.
-       */
-      filename?: string;
     }
 
     export interface OpenAIResponseOutputMessageContentOutputText {
@@ -3753,7 +3500,6 @@ export namespace ResponseListResponse {
       | Array<
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentFile
         >
       | Array<
           | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
@@ -3800,44 +3546,9 @@ export namespace ResponseListResponse {
       type: 'input_image';
 
       /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
-
-      /**
        * (Optional) URL of the image content
        */
       image_url?: string;
-    }
-
-    /**
-     * File content for input messages in OpenAI response format.
-     */
-    export interface OpenAIResponseInputMessageContentFile {
-      /**
-       * The type of the input item. Always `input_file`.
-       */
-      type: 'input_file';
-
-      /**
-       * The data of the file to be sent to the model.
-       */
-      file_data?: string;
-
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
-
-      /**
-       * The URL of the file to be sent to the model.
-       */
-      file_url?: string;
-
-      /**
-       * The name of the file to be sent to the model.
-       */
-      filename?: string;
     }
 
     export interface OpenAIResponseOutputMessageContentOutputText {
@@ -3959,7 +3670,6 @@ export namespace ResponseListResponse {
       | Array<
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentFile
         >
       | Array<
           | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
@@ -4006,44 +3716,9 @@ export namespace ResponseListResponse {
       type: 'input_image';
 
       /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
-
-      /**
        * (Optional) URL of the image content
        */
       image_url?: string;
-    }
-
-    /**
-     * File content for input messages in OpenAI response format.
-     */
-    export interface OpenAIResponseInputMessageContentFile {
-      /**
-       * The type of the input item. Always `input_file`.
-       */
-      type: 'input_file';
-
-      /**
-       * The data of the file to be sent to the model.
-       */
-      file_data?: string;
-
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
-
-      /**
-       * The URL of the file to be sent to the model.
-       */
-      file_url?: string;
-
-      /**
-       * The name of the file to be sent to the model.
-       */
-      filename?: string;
     }
 
     export interface OpenAIResponseOutputMessageContentOutputText {
@@ -4433,105 +4108,6 @@ export namespace ResponseListResponse {
   }
 
   /**
-   * (Optional) Reference to a prompt template and its variables.
-   */
-  export interface Prompt {
-    /**
-     * Unique identifier of the prompt template
-     */
-    id: string;
-
-    /**
-     * Dictionary of variable names to OpenAIResponseInputMessageContent structure for
-     * template substitution. The substitution values can either be strings, or other
-     * Response input types like images or files.
-     */
-    variables?: {
-      [key: string]:
-        | Prompt.OpenAIResponseInputMessageContentText
-        | Prompt.OpenAIResponseInputMessageContentImage
-        | Prompt.OpenAIResponseInputMessageContentFile;
-    };
-
-    /**
-     * Version number of the prompt to use (defaults to latest if not specified)
-     */
-    version?: string;
-  }
-
-  export namespace Prompt {
-    /**
-     * Text content for input messages in OpenAI response format.
-     */
-    export interface OpenAIResponseInputMessageContentText {
-      /**
-       * The text content of the input message
-       */
-      text: string;
-
-      /**
-       * Content type identifier, always "input_text"
-       */
-      type: 'input_text';
-    }
-
-    /**
-     * Image content for input messages in OpenAI response format.
-     */
-    export interface OpenAIResponseInputMessageContentImage {
-      /**
-       * Level of detail for image processing, can be "low", "high", or "auto"
-       */
-      detail: 'low' | 'high' | 'auto';
-
-      /**
-       * Content type identifier, always "input_image"
-       */
-      type: 'input_image';
-
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
-
-      /**
-       * (Optional) URL of the image content
-       */
-      image_url?: string;
-    }
-
-    /**
-     * File content for input messages in OpenAI response format.
-     */
-    export interface OpenAIResponseInputMessageContentFile {
-      /**
-       * The type of the input item. Always `input_file`.
-       */
-      type: 'input_file';
-
-      /**
-       * The data of the file to be sent to the model.
-       */
-      file_data?: string;
-
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
-
-      /**
-       * The URL of the file to be sent to the model.
-       */
-      file_url?: string;
-
-      /**
-       * The name of the file to be sent to the model.
-       */
-      filename?: string;
-    }
-  }
-
-  /**
    * Web search tool configuration for OpenAI response inputs.
    */
   export interface OpenAIResponseInputToolWebSearch {
@@ -4777,11 +4353,6 @@ export interface ResponseCreateParamsBase {
    */
   previous_response_id?: string;
 
-  /**
-   * (Optional) Prompt object with ID, version, and variables.
-   */
-  prompt?: ResponseCreateParams.Prompt;
-
   store?: boolean;
 
   stream?: boolean;
@@ -4813,7 +4384,6 @@ export namespace ResponseCreateParams {
       | Array<
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentFile
         >
       | Array<
           | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
@@ -4860,44 +4430,9 @@ export namespace ResponseCreateParams {
       type: 'input_image';
 
       /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
-
-      /**
        * (Optional) URL of the image content
        */
       image_url?: string;
-    }
-
-    /**
-     * File content for input messages in OpenAI response format.
-     */
-    export interface OpenAIResponseInputMessageContentFile {
-      /**
-       * The type of the input item. Always `input_file`.
-       */
-      type: 'input_file';
-
-      /**
-       * The data of the file to be sent to the model.
-       */
-      file_data?: string;
-
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
-
-      /**
-       * The URL of the file to be sent to the model.
-       */
-      file_url?: string;
-
-      /**
-       * The name of the file to be sent to the model.
-       */
-      filename?: string;
     }
 
     export interface OpenAIResponseOutputMessageContentOutputText {
@@ -5269,7 +4804,6 @@ export namespace ResponseCreateParams {
       | Array<
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentFile
         >
       | Array<
           | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
@@ -5316,44 +4850,9 @@ export namespace ResponseCreateParams {
       type: 'input_image';
 
       /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
-
-      /**
        * (Optional) URL of the image content
        */
       image_url?: string;
-    }
-
-    /**
-     * File content for input messages in OpenAI response format.
-     */
-    export interface OpenAIResponseInputMessageContentFile {
-      /**
-       * The type of the input item. Always `input_file`.
-       */
-      type: 'input_file';
-
-      /**
-       * The data of the file to be sent to the model.
-       */
-      file_data?: string;
-
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
-
-      /**
-       * The URL of the file to be sent to the model.
-       */
-      file_url?: string;
-
-      /**
-       * The name of the file to be sent to the model.
-       */
-      filename?: string;
     }
 
     export interface OpenAIResponseOutputMessageContentOutputText {
@@ -5461,105 +4960,6 @@ export namespace ResponseCreateParams {
        * Content part type identifier, always "refusal"
        */
       type: 'refusal';
-    }
-  }
-
-  /**
-   * (Optional) Prompt object with ID, version, and variables.
-   */
-  export interface Prompt {
-    /**
-     * Unique identifier of the prompt template
-     */
-    id: string;
-
-    /**
-     * Dictionary of variable names to OpenAIResponseInputMessageContent structure for
-     * template substitution. The substitution values can either be strings, or other
-     * Response input types like images or files.
-     */
-    variables?: {
-      [key: string]:
-        | Prompt.OpenAIResponseInputMessageContentText
-        | Prompt.OpenAIResponseInputMessageContentImage
-        | Prompt.OpenAIResponseInputMessageContentFile;
-    };
-
-    /**
-     * Version number of the prompt to use (defaults to latest if not specified)
-     */
-    version?: string;
-  }
-
-  export namespace Prompt {
-    /**
-     * Text content for input messages in OpenAI response format.
-     */
-    export interface OpenAIResponseInputMessageContentText {
-      /**
-       * The text content of the input message
-       */
-      text: string;
-
-      /**
-       * Content type identifier, always "input_text"
-       */
-      type: 'input_text';
-    }
-
-    /**
-     * Image content for input messages in OpenAI response format.
-     */
-    export interface OpenAIResponseInputMessageContentImage {
-      /**
-       * Level of detail for image processing, can be "low", "high", or "auto"
-       */
-      detail: 'low' | 'high' | 'auto';
-
-      /**
-       * Content type identifier, always "input_image"
-       */
-      type: 'input_image';
-
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
-
-      /**
-       * (Optional) URL of the image content
-       */
-      image_url?: string;
-    }
-
-    /**
-     * File content for input messages in OpenAI response format.
-     */
-    export interface OpenAIResponseInputMessageContentFile {
-      /**
-       * The type of the input item. Always `input_file`.
-       */
-      type: 'input_file';
-
-      /**
-       * The data of the file to be sent to the model.
-       */
-      file_data?: string;
-
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
-
-      /**
-       * The URL of the file to be sent to the model.
-       */
-      file_url?: string;
-
-      /**
-       * The name of the file to be sent to the model.
-       */
-      filename?: string;
     }
   }
 

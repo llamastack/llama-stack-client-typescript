@@ -51,7 +51,7 @@ export {
   type ResponseCreateParamsStreaming,
   type ResponseListParams,
 } from './responses/responses';
-export { Routes, type ListRoutesResponse, type RouteListResponse, type RouteListParams } from './routes';
+export { Routes, type ListRoutesResponse, type RouteListResponse } from './routes';
 export { Safety, type RunShieldResponse, type SafetyRunShieldParams } from './safety';
 export {
   Scoring,
