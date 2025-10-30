@@ -38,6 +38,16 @@ export {
   type ModelRegisterParams,
 } from './models/models';
 export { Moderations, type CreateResponse, type ModerationCreateParams } from './moderations';
+export {
+  Prompts,
+  type ListPromptsResponse,
+  type Prompt,
+  type PromptListResponse,
+  type PromptCreateParams,
+  type PromptRetrieveParams,
+  type PromptUpdateParams,
+  type PromptSetDefaultVersionParams,
+} from './prompts/prompts';
 export { Providers, type ListProvidersResponse, type ProviderListResponse } from './providers';
 export {
   ResponseListResponsesOpenAICursorPage,

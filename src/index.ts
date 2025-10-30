@@ -95,6 +95,16 @@ import {
   Models,
 } from './resources/models/models';
 import {
+  ListPromptsResponse,
+  Prompt,
+  PromptCreateParams,
+  PromptListResponse,
+  PromptRetrieveParams,
+  PromptSetDefaultVersionParams,
+  PromptUpdateParams,
+  Prompts,
+} from './resources/prompts/prompts';
+import {
   ResponseCreateParams,
   ResponseCreateParamsNonStreaming,
   ResponseCreateParamsStreaming,
@@ -241,6 +251,7 @@ export class LlamaStackClient extends Core.APIClient {
   tools: API.Tools = new API.Tools(this);
   toolRuntime: API.ToolRuntime = new API.ToolRuntime(this);
   responses: API.Responses = new API.Responses(this);
+  prompts: API.Prompts = new API.Prompts(this);
   conversations: API.Conversations = new API.Conversations(this);
   inspect: API.Inspect = new API.Inspect(this);
   embeddings: API.Embeddings = new API.Embeddings(this);
@@ -316,6 +327,7 @@ LlamaStackClient.Tools = Tools;
 LlamaStackClient.ToolRuntime = ToolRuntime;
 LlamaStackClient.Responses = Responses;
 LlamaStackClient.ResponseListResponsesOpenAICursorPage = ResponseListResponsesOpenAICursorPage;
+LlamaStackClient.Prompts = Prompts;
 LlamaStackClient.Conversations = Conversations;
 LlamaStackClient.Inspect = Inspect;
 LlamaStackClient.Embeddings = Embeddings;
@@ -383,6 +395,17 @@ export declare namespace LlamaStackClient {
     type ResponseCreateParamsNonStreaming as ResponseCreateParamsNonStreaming,
     type ResponseCreateParamsStreaming as ResponseCreateParamsStreaming,
     type ResponseListParams as ResponseListParams,
+  };
+
+  export {
+    Prompts as Prompts,
+    type ListPromptsResponse as ListPromptsResponse,
+    type Prompt as Prompt,
+    type PromptListResponse as PromptListResponse,
+    type PromptCreateParams as PromptCreateParams,
+    type PromptRetrieveParams as PromptRetrieveParams,
+    type PromptUpdateParams as PromptUpdateParams,
+    type PromptSetDefaultVersionParams as PromptSetDefaultVersionParams,
   };
 
   export {

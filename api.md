@@ -92,6 +92,29 @@ Methods:
 
 - <code title="get /v1/responses/{response_id}/input_items">client.responses.inputItems.<a href="./src/resources/responses/input-items.ts">list</a>(responseId, { ...params }) -> InputItemListResponse</code>
 
+# Prompts
+
+Types:
+
+- <code><a href="./src/resources/prompts/prompts.ts">ListPromptsResponse</a></code>
+- <code><a href="./src/resources/prompts/prompts.ts">Prompt</a></code>
+- <code><a href="./src/resources/prompts/prompts.ts">PromptListResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/prompts">client.prompts.<a href="./src/resources/prompts/prompts.ts">create</a>({ ...params }) -> Prompt</code>
+- <code title="get /v1/prompts/{prompt_id}">client.prompts.<a href="./src/resources/prompts/prompts.ts">retrieve</a>(promptId, { ...params }) -> Prompt</code>
+- <code title="post /v1/prompts/{prompt_id}">client.prompts.<a href="./src/resources/prompts/prompts.ts">update</a>(promptId, { ...params }) -> Prompt</code>
+- <code title="get /v1/prompts">client.prompts.<a href="./src/resources/prompts/prompts.ts">list</a>() -> PromptListResponse</code>
+- <code title="delete /v1/prompts/{prompt_id}">client.prompts.<a href="./src/resources/prompts/prompts.ts">delete</a>(promptId) -> void</code>
+- <code title="post /v1/prompts/{prompt_id}/set-default-version">client.prompts.<a href="./src/resources/prompts/prompts.ts">setDefaultVersion</a>(promptId, { ...params }) -> Prompt</code>
+
+## Versions
+
+Methods:
+
+- <code title="get /v1/prompts/{prompt_id}/versions">client.prompts.versions.<a href="./src/resources/prompts/versions.ts">list</a>(promptId) -> PromptListResponse</code>
+
 # Conversations
 
 Types:
