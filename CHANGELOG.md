@@ -1,5 +1,73 @@
 # Changelog
 
+## 0.4.0-alpha.1 (2025-10-31)
+
+Full Changelog: [v0.2.23-alpha.1...v0.4.0-alpha.1](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.2.23-alpha.1...v0.4.0-alpha.1)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** /v1/inspect only lists v1 apis by default
+* **api:** /v1/inspect only lists v1 apis by default
+* **api:** use input_schema instead of parameters for tools
+* **api:** fixes to remove deprecated inference resources
+
+### Features
+
+* **api:** Adding prompts API to stainless config ([5ab8d74](https://github.com/llamastack/llama-stack-client-typescript/commit/5ab8d7423f6a9c26453b36c9daee99d343993d4b))
+* **api:** expires_after changes for /files ([a0b0fb7](https://github.com/llamastack/llama-stack-client-typescript/commit/a0b0fb7aa74668f3f6996c178f9654723b8b0f22))
+* **api:** fix file batches SDK to list_files ([25a0f10](https://github.com/llamastack/llama-stack-client-typescript/commit/25a0f10cffa7de7f1457d65c97259911bc70ab0a))
+* **api:** fixes to remove deprecated inference resources ([367d775](https://github.com/llamastack/llama-stack-client-typescript/commit/367d775c3d5a2fd85bf138d2b175e91b7c185913))
+* **api:** fixes to URLs ([e4f7840](https://github.com/llamastack/llama-stack-client-typescript/commit/e4f78407f74f3ba7597de355c314e1932dd94761))
+* **api:** manual updates ([7d2e375](https://github.com/llamastack/llama-stack-client-typescript/commit/7d2e375bde7bd04ae58cc49fcd5ab7b134b25640))
+* **api:** manual updates ([0302d54](https://github.com/llamastack/llama-stack-client-typescript/commit/0302d54398d87127ab0e9221a8a92760123d235b))
+* **api:** manual updates ([98a596f](https://github.com/llamastack/llama-stack-client-typescript/commit/98a596f677fe2790e4b4765362aa19b6cff8b97e))
+* **api:** manual updates ([c6fb0b6](https://github.com/llamastack/llama-stack-client-typescript/commit/c6fb0b67d8f2e641c13836a17400e51df0b029f1))
+* **api:** manual updates??! ([4dda064](https://github.com/llamastack/llama-stack-client-typescript/commit/4dda06489f003860e138f396c253b40de01103b6))
+* **api:** move datasets to beta, vector_db -&gt; vector_store ([f32c0be](https://github.com/llamastack/llama-stack-client-typescript/commit/f32c0becb1ec0d66129b7fcaa06de3323ee703da))
+* **api:** move post_training and eval under alpha namespace ([aec1d5f](https://github.com/llamastack/llama-stack-client-typescript/commit/aec1d5ff198473ba736bf543ad00c6626cab9b81))
+* **api:** moving { rerank, agents } to `client.alpha.` ([793e069](https://github.com/llamastack/llama-stack-client-typescript/commit/793e0694d75c2af4535bf991d5858cd1f21300b4))
+* **api:** removing openai/v1 ([b5432de](https://github.com/llamastack/llama-stack-client-typescript/commit/b5432de2ad56ff0d2fd5a5b8e1755b5237616b60))
+* **api:** SDKs for vector store file batches ([b0676c8](https://github.com/llamastack/llama-stack-client-typescript/commit/b0676c837bbd835276fea3fe12f435afdbb75ef7))
+* **api:** SDKs for vector store file batches apis ([88731bf](https://github.com/llamastack/llama-stack-client-typescript/commit/88731bfecd6f548ae79cbe2a1125620e488c42a3))
+* **api:** several updates including Conversations, Responses changes, etc. ([e0728d5](https://github.com/llamastack/llama-stack-client-typescript/commit/e0728d5dd59be8723d9f967d6164351eb05528d1))
+* **api:** sync ([7d85013](https://github.com/llamastack/llama-stack-client-typescript/commit/7d850139d1327a215312a82c98b3428ebc7e5f68))
+* **api:** tool api (input_schema, etc.) changes ([06f2bca](https://github.com/llamastack/llama-stack-client-typescript/commit/06f2bcaf0df2e5d462cbe2d9ef3704ab0cfe9248))
+* **api:** updates to vector_store, etc. ([19535c2](https://github.com/llamastack/llama-stack-client-typescript/commit/19535c27147bf6f6861b807d9eeee471b5625148))
+* **api:** updating post /v1/files to have correct multipart/form-data ([f1cf9d6](https://github.com/llamastack/llama-stack-client-typescript/commit/f1cf9d68b6b2569dfb5ea3e2d2c33eff1a832e47))
+* **api:** use input_schema instead of parameters for tools ([8910a12](https://github.com/llamastack/llama-stack-client-typescript/commit/8910a121146aeddcb8f400101e6a2232245097e0))
+* **api:** vector_db_id -&gt; vector_store_id ([079d89d](https://github.com/llamastack/llama-stack-client-typescript/commit/079d89d6522cb4f2eed5e5a09962d94ad800e883))
+
+
+### Bug Fixes
+
+* **api:** another fix to capture correct responses.create() params ([6acae91](https://github.com/llamastack/llama-stack-client-typescript/commit/6acae910db289080e8f52864f1bdf6d7951d1c3b))
+* **api:** fix the ToolDefParam updates ([5cee3d6](https://github.com/llamastack/llama-stack-client-typescript/commit/5cee3d69650a4c827e12fc046c1d2ec3b2fa9126))
+* **client:** incorrect offset pagination check ([257285f](https://github.com/llamastack/llama-stack-client-typescript/commit/257285f33bb989c9040580dd24251d05f9657bb0))
+* fix stream event model reference ([a71b421](https://github.com/llamastack/llama-stack-client-typescript/commit/a71b421152a609e49e76d01c6e4dd46eb3dbfae0))
+
+
+### Chores
+
+* **api:** /v1/inspect only lists v1 apis by default ([ae3dc95](https://github.com/llamastack/llama-stack-client-typescript/commit/ae3dc95964c908d219b23d7166780eaab6003ef5))
+* **api:** /v1/inspect only lists v1 apis by default ([e30f51c](https://github.com/llamastack/llama-stack-client-typescript/commit/e30f51c704c39129092255c040bbf5ad90ed0b07))
+* extract some types in mcp docs ([dcc7bb8](https://github.com/llamastack/llama-stack-client-typescript/commit/dcc7bb8b4d940982c2e9c6d1a541636e99fdc5ff))
+* fix readme example ([402f930](https://github.com/llamastack/llama-stack-client-typescript/commit/402f9301d033bb230c9714104fbfa554f3f7cd8f))
+* fix readme examples ([4d5517c](https://github.com/llamastack/llama-stack-client-typescript/commit/4d5517c2b9af2eb6994f5e4b2c033c95d268fb5c))
+* **internal:** codegen related update ([252e0a2](https://github.com/llamastack/llama-stack-client-typescript/commit/252e0a2a38bd8aedab91b401c440a9b10c056cec))
+* **internal:** codegen related update ([34da720](https://github.com/llamastack/llama-stack-client-typescript/commit/34da720c34c35dafb38775243d28dfbdce2497db))
+* **internal:** fix incremental formatting in some cases ([c5c8292](https://github.com/llamastack/llama-stack-client-typescript/commit/c5c8292b631c678efff5498bbab9f5a43bee50b6))
+* **internal:** use npm pack for build uploads ([a246793](https://github.com/llamastack/llama-stack-client-typescript/commit/a24679300cff93fea8ad4bc85e549ecc88198d58))
+
+
+### Documentation
+
+* update examples ([17b9eb3](https://github.com/llamastack/llama-stack-client-typescript/commit/17b9eb3c40957b63d2a71f7fc21944abcc720d80))
+
+
+### Build System
+
+* Bump version to 0.2.23 ([16e05ed](https://github.com/llamastack/llama-stack-client-typescript/commit/16e05ed9798233375e19098992632d223c3f5d8d))
+
 ## 0.2.23-alpha.1 (2025-09-26)
 
 Full Changelog: [v0.2.19-alpha.1...v0.2.23-alpha.1](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.2.19-alpha.1...v0.2.23-alpha.1)
