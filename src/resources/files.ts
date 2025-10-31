@@ -13,25 +13,27 @@ import { OpenAICursorPage, type OpenAICursorPageParams } from '../pagination';
 
 export class Files extends APIResource {
   /**
-   * Upload a file that can be used across various endpoints. The file upload should
-   * be a multipart form request with:
+   * Upload file. Upload a file that can be used across various endpoints.
+   *
+   * The file upload should be a multipart form request with:
    *
    * - file: The File object (not file name) to be uploaded.
    * - purpose: The intended purpose of the uploaded file.
+   * - expires_after: Optional form values describing expiration for the file.
    */
   create(body: FileCreateParams, options?: Core.RequestOptions): Core.APIPromise<File> {
-    return this._client.post('/v1/openai/v1/files', Core.multipartFormRequestOptions({ body, ...options }));
+    return this._client.post('/v1/files', Core.multipartFormRequestOptions({ body, ...options }));
   }
 
   /**
-   * Returns information about a specific file.
+   * Retrieve file. Returns information about a specific file.
    */
   retrieve(fileId: string, options?: Core.RequestOptions): Core.APIPromise<File> {
-    return this._client.get(`/v1/openai/v1/files/${fileId}`, options);
+    return this._client.get(`/v1/files/${fileId}`, options);
   }
 
   /**
-   * Returns a list of files that belong to the user's organization.
+   * List files. Returns a list of files that belong to the user's organization.
    */
   list(query?: FileListParams, options?: Core.RequestOptions): Core.PagePromise<FilesOpenAICursorPage, File>;
   list(options?: Core.RequestOptions): Core.PagePromise<FilesOpenAICursorPage, File>;
@@ -42,21 +44,21 @@ export class Files extends APIResource {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/v1/openai/v1/files', FilesOpenAICursorPage, { query, ...options });
+    return this._client.getAPIList('/v1/files', FilesOpenAICursorPage, { query, ...options });
   }
 
   /**
-   * Delete a file.
+   * Delete file.
    */
   delete(fileId: string, options?: Core.RequestOptions): Core.APIPromise<DeleteFileResponse> {
-    return this._client.delete(`/v1/openai/v1/files/${fileId}`, options);
+    return this._client.delete(`/v1/files/${fileId}`, options);
   }
 
   /**
-   * Returns the contents of the specified file.
+   * Retrieve file content. Returns the contents of the specified file.
    */
   content(fileId: string, options?: Core.RequestOptions): Core.APIPromise<unknown> {
-    return this._client.get(`/v1/openai/v1/files/${fileId}/content`, options);
+    return this._client.get(`/v1/files/${fileId}/content`, options);
   }
 }
 
@@ -161,6 +163,28 @@ export interface FileCreateParams {
    * Valid purpose values for OpenAI Files API.
    */
   purpose: 'assistants' | 'batch';
+
+  /**
+   * Control expiration of uploaded files. Params:
+   *
+   * - anchor, must be "created_at"
+   * - seconds, must be int between 3600 and 2592000 (1 hour to 30 days)
+   */
+  expires_after?: FileCreateParams.ExpiresAfter;
+}
+
+export namespace FileCreateParams {
+  /**
+   * Control expiration of uploaded files. Params:
+   *
+   * - anchor, must be "created_at"
+   * - seconds, must be int between 3600 and 2592000 (1 hour to 30 days)
+   */
+  export interface ExpiresAfter {
+    anchor: 'created_at';
+
+    seconds: number;
+  }
 }
 
 export interface FileListParams extends OpenAICursorPageParams {

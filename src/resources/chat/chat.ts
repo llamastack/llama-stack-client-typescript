@@ -52,6 +52,11 @@ export interface ChatCompletionChunk {
    * The object type, which will be "chat.completion.chunk"
    */
   object: 'chat.completion.chunk';
+
+  /**
+   * Token usage information (typically included in final chunk with stream_options)
+   */
+  usage?: ChatCompletionChunk.Usage;
 }
 
 export namespace ChatCompletionChunk {
@@ -89,6 +94,11 @@ export namespace ChatCompletionChunk {
        * (Optional) The content of the delta
        */
       content?: string;
+
+      /**
+       * (Optional) The reasoning content from the model (non-standard, for o1/o3 models)
+       */
+      reasoning_content?: string;
 
       /**
        * (Optional) The refusal of the delta
@@ -221,6 +231,58 @@ export namespace ChatCompletionChunk {
           bytes?: Array<number>;
         }
       }
+    }
+  }
+
+  /**
+   * Token usage information (typically included in final chunk with stream_options)
+   */
+  export interface Usage {
+    /**
+     * Number of tokens in the completion
+     */
+    completion_tokens: number;
+
+    /**
+     * Number of tokens in the prompt
+     */
+    prompt_tokens: number;
+
+    /**
+     * Total tokens used (prompt + completion)
+     */
+    total_tokens: number;
+
+    /**
+     * Token details for output tokens in OpenAI chat completion usage.
+     */
+    completion_tokens_details?: Usage.CompletionTokensDetails;
+
+    /**
+     * Token details for prompt tokens in OpenAI chat completion usage.
+     */
+    prompt_tokens_details?: Usage.PromptTokensDetails;
+  }
+
+  export namespace Usage {
+    /**
+     * Token details for output tokens in OpenAI chat completion usage.
+     */
+    export interface CompletionTokensDetails {
+      /**
+       * Number of tokens used for reasoning (o1/o3 models)
+       */
+      reasoning_tokens?: number;
+    }
+
+    /**
+     * Token details for prompt tokens in OpenAI chat completion usage.
+     */
+    export interface PromptTokensDetails {
+      /**
+       * Number of tokens retrieved from cache
+       */
+      cached_tokens?: number;
     }
   }
 }

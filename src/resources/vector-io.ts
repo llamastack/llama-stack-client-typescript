@@ -157,7 +157,7 @@ export interface VectorIoInsertParams {
   /**
    * The identifier of the vector database to insert the chunks into.
    */
-  vector_db_id: string;
+  vector_store_id: string;
 
   /**
    * The time to live of the chunks.
@@ -273,7 +273,7 @@ export interface VectorIoQueryParams {
   /**
    * The identifier of the vector database to query.
    */
-  vector_db_id: string;
+  vector_store_id: string;
 
   /**
    * The parameters of the query.

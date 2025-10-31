@@ -27,6 +27,7 @@ describe('resource responses', () => {
     const response = await client.responses.create({
       input: 'string',
       model: 'model',
+      conversation: 'conversation',
       include: ['string'],
       instructions: 'instructions',
       max_infer_iters: 0,

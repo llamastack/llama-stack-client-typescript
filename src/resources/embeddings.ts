@@ -11,14 +11,14 @@ import * as Core from '../core';
 
 export class Embeddings extends APIResource {
   /**
-   * Generate OpenAI-compatible embeddings for the given input using the specified
-   * model.
+   * Create embeddings. Generate OpenAI-compatible embeddings for the given input
+   * using the specified model.
    */
   create(
     body: EmbeddingCreateParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<CreateEmbeddingsResponse> {
-    return this._client.post('/v1/openai/v1/embeddings', { body, ...options });
+    return this._client.post('/v1/embeddings', { body, ...options });
   }
 }
 

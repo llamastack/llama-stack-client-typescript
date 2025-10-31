@@ -11,10 +11,11 @@ import * as Core from '../core';
 
 export class Moderations extends APIResource {
   /**
-   * Classifies if text and/or image inputs are potentially harmful.
+   * Create moderation. Classifies if text and/or image inputs are potentially
+   * harmful.
    */
   create(body: ModerationCreateParams, options?: Core.RequestOptions): Core.APIPromise<CreateResponse> {
-    return this._client.post('/v1/openai/v1/moderations', { body, ...options });
+    return this._client.post('/v1/moderations', { body, ...options });
   }
 }
 
@@ -77,9 +78,9 @@ export interface ModerationCreateParams {
   input: string | Array<string>;
 
   /**
-   * The content moderation model you would like to use.
+   * (Optional) The content moderation model you would like to use.
    */
-  model: string;
+  model?: string;
 }
 
 export declare namespace Moderations {

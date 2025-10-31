@@ -20,30 +20,12 @@ import {
 import * as Uploads from './uploads';
 import * as API from './resources/index';
 import {
-  Benchmark,
-  BenchmarkListResponse,
-  BenchmarkRegisterParams,
-  Benchmarks,
-  ListBenchmarksResponse,
-} from './resources/benchmarks';
-import {
   CompletionCreateParams,
   CompletionCreateParamsNonStreaming,
   CompletionCreateParamsStreaming,
   CompletionCreateResponse,
   Completions,
 } from './resources/completions';
-import {
-  DatasetAppendrowsParams,
-  DatasetIterrowsParams,
-  DatasetIterrowsResponse,
-  DatasetListResponse,
-  DatasetRegisterParams,
-  DatasetRegisterResponse,
-  DatasetRetrieveResponse,
-  Datasets,
-  ListDatasetsResponse,
-} from './resources/datasets';
 import { CreateEmbeddingsResponse, EmbeddingCreateParams, Embeddings } from './resources/embeddings';
 import {
   DeleteFileResponse,
@@ -55,25 +37,6 @@ import {
   FilesOpenAICursorPage,
   ListFilesResponse,
 } from './resources/files';
-import {
-  ChatCompletionResponseStreamChunk,
-  CompletionResponse,
-  EmbeddingsResponse,
-  Inference,
-  InferenceBatchChatCompletionParams,
-  InferenceBatchChatCompletionResponse,
-  InferenceBatchCompletionParams,
-  InferenceChatCompletionParams,
-  InferenceChatCompletionParamsNonStreaming,
-  InferenceChatCompletionParamsStreaming,
-  InferenceCompletionParams,
-  InferenceCompletionParamsNonStreaming,
-  InferenceCompletionParamsStreaming,
-  InferenceEmbeddingsParams,
-  InferenceRerankParams,
-  InferenceRerankResponse,
-  TokenLogProbs,
-} from './resources/inference';
 import { HealthInfo, Inspect, ProviderInfo, RouteInfo, VersionInfo } from './resources/inspect';
 import { CreateResponse, ModerationCreateParams, Moderations } from './resources/moderations';
 import { ListProvidersResponse, ProviderListResponse, Providers } from './resources/providers';
@@ -107,71 +70,29 @@ import {
   SyntheticDataGenerationResponse,
 } from './resources/synthetic-data-generation';
 import {
-  Event,
-  QueryCondition,
-  QuerySpansResponse,
-  SpanWithStatus,
-  Telemetry,
-  TelemetryGetSpanResponse,
-  TelemetryGetSpanTreeParams,
-  TelemetryGetSpanTreeResponse,
-  TelemetryLogEventParams,
-  TelemetryQueryMetricsParams,
-  TelemetryQueryMetricsResponse,
-  TelemetryQuerySpansParams,
-  TelemetryQuerySpansResponse,
-  TelemetryQueryTracesParams,
-  TelemetryQueryTracesResponse,
-  TelemetrySaveSpansToDatasetParams,
-  Trace,
-} from './resources/telemetry';
-import {
   ListToolGroupsResponse,
   ToolGroup,
   ToolgroupListResponse,
   ToolgroupRegisterParams,
   Toolgroups,
 } from './resources/toolgroups';
-import { ListToolsResponse, Tool, ToolListParams, ToolListResponse, Tools } from './resources/tools';
-import {
-  ListVectorDBsResponse,
-  VectorDBListResponse,
-  VectorDBRegisterParams,
-  VectorDBRegisterResponse,
-  VectorDBRetrieveResponse,
-  VectorDBs,
-} from './resources/vector-dbs';
+import { ToolListParams, ToolListResponse, Tools } from './resources/tools';
 import {
   QueryChunksResponse,
   VectorIo,
   VectorIoInsertParams,
   VectorIoQueryParams,
 } from './resources/vector-io';
-import {
-  AgentCreateParams,
-  AgentCreateResponse,
-  AgentListParams,
-  AgentListResponse,
-  AgentRetrieveResponse,
-  Agents,
-  InferenceStep,
-  MemoryRetrievalStep,
-  ShieldCallStep,
-  ToolExecutionStep,
-  ToolResponse,
-} from './resources/agents/agents';
+import { Alpha } from './resources/alpha/alpha';
+import { Beta } from './resources/beta/beta';
 import { Chat, ChatCompletionChunk } from './resources/chat/chat';
 import {
-  BenchmarkConfig,
-  Eval,
-  EvalCandidate,
-  EvalEvaluateRowsAlphaParams,
-  EvalEvaluateRowsParams,
-  EvalRunEvalAlphaParams,
-  EvalRunEvalParams,
-  EvaluateResponse,
-  Job,
-} from './resources/eval/eval';
+  ConversationCreateParams,
+  ConversationDeleteResponse,
+  ConversationObject,
+  ConversationUpdateParams,
+  Conversations,
+} from './resources/conversations/conversations';
 import {
   ListModelsResponse,
   Model,
@@ -180,13 +101,15 @@ import {
   Models,
 } from './resources/models/models';
 import {
-  AlgorithmConfig,
-  ListPostTrainingJobsResponse,
-  PostTraining,
-  PostTrainingJob,
-  PostTrainingPreferenceOptimizeParams,
-  PostTrainingSupervisedFineTuneParams,
-} from './resources/post-training/post-training';
+  ListPromptsResponse,
+  Prompt,
+  PromptCreateParams,
+  PromptListResponse,
+  PromptRetrieveParams,
+  PromptSetDefaultVersionParams,
+  PromptUpdateParams,
+  Prompts,
+} from './resources/prompts/prompts';
 import {
   ResponseCreateParams,
   ResponseCreateParamsNonStreaming,
@@ -334,30 +257,26 @@ export class LlamaStackClient extends Core.APIClient {
   tools: API.Tools = new API.Tools(this);
   toolRuntime: API.ToolRuntime = new API.ToolRuntime(this);
   responses: API.Responses = new API.Responses(this);
-  agents: API.Agents = new API.Agents(this);
-  datasets: API.Datasets = new API.Datasets(this);
-  eval: API.Eval = new API.Eval(this);
+  prompts: API.Prompts = new API.Prompts(this);
+  conversations: API.Conversations = new API.Conversations(this);
   inspect: API.Inspect = new API.Inspect(this);
-  inference: API.Inference = new API.Inference(this);
   embeddings: API.Embeddings = new API.Embeddings(this);
   chat: API.Chat = new API.Chat(this);
   completions: API.Completions = new API.Completions(this);
   vectorIo: API.VectorIo = new API.VectorIo(this);
-  vectorDBs: API.VectorDBs = new API.VectorDBs(this);
   vectorStores: API.VectorStores = new API.VectorStores(this);
   models: API.Models = new API.Models(this);
-  postTraining: API.PostTraining = new API.PostTraining(this);
   providers: API.Providers = new API.Providers(this);
   routes: API.Routes = new API.Routes(this);
   moderations: API.Moderations = new API.Moderations(this);
   safety: API.Safety = new API.Safety(this);
   shields: API.Shields = new API.Shields(this);
   syntheticDataGeneration: API.SyntheticDataGeneration = new API.SyntheticDataGeneration(this);
-  telemetry: API.Telemetry = new API.Telemetry(this);
   scoring: API.Scoring = new API.Scoring(this);
   scoringFunctions: API.ScoringFunctions = new API.ScoringFunctions(this);
-  benchmarks: API.Benchmarks = new API.Benchmarks(this);
   files: API.Files = new API.Files(this);
+  alpha: API.Alpha = new API.Alpha(this);
+  beta: API.Beta = new API.Beta(this);
 
   /**
    * Check whether the base URL is set to its default.
@@ -414,32 +333,28 @@ LlamaStackClient.Tools = Tools;
 LlamaStackClient.ToolRuntime = ToolRuntime;
 LlamaStackClient.Responses = Responses;
 LlamaStackClient.ResponseListResponsesOpenAICursorPage = ResponseListResponsesOpenAICursorPage;
-LlamaStackClient.Agents = Agents;
-LlamaStackClient.Datasets = Datasets;
-LlamaStackClient.Eval = Eval;
+LlamaStackClient.Prompts = Prompts;
+LlamaStackClient.Conversations = Conversations;
 LlamaStackClient.Inspect = Inspect;
-LlamaStackClient.Inference = Inference;
 LlamaStackClient.Embeddings = Embeddings;
 LlamaStackClient.Chat = Chat;
 LlamaStackClient.Completions = Completions;
 LlamaStackClient.VectorIo = VectorIo;
-LlamaStackClient.VectorDBs = VectorDBs;
 LlamaStackClient.VectorStores = VectorStores;
 LlamaStackClient.VectorStoresOpenAICursorPage = VectorStoresOpenAICursorPage;
 LlamaStackClient.Models = Models;
-LlamaStackClient.PostTraining = PostTraining;
 LlamaStackClient.Providers = Providers;
 LlamaStackClient.Routes = Routes;
 LlamaStackClient.Moderations = Moderations;
 LlamaStackClient.Safety = Safety;
 LlamaStackClient.Shields = Shields;
 LlamaStackClient.SyntheticDataGeneration = SyntheticDataGeneration;
-LlamaStackClient.Telemetry = Telemetry;
 LlamaStackClient.Scoring = Scoring;
 LlamaStackClient.ScoringFunctions = ScoringFunctions;
-LlamaStackClient.Benchmarks = Benchmarks;
 LlamaStackClient.Files = Files;
 LlamaStackClient.FilesOpenAICursorPage = FilesOpenAICursorPage;
+LlamaStackClient.Alpha = Alpha;
+LlamaStackClient.Beta = Beta;
 
 export declare namespace LlamaStackClient {
   export type RequestOptions = Core.RequestOptions;
@@ -464,13 +379,7 @@ export declare namespace LlamaStackClient {
     type ToolgroupRegisterParams as ToolgroupRegisterParams,
   };
 
-  export {
-    Tools as Tools,
-    type ListToolsResponse as ListToolsResponse,
-    type Tool as Tool,
-    type ToolListResponse as ToolListResponse,
-    type ToolListParams as ToolListParams,
-  };
+  export { Tools as Tools, type ToolListResponse as ToolListResponse, type ToolListParams as ToolListParams };
 
   export {
     ToolRuntime as ToolRuntime,
@@ -495,41 +404,22 @@ export declare namespace LlamaStackClient {
   };
 
   export {
-    Agents as Agents,
-    type InferenceStep as InferenceStep,
-    type MemoryRetrievalStep as MemoryRetrievalStep,
-    type ShieldCallStep as ShieldCallStep,
-    type ToolExecutionStep as ToolExecutionStep,
-    type ToolResponse as ToolResponse,
-    type AgentCreateResponse as AgentCreateResponse,
-    type AgentRetrieveResponse as AgentRetrieveResponse,
-    type AgentListResponse as AgentListResponse,
-    type AgentCreateParams as AgentCreateParams,
-    type AgentListParams as AgentListParams,
+    Prompts as Prompts,
+    type ListPromptsResponse as ListPromptsResponse,
+    type Prompt as Prompt,
+    type PromptListResponse as PromptListResponse,
+    type PromptCreateParams as PromptCreateParams,
+    type PromptRetrieveParams as PromptRetrieveParams,
+    type PromptUpdateParams as PromptUpdateParams,
+    type PromptSetDefaultVersionParams as PromptSetDefaultVersionParams,
   };
 
   export {
-    Datasets as Datasets,
-    type ListDatasetsResponse as ListDatasetsResponse,
-    type DatasetRetrieveResponse as DatasetRetrieveResponse,
-    type DatasetListResponse as DatasetListResponse,
-    type DatasetIterrowsResponse as DatasetIterrowsResponse,
-    type DatasetRegisterResponse as DatasetRegisterResponse,
-    type DatasetAppendrowsParams as DatasetAppendrowsParams,
-    type DatasetIterrowsParams as DatasetIterrowsParams,
-    type DatasetRegisterParams as DatasetRegisterParams,
-  };
-
-  export {
-    Eval as Eval,
-    type BenchmarkConfig as BenchmarkConfig,
-    type EvalCandidate as EvalCandidate,
-    type EvaluateResponse as EvaluateResponse,
-    type Job as Job,
-    type EvalEvaluateRowsParams as EvalEvaluateRowsParams,
-    type EvalEvaluateRowsAlphaParams as EvalEvaluateRowsAlphaParams,
-    type EvalRunEvalParams as EvalRunEvalParams,
-    type EvalRunEvalAlphaParams as EvalRunEvalAlphaParams,
+    Conversations as Conversations,
+    type ConversationObject as ConversationObject,
+    type ConversationDeleteResponse as ConversationDeleteResponse,
+    type ConversationCreateParams as ConversationCreateParams,
+    type ConversationUpdateParams as ConversationUpdateParams,
   };
 
   export {
@@ -538,26 +428,6 @@ export declare namespace LlamaStackClient {
     type ProviderInfo as ProviderInfo,
     type RouteInfo as RouteInfo,
     type VersionInfo as VersionInfo,
-  };
-
-  export {
-    Inference as Inference,
-    type ChatCompletionResponseStreamChunk as ChatCompletionResponseStreamChunk,
-    type CompletionResponse as CompletionResponse,
-    type EmbeddingsResponse as EmbeddingsResponse,
-    type TokenLogProbs as TokenLogProbs,
-    type InferenceBatchChatCompletionResponse as InferenceBatchChatCompletionResponse,
-    type InferenceRerankResponse as InferenceRerankResponse,
-    type InferenceBatchChatCompletionParams as InferenceBatchChatCompletionParams,
-    type InferenceBatchCompletionParams as InferenceBatchCompletionParams,
-    type InferenceChatCompletionParams as InferenceChatCompletionParams,
-    type InferenceChatCompletionParamsNonStreaming as InferenceChatCompletionParamsNonStreaming,
-    type InferenceChatCompletionParamsStreaming as InferenceChatCompletionParamsStreaming,
-    type InferenceCompletionParams as InferenceCompletionParams,
-    type InferenceCompletionParamsNonStreaming as InferenceCompletionParamsNonStreaming,
-    type InferenceCompletionParamsStreaming as InferenceCompletionParamsStreaming,
-    type InferenceEmbeddingsParams as InferenceEmbeddingsParams,
-    type InferenceRerankParams as InferenceRerankParams,
   };
 
   export {
@@ -584,15 +454,6 @@ export declare namespace LlamaStackClient {
   };
 
   export {
-    VectorDBs as VectorDBs,
-    type ListVectorDBsResponse as ListVectorDBsResponse,
-    type VectorDBRetrieveResponse as VectorDBRetrieveResponse,
-    type VectorDBListResponse as VectorDBListResponse,
-    type VectorDBRegisterResponse as VectorDBRegisterResponse,
-    type VectorDBRegisterParams as VectorDBRegisterParams,
-  };
-
-  export {
     VectorStores as VectorStores,
     type ListVectorStoresResponse as ListVectorStoresResponse,
     type VectorStore as VectorStore,
@@ -611,15 +472,6 @@ export declare namespace LlamaStackClient {
     type Model as Model,
     type ModelListResponse as ModelListResponse,
     type ModelRegisterParams as ModelRegisterParams,
-  };
-
-  export {
-    PostTraining as PostTraining,
-    type AlgorithmConfig as AlgorithmConfig,
-    type ListPostTrainingJobsResponse as ListPostTrainingJobsResponse,
-    type PostTrainingJob as PostTrainingJob,
-    type PostTrainingPreferenceOptimizeParams as PostTrainingPreferenceOptimizeParams,
-    type PostTrainingSupervisedFineTuneParams as PostTrainingSupervisedFineTuneParams,
   };
 
   export {
@@ -661,26 +513,6 @@ export declare namespace LlamaStackClient {
   };
 
   export {
-    Telemetry as Telemetry,
-    type Event as Event,
-    type QueryCondition as QueryCondition,
-    type QuerySpansResponse as QuerySpansResponse,
-    type SpanWithStatus as SpanWithStatus,
-    type Trace as Trace,
-    type TelemetryGetSpanResponse as TelemetryGetSpanResponse,
-    type TelemetryGetSpanTreeResponse as TelemetryGetSpanTreeResponse,
-    type TelemetryQueryMetricsResponse as TelemetryQueryMetricsResponse,
-    type TelemetryQuerySpansResponse as TelemetryQuerySpansResponse,
-    type TelemetryQueryTracesResponse as TelemetryQueryTracesResponse,
-    type TelemetryGetSpanTreeParams as TelemetryGetSpanTreeParams,
-    type TelemetryLogEventParams as TelemetryLogEventParams,
-    type TelemetryQueryMetricsParams as TelemetryQueryMetricsParams,
-    type TelemetryQuerySpansParams as TelemetryQuerySpansParams,
-    type TelemetryQueryTracesParams as TelemetryQueryTracesParams,
-    type TelemetrySaveSpansToDatasetParams as TelemetrySaveSpansToDatasetParams,
-  };
-
-  export {
     Scoring as Scoring,
     type ScoringScoreResponse as ScoringScoreResponse,
     type ScoringScoreBatchResponse as ScoringScoreBatchResponse,
@@ -698,14 +530,6 @@ export declare namespace LlamaStackClient {
   };
 
   export {
-    Benchmarks as Benchmarks,
-    type Benchmark as Benchmark,
-    type ListBenchmarksResponse as ListBenchmarksResponse,
-    type BenchmarkListResponse as BenchmarkListResponse,
-    type BenchmarkRegisterParams as BenchmarkRegisterParams,
-  };
-
-  export {
     Files as Files,
     type DeleteFileResponse as DeleteFileResponse,
     type File as File,
@@ -716,19 +540,18 @@ export declare namespace LlamaStackClient {
     type FileListParams as FileListParams,
   };
 
+  export { Alpha as Alpha };
+
+  export { Beta as Beta };
+
   export type AgentConfig = API.AgentConfig;
-  export type BatchCompletion = API.BatchCompletion;
-  export type ChatCompletionResponse = API.ChatCompletionResponse;
   export type CompletionMessage = API.CompletionMessage;
-  export type ContentDelta = API.ContentDelta;
   export type Document = API.Document;
   export type InterleavedContent = API.InterleavedContent;
   export type InterleavedContentItem = API.InterleavedContentItem;
   export type Message = API.Message;
-  export type Metric = API.Metric;
   export type ParamType = API.ParamType;
   export type QueryConfig = API.QueryConfig;
-  export type QueryGeneratorConfig = API.QueryGeneratorConfig;
   export type QueryResult = API.QueryResult;
   export type ResponseFormat = API.ResponseFormat;
   export type SafetyViolation = API.SafetyViolation;
@@ -736,7 +559,6 @@ export declare namespace LlamaStackClient {
   export type ScoringResult = API.ScoringResult;
   export type SystemMessage = API.SystemMessage;
   export type ToolCall = API.ToolCall;
-  export type ToolParamDefinition = API.ToolParamDefinition;
   export type ToolResponseMessage = API.ToolResponseMessage;
   export type UserMessage = API.UserMessage;
 }

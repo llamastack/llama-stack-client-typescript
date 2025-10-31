@@ -16,7 +16,7 @@ describe('resource ragTool', () => {
     const responsePromise = client.toolRuntime.ragTool.insert({
       chunk_size_in_tokens: 0,
       documents: [{ content: 'string', document_id: 'document_id', metadata: { foo: true } }],
-      vector_db_id: 'vector_db_id',
+      vector_store_id: 'vector_store_id',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -33,14 +33,14 @@ describe('resource ragTool', () => {
       documents: [
         { content: 'string', document_id: 'document_id', metadata: { foo: true }, mime_type: 'mime_type' },
       ],
-      vector_db_id: 'vector_db_id',
+      vector_store_id: 'vector_store_id',
     });
   });
 
   test('query: only required params', async () => {
     const responsePromise = client.toolRuntime.ragTool.query({
       content: 'string',
-      vector_db_ids: ['string'],
+      vector_store_ids: ['string'],
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -54,7 +54,7 @@ describe('resource ragTool', () => {
   test('query: required and optional params', async () => {
     const response = await client.toolRuntime.ragTool.query({
       content: 'string',
-      vector_db_ids: ['string'],
+      vector_store_ids: ['string'],
       query_config: {
         chunk_template: 'chunk_template',
         max_chunks: 0,

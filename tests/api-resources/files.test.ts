@@ -30,6 +30,7 @@ describe('resource files', () => {
     const response = await client.files.create({
       file: await toFile(Buffer.from('# my file contents'), 'README.md'),
       purpose: 'assistants',
+      expires_after: { anchor: 'created_at', seconds: 0 },
     });
   });
 

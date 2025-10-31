@@ -9,13 +9,13 @@
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
 import * as OpenAIAPI from './openai';
-import { OpenAI, OpenAIListResponse } from './openai';
+import { OpenAI } from './openai';
 
 export class Models extends APIResource {
   openai: OpenAIAPI.OpenAI = new OpenAIAPI.OpenAI(this._client);
 
   /**
-   * Get a model by its identifier.
+   * Get model. Get a model by its identifier.
    */
   retrieve(modelId: string, options?: Core.RequestOptions): Core.APIPromise<Model> {
     return this._client.get(`/v1/models/${modelId}`, options);
@@ -31,14 +31,14 @@ export class Models extends APIResource {
   }
 
   /**
-   * Register a model.
+   * Register model. Register a model.
    */
   register(body: ModelRegisterParams, options?: Core.RequestOptions): Core.APIPromise<Model> {
     return this._client.post('/v1/models', { body, ...options });
   }
 
   /**
-   * Unregister a model.
+   * Unregister model. Unregister a model.
    */
   unregister(modelId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.delete(`/v1/models/${modelId}`, {
@@ -69,7 +69,7 @@ export interface Model {
   /**
    * The type of model (LLM or embedding model)
    */
-  model_type: 'llm' | 'embedding';
+  model_type: 'llm' | 'embedding' | 'rerank';
 
   /**
    * ID of the provider that owns this resource
@@ -103,7 +103,7 @@ export interface ModelRegisterParams {
   /**
    * The type of model to register.
    */
-  model_type?: 'llm' | 'embedding';
+  model_type?: 'llm' | 'embedding' | 'rerank';
 
   /**
    * The identifier of the provider.
@@ -126,5 +126,5 @@ export declare namespace Models {
     type ModelRegisterParams as ModelRegisterParams,
   };
 
-  export { OpenAI as OpenAI, type OpenAIListResponse as OpenAIListResponse };
+  export { OpenAI as OpenAI };
 }

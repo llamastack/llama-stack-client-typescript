@@ -14,8 +14,8 @@ import { Stream } from '../streaming';
 
 export class Completions extends APIResource {
   /**
-   * Generate an OpenAI-compatible completion for the given prompt using the
-   * specified model.
+   * Create completion. Generate an OpenAI-compatible completion for the given prompt
+   * using the specified model.
    */
   create(
     body: CompletionCreateParamsNonStreaming,
@@ -33,11 +33,9 @@ export class Completions extends APIResource {
     body: CompletionCreateParams,
     options?: Core.RequestOptions,
   ): APIPromise<CompletionCreateResponse> | APIPromise<Stream<CompletionCreateResponse>> {
-    return this._client.post('/v1/openai/v1/completions', {
-      body,
-      ...options,
-      stream: body.stream ?? false,
-    }) as APIPromise<CompletionCreateResponse> | APIPromise<Stream<CompletionCreateResponse>>;
+    return this._client.post('/v1/completions', { body, ...options, stream: body.stream ?? false }) as
+      | APIPromise<CompletionCreateResponse>
+      | APIPromise<Stream<CompletionCreateResponse>>;
   }
 }
 
@@ -180,8 +178,6 @@ export interface CompletionCreateParamsBase {
    */
   frequency_penalty?: number;
 
-  guided_choice?: Array<string>;
-
   /**
    * (Optional) The logit bias to use.
    */
@@ -206,8 +202,6 @@ export interface CompletionCreateParamsBase {
    * (Optional) The penalty for repeated tokens.
    */
   presence_penalty?: number;
-
-  prompt_logprobs?: number;
 
   /**
    * (Optional) The seed to use.
