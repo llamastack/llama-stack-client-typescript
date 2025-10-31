@@ -1,3 +1,9 @@
+// Copyright (c) Meta Platforms, Inc. and affiliates.
+// All rights reserved.
+//
+// This source code is licensed under the terms described in the LICENSE file in
+// the root directory of this source tree.
+
 /**
  * Most browsers don't yet have async iterable support for ReadableStream,
  * and Node has a very different way of reading bytes from its "ReadableStream".
