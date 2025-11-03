@@ -268,15 +268,19 @@ Types:
 Methods:
 
 - <code title="get /v1/models/{model_id}">client.models.<a href="./src/resources/models/models.ts">retrieve</a>(modelId) -> Model</code>
-- <code title="get /v1/models">client.models.<a href="./src/resources/models/models.ts">list</a>() -> ModelListResponse</code>
+- <code title="get /v1/openai/v1/models">client.models.<a href="./src/resources/models/models.ts">list</a>() -> ModelListResponse</code>
 - <code title="post /v1/models">client.models.<a href="./src/resources/models/models.ts">register</a>({ ...params }) -> Model</code>
 - <code title="delete /v1/models/{model_id}">client.models.<a href="./src/resources/models/models.ts">unregister</a>(modelId) -> void</code>
 
 ## OpenAI
 
+Types:
+
+- <code><a href="./src/resources/models/openai.ts">OpenAIListResponse</a></code>
+
 Methods:
 
-- <code title="get /v1/models">client.models.openai.<a href="./src/resources/models/openai.ts">list</a>() -> ModelListResponse</code>
+- <code title="get /v1/models">client.models.openai.<a href="./src/resources/models/openai.ts">list</a>() -> OpenAIListResponse</code>
 
 # Providers
 
@@ -299,7 +303,7 @@ Types:
 
 Methods:
 
-- <code title="get /v1/inspect/routes">client.routes.<a href="./src/resources/routes.ts">list</a>() -> RouteListResponse</code>
+- <code title="get /v1/inspect/routes">client.routes.<a href="./src/resources/routes.ts">list</a>({ ...params }) -> RouteListResponse</code>
 
 # Moderations
 

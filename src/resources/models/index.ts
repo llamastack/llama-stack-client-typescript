@@ -13,4 +13,4 @@ export {
   type ModelListResponse,
   type ModelRegisterParams,
 } from './models';
-export { OpenAI } from './openai';
+export { OpenAI, type OpenAIListResponse } from './openai';
