@@ -3,7 +3,7 @@
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
 import * as OpenAIAPI from './openai';
-import { OpenAI } from './openai';
+import { OpenAI, OpenAIListResponse } from './openai';
 
 export class Models extends APIResource {
   openai: OpenAIAPI.OpenAI = new OpenAIAPI.OpenAI(this._client);
@@ -16,11 +16,11 @@ export class Models extends APIResource {
   }
 
   /**
-   * List all models.
+   * List models using the OpenAI API.
    */
   list(options?: Core.RequestOptions): Core.APIPromise<ModelListResponse> {
     return (
-      this._client.get('/v1/models', options) as Core.APIPromise<{ data: ModelListResponse }>
+      this._client.get('/v1/openai/v1/models', options) as Core.APIPromise<{ data: ModelListResponse }>
     )._thenUnwrap((obj) => obj.data);
   }
 
@@ -81,7 +81,24 @@ export interface Model {
   provider_resource_id?: string;
 }
 
-export type ModelListResponse = Array<Model>;
+export type ModelListResponse = Array<ModelListResponse.ModelListResponseItem>;
+
+export namespace ModelListResponse {
+  /**
+   * A model from OpenAI.
+   */
+  export interface ModelListResponseItem {
+    id: string;
+
+    created: number;
+
+    object: 'model';
+
+    owned_by: string;
+
+    custom_metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  }
+}
 
 export interface ModelRegisterParams {
   /**
@@ -120,5 +137,5 @@ export declare namespace Models {
     type ModelRegisterParams as ModelRegisterParams,
   };
 
-  export { OpenAI as OpenAI };
+  export { OpenAI as OpenAI, type OpenAIListResponse as OpenAIListResponse };
 }

@@ -34,7 +34,7 @@ import {
 import { HealthInfo, Inspect, ProviderInfo, RouteInfo, VersionInfo } from './resources/inspect';
 import { CreateResponse, ModerationCreateParams, Moderations } from './resources/moderations';
 import { ListProvidersResponse, ProviderListResponse, Providers } from './resources/providers';
-import { ListRoutesResponse, RouteListResponse, Routes } from './resources/routes';
+import { ListRoutesResponse, RouteListParams, RouteListResponse, Routes } from './resources/routes';
 import { RunShieldResponse, Safety, SafetyRunShieldParams } from './resources/safety';
 import {
   Scoring,
@@ -478,6 +478,7 @@ export declare namespace LlamaStackClient {
     Routes as Routes,
     type ListRoutesResponse as ListRoutesResponse,
     type RouteListResponse as RouteListResponse,
+    type RouteListParams as RouteListParams,
   };
 
   export {

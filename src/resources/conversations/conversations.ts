@@ -109,6 +109,7 @@ export namespace ConversationCreateParams {
       | Array<
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
           | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
+          | OpenAIResponseMessage.OpenAIResponseInputMessageContentFile
         >
       | Array<
           | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
@@ -155,9 +156,44 @@ export namespace ConversationCreateParams {
       type: 'input_image';
 
       /**
+       * (Optional) The ID of the file to be sent to the model.
+       */
+      file_id?: string;
+
+      /**
        * (Optional) URL of the image content
        */
       image_url?: string;
+    }
+
+    /**
+     * File content for input messages in OpenAI response format.
+     */
+    export interface OpenAIResponseInputMessageContentFile {
+      /**
+       * The type of the input item. Always `input_file`.
+       */
+      type: 'input_file';
+
+      /**
+       * The data of the file to be sent to the model.
+       */
+      file_data?: string;
+
+      /**
+       * (Optional) The ID of the file to be sent to the model.
+       */
+      file_id?: string;
+
+      /**
+       * The URL of the file to be sent to the model.
+       */
+      file_url?: string;
+
+      /**
+       * The name of the file to be sent to the model.
+       */
+      filename?: string;
     }
 
     export interface OpenAIResponseOutputMessageContentOutputText {
