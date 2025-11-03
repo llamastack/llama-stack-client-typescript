@@ -51,6 +51,11 @@ export namespace QueryChunksResponse {
    */
   export interface Chunk {
     /**
+     * Unique identifier for the chunk. Must be provided explicitly.
+     */
+    chunk_id: string;
+
+    /**
      * The content of the chunk, which can be interleaved text, images, or other types.
      */
     content: Shared.InterleavedContent;
@@ -71,12 +76,6 @@ export namespace QueryChunksResponse {
      * Optional embedding for the chunk. If not provided, it will be computed later.
      */
     embedding?: Array<number>;
-
-    /**
-     * The chunk ID that is stored in the vector database. Used for backend
-     * functionality.
-     */
-    stored_chunk_id?: string;
   }
 
   export namespace Chunk {
@@ -171,6 +170,11 @@ export namespace VectorIoInsertParams {
    */
   export interface Chunk {
     /**
+     * Unique identifier for the chunk. Must be provided explicitly.
+     */
+    chunk_id: string;
+
+    /**
      * The content of the chunk, which can be interleaved text, images, or other types.
      */
     content: Shared.InterleavedContent;
@@ -191,12 +195,6 @@ export namespace VectorIoInsertParams {
      * Optional embedding for the chunk. If not provided, it will be computed later.
      */
     embedding?: Array<number>;
-
-    /**
-     * The chunk ID that is stored in the vector database. Used for backend
-     * functionality.
-     */
-    stored_chunk_id?: string;
   }
 
   export namespace Chunk {
