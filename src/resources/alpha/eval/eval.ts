@@ -58,7 +58,7 @@ export interface BenchmarkConfig {
   /**
    * The candidate to evaluate.
    */
-  eval_candidate: BenchmarkConfig.ModelCandidate | BenchmarkConfig.AgentCandidate;
+  eval_candidate: BenchmarkConfig.EvalCandidate;
 
   /**
    * Map between scoring function id and parameters for each scoring function you
@@ -75,9 +75,9 @@ export interface BenchmarkConfig {
 
 export namespace BenchmarkConfig {
   /**
-   * A model candidate for evaluation.
+   * The candidate to evaluate.
    */
-  export interface ModelCandidate {
+  export interface EvalCandidate {
     /**
      * The model ID to evaluate.
      */
@@ -94,18 +94,6 @@ export namespace BenchmarkConfig {
      * (Optional) The system message providing instructions or context to the model.
      */
     system_message?: Shared.SystemMessage;
-  }
-
-  /**
-   * An agent candidate for evaluation.
-   */
-  export interface AgentCandidate {
-    /**
-     * The configuration for the agent candidate.
-     */
-    config: Shared.AgentConfig;
-
-    type: 'agent';
   }
 }
 
