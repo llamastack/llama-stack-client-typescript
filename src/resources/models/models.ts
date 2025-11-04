@@ -3,7 +3,7 @@
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
 import * as OpenAIAPI from './openai';
-import { OpenAI, OpenAIListResponse } from './openai';
+import { OpenAI } from './openai';
 
 export class Models extends APIResource {
   openai: OpenAIAPI.OpenAI = new OpenAIAPI.OpenAI(this._client);
@@ -11,7 +11,7 @@ export class Models extends APIResource {
   /**
    * Get model. Get a model by its identifier.
    */
-  retrieve(modelId: string, options?: Core.RequestOptions): Core.APIPromise<Model> {
+  retrieve(modelId: string, options?: Core.RequestOptions): Core.APIPromise<ModelRetrieveResponse> {
     return this._client.get(`/v1/models/${modelId}`, options);
   }
 
@@ -20,14 +20,14 @@ export class Models extends APIResource {
    */
   list(options?: Core.RequestOptions): Core.APIPromise<ModelListResponse> {
     return (
-      this._client.get('/v1/openai/v1/models', options) as Core.APIPromise<{ data: ModelListResponse }>
+      this._client.get('/v1/models', options) as Core.APIPromise<{ data: ModelListResponse }>
     )._thenUnwrap((obj) => obj.data);
   }
 
   /**
    * Register model. Register a model.
    */
-  register(body: ModelRegisterParams, options?: Core.RequestOptions): Core.APIPromise<Model> {
+  register(body: ModelRegisterParams, options?: Core.RequestOptions): Core.APIPromise<ModelRegisterResponse> {
     return this._client.post('/v1/models', { body, ...options });
   }
 
@@ -47,9 +47,24 @@ export interface ListModelsResponse {
 }
 
 /**
- * A model resource representing an AI model registered in Llama Stack.
+ * A model from OpenAI.
  */
 export interface Model {
+  id: string;
+
+  created: number;
+
+  object: 'model';
+
+  owned_by: string;
+
+  custom_metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+}
+
+/**
+ * A model resource representing an AI model registered in Llama Stack.
+ */
+export interface ModelRetrieveResponse {
   /**
    * Unique identifier for this resource in llama stack
    */
@@ -81,23 +96,41 @@ export interface Model {
   provider_resource_id?: string;
 }
 
-export type ModelListResponse = Array<ModelListResponse.ModelListResponseItem>;
+export type ModelListResponse = Array<Model>;
 
-export namespace ModelListResponse {
+/**
+ * A model resource representing an AI model registered in Llama Stack.
+ */
+export interface ModelRegisterResponse {
   /**
-   * A model from OpenAI.
+   * Unique identifier for this resource in llama stack
    */
-  export interface ModelListResponseItem {
-    id: string;
+  identifier: string;
 
-    created: number;
+  /**
+   * Any additional metadata for this model
+   */
+  metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
 
-    object: 'model';
+  /**
+   * The type of model (LLM or embedding model)
+   */
+  model_type: 'llm' | 'embedding' | 'rerank';
 
-    owned_by: string;
+  /**
+   * ID of the provider that owns this resource
+   */
+  provider_id: string;
 
-    custom_metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-  }
+  /**
+   * The resource type, always 'model' for model resources
+   */
+  type: 'model';
+
+  /**
+   * Unique identifier for this resource in the provider
+   */
+  provider_resource_id?: string;
 }
 
 export interface ModelRegisterParams {
@@ -133,9 +166,11 @@ export declare namespace Models {
   export {
     type ListModelsResponse as ListModelsResponse,
     type Model as Model,
+    type ModelRetrieveResponse as ModelRetrieveResponse,
     type ModelListResponse as ModelListResponse,
+    type ModelRegisterResponse as ModelRegisterResponse,
     type ModelRegisterParams as ModelRegisterParams,
   };
 
-  export { OpenAI as OpenAI, type OpenAIListResponse as OpenAIListResponse };
+  export { OpenAI as OpenAI };
 }

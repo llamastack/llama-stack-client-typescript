@@ -6,17 +6,11 @@ import * as ModelsAPI from './models';
 
 export class OpenAI extends APIResource {
   /**
-   * List all models.
+   * List models using the OpenAI API.
    */
-  list(options?: Core.RequestOptions): Core.APIPromise<OpenAIListResponse> {
+  list(options?: Core.RequestOptions): Core.APIPromise<ModelsAPI.ModelListResponse> {
     return (
-      this._client.get('/v1/models', options) as Core.APIPromise<{ data: OpenAIListResponse }>
+      this._client.get('/v1/models', options) as Core.APIPromise<{ data: ModelsAPI.ModelListResponse }>
     )._thenUnwrap((obj) => obj.data);
   }
-}
-
-export type OpenAIListResponse = Array<ModelsAPI.Model>;
-
-export declare namespace OpenAI {
-  export { type OpenAIListResponse as OpenAIListResponse };
 }

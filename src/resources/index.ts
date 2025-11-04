@@ -34,7 +34,9 @@ export {
   Models,
   type ListModelsResponse,
   type Model,
+  type ModelRetrieveResponse,
   type ModelListResponse,
+  type ModelRegisterResponse,
   type ModelRegisterParams,
 } from './models/models';
 export { Moderations, type CreateResponse, type ModerationCreateParams } from './moderations';
@@ -85,11 +87,6 @@ export {
   type ShieldListResponse,
   type ShieldRegisterParams,
 } from './shields';
-export {
-  SyntheticDataGeneration,
-  type SyntheticDataGenerationResponse,
-  type SyntheticDataGenerationGenerateParams,
-} from './synthetic-data-generation';
 export {
   ToolRuntime,
   type ToolDef,
