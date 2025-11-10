@@ -258,7 +258,7 @@ export interface VectorStoreSearchResponse {
   /**
    * The original search query that was executed
    */
-  search_query: string;
+  search_query: Array<string>;
 
   /**
    * (Optional) Token for retrieving the next page of results
@@ -319,7 +319,9 @@ export interface VectorStoreCreateParams {
   /**
    * (Optional) Strategy for splitting files into chunks
    */
-  chunking_strategy?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  chunking_strategy?:
+    | VectorStoreCreateParams.VectorStoreChunkingStrategyAuto
+    | VectorStoreCreateParams.VectorStoreChunkingStrategyStatic;
 
   /**
    * (Optional) Expiration policy for the vector store
@@ -340,6 +342,50 @@ export interface VectorStoreCreateParams {
    * (Optional) A name for the vector store
    */
   name?: string;
+}
+
+export namespace VectorStoreCreateParams {
+  /**
+   * Automatic chunking strategy for vector store files.
+   */
+  export interface VectorStoreChunkingStrategyAuto {
+    /**
+     * Strategy type, always "auto" for automatic chunking
+     */
+    type: 'auto';
+  }
+
+  /**
+   * Static chunking strategy with configurable parameters.
+   */
+  export interface VectorStoreChunkingStrategyStatic {
+    /**
+     * Configuration parameters for the static chunking strategy
+     */
+    static: VectorStoreChunkingStrategyStatic.Static;
+
+    /**
+     * Strategy type, always "static" for static chunking
+     */
+    type: 'static';
+  }
+
+  export namespace VectorStoreChunkingStrategyStatic {
+    /**
+     * Configuration parameters for the static chunking strategy
+     */
+    export interface Static {
+      /**
+       * Number of tokens to overlap between adjacent chunks
+       */
+      chunk_overlap_tokens: number;
+
+      /**
+       * Maximum number of tokens per chunk, must be between 100 and 4096
+       */
+      max_chunk_size_tokens: number;
+    }
+  }
 }
 
 export interface VectorStoreUpdateParams {

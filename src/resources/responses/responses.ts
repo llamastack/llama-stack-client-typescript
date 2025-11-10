@@ -137,6 +137,12 @@ export interface ResponseObject {
   instructions?: string;
 
   /**
+   * (Optional) Max number of total calls to built-in tools that can be processed in
+   * a response
+   */
+  max_tool_calls?: number;
+
+  /**
    * (Optional) ID of the previous response in a conversation
    */
   previous_response_id?: string;
@@ -768,7 +774,7 @@ export namespace ResponseObject {
     /**
      * Web search tool type variant to use
      */
-    type: 'web_search' | 'web_search_preview' | 'web_search_preview_2025_03_11';
+    type: 'web_search' | 'web_search_preview' | 'web_search_preview_2025_03_11' | 'web_search_2025_08_26';
 
     /**
      * (Optional) Size of search context, must be "low", "medium", or "high"
@@ -3245,6 +3251,12 @@ export interface ResponseListResponse {
   instructions?: string;
 
   /**
+   * (Optional) Max number of total calls to built-in tools that can be processed in
+   * a response
+   */
+  max_tool_calls?: number;
+
+  /**
    * (Optional) ID of the previous response in a conversation
    */
   previous_response_id?: string;
@@ -4538,7 +4550,7 @@ export namespace ResponseListResponse {
     /**
      * Web search tool type variant to use
      */
-    type: 'web_search' | 'web_search_preview' | 'web_search_preview_2025_03_11';
+    type: 'web_search' | 'web_search_preview' | 'web_search_preview_2025_03_11' | 'web_search_2025_08_26';
 
     /**
      * (Optional) Size of search context, must be "low", "medium", or "high"
@@ -4769,6 +4781,12 @@ export interface ResponseCreateParamsBase {
   instructions?: string;
 
   max_infer_iters?: number;
+
+  /**
+   * (Optional) Max number of total calls to built-in tools that can be processed in
+   * a response.
+   */
+  max_tool_calls?: number;
 
   /**
    * (Optional) if specified, the new response will be a continuation of the previous
@@ -5614,7 +5632,7 @@ export namespace ResponseCreateParams {
     /**
      * Web search tool type variant to use
      */
-    type: 'web_search' | 'web_search_preview' | 'web_search_preview_2025_03_11';
+    type: 'web_search' | 'web_search_preview' | 'web_search_preview_2025_03_11' | 'web_search_2025_08_26';
 
     /**
      * (Optional) Size of search context, must be "low", "medium", or "high"

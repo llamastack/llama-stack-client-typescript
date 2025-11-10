@@ -24,6 +24,8 @@ export class Benchmarks extends APIResource {
 
   /**
    * Register a benchmark.
+   *
+   * @deprecated
    */
   register(body: BenchmarkRegisterParams, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.post('/v1alpha/eval/benchmarks', {

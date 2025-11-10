@@ -224,35 +224,35 @@ export interface FileDeleteResponse {
 }
 
 /**
- * Response from retrieving the contents of a vector store file.
+ * Represents the parsed content of a vector store file.
  */
 export interface FileContentResponse {
   /**
-   * Key-value attributes associated with the file
+   * Parsed content of the file
    */
-  attributes: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  data: Array<FileContentResponse.Data>;
 
   /**
-   * List of content items from the file
+   * Indicates if there are more content pages to fetch
    */
-  content: Array<FileContentResponse.Content>;
+  has_more: boolean;
 
   /**
-   * Unique identifier for the file
+   * The object type, which is always `vector_store.file_content.page`
    */
-  file_id: string;
+  object: 'vector_store.file_content.page';
 
   /**
-   * Name of the file
+   * The token for the next page, if any
    */
-  filename: string;
+  next_page?: string;
 }
 
 export namespace FileContentResponse {
   /**
    * Content item from a vector store file or search result.
    */
-  export interface Content {
+  export interface Data {
     /**
      * The actual text content
      */

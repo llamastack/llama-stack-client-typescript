@@ -23,23 +23,6 @@ export class Models extends APIResource {
       this._client.get('/v1/models', options) as Core.APIPromise<{ data: ModelListResponse }>
     )._thenUnwrap((obj) => obj.data);
   }
-
-  /**
-   * Register model. Register a model.
-   */
-  register(body: ModelRegisterParams, options?: Core.RequestOptions): Core.APIPromise<ModelRegisterResponse> {
-    return this._client.post('/v1/models', { body, ...options });
-  }
-
-  /**
-   * Unregister model. Unregister a model.
-   */
-  unregister(modelId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.delete(`/v1/models/${modelId}`, {
-      ...options,
-      headers: { Accept: '*/*', ...options?.headers },
-    });
-  }
 }
 
 export interface ListModelsResponse {
@@ -98,68 +81,6 @@ export interface ModelRetrieveResponse {
 
 export type ModelListResponse = Array<Model>;
 
-/**
- * A model resource representing an AI model registered in Llama Stack.
- */
-export interface ModelRegisterResponse {
-  /**
-   * Unique identifier for this resource in llama stack
-   */
-  identifier: string;
-
-  /**
-   * Any additional metadata for this model
-   */
-  metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-  /**
-   * The type of model (LLM or embedding model)
-   */
-  model_type: 'llm' | 'embedding' | 'rerank';
-
-  /**
-   * ID of the provider that owns this resource
-   */
-  provider_id: string;
-
-  /**
-   * The resource type, always 'model' for model resources
-   */
-  type: 'model';
-
-  /**
-   * Unique identifier for this resource in the provider
-   */
-  provider_resource_id?: string;
-}
-
-export interface ModelRegisterParams {
-  /**
-   * The identifier of the model to register.
-   */
-  model_id: string;
-
-  /**
-   * Any additional metadata for this model.
-   */
-  metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-  /**
-   * The type of model to register.
-   */
-  model_type?: 'llm' | 'embedding' | 'rerank';
-
-  /**
-   * The identifier of the provider.
-   */
-  provider_id?: string;
-
-  /**
-   * The identifier of the model in the provider.
-   */
-  provider_model_id?: string;
-}
-
 Models.OpenAI = OpenAI;
 
 export declare namespace Models {
@@ -168,8 +89,6 @@ export declare namespace Models {
     type Model as Model,
     type ModelRetrieveResponse as ModelRetrieveResponse,
     type ModelListResponse as ModelListResponse,
-    type ModelRegisterResponse as ModelRegisterResponse,
-    type ModelRegisterParams as ModelRegisterParams,
   };
 
   export { OpenAI as OpenAI };

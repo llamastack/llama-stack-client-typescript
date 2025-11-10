@@ -66,6 +66,8 @@ export class Datasets extends APIResource {
 
   /**
    * Register a new dataset.
+   *
+   * @deprecated
    */
   register(
     body: DatasetRegisterParams,
@@ -76,6 +78,8 @@ export class Datasets extends APIResource {
 
   /**
    * Unregister a dataset by its ID.
+   *
+   * @deprecated
    */
   unregister(datasetId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.delete(`/v1beta/datasets/${datasetId}`, {
