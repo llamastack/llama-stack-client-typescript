@@ -65,11 +65,6 @@ import {
   Shields,
 } from './resources/shields';
 import {
-  SyntheticDataGeneration,
-  SyntheticDataGenerationGenerateParams,
-  SyntheticDataGenerationResponse,
-} from './resources/synthetic-data-generation';
-import {
   ListToolGroupsResponse,
   ToolGroup,
   ToolgroupListResponse,
@@ -98,6 +93,8 @@ import {
   Model,
   ModelListResponse,
   ModelRegisterParams,
+  ModelRegisterResponse,
+  ModelRetrieveResponse,
   Models,
 } from './resources/models/models';
 import {
@@ -271,7 +268,6 @@ export class LlamaStackClient extends Core.APIClient {
   moderations: API.Moderations = new API.Moderations(this);
   safety: API.Safety = new API.Safety(this);
   shields: API.Shields = new API.Shields(this);
-  syntheticDataGeneration: API.SyntheticDataGeneration = new API.SyntheticDataGeneration(this);
   scoring: API.Scoring = new API.Scoring(this);
   scoringFunctions: API.ScoringFunctions = new API.ScoringFunctions(this);
   files: API.Files = new API.Files(this);
@@ -348,7 +344,6 @@ LlamaStackClient.Routes = Routes;
 LlamaStackClient.Moderations = Moderations;
 LlamaStackClient.Safety = Safety;
 LlamaStackClient.Shields = Shields;
-LlamaStackClient.SyntheticDataGeneration = SyntheticDataGeneration;
 LlamaStackClient.Scoring = Scoring;
 LlamaStackClient.ScoringFunctions = ScoringFunctions;
 LlamaStackClient.Files = Files;
@@ -470,7 +465,9 @@ export declare namespace LlamaStackClient {
     Models as Models,
     type ListModelsResponse as ListModelsResponse,
     type Model as Model,
+    type ModelRetrieveResponse as ModelRetrieveResponse,
     type ModelListResponse as ModelListResponse,
+    type ModelRegisterResponse as ModelRegisterResponse,
     type ModelRegisterParams as ModelRegisterParams,
   };
 
@@ -505,12 +502,6 @@ export declare namespace LlamaStackClient {
     type Shield as Shield,
     type ShieldListResponse as ShieldListResponse,
     type ShieldRegisterParams as ShieldRegisterParams,
-  };
-
-  export {
-    SyntheticDataGeneration as SyntheticDataGeneration,
-    type SyntheticDataGenerationResponse as SyntheticDataGenerationResponse,
-    type SyntheticDataGenerationGenerateParams as SyntheticDataGenerationGenerateParams,
   };
 
   export {
@@ -550,7 +541,6 @@ export declare namespace LlamaStackClient {
   export type Document = API.Document;
   export type InterleavedContent = API.InterleavedContent;
   export type InterleavedContentItem = API.InterleavedContentItem;
-  export type Message = API.Message;
   export type ParamType = API.ParamType;
   export type QueryConfig = API.QueryConfig;
   export type QueryResult = API.QueryResult;

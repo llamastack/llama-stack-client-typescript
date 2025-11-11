@@ -7,7 +7,6 @@ Types:
 - <code><a href="./src/resources/shared.ts">Document</a></code>
 - <code><a href="./src/resources/shared.ts">InterleavedContent</a></code>
 - <code><a href="./src/resources/shared.ts">InterleavedContentItem</a></code>
-- <code><a href="./src/resources/shared.ts">Message</a></code>
 - <code><a href="./src/resources/shared.ts">ParamType</a></code>
 - <code><a href="./src/resources/shared.ts">QueryConfig</a></code>
 - <code><a href="./src/resources/shared.ts">QueryResult</a></code>
@@ -263,24 +262,22 @@ Types:
 
 - <code><a href="./src/resources/models/models.ts">ListModelsResponse</a></code>
 - <code><a href="./src/resources/models/models.ts">Model</a></code>
+- <code><a href="./src/resources/models/models.ts">ModelRetrieveResponse</a></code>
 - <code><a href="./src/resources/models/models.ts">ModelListResponse</a></code>
+- <code><a href="./src/resources/models/models.ts">ModelRegisterResponse</a></code>
 
 Methods:
 
-- <code title="get /v1/models/{model_id}">client.models.<a href="./src/resources/models/models.ts">retrieve</a>(modelId) -> Model</code>
-- <code title="get /v1/openai/v1/models">client.models.<a href="./src/resources/models/models.ts">list</a>() -> ModelListResponse</code>
-- <code title="post /v1/models">client.models.<a href="./src/resources/models/models.ts">register</a>({ ...params }) -> Model</code>
+- <code title="get /v1/models/{model_id}">client.models.<a href="./src/resources/models/models.ts">retrieve</a>(modelId) -> ModelRetrieveResponse</code>
+- <code title="get /v1/models">client.models.<a href="./src/resources/models/models.ts">list</a>() -> ModelListResponse</code>
+- <code title="post /v1/models">client.models.<a href="./src/resources/models/models.ts">register</a>({ ...params }) -> ModelRegisterResponse</code>
 - <code title="delete /v1/models/{model_id}">client.models.<a href="./src/resources/models/models.ts">unregister</a>(modelId) -> void</code>
 
 ## OpenAI
 
-Types:
-
-- <code><a href="./src/resources/models/openai.ts">OpenAIListResponse</a></code>
-
 Methods:
 
-- <code title="get /v1/models">client.models.openai.<a href="./src/resources/models/openai.ts">list</a>() -> OpenAIListResponse</code>
+- <code title="get /v1/models">client.models.openai.<a href="./src/resources/models/openai.ts">list</a>() -> ModelListResponse</code>
 
 # Providers
 
@@ -339,16 +336,6 @@ Methods:
 - <code title="get /v1/shields">client.shields.<a href="./src/resources/shields.ts">list</a>() -> ShieldListResponse</code>
 - <code title="delete /v1/shields/{identifier}">client.shields.<a href="./src/resources/shields.ts">delete</a>(identifier) -> void</code>
 - <code title="post /v1/shields">client.shields.<a href="./src/resources/shields.ts">register</a>({ ...params }) -> Shield</code>
-
-# SyntheticDataGeneration
-
-Types:
-
-- <code><a href="./src/resources/synthetic-data-generation.ts">SyntheticDataGenerationResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/synthetic-data-generation/generate">client.syntheticDataGeneration.<a href="./src/resources/synthetic-data-generation.ts">generate</a>({ ...params }) -> SyntheticDataGenerationResponse</code>
 
 # Scoring
 

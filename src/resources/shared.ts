@@ -385,11 +385,6 @@ export namespace InterleavedContentItem {
 }
 
 /**
- * A message from the user in a chat conversation.
- */
-export type Message = UserMessage | SystemMessage | ToolResponseMessage | CompletionMessage;
-
-/**
  * Parameter type for string values.
  */
 export type ParamType =
