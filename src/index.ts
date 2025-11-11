@@ -54,23 +54,10 @@ import {
   ScoringFn,
   ScoringFnParams,
   ScoringFunctionListResponse,
-  ScoringFunctionRegisterParams,
   ScoringFunctions,
 } from './resources/scoring-functions';
-import {
-  ListShieldsResponse,
-  Shield,
-  ShieldListResponse,
-  ShieldRegisterParams,
-  Shields,
-} from './resources/shields';
-import {
-  ListToolGroupsResponse,
-  ToolGroup,
-  ToolgroupListResponse,
-  ToolgroupRegisterParams,
-  Toolgroups,
-} from './resources/toolgroups';
+import { ListShieldsResponse, Shield, ShieldListResponse, Shields } from './resources/shields';
+import { ListToolGroupsResponse, ToolGroup, ToolgroupListResponse, Toolgroups } from './resources/toolgroups';
 import { ToolListParams, ToolListResponse, Tools } from './resources/tools';
 import {
   QueryChunksResponse,
@@ -92,8 +79,6 @@ import {
   ListModelsResponse,
   Model,
   ModelListResponse,
-  ModelRegisterParams,
-  ModelRegisterResponse,
   ModelRetrieveResponse,
   Models,
 } from './resources/models/models';
@@ -371,7 +356,6 @@ export declare namespace LlamaStackClient {
     type ListToolGroupsResponse as ListToolGroupsResponse,
     type ToolGroup as ToolGroup,
     type ToolgroupListResponse as ToolgroupListResponse,
-    type ToolgroupRegisterParams as ToolgroupRegisterParams,
   };
 
   export { Tools as Tools, type ToolListResponse as ToolListResponse, type ToolListParams as ToolListParams };
@@ -467,8 +451,6 @@ export declare namespace LlamaStackClient {
     type Model as Model,
     type ModelRetrieveResponse as ModelRetrieveResponse,
     type ModelListResponse as ModelListResponse,
-    type ModelRegisterResponse as ModelRegisterResponse,
-    type ModelRegisterParams as ModelRegisterParams,
   };
 
   export {
@@ -501,7 +483,6 @@ export declare namespace LlamaStackClient {
     type ListShieldsResponse as ListShieldsResponse,
     type Shield as Shield,
     type ShieldListResponse as ShieldListResponse,
-    type ShieldRegisterParams as ShieldRegisterParams,
   };
 
   export {
@@ -518,7 +499,6 @@ export declare namespace LlamaStackClient {
     type ScoringFn as ScoringFn,
     type ScoringFnParams as ScoringFnParams,
     type ScoringFunctionListResponse as ScoringFunctionListResponse,
-    type ScoringFunctionRegisterParams as ScoringFunctionRegisterParams,
   };
 
   export {
@@ -536,12 +516,8 @@ export declare namespace LlamaStackClient {
 
   export { Beta as Beta };
 
-  export type Document = API.Document;
   export type InterleavedContent = API.InterleavedContent;
   export type InterleavedContentItem = API.InterleavedContentItem;
-  export type ParamType = API.ParamType;
-  export type QueryConfig = API.QueryConfig;
-  export type QueryResult = API.QueryResult;
   export type SafetyViolation = API.SafetyViolation;
   export type SamplingParams = API.SamplingParams;
   export type ScoringResult = API.ScoringResult;

@@ -42,8 +42,6 @@ export {
   type Model,
   type ModelRetrieveResponse,
   type ModelListResponse,
-  type ModelRegisterResponse,
-  type ModelRegisterParams,
 } from './models/models';
 export { Moderations, type CreateResponse, type ModerationCreateParams } from './moderations';
 export {
@@ -84,15 +82,8 @@ export {
   type ScoringFn,
   type ScoringFnParams,
   type ScoringFunctionListResponse,
-  type ScoringFunctionRegisterParams,
 } from './scoring-functions';
-export {
-  Shields,
-  type ListShieldsResponse,
-  type Shield,
-  type ShieldListResponse,
-  type ShieldRegisterParams,
-} from './shields';
+export { Shields, type ListShieldsResponse, type Shield, type ShieldListResponse } from './shields';
 export {
   ToolRuntime,
   type ToolDef,
@@ -106,7 +97,6 @@ export {
   type ListToolGroupsResponse,
   type ToolGroup,
   type ToolgroupListResponse,
-  type ToolgroupRegisterParams,
 } from './toolgroups';
 export { Tools, type ToolListResponse, type ToolListParams } from './tools';
 export {
