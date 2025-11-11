@@ -11,20 +11,6 @@ import {
 } from './benchmarks';
 import * as InferenceAPI from './inference';
 import { Inference, InferenceRerankParams, InferenceRerankResponse } from './inference';
-import * as AgentsAPI from './agents/agents';
-import {
-  AgentCreateParams,
-  AgentCreateResponse,
-  AgentListParams,
-  AgentListResponse,
-  AgentRetrieveResponse,
-  Agents,
-  InferenceStep,
-  MemoryRetrievalStep,
-  ShieldCallStep,
-  ToolExecutionStep,
-  ToolResponse,
-} from './agents/agents';
 import * as EvalAPI from './eval/eval';
 import {
   BenchmarkConfig,
@@ -51,14 +37,12 @@ export class Alpha extends APIResource {
   postTraining: PostTrainingAPI.PostTraining = new PostTrainingAPI.PostTraining(this._client);
   benchmarks: BenchmarksAPI.Benchmarks = new BenchmarksAPI.Benchmarks(this._client);
   eval: EvalAPI.Eval = new EvalAPI.Eval(this._client);
-  agents: AgentsAPI.Agents = new AgentsAPI.Agents(this._client);
 }
 
 Alpha.Inference = Inference;
 Alpha.PostTraining = PostTraining;
 Alpha.Benchmarks = Benchmarks;
 Alpha.Eval = Eval;
-Alpha.Agents = Agents;
 
 export declare namespace Alpha {
   export {
@@ -93,19 +77,5 @@ export declare namespace Alpha {
     type EvalEvaluateRowsAlphaParams as EvalEvaluateRowsAlphaParams,
     type EvalRunEvalParams as EvalRunEvalParams,
     type EvalRunEvalAlphaParams as EvalRunEvalAlphaParams,
-  };
-
-  export {
-    Agents as Agents,
-    type InferenceStep as InferenceStep,
-    type MemoryRetrievalStep as MemoryRetrievalStep,
-    type ShieldCallStep as ShieldCallStep,
-    type ToolExecutionStep as ToolExecutionStep,
-    type ToolResponse as ToolResponse,
-    type AgentCreateResponse as AgentCreateResponse,
-    type AgentRetrieveResponse as AgentRetrieveResponse,
-    type AgentListResponse as AgentListResponse,
-    type AgentCreateParams as AgentCreateParams,
-    type AgentListParams as AgentListParams,
   };
 }

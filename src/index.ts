@@ -536,22 +536,16 @@ export declare namespace LlamaStackClient {
 
   export { Beta as Beta };
 
-  export type AgentConfig = API.AgentConfig;
-  export type CompletionMessage = API.CompletionMessage;
   export type Document = API.Document;
   export type InterleavedContent = API.InterleavedContent;
   export type InterleavedContentItem = API.InterleavedContentItem;
   export type ParamType = API.ParamType;
   export type QueryConfig = API.QueryConfig;
   export type QueryResult = API.QueryResult;
-  export type ResponseFormat = API.ResponseFormat;
   export type SafetyViolation = API.SafetyViolation;
   export type SamplingParams = API.SamplingParams;
   export type ScoringResult = API.ScoringResult;
   export type SystemMessage = API.SystemMessage;
-  export type ToolCall = API.ToolCall;
-  export type ToolResponseMessage = API.ToolResponseMessage;
-  export type UserMessage = API.UserMessage;
 }
 
 export { toFile, fileFromPath } from './uploads';

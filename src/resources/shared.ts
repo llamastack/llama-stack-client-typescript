@@ -6,139 +6,6 @@
 
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as ToolRuntimeAPI from './tool-runtime/tool-runtime';
-
-/**
- * Configuration for an agent.
- */
-export interface AgentConfig {
-  /**
-   * The system instructions for the agent
-   */
-  instructions: string;
-
-  /**
-   * The model identifier to use for the agent
-   */
-  model: string;
-
-  client_tools?: Array<ToolRuntimeAPI.ToolDef>;
-
-  /**
-   * Optional flag indicating whether session data has to be persisted
-   */
-  enable_session_persistence?: boolean;
-
-  input_shields?: Array<string>;
-
-  max_infer_iters?: number;
-
-  /**
-   * Optional name for the agent, used in telemetry and identification
-   */
-  name?: string;
-
-  output_shields?: Array<string>;
-
-  /**
-   * Optional response format configuration
-   */
-  response_format?: ResponseFormat;
-
-  /**
-   * Sampling parameters.
-   */
-  sampling_params?: SamplingParams;
-
-  /**
-   * @deprecated Whether tool use is required or automatic. This is a hint to the
-   * model which may not be followed. It depends on the Instruction Following
-   * capabilities of the model.
-   */
-  tool_choice?: 'auto' | 'required' | 'none';
-
-  /**
-   * Configuration for tool use.
-   */
-  tool_config?: AgentConfig.ToolConfig;
-
-  /**
-   * @deprecated Prompt format for calling custom / zero shot tools.
-   */
-  tool_prompt_format?: 'json' | 'function_tag' | 'python_list';
-
-  toolgroups?: Array<string | AgentConfig.AgentToolGroupWithArgs>;
-}
-
-export namespace AgentConfig {
-  /**
-   * Configuration for tool use.
-   */
-  export interface ToolConfig {
-    /**
-     * (Optional) Config for how to override the default system prompt. -
-     * `SystemMessageBehavior.append`: Appends the provided system message to the
-     * default system prompt. - `SystemMessageBehavior.replace`: Replaces the default
-     * system prompt with the provided system message. The system message can include
-     * the string '{{function_definitions}}' to indicate where the function definitions
-     * should be inserted.
-     */
-    system_message_behavior?: 'append' | 'replace';
-
-    /**
-     * (Optional) Whether tool use is automatic, required, or none. Can also specify a
-     * tool name to use a specific tool. Defaults to ToolChoice.auto.
-     */
-    tool_choice?: 'auto' | 'required' | 'none' | (string & {});
-
-    /**
-     * (Optional) Instructs the model how to format tool calls. By default, Llama Stack
-     * will attempt to use a format that is best adapted to the model. -
-     * `ToolPromptFormat.json`: The tool calls are formatted as a JSON object. -
-     * `ToolPromptFormat.function_tag`: The tool calls are enclosed in a
-     * <function=function_name> tag. - `ToolPromptFormat.python_list`: The tool calls
-     * are output as Python syntax -- a list of function calls.
-     */
-    tool_prompt_format?: 'json' | 'function_tag' | 'python_list';
-  }
-
-  export interface AgentToolGroupWithArgs {
-    args: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-    name: string;
-  }
-}
-
-/**
- * A message containing the model's (assistant) response in a chat conversation.
- */
-export interface CompletionMessage {
-  /**
-   * The content of the model's response
-   */
-  content: InterleavedContent;
-
-  /**
-   * Must be "assistant" to identify this as the model's response
-   */
-  role: 'assistant';
-
-  /**
-   * Reason why the model stopped generating. Options are: -
-   * `StopReason.end_of_turn`: The model finished generating the entire response. -
-   * `StopReason.end_of_message`: The model finished generating but generated a
-   * partial response -- usually, a tool call. The user may call the tool and
-   * continue the conversation with the tool's response. -
-   * `StopReason.out_of_tokens`: The model ran out of token budget.
-   */
-  stop_reason: 'end_of_turn' | 'end_of_message' | 'out_of_tokens';
-
-  /**
-   * List of tool calls. Each tool call is a ToolCall object.
-   */
-  tool_calls?: Array<ToolCall>;
-}
-
 /**
  * A document to be used for document ingestion in the RAG Tool.
  */
@@ -396,8 +263,7 @@ export type ParamType =
   | ParamType.JsonType
   | ParamType.UnionType
   | ParamType.ChatCompletionInputType
-  | ParamType.CompletionInputType
-  | ParamType.AgentTurnInputType;
+  | ParamType.CompletionInputType;
 
 export namespace ParamType {
   /**
@@ -488,16 +354,6 @@ export namespace ParamType {
      * Discriminator type. Always "completion_input"
      */
     type: 'completion_input';
-  }
-
-  /**
-   * Parameter type for agent turn input.
-   */
-  export interface AgentTurnInputType {
-    /**
-     * Discriminator type. Always "agent_turn_input"
-     */
-    type: 'agent_turn_input';
   }
 }
 
@@ -622,44 +478,6 @@ export interface QueryResult {
    * (Optional) The retrieved content from the query
    */
   content?: InterleavedContent;
-}
-
-/**
- * Configuration for JSON schema-guided response generation.
- */
-export type ResponseFormat = ResponseFormat.JsonSchemaResponseFormat | ResponseFormat.GrammarResponseFormat;
-
-export namespace ResponseFormat {
-  /**
-   * Configuration for JSON schema-guided response generation.
-   */
-  export interface JsonSchemaResponseFormat {
-    /**
-     * The JSON schema the response should conform to. In a Python SDK, this is often a
-     * `pydantic` model.
-     */
-    json_schema: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-    /**
-     * Must be "json_schema" to identify this format type
-     */
-    type: 'json_schema';
-  }
-
-  /**
-   * Configuration for grammar-guided response generation.
-   */
-  export interface GrammarResponseFormat {
-    /**
-     * The BNF grammar specification the response should conform to
-     */
-    bnf: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-    /**
-     * Must be "grammar" to identify this format type
-     */
-    type: 'grammar';
-  }
 }
 
 /**
@@ -794,53 +612,4 @@ export interface SystemMessage {
    * Must be "system" to identify this as a system message
    */
   role: 'system';
-}
-
-export interface ToolCall {
-  arguments: string;
-
-  call_id: string;
-
-  tool_name: 'brave_search' | 'wolfram_alpha' | 'photogen' | 'code_interpreter' | (string & {});
-}
-
-/**
- * A message representing the result of a tool invocation.
- */
-export interface ToolResponseMessage {
-  /**
-   * Unique identifier for the tool call this response is for
-   */
-  call_id: string;
-
-  /**
-   * The response content from the tool
-   */
-  content: InterleavedContent;
-
-  /**
-   * Must be "tool" to identify this as a tool response
-   */
-  role: 'tool';
-}
-
-/**
- * A message from the user in a chat conversation.
- */
-export interface UserMessage {
-  /**
-   * The content of the message, which can include text and other media
-   */
-  content: InterleavedContent;
-
-  /**
-   * Must be "user" to identify this as a user message
-   */
-  role: 'user';
-
-  /**
-   * (Optional) This field is used internally by Llama Stack to pass RAG context.
-   * This field may be removed in the API in the future.
-   */
-  context?: InterleavedContent;
 }
