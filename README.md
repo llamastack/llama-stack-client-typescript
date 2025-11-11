@@ -27,9 +27,9 @@ import LlamaStackClient from 'llama-stack-client';
 
 const client = new LlamaStackClient();
 
-const model = await client.models.register({ model_id: 'model_id' });
+const response = await client.models.register({ model_id: 'model_id' });
 
-console.log(model.identifier);
+console.log(response.identifier);
 ```
 
 ## Streaming responses
