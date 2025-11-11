@@ -27,17 +27,6 @@ export class ScoringFunctions extends APIResource {
       }>
     )._thenUnwrap((obj) => obj.data);
   }
-
-  /**
-   * Register a scoring function.
-   */
-  register(body: ScoringFunctionRegisterParams, options?: Core.RequestOptions): Core.APIPromise<void> {
-    return this._client.post('/v1/scoring-functions', {
-      body,
-      ...options,
-      headers: { Accept: '*/*', ...options?.headers },
-    });
-  }
 }
 
 export interface ListScoringFunctionsResponse {
@@ -170,58 +159,11 @@ export namespace ScoringFnParams {
 
 export type ScoringFunctionListResponse = Array<ScoringFn>;
 
-export interface ScoringFunctionRegisterParams {
-  /**
-   * The description of the scoring function.
-   */
-  description: string;
-
-  return_type: ScoringFunctionRegisterParams.ReturnType;
-
-  /**
-   * The ID of the scoring function to register.
-   */
-  scoring_fn_id: string;
-
-  /**
-   * The parameters for the scoring function for benchmark eval, these can be
-   * overridden for app eval.
-   */
-  params?: ScoringFnParams;
-
-  /**
-   * The ID of the provider to use for the scoring function.
-   */
-  provider_id?: string;
-
-  /**
-   * The ID of the provider scoring function to use for the scoring function.
-   */
-  provider_scoring_fn_id?: string;
-}
-
-export namespace ScoringFunctionRegisterParams {
-  export interface ReturnType {
-    type:
-      | 'string'
-      | 'number'
-      | 'boolean'
-      | 'array'
-      | 'object'
-      | 'json'
-      | 'union'
-      | 'chat_completion_input'
-      | 'completion_input'
-      | 'agent_turn_input';
-  }
-}
-
 export declare namespace ScoringFunctions {
   export {
     type ListScoringFunctionsResponse as ListScoringFunctionsResponse,
     type ScoringFn as ScoringFn,
     type ScoringFnParams as ScoringFnParams,
     type ScoringFunctionListResponse as ScoringFunctionListResponse,
-    type ScoringFunctionRegisterParams as ScoringFunctionRegisterParams,
   };
 }

@@ -47,36 +47,4 @@ describe('resource scoringFunctions', () => {
       LlamaStackClient.NotFoundError,
     );
   });
-
-  test('register: only required params', async () => {
-    const responsePromise = client.scoringFunctions.register({
-      description: 'description',
-      return_type: { type: 'string' },
-      scoring_fn_id: 'scoring_fn_id',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('register: required and optional params', async () => {
-    const response = await client.scoringFunctions.register({
-      description: 'description',
-      return_type: { type: 'string' },
-      scoring_fn_id: 'scoring_fn_id',
-      params: {
-        aggregation_functions: ['average'],
-        judge_model: 'judge_model',
-        judge_score_regexes: ['string'],
-        type: 'llm_as_judge',
-        prompt_template: 'prompt_template',
-      },
-      provider_id: 'provider_id',
-      provider_scoring_fn_id: 'provider_scoring_fn_id',
-    });
-  });
 });

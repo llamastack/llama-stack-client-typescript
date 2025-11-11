@@ -11,7 +11,7 @@ import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
 import * as Shared from '../shared';
 import * as RagToolAPI from './rag-tool';
-import { RagTool, RagToolInsertParams, RagToolQueryParams } from './rag-tool';
+import { RagTool } from './rag-tool';
 
 export class ToolRuntime extends APIResource {
   ragTool: RagToolAPI.RagTool = new RagToolAPI.RagTool(this._client);
@@ -161,9 +161,5 @@ export declare namespace ToolRuntime {
     type ToolRuntimeListToolsParams as ToolRuntimeListToolsParams,
   };
 
-  export {
-    RagTool as RagTool,
-    type RagToolInsertParams as RagToolInsertParams,
-    type RagToolQueryParams as RagToolQueryParams,
-  };
+  export { RagTool as RagTool };
 }

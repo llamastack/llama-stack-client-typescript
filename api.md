@@ -2,12 +2,8 @@
 
 Types:
 
-- <code><a href="./src/resources/shared.ts">Document</a></code>
 - <code><a href="./src/resources/shared.ts">InterleavedContent</a></code>
 - <code><a href="./src/resources/shared.ts">InterleavedContentItem</a></code>
-- <code><a href="./src/resources/shared.ts">ParamType</a></code>
-- <code><a href="./src/resources/shared.ts">QueryConfig</a></code>
-- <code><a href="./src/resources/shared.ts">QueryResult</a></code>
 - <code><a href="./src/resources/shared.ts">SafetyViolation</a></code>
 - <code><a href="./src/resources/shared.ts">SamplingParams</a></code>
 - <code><a href="./src/resources/shared.ts">ScoringResult</a></code>
@@ -25,8 +21,6 @@ Methods:
 
 - <code title="get /v1/toolgroups">client.toolgroups.<a href="./src/resources/toolgroups.ts">list</a>() -> ToolgroupListResponse</code>
 - <code title="get /v1/toolgroups/{toolgroup_id}">client.toolgroups.<a href="./src/resources/toolgroups.ts">get</a>(toolgroupId) -> ToolGroup</code>
-- <code title="post /v1/toolgroups">client.toolgroups.<a href="./src/resources/toolgroups.ts">register</a>({ ...params }) -> void</code>
-- <code title="delete /v1/toolgroups/{toolgroup_id}">client.toolgroups.<a href="./src/resources/toolgroups.ts">unregister</a>(toolgroupId) -> void</code>
 
 # Tools
 
@@ -53,11 +47,6 @@ Methods:
 - <code title="get /v1/tool-runtime/list-tools">client.toolRuntime.<a href="./src/resources/tool-runtime/tool-runtime.ts">listTools</a>({ ...params }) -> ToolRuntimeListToolsResponse</code>
 
 ## RagTool
-
-Methods:
-
-- <code title="post /v1/tool-runtime/rag-tool/insert">client.toolRuntime.ragTool.<a href="./src/resources/tool-runtime/rag-tool.ts">insert</a>({ ...params }) -> void</code>
-- <code title="post /v1/tool-runtime/rag-tool/query">client.toolRuntime.ragTool.<a href="./src/resources/tool-runtime/rag-tool.ts">query</a>({ ...params }) -> QueryResult</code>
 
 # Responses
 
@@ -258,14 +247,11 @@ Types:
 - <code><a href="./src/resources/models/models.ts">Model</a></code>
 - <code><a href="./src/resources/models/models.ts">ModelRetrieveResponse</a></code>
 - <code><a href="./src/resources/models/models.ts">ModelListResponse</a></code>
-- <code><a href="./src/resources/models/models.ts">ModelRegisterResponse</a></code>
 
 Methods:
 
 - <code title="get /v1/models/{model_id}">client.models.<a href="./src/resources/models/models.ts">retrieve</a>(modelId) -> ModelRetrieveResponse</code>
 - <code title="get /v1/models">client.models.<a href="./src/resources/models/models.ts">list</a>() -> ModelListResponse</code>
-- <code title="post /v1/models">client.models.<a href="./src/resources/models/models.ts">register</a>({ ...params }) -> ModelRegisterResponse</code>
-- <code title="delete /v1/models/{model_id}">client.models.<a href="./src/resources/models/models.ts">unregister</a>(modelId) -> void</code>
 
 ## OpenAI
 
@@ -328,8 +314,6 @@ Methods:
 
 - <code title="get /v1/shields/{identifier}">client.shields.<a href="./src/resources/shields.ts">retrieve</a>(identifier) -> Shield</code>
 - <code title="get /v1/shields">client.shields.<a href="./src/resources/shields.ts">list</a>() -> ShieldListResponse</code>
-- <code title="delete /v1/shields/{identifier}">client.shields.<a href="./src/resources/shields.ts">delete</a>(identifier) -> void</code>
-- <code title="post /v1/shields">client.shields.<a href="./src/resources/shields.ts">register</a>({ ...params }) -> Shield</code>
 
 # Scoring
 
@@ -356,7 +340,6 @@ Methods:
 
 - <code title="get /v1/scoring-functions/{scoring_fn_id}">client.scoringFunctions.<a href="./src/resources/scoring-functions.ts">retrieve</a>(scoringFnId) -> ScoringFn</code>
 - <code title="get /v1/scoring-functions">client.scoringFunctions.<a href="./src/resources/scoring-functions.ts">list</a>() -> ScoringFunctionListResponse</code>
-- <code title="post /v1/scoring-functions">client.scoringFunctions.<a href="./src/resources/scoring-functions.ts">register</a>({ ...params }) -> void</code>
 
 # Files
 
