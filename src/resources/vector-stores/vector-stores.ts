@@ -19,6 +19,7 @@ import {
 } from './file-batches';
 import * as FilesAPI from './files';
 import {
+  FileContentParams,
   FileContentResponse,
   FileCreateParams,
   FileDeleteResponse,
@@ -317,6 +318,84 @@ export namespace VectorStoreSearchResponse {
        * Content type, currently only "text" is supported
        */
       type: 'text';
+
+      /**
+       * Optional chunk metadata
+       */
+      chunk_metadata?: Content.ChunkMetadata;
+
+      /**
+       * Optional embedding vector for this content chunk
+       */
+      embedding?: Array<number>;
+
+      /**
+       * Optional user-defined metadata
+       */
+      metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+    }
+
+    export namespace Content {
+      /**
+       * Optional chunk metadata
+       */
+      export interface ChunkMetadata {
+        /**
+         * The dimension of the embedding vector for the chunk.
+         */
+        chunk_embedding_dimension?: number;
+
+        /**
+         * The embedding model used to create the chunk's embedding.
+         */
+        chunk_embedding_model?: string;
+
+        /**
+         * The ID of the chunk. If not set, it will be generated based on the document ID
+         * and content.
+         */
+        chunk_id?: string;
+
+        /**
+         * The tokenizer used to create the chunk. Default is Tiktoken.
+         */
+        chunk_tokenizer?: string;
+
+        /**
+         * The window of the chunk, which can be used to group related chunks together.
+         */
+        chunk_window?: string;
+
+        /**
+         * The number of tokens in the content of the chunk.
+         */
+        content_token_count?: number;
+
+        /**
+         * An optional timestamp indicating when the chunk was created.
+         */
+        created_timestamp?: number;
+
+        /**
+         * The ID of the document this chunk belongs to.
+         */
+        document_id?: string;
+
+        /**
+         * The number of tokens in the metadata of the chunk.
+         */
+        metadata_token_count?: number;
+
+        /**
+         * The source of the content, such as a URL, file path, or other identifier.
+         */
+        source?: string;
+
+        /**
+         * An optional timestamp indicating when the chunk was last updated.
+         */
+        updated_timestamp?: number;
+      }
     }
   }
 }
@@ -501,6 +580,7 @@ export declare namespace VectorStores {
     type FileCreateParams as FileCreateParams,
     type FileUpdateParams as FileUpdateParams,
     type FileListParams as FileListParams,
+    type FileContentParams as FileContentParams,
   };
 
   export {
