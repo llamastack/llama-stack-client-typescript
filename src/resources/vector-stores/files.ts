@@ -90,9 +90,27 @@ export class Files extends APIResource {
   content(
     vectorStoreId: string,
     fileId: string,
+    query?: FileContentParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<FileContentResponse>;
+  content(
+    vectorStoreId: string,
+    fileId: string,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<FileContentResponse>;
+  content(
+    vectorStoreId: string,
+    fileId: string,
+    query: FileContentParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
   ): Core.APIPromise<FileContentResponse> {
-    return this._client.get(`/v1/vector_stores/${vectorStoreId}/files/${fileId}/content`, options);
+    if (isRequestOptions(query)) {
+      return this.content(vectorStoreId, fileId, {}, query);
+    }
+    return this._client.get(`/v1/vector_stores/${vectorStoreId}/files/${fileId}/content`, {
+      query,
+      ...options,
+    });
   }
 }
 
@@ -268,6 +286,84 @@ export namespace FileContentResponse {
      * Content type, currently only "text" is supported
      */
     type: 'text';
+
+    /**
+     * Optional chunk metadata
+     */
+    chunk_metadata?: Data.ChunkMetadata;
+
+    /**
+     * Optional embedding vector for this content chunk
+     */
+    embedding?: Array<number>;
+
+    /**
+     * Optional user-defined metadata
+     */
+    metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  }
+
+  export namespace Data {
+    /**
+     * Optional chunk metadata
+     */
+    export interface ChunkMetadata {
+      /**
+       * The dimension of the embedding vector for the chunk.
+       */
+      chunk_embedding_dimension?: number;
+
+      /**
+       * The embedding model used to create the chunk's embedding.
+       */
+      chunk_embedding_model?: string;
+
+      /**
+       * The ID of the chunk. If not set, it will be generated based on the document ID
+       * and content.
+       */
+      chunk_id?: string;
+
+      /**
+       * The tokenizer used to create the chunk. Default is Tiktoken.
+       */
+      chunk_tokenizer?: string;
+
+      /**
+       * The window of the chunk, which can be used to group related chunks together.
+       */
+      chunk_window?: string;
+
+      /**
+       * The number of tokens in the content of the chunk.
+       */
+      content_token_count?: number;
+
+      /**
+       * An optional timestamp indicating when the chunk was created.
+       */
+      created_timestamp?: number;
+
+      /**
+       * The ID of the document this chunk belongs to.
+       */
+      document_id?: string;
+
+      /**
+       * The number of tokens in the metadata of the chunk.
+       */
+      metadata_token_count?: number;
+
+      /**
+       * The source of the content, such as a URL, file path, or other identifier.
+       */
+      source?: string;
+
+      /**
+       * An optional timestamp indicating when the chunk was last updated.
+       */
+      updated_timestamp?: number;
+    }
   }
 }
 
@@ -360,6 +456,18 @@ export interface FileListParams extends OpenAICursorPageParams {
   order?: string;
 }
 
+export interface FileContentParams {
+  /**
+   * Whether to include embedding vectors in the response.
+   */
+  include_embeddings?: boolean;
+
+  /**
+   * Whether to include chunk metadata in the response.
+   */
+  include_metadata?: boolean;
+}
+
 Files.VectorStoreFilesOpenAICursorPage = VectorStoreFilesOpenAICursorPage;
 
 export declare namespace Files {
@@ -371,5 +479,6 @@ export declare namespace Files {
     type FileCreateParams as FileCreateParams,
     type FileUpdateParams as FileUpdateParams,
     type FileListParams as FileListParams,
+    type FileContentParams as FileContentParams,
   };
 }
