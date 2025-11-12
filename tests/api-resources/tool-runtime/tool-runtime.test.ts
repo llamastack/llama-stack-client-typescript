@@ -3,7 +3,7 @@
 //
 // This source code is licensed under the terms described in the LICENSE file in
 // the root directory of this source tree.
-
+//
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import LlamaStackClient from 'llama-stack-client';
@@ -27,7 +27,7 @@ describe('resource toolRuntime', () => {
     const response = await client.toolRuntime.invokeTool({ kwargs: { foo: true }, tool_name: 'tool_name' });
   });
 
-  test.skip('listTools (skipping because a strange 400 happens)', async () => {
+  test('listTools', async () => {
     const responsePromise = client.toolRuntime.listTools();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
