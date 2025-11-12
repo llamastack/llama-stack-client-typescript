@@ -22,6 +22,7 @@ export {
   type FileCreateParams,
   type FileUpdateParams,
   type FileListParams,
+  type FileContentParams,
 } from './files';
 export {
   VectorStoresOpenAICursorPage,
