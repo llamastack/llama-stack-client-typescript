@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.4.0-alpha.2 (2025-11-13)
+
+Full Changelog: [v0.4.0-alpha.1...v0.4.0-alpha.2](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.4.0-alpha.1...v0.4.0-alpha.2)
+
+### Features
+
+* add new API filter for all non-deprecated APIs ([b6aeeaf](https://github.com/llamastack/llama-stack-client-typescript/commit/b6aeeaf8de2ec76928f2b52b027b563924cae7af))
+* Adding option to return embeddings and metadata from `/vector_stores/*/files/*/content` and UI updates ([f599d5e](https://github.com/llamastack/llama-stack-client-typescript/commit/f599d5e0cb24af85afaf698ab132e35980094b30))
+* **api:** point models.list() to /v1/openai/v1/models ([bb35776](https://github.com/llamastack/llama-stack-client-typescript/commit/bb35776ec613b3045cf3b3f62e5361d9403fa2a8))
+* **api:** remove agents types ([69aff21](https://github.com/llamastack/llama-stack-client-typescript/commit/69aff218b3c3765a1a6beab4ade48a7096a9082b))
+* **api:** remove openai/v1 endpoints ([96b206c](https://github.com/llamastack/llama-stack-client-typescript/commit/96b206cd531391fe3d0323a276eb342b70a568de))
+* Implement the 'max_tool_calls' parameter for the Responses API ([a9ec6fb](https://github.com/llamastack/llama-stack-client-typescript/commit/a9ec6fb8fea3b839f30a03d2fb61efbfe4c6b007))
+
+
+### Bug Fixes
+
+* **api:** ensure openapi spec has deprecated routes ([8cd1f46](https://github.com/llamastack/llama-stack-client-typescript/commit/8cd1f4632c395241bddefd19a23abd52eefe2ca3))
+
+
+### Chores
+
+* **stainless:** add config for file header ([1bc1a46](https://github.com/llamastack/llama-stack-client-typescript/commit/1bc1a460f884257ece4da5d12a3a7a0847bf725a))
+* **stainless:** add config for file header ([61a0e70](https://github.com/llamastack/llama-stack-client-typescript/commit/61a0e705c79716318f88d5f4bec385d20f6a5e3e))
+
 ## 0.4.0-alpha.1 (2025-10-31)
 
 Full Changelog: [v0.2.23-alpha.1...v0.4.0-alpha.1](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.2.23-alpha.1...v0.4.0-alpha.1)
