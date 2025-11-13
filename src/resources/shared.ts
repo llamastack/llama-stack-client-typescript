@@ -149,6 +149,112 @@ export namespace InterleavedContentItem {
 }
 
 /**
+ * Parameter type for string values.
+ */
+export type ParamType =
+  | ParamType.StringType
+  | ParamType.NumberType
+  | ParamType.BooleanType
+  | ParamType.ArrayType
+  | ParamType.ObjectType
+  | ParamType.JsonType
+  | ParamType.UnionType
+  | ParamType.ChatCompletionInputType
+  | ParamType.CompletionInputType;
+
+export namespace ParamType {
+  /**
+   * Parameter type for string values.
+   */
+  export interface StringType {
+    /**
+     * Discriminator type. Always "string"
+     */
+    type: 'string';
+  }
+
+  /**
+   * Parameter type for numeric values.
+   */
+  export interface NumberType {
+    /**
+     * Discriminator type. Always "number"
+     */
+    type: 'number';
+  }
+
+  /**
+   * Parameter type for boolean values.
+   */
+  export interface BooleanType {
+    /**
+     * Discriminator type. Always "boolean"
+     */
+    type: 'boolean';
+  }
+
+  /**
+   * Parameter type for array values.
+   */
+  export interface ArrayType {
+    /**
+     * Discriminator type. Always "array"
+     */
+    type: 'array';
+  }
+
+  /**
+   * Parameter type for object values.
+   */
+  export interface ObjectType {
+    /**
+     * Discriminator type. Always "object"
+     */
+    type: 'object';
+  }
+
+  /**
+   * Parameter type for JSON values.
+   */
+  export interface JsonType {
+    /**
+     * Discriminator type. Always "json"
+     */
+    type: 'json';
+  }
+
+  /**
+   * Parameter type for union values.
+   */
+  export interface UnionType {
+    /**
+     * Discriminator type. Always "union"
+     */
+    type: 'union';
+  }
+
+  /**
+   * Parameter type for chat completion input.
+   */
+  export interface ChatCompletionInputType {
+    /**
+     * Discriminator type. Always "chat_completion_input"
+     */
+    type: 'chat_completion_input';
+  }
+
+  /**
+   * Parameter type for completion input.
+   */
+  export interface CompletionInputType {
+    /**
+     * Discriminator type. Always "completion_input"
+     */
+    type: 'completion_input';
+  }
+}
+
+/**
  * Details of a safety violation detected by content moderation.
  */
 export interface SafetyViolation {
