@@ -25,6 +25,31 @@ export class Toolgroups extends APIResource {
   get(toolgroupId: string, options?: Core.RequestOptions): Core.APIPromise<ToolGroup> {
     return this._client.get(`/v1/toolgroups/${toolgroupId}`, options);
   }
+
+  /**
+   * Register a tool group.
+   *
+   * @deprecated
+   */
+  register(body: ToolgroupRegisterParams, options?: Core.RequestOptions): Core.APIPromise<void> {
+    return this._client.post('/v1/toolgroups', {
+      body,
+      ...options,
+      headers: { Accept: '*/*', ...options?.headers },
+    });
+  }
+
+  /**
+   * Unregister a tool group.
+   *
+   * @deprecated
+   */
+  unregister(toolgroupId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
+    return this._client.delete(`/v1/toolgroups/${toolgroupId}`, {
+      ...options,
+      headers: { Accept: '*/*', ...options?.headers },
+    });
+  }
 }
 
 /**
@@ -80,10 +105,45 @@ export namespace ToolGroup {
  */
 export type ToolgroupListResponse = Array<ToolGroup>;
 
+export interface ToolgroupRegisterParams {
+  /**
+   * The ID of the provider to use for the tool group.
+   */
+  provider_id: string;
+
+  /**
+   * The ID of the tool group to register.
+   */
+  toolgroup_id: string;
+
+  /**
+   * A dictionary of arguments to pass to the tool group.
+   */
+  args?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+
+  /**
+   * The MCP endpoint to use for the tool group.
+   */
+  mcp_endpoint?: ToolgroupRegisterParams.McpEndpoint;
+}
+
+export namespace ToolgroupRegisterParams {
+  /**
+   * The MCP endpoint to use for the tool group.
+   */
+  export interface McpEndpoint {
+    /**
+     * The URL string pointing to the resource
+     */
+    uri: string;
+  }
+}
+
 export declare namespace Toolgroups {
   export {
     type ListToolGroupsResponse as ListToolGroupsResponse,
     type ToolGroup as ToolGroup,
     type ToolgroupListResponse as ToolgroupListResponse,
+    type ToolgroupRegisterParams as ToolgroupRegisterParams,
   };
 }
