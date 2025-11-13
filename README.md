@@ -27,10 +27,9 @@ import LlamaStackClient from 'llama-stack-client';
 
 const client = new LlamaStackClient();
 
-const completion = await client.chat.completions.create({
-  messages: [{ content: 'string', role: 'user' }],
-  model: 'model',
-});
+const response = await client.models.register({ model_id: 'model_id' });
+
+console.log(response.identifier);
 ```
 
 ## Streaming responses
