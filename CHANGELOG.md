@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0-alpha.3 (2025-11-14)
+
+Full Changelog: [v0.4.0-alpha.2...v0.4.0-alpha.3](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.4.0-alpha.2...v0.4.0-alpha.3)
+
+### Bug Fixes
+
+* MCP authorization parameter implementation ([a5dd454](https://github.com/llamastack/llama-stack-client-typescript/commit/a5dd454c5f2cb64532e642c415ef40eb1001dcd8))
+
 ## 0.4.0-alpha.2 (2025-11-13)
 
 Full Changelog: [v0.4.0-alpha.1...v0.4.0-alpha.2](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.4.0-alpha.1...v0.4.0-alpha.2)
