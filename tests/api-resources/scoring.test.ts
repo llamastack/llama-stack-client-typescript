@@ -14,15 +14,8 @@ const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] 
 describe('resource scoring', () => {
   test('score: only required params', async () => {
     const responsePromise = client.scoring.score({
-      input_rows: [{ foo: true }],
-      scoring_functions: {
-        foo: {
-          aggregation_functions: ['average'],
-          judge_model: 'judge_model',
-          judge_score_regexes: ['string'],
-          type: 'llm_as_judge',
-        },
-      },
+      input_rows: [{ foo: 'bar' }],
+      scoring_functions: { foo: { judge_model: 'judge_model', type: 'llm_as_judge' } },
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -35,14 +28,14 @@ describe('resource scoring', () => {
 
   test('score: required and optional params', async () => {
     const response = await client.scoring.score({
-      input_rows: [{ foo: true }],
+      input_rows: [{ foo: 'bar' }],
       scoring_functions: {
         foo: {
-          aggregation_functions: ['average'],
           judge_model: 'judge_model',
+          aggregation_functions: ['average'],
           judge_score_regexes: ['string'],
-          type: 'llm_as_judge',
           prompt_template: 'prompt_template',
+          type: 'llm_as_judge',
         },
       },
     });
@@ -51,15 +44,7 @@ describe('resource scoring', () => {
   test('scoreBatch: only required params', async () => {
     const responsePromise = client.scoring.scoreBatch({
       dataset_id: 'dataset_id',
-      save_results_dataset: true,
-      scoring_functions: {
-        foo: {
-          aggregation_functions: ['average'],
-          judge_model: 'judge_model',
-          judge_score_regexes: ['string'],
-          type: 'llm_as_judge',
-        },
-      },
+      scoring_functions: { foo: { judge_model: 'judge_model', type: 'llm_as_judge' } },
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -73,16 +58,16 @@ describe('resource scoring', () => {
   test('scoreBatch: required and optional params', async () => {
     const response = await client.scoring.scoreBatch({
       dataset_id: 'dataset_id',
-      save_results_dataset: true,
       scoring_functions: {
         foo: {
-          aggregation_functions: ['average'],
           judge_model: 'judge_model',
+          aggregation_functions: ['average'],
           judge_score_regexes: ['string'],
-          type: 'llm_as_judge',
           prompt_template: 'prompt_template',
+          type: 'llm_as_judge',
         },
       },
+      save_results_dataset: true,
     });
   });
 });

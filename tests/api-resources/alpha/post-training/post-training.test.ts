@@ -14,12 +14,12 @@ const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] 
 describe('resource postTraining', () => {
   test('preferenceOptimize: only required params', async () => {
     const responsePromise = client.alpha.postTraining.preferenceOptimize({
-      algorithm_config: { beta: 0, loss_type: 'sigmoid' },
+      algorithm_config: { beta: 0 },
       finetuned_model: 'finetuned_model',
-      hyperparam_search_config: { foo: true },
+      hyperparam_search_config: { foo: 'bar' },
       job_uuid: 'job_uuid',
-      logger_config: { foo: true },
-      training_config: { gradient_accumulation_steps: 0, max_steps_per_epoch: 0, n_epochs: 0 },
+      logger_config: { foo: 'bar' },
+      training_config: { n_epochs: 0 },
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -34,12 +34,10 @@ describe('resource postTraining', () => {
     const response = await client.alpha.postTraining.preferenceOptimize({
       algorithm_config: { beta: 0, loss_type: 'sigmoid' },
       finetuned_model: 'finetuned_model',
-      hyperparam_search_config: { foo: true },
+      hyperparam_search_config: { foo: 'bar' },
       job_uuid: 'job_uuid',
-      logger_config: { foo: true },
+      logger_config: { foo: 'bar' },
       training_config: {
-        gradient_accumulation_steps: 0,
-        max_steps_per_epoch: 0,
         n_epochs: 0,
         data_config: {
           batch_size: 0,
@@ -57,6 +55,8 @@ describe('resource postTraining', () => {
           fsdp_cpu_offload: true,
           memory_efficient_fsdp_wrap: true,
         },
+        gradient_accumulation_steps: 0,
+        max_steps_per_epoch: 0,
         max_validation_steps: 0,
         optimizer_config: { lr: 0, num_warmup_steps: 0, optimizer_type: 'adam', weight_decay: 0 },
       },
@@ -65,10 +65,10 @@ describe('resource postTraining', () => {
 
   test('supervisedFineTune: only required params', async () => {
     const responsePromise = client.alpha.postTraining.supervisedFineTune({
-      hyperparam_search_config: { foo: true },
+      hyperparam_search_config: { foo: 'bar' },
       job_uuid: 'job_uuid',
-      logger_config: { foo: true },
-      training_config: { gradient_accumulation_steps: 0, max_steps_per_epoch: 0, n_epochs: 0 },
+      logger_config: { foo: 'bar' },
+      training_config: { n_epochs: 0 },
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -81,12 +81,10 @@ describe('resource postTraining', () => {
 
   test('supervisedFineTune: required and optional params', async () => {
     const response = await client.alpha.postTraining.supervisedFineTune({
-      hyperparam_search_config: { foo: true },
+      hyperparam_search_config: { foo: 'bar' },
       job_uuid: 'job_uuid',
-      logger_config: { foo: true },
+      logger_config: { foo: 'bar' },
       training_config: {
-        gradient_accumulation_steps: 0,
-        max_steps_per_epoch: 0,
         n_epochs: 0,
         data_config: {
           batch_size: 0,
@@ -104,6 +102,8 @@ describe('resource postTraining', () => {
           fsdp_cpu_offload: true,
           memory_efficient_fsdp_wrap: true,
         },
+        gradient_accumulation_steps: 0,
+        max_steps_per_epoch: 0,
         max_validation_steps: 0,
         optimizer_config: { lr: 0, num_warmup_steps: 0, optimizer_type: 'adam', weight_decay: 0 },
       },
@@ -113,8 +113,8 @@ describe('resource postTraining', () => {
         apply_lora_to_output: true,
         lora_attn_modules: ['string'],
         rank: 0,
-        type: 'LoRA',
         quantize_base: true,
+        type: 'LoRA',
         use_dora: true,
       },
       checkpoint_dir: 'checkpoint_dir',

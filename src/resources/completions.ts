@@ -14,8 +14,10 @@ import { Stream } from '../streaming';
 
 export class Completions extends APIResource {
   /**
-   * Create completion. Generate an OpenAI-compatible completion for the given prompt
-   * using the specified model.
+   * Create completion.
+   *
+   * Generate an OpenAI-compatible completion for the given prompt using the
+   * specified model.
    */
   create(
     body: CompletionCreateParamsNonStreaming,
@@ -41,6 +43,11 @@ export class Completions extends APIResource {
 
 /**
  * Response from an OpenAI-compatible completion request.
+ *
+ * :id: The ID of the completion :choices: List of choices :created: The Unix
+ * timestamp in seconds when the completion was created :model: The model that was
+ * used to generate the completion :object: The object type, which will be
+ * "text_completion"
  */
 export interface CompletionCreateResponse {
   id: string;
@@ -51,12 +58,16 @@ export interface CompletionCreateResponse {
 
   model: string;
 
-  object: 'text_completion';
+  object?: 'text_completion';
 }
 
 export namespace CompletionCreateResponse {
   /**
    * A choice from an OpenAI-compatible completion response.
+   *
+   * :finish_reason: The reason the model stopped generating :text: The text of the
+   * choice :index: The index of the choice :logprobs: (Optional) The log
+   * probabilities for the tokens in the choice
    */
   export interface Choice {
     finish_reason: string;
@@ -69,7 +80,7 @@ export namespace CompletionCreateResponse {
      * The log probabilities for the tokens in the message from an OpenAI-compatible
      * chat completion response.
      */
-    logprobs?: Choice.Logprobs;
+    logprobs?: Choice.Logprobs | null;
   }
 
   export namespace Choice {
@@ -78,21 +89,18 @@ export namespace CompletionCreateResponse {
      * chat completion response.
      */
     export interface Logprobs {
-      /**
-       * (Optional) The log probabilities for the tokens in the message
-       */
-      content?: Array<Logprobs.Content>;
+      content?: Array<Logprobs.Content> | null;
 
-      /**
-       * (Optional) The log probabilities for the tokens in the message
-       */
-      refusal?: Array<Logprobs.Refusal>;
+      refusal?: Array<Logprobs.Refusal> | null;
     }
 
     export namespace Logprobs {
       /**
        * The log probability for a token from an OpenAI-compatible chat completion
        * response.
+       *
+       * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+       * probability of the token :top_logprobs: The top log probabilities for the token
        */
       export interface Content {
         token: string;
@@ -101,26 +109,32 @@ export namespace CompletionCreateResponse {
 
         top_logprobs: Array<Content.TopLogprob>;
 
-        bytes?: Array<number>;
+        bytes?: Array<number> | null;
       }
 
       export namespace Content {
         /**
          * The top log probability for a token from an OpenAI-compatible chat completion
          * response.
+         *
+         * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+         * probability of the token
          */
         export interface TopLogprob {
           token: string;
 
           logprob: number;
 
-          bytes?: Array<number>;
+          bytes?: Array<number> | null;
         }
       }
 
       /**
        * The log probability for a token from an OpenAI-compatible chat completion
        * response.
+       *
+       * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+       * probability of the token :top_logprobs: The top log probabilities for the token
        */
       export interface Refusal {
         token: string;
@@ -129,20 +143,23 @@ export namespace CompletionCreateResponse {
 
         top_logprobs: Array<Refusal.TopLogprob>;
 
-        bytes?: Array<number>;
+        bytes?: Array<number> | null;
       }
 
       export namespace Refusal {
         /**
          * The top log probability for a token from an OpenAI-compatible chat completion
          * response.
+         *
+         * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+         * probability of the token
          */
         export interface TopLogprob {
           token: string;
 
           logprob: number;
 
-          bytes?: Array<number>;
+          bytes?: Array<number> | null;
         }
       }
     }
@@ -152,96 +169,43 @@ export namespace CompletionCreateResponse {
 export type CompletionCreateParams = CompletionCreateParamsNonStreaming | CompletionCreateParamsStreaming;
 
 export interface CompletionCreateParamsBase {
-  /**
-   * The identifier of the model to use. The model must be registered with Llama
-   * Stack and available via the /models endpoint.
-   */
   model: string;
 
-  /**
-   * The prompt to generate a completion for.
-   */
   prompt: string | Array<string> | Array<number> | Array<Array<number>>;
 
-  /**
-   * (Optional) The number of completions to generate.
-   */
-  best_of?: number;
+  best_of?: number | null;
 
-  /**
-   * (Optional) Whether to echo the prompt.
-   */
-  echo?: boolean;
+  echo?: boolean | null;
 
-  /**
-   * (Optional) The penalty for repeated tokens.
-   */
-  frequency_penalty?: number;
+  frequency_penalty?: number | null;
 
-  /**
-   * (Optional) The logit bias to use.
-   */
-  logit_bias?: { [key: string]: number };
+  logit_bias?: { [key: string]: number } | null;
 
-  /**
-   * (Optional) The log probabilities to use.
-   */
-  logprobs?: boolean;
+  logprobs?: boolean | null;
 
-  /**
-   * (Optional) The maximum number of tokens to generate.
-   */
-  max_tokens?: number;
+  max_tokens?: number | null;
 
-  /**
-   * (Optional) The number of completions to generate.
-   */
-  n?: number;
+  n?: number | null;
 
-  /**
-   * (Optional) The penalty for repeated tokens.
-   */
-  presence_penalty?: number;
+  presence_penalty?: number | null;
 
-  /**
-   * (Optional) The seed to use.
-   */
-  seed?: number;
+  seed?: number | null;
 
-  /**
-   * (Optional) The stop tokens to use.
-   */
-  stop?: string | Array<string>;
+  stop?: string | Array<string> | null;
 
-  /**
-   * (Optional) Whether to stream the response.
-   */
-  stream?: boolean;
+  stream?: boolean | null;
 
-  /**
-   * (Optional) The stream options to use.
-   */
-  stream_options?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  stream_options?: { [key: string]: unknown } | null;
 
-  /**
-   * (Optional) The suffix that should be appended to the completion.
-   */
-  suffix?: string;
+  suffix?: string | null;
 
-  /**
-   * (Optional) The temperature to use.
-   */
-  temperature?: number;
+  temperature?: number | null;
 
-  /**
-   * (Optional) The top p to use.
-   */
-  top_p?: number;
+  top_p?: number | null;
 
-  /**
-   * (Optional) The user to use.
-   */
-  user?: string;
+  user?: string | null;
+
+  [k: string]: unknown;
 }
 
 export namespace CompletionCreateParams {
@@ -250,17 +214,15 @@ export namespace CompletionCreateParams {
 }
 
 export interface CompletionCreateParamsNonStreaming extends CompletionCreateParamsBase {
-  /**
-   * (Optional) Whether to stream the response.
-   */
-  stream?: false;
+  stream?: false | null;
+
+  [k: string]: unknown;
 }
 
 export interface CompletionCreateParamsStreaming extends CompletionCreateParamsBase {
-  /**
-   * (Optional) Whether to stream the response.
-   */
   stream: true;
+
+  [k: string]: unknown;
 }
 
 export declare namespace Completions {

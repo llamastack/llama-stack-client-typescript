@@ -11,8 +11,9 @@ import * as Core from '../core';
 
 export class Moderations extends APIResource {
   /**
-   * Create moderation. Classifies if text and/or image inputs are potentially
-   * harmful.
+   * Create moderation.
+   *
+   * Classifies if text and/or image inputs are potentially harmful.
    */
   create(body: ModerationCreateParams, options?: Core.RequestOptions): Core.APIPromise<CreateResponse> {
     return this._client.post('/v1/moderations', { body, ...options });
@@ -23,19 +24,10 @@ export class Moderations extends APIResource {
  * A moderation object.
  */
 export interface CreateResponse {
-  /**
-   * The unique identifier for the moderation request.
-   */
   id: string;
 
-  /**
-   * The model used to generate the moderation results.
-   */
   model: string;
 
-  /**
-   * A list of moderation objects
-   */
   results: Array<CreateResponse.Result>;
 }
 
@@ -44,43 +36,24 @@ export namespace CreateResponse {
    * A moderation object.
    */
   export interface Result {
-    /**
-     * Whether any of the below categories are flagged.
-     */
     flagged: boolean;
 
-    metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+    categories?: { [key: string]: boolean } | null;
 
-    /**
-     * A list of the categories, and whether they are flagged or not.
-     */
-    categories?: { [key: string]: boolean };
+    category_applied_input_types?: { [key: string]: Array<string> } | null;
 
-    /**
-     * A list of the categories along with the input type(s) that the score applies to.
-     */
-    category_applied_input_types?: { [key: string]: Array<string> };
+    category_scores?: { [key: string]: number } | null;
 
-    /**
-     * A list of the categories along with their scores as predicted by model.
-     */
-    category_scores?: { [key: string]: number };
+    metadata?: { [key: string]: unknown };
 
-    user_message?: string;
+    user_message?: string | null;
   }
 }
 
 export interface ModerationCreateParams {
-  /**
-   * Input (or inputs) to classify. Can be a single string, an array of strings, or
-   * an array of multi-modal input objects similar to other models.
-   */
   input: string | Array<string>;
 
-  /**
-   * (Optional) The content moderation model you would like to use.
-   */
-  model?: string;
+  model?: string | null;
 }
 
 export declare namespace Moderations {

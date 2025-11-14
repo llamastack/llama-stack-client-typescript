@@ -40,37 +40,49 @@ export class Benchmarks extends APIResource {
       headers: { Accept: '*/*', ...options?.headers },
     });
   }
+
+  /**
+   * Unregister a benchmark.
+   *
+   * @deprecated
+   */
+  unregister(benchmarkId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
+    return this._client.delete(`/v1alpha/eval/benchmarks/${benchmarkId}`, {
+      ...options,
+      headers: { Accept: '*/*', ...options?.headers },
+    });
+  }
 }
 
 /**
  * A benchmark resource for evaluating model performance.
  */
 export interface Benchmark {
-  /**
-   * Identifier of the dataset to use for the benchmark evaluation
-   */
   dataset_id: string;
 
+  /**
+   * Unique identifier for this resource in llama stack
+   */
   identifier: string;
+
+  /**
+   * ID of the provider that owns this resource
+   */
+  provider_id: string;
+
+  scoring_functions: Array<string>;
 
   /**
    * Metadata for this evaluation task
    */
-  metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-  provider_id: string;
+  metadata?: { [key: string]: unknown };
 
   /**
-   * List of scoring function identifiers to apply during evaluation
+   * Unique identifier for this resource in the provider
    */
-  scoring_functions: Array<string>;
+  provider_resource_id?: string | null;
 
-  /**
-   * The resource type, always benchmark
-   */
-  type: 'benchmark';
-
-  provider_resource_id?: string;
+  type?: 'benchmark';
 }
 
 export interface ListBenchmarksResponse {
@@ -80,35 +92,17 @@ export interface ListBenchmarksResponse {
 export type BenchmarkListResponse = Array<Benchmark>;
 
 export interface BenchmarkRegisterParams {
-  /**
-   * The ID of the benchmark to register.
-   */
   benchmark_id: string;
 
-  /**
-   * The ID of the dataset to use for the benchmark.
-   */
   dataset_id: string;
 
-  /**
-   * The scoring functions to use for the benchmark.
-   */
   scoring_functions: Array<string>;
 
-  /**
-   * The metadata to use for the benchmark.
-   */
-  metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  metadata?: { [key: string]: unknown } | null;
 
-  /**
-   * The ID of the provider benchmark to use for the benchmark.
-   */
-  provider_benchmark_id?: string;
+  provider_benchmark_id?: string | null;
 
-  /**
-   * The ID of the provider to use for the benchmark.
-   */
-  provider_id?: string;
+  provider_id?: string | null;
 }
 
 export declare namespace Benchmarks {

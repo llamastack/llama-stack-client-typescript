@@ -8,7 +8,6 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as ScoringFunctionsAPI from './scoring-functions';
 import * as Shared from './shared';
 
 export class Scoring extends APIResource {
@@ -34,9 +33,6 @@ export class Scoring extends APIResource {
  * The response from scoring.
  */
 export interface ScoringScoreResponse {
-  /**
-   * A map of scoring function name to ScoringResult.
-   */
   results: { [key: string]: Shared.ScoringResult };
 }
 
@@ -44,44 +40,151 @@ export interface ScoringScoreResponse {
  * Response from batch scoring operations on datasets.
  */
 export interface ScoringScoreBatchResponse {
-  /**
-   * A map of scoring function name to ScoringResult
-   */
   results: { [key: string]: Shared.ScoringResult };
 
-  /**
-   * (Optional) The identifier of the dataset that was scored
-   */
-  dataset_id?: string;
+  dataset_id?: string | null;
 }
 
 export interface ScoringScoreParams {
+  input_rows: Array<{ [key: string]: unknown }>;
+
+  scoring_functions: {
+    [key: string]:
+      | ScoringScoreParams.LlmAsJudgeScoringFnParams
+      | ScoringScoreParams.RegexParserScoringFnParams
+      | ScoringScoreParams.BasicScoringFnParams
+      | null;
+  };
+}
+
+export namespace ScoringScoreParams {
   /**
-   * The rows to score.
+   * Parameters for LLM-as-judge scoring function configuration.
    */
-  input_rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
+  export interface LlmAsJudgeScoringFnParams {
+    judge_model: string;
+
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    /**
+     * Regexes to extract the answer from generated response
+     */
+    judge_score_regexes?: Array<string>;
+
+    prompt_template?: string | null;
+
+    type?: 'llm_as_judge';
+  }
 
   /**
-   * The scoring functions to use for the scoring.
+   * Parameters for regex parser scoring function configuration.
    */
-  scoring_functions: { [key: string]: ScoringFunctionsAPI.ScoringFnParams | null };
+  export interface RegexParserScoringFnParams {
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    /**
+     * Regex to extract the answer from generated response
+     */
+    parsing_regexes?: Array<string>;
+
+    type?: 'regex_parser';
+  }
+
+  /**
+   * Parameters for basic scoring function configuration.
+   */
+  export interface BasicScoringFnParams {
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    type?: 'basic';
+  }
 }
 
 export interface ScoringScoreBatchParams {
-  /**
-   * The ID of the dataset to score.
-   */
   dataset_id: string;
 
+  scoring_functions: {
+    [key: string]:
+      | ScoringScoreBatchParams.LlmAsJudgeScoringFnParams
+      | ScoringScoreBatchParams.RegexParserScoringFnParams
+      | ScoringScoreBatchParams.BasicScoringFnParams
+      | null;
+  };
+
+  save_results_dataset?: boolean;
+}
+
+export namespace ScoringScoreBatchParams {
   /**
-   * Whether to save the results to a dataset.
+   * Parameters for LLM-as-judge scoring function configuration.
    */
-  save_results_dataset: boolean;
+  export interface LlmAsJudgeScoringFnParams {
+    judge_model: string;
+
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    /**
+     * Regexes to extract the answer from generated response
+     */
+    judge_score_regexes?: Array<string>;
+
+    prompt_template?: string | null;
+
+    type?: 'llm_as_judge';
+  }
 
   /**
-   * The scoring functions to use for the scoring.
+   * Parameters for regex parser scoring function configuration.
    */
-  scoring_functions: { [key: string]: ScoringFunctionsAPI.ScoringFnParams | null };
+  export interface RegexParserScoringFnParams {
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    /**
+     * Regex to extract the answer from generated response
+     */
+    parsing_regexes?: Array<string>;
+
+    type?: 'regex_parser';
+  }
+
+  /**
+   * Parameters for basic scoring function configuration.
+   */
+  export interface BasicScoringFnParams {
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    type?: 'basic';
+  }
 }
 
 export declare namespace Scoring {

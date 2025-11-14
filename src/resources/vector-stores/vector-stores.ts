@@ -36,8 +36,9 @@ export class VectorStores extends APIResource {
   fileBatches: FileBatchesAPI.FileBatches = new FileBatchesAPI.FileBatches(this._client);
 
   /**
-   * Creates a vector store. Generate an OpenAI-compatible vector store with the
-   * given parameters.
+   * Creates a vector store.
+   *
+   * Generate an OpenAI-compatible vector store with the given parameters.
    */
   create(body: VectorStoreCreateParams, options?: Core.RequestOptions): Core.APIPromise<VectorStore> {
     return this._client.post('/v1/vector_stores', { body, ...options });
@@ -87,8 +88,10 @@ export class VectorStores extends APIResource {
   }
 
   /**
-   * Search for chunks in a vector store. Searches a vector store for relevant chunks
-   * based on a query and optional file attribute filters.
+   * Search for chunks in a vector store.
+   *
+   * Searches a vector store for relevant chunks based on a query and optional file
+   * attribute filters.
    */
   search(
     vectorStoreId: string,
@@ -105,120 +108,60 @@ export class VectorStoresOpenAICursorPage extends OpenAICursorPage<VectorStore> 
  * Response from listing vector stores.
  */
 export interface ListVectorStoresResponse {
-  /**
-   * List of vector store objects
-   */
   data: Array<VectorStore>;
 
-  /**
-   * Whether there are more vector stores available beyond this page
-   */
-  has_more: boolean;
+  first_id?: string | null;
 
-  /**
-   * Object type identifier, always "list"
-   */
-  object: string;
+  has_more?: boolean;
 
-  /**
-   * (Optional) ID of the first vector store in the list for pagination
-   */
-  first_id?: string;
+  last_id?: string | null;
 
-  /**
-   * (Optional) ID of the last vector store in the list for pagination
-   */
-  last_id?: string;
+  object?: string;
 }
 
 /**
  * OpenAI Vector Store object.
  */
 export interface VectorStore {
-  /**
-   * Unique identifier for the vector store
-   */
   id: string;
 
-  /**
-   * Timestamp when the vector store was created
-   */
   created_at: number;
 
   /**
-   * File processing status counts for the vector store
+   * File processing status counts for a vector store.
    */
   file_counts: VectorStore.FileCounts;
 
-  /**
-   * Set of key-value pairs that can be attached to the vector store
-   */
-  metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  expires_after?: { [key: string]: unknown } | null;
 
-  /**
-   * Object type identifier, always "vector_store"
-   */
-  object: string;
+  expires_at?: number | null;
 
-  /**
-   * Current status of the vector store
-   */
-  status: string;
+  last_active_at?: number | null;
 
-  /**
-   * Storage space used by the vector store in bytes
-   */
-  usage_bytes: number;
+  metadata?: { [key: string]: unknown };
 
-  /**
-   * (Optional) Expiration policy for the vector store
-   */
-  expires_after?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  name?: string | null;
 
-  /**
-   * (Optional) Timestamp when the vector store will expire
-   */
-  expires_at?: number;
+  object?: string;
 
-  /**
-   * (Optional) Timestamp of last activity on the vector store
-   */
-  last_active_at?: number;
+  status?: string;
 
-  /**
-   * (Optional) Name of the vector store
-   */
-  name?: string;
+  usage_bytes?: number;
 }
 
 export namespace VectorStore {
   /**
-   * File processing status counts for the vector store
+   * File processing status counts for a vector store.
    */
   export interface FileCounts {
-    /**
-     * Number of files that had their processing cancelled
-     */
     cancelled: number;
 
-    /**
-     * Number of files that have been successfully processed
-     */
     completed: number;
 
-    /**
-     * Number of files that failed to process
-     */
     failed: number;
 
-    /**
-     * Number of files currently being processed
-     */
     in_progress: number;
 
-    /**
-     * Total number of files in the vector store
-     */
     total: number;
   }
 }
@@ -227,50 +170,26 @@ export namespace VectorStore {
  * Response from deleting a vector store.
  */
 export interface VectorStoreDeleteResponse {
-  /**
-   * Unique identifier of the deleted vector store
-   */
   id: string;
 
-  /**
-   * Whether the deletion operation was successful
-   */
-  deleted: boolean;
+  deleted?: boolean;
 
-  /**
-   * Object type identifier for the deletion response
-   */
-  object: string;
+  object?: string;
 }
 
 /**
  * Paginated response from searching a vector store.
  */
 export interface VectorStoreSearchResponse {
-  /**
-   * List of search result objects
-   */
   data: Array<VectorStoreSearchResponse.Data>;
 
-  /**
-   * Whether there are more results available beyond this page
-   */
-  has_more: boolean;
-
-  /**
-   * Object type identifier for the search results page
-   */
-  object: string;
-
-  /**
-   * The original search query that was executed
-   */
   search_query: Array<string>;
 
-  /**
-   * (Optional) Token for retrieving the next page of results
-   */
-  next_page?: string;
+  has_more?: boolean;
+
+  next_page?: string | null;
+
+  object?: string;
 }
 
 export namespace VectorStoreSearchResponse {
@@ -278,30 +197,15 @@ export namespace VectorStoreSearchResponse {
    * Response from searching a vector store.
    */
   export interface Data {
-    /**
-     * List of content items matching the search query
-     */
     content: Array<Data.Content>;
 
-    /**
-     * Unique identifier of the file containing the result
-     */
     file_id: string;
 
-    /**
-     * Name of the file containing the result
-     */
     filename: string;
 
-    /**
-     * Relevance score for this search result
-     */
     score: number;
 
-    /**
-     * (Optional) Key-value attributes associated with the file
-     */
-    attributes?: { [key: string]: string | number | boolean };
+    attributes?: { [key: string]: string | number | boolean } | null;
   }
 
   export namespace Data {
@@ -309,92 +213,56 @@ export namespace VectorStoreSearchResponse {
      * Content item from a vector store file or search result.
      */
     export interface Content {
-      /**
-       * The actual text content
-       */
       text: string;
 
-      /**
-       * Content type, currently only "text" is supported
-       */
       type: 'text';
 
       /**
-       * Optional chunk metadata
+       * `ChunkMetadata` is backend metadata for a `Chunk` that is used to store
+       * additional information about the chunk that will not be used in the context
+       * during inference, but is required for backend functionality. The `ChunkMetadata`
+       * is set during chunk creation in `MemoryToolRuntimeImpl().insert()`and is not
+       * expected to change after. Use `Chunk.metadata` for metadata that will be used in
+       * the context during inference.
        */
-      chunk_metadata?: Content.ChunkMetadata;
+      chunk_metadata?: Content.ChunkMetadata | null;
 
-      /**
-       * Optional embedding vector for this content chunk
-       */
-      embedding?: Array<number>;
+      embedding?: Array<number> | null;
 
-      /**
-       * Optional user-defined metadata
-       */
-      metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+      metadata?: { [key: string]: unknown } | null;
     }
 
     export namespace Content {
       /**
-       * Optional chunk metadata
+       * `ChunkMetadata` is backend metadata for a `Chunk` that is used to store
+       * additional information about the chunk that will not be used in the context
+       * during inference, but is required for backend functionality. The `ChunkMetadata`
+       * is set during chunk creation in `MemoryToolRuntimeImpl().insert()`and is not
+       * expected to change after. Use `Chunk.metadata` for metadata that will be used in
+       * the context during inference.
        */
       export interface ChunkMetadata {
-        /**
-         * The dimension of the embedding vector for the chunk.
-         */
-        chunk_embedding_dimension?: number;
+        chunk_embedding_dimension?: number | null;
 
-        /**
-         * The embedding model used to create the chunk's embedding.
-         */
-        chunk_embedding_model?: string;
+        chunk_embedding_model?: string | null;
 
-        /**
-         * The ID of the chunk. If not set, it will be generated based on the document ID
-         * and content.
-         */
-        chunk_id?: string;
+        chunk_id?: string | null;
 
-        /**
-         * The tokenizer used to create the chunk. Default is Tiktoken.
-         */
-        chunk_tokenizer?: string;
+        chunk_tokenizer?: string | null;
 
-        /**
-         * The window of the chunk, which can be used to group related chunks together.
-         */
-        chunk_window?: string;
+        chunk_window?: string | null;
 
-        /**
-         * The number of tokens in the content of the chunk.
-         */
-        content_token_count?: number;
+        content_token_count?: number | null;
 
-        /**
-         * An optional timestamp indicating when the chunk was created.
-         */
-        created_timestamp?: number;
+        created_timestamp?: number | null;
 
-        /**
-         * The ID of the document this chunk belongs to.
-         */
-        document_id?: string;
+        document_id?: string | null;
 
-        /**
-         * The number of tokens in the metadata of the chunk.
-         */
-        metadata_token_count?: number;
+        metadata_token_count?: number | null;
 
-        /**
-         * The source of the content, such as a URL, file path, or other identifier.
-         */
-        source?: string;
+        source?: string | null;
 
-        /**
-         * An optional timestamp indicating when the chunk was last updated.
-         */
-        updated_timestamp?: number;
+        updated_timestamp?: number | null;
       }
     }
   }
@@ -402,31 +270,22 @@ export namespace VectorStoreSearchResponse {
 
 export interface VectorStoreCreateParams {
   /**
-   * (Optional) Strategy for splitting files into chunks
+   * Automatic chunking strategy for vector store files.
    */
   chunking_strategy?:
     | VectorStoreCreateParams.VectorStoreChunkingStrategyAuto
-    | VectorStoreCreateParams.VectorStoreChunkingStrategyStatic;
+    | VectorStoreCreateParams.VectorStoreChunkingStrategyStatic
+    | null;
 
-  /**
-   * (Optional) Expiration policy for the vector store
-   */
-  expires_after?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  expires_after?: { [key: string]: unknown } | null;
 
-  /**
-   * List of file IDs to include in the vector store
-   */
-  file_ids?: Array<string>;
+  file_ids?: Array<string> | null;
 
-  /**
-   * Set of key-value pairs that can be attached to the vector store
-   */
-  metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  metadata?: { [key: string]: unknown } | null;
 
-  /**
-   * (Optional) A name for the vector store
-   */
-  name?: string;
+  name?: string | null;
+
+  [k: string]: unknown;
 }
 
 export namespace VectorStoreCreateParams {
@@ -434,10 +293,7 @@ export namespace VectorStoreCreateParams {
    * Automatic chunking strategy for vector store files.
    */
   export interface VectorStoreChunkingStrategyAuto {
-    /**
-     * Strategy type, always "auto" for automatic chunking
-     */
-    type: 'auto';
+    type?: 'auto';
   }
 
   /**
@@ -445,111 +301,64 @@ export namespace VectorStoreCreateParams {
    */
   export interface VectorStoreChunkingStrategyStatic {
     /**
-     * Configuration parameters for the static chunking strategy
+     * Configuration for static chunking strategy.
      */
     static: VectorStoreChunkingStrategyStatic.Static;
 
-    /**
-     * Strategy type, always "static" for static chunking
-     */
-    type: 'static';
+    type?: 'static';
   }
 
   export namespace VectorStoreChunkingStrategyStatic {
     /**
-     * Configuration parameters for the static chunking strategy
+     * Configuration for static chunking strategy.
      */
     export interface Static {
-      /**
-       * Number of tokens to overlap between adjacent chunks
-       */
-      chunk_overlap_tokens: number;
+      chunk_overlap_tokens?: number;
 
-      /**
-       * Maximum number of tokens per chunk, must be between 100 and 4096
-       */
-      max_chunk_size_tokens: number;
+      max_chunk_size_tokens?: number;
     }
   }
 }
 
 export interface VectorStoreUpdateParams {
-  /**
-   * The expiration policy for a vector store.
-   */
-  expires_after?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  expires_after?: { [key: string]: unknown } | null;
 
-  /**
-   * Set of 16 key-value pairs that can be attached to an object.
-   */
-  metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  metadata?: { [key: string]: unknown } | null;
 
-  /**
-   * The name of the vector store.
-   */
-  name?: string;
+  name?: string | null;
 }
 
 export interface VectorStoreListParams extends OpenAICursorPageParams {
-  /**
-   * A cursor for use in pagination. `before` is an object ID that defines your place
-   * in the list.
-   */
-  before?: string;
+  before?: string | null;
 
-  /**
-   * Sort order by the `created_at` timestamp of the objects. `asc` for ascending
-   * order and `desc` for descending order.
-   */
-  order?: string;
+  order?: string | null;
 }
 
 export interface VectorStoreSearchParams {
-  /**
-   * The query string or array for performing the search.
-   */
   query: string | Array<string>;
 
-  /**
-   * Filters based on file attributes to narrow the search results.
-   */
-  filters?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  filters?: { [key: string]: unknown } | null;
+
+  max_num_results?: number | null;
 
   /**
-   * Maximum number of results to return (1 to 50 inclusive, default 10).
+   * Options for ranking and filtering search results.
    */
-  max_num_results?: number;
+  ranking_options?: VectorStoreSearchParams.RankingOptions | null;
 
-  /**
-   * Ranking options for fine-tuning the search results.
-   */
-  ranking_options?: VectorStoreSearchParams.RankingOptions;
+  rewrite_query?: boolean | null;
 
-  /**
-   * Whether to rewrite the natural language query for vector search (default false)
-   */
-  rewrite_query?: boolean;
-
-  /**
-   * The search mode to use - "keyword", "vector", or "hybrid" (default "vector")
-   */
-  search_mode?: string;
+  search_mode?: string | null;
 }
 
 export namespace VectorStoreSearchParams {
   /**
-   * Ranking options for fine-tuning the search results.
+   * Options for ranking and filtering search results.
    */
   export interface RankingOptions {
-    /**
-     * (Optional) Name of the ranking algorithm to use
-     */
-    ranker?: string;
+    ranker?: string | null;
 
-    /**
-     * (Optional) Minimum relevance score threshold for results
-     */
-    score_threshold?: number;
+    score_threshold?: number | null;
   }
 }
 

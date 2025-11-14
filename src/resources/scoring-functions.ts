@@ -40,6 +40,18 @@ export class ScoringFunctions extends APIResource {
       headers: { Accept: '*/*', ...options?.headers },
     });
   }
+
+  /**
+   * Unregister a scoring function.
+   *
+   * @deprecated
+   */
+  unregister(scoringFnId: string, options?: Core.RequestOptions): Core.APIPromise<void> {
+    return this._client.delete(`/v1/scoring-functions/${scoringFnId}`, {
+      ...options,
+      headers: { Accept: '*/*', ...options?.headers },
+    });
+  }
 }
 
 export interface ListScoringFunctionsResponse {
@@ -50,27 +62,41 @@ export interface ListScoringFunctionsResponse {
  * A scoring function resource for evaluating model outputs.
  */
 export interface ScoringFn {
+  /**
+   * Unique identifier for this resource in llama stack
+   */
   identifier: string;
 
-  metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
+  /**
+   * ID of the provider that owns this resource
+   */
   provider_id: string;
 
   return_type: ScoringFn.ReturnType;
 
-  /**
-   * The resource type, always scoring_function
-   */
-  type: 'scoring_function';
-
-  description?: string;
+  description?: string | null;
 
   /**
-   * Parameters for LLM-as-judge scoring function configuration.
+   * Any additional metadata for this definition
    */
-  params?: ScoringFnParams;
+  metadata?: { [key: string]: unknown };
 
-  provider_resource_id?: string;
+  /**
+   * The parameters for the scoring function for benchmark eval, these can be
+   * overridden for app eval
+   */
+  params?:
+    | ScoringFn.LlmAsJudgeScoringFnParams
+    | ScoringFn.RegexParserScoringFnParams
+    | ScoringFn.BasicScoringFnParams
+    | null;
+
+  /**
+   * Unique identifier for this resource in the provider
+   */
+  provider_resource_id?: string | null;
+
+  type?: 'scoring_function';
 }
 
 export namespace ScoringFn {
@@ -87,6 +113,62 @@ export namespace ScoringFn {
       | 'completion_input'
       | 'agent_turn_input';
   }
+
+  /**
+   * Parameters for LLM-as-judge scoring function configuration.
+   */
+  export interface LlmAsJudgeScoringFnParams {
+    judge_model: string;
+
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    /**
+     * Regexes to extract the answer from generated response
+     */
+    judge_score_regexes?: Array<string>;
+
+    prompt_template?: string | null;
+
+    type?: 'llm_as_judge';
+  }
+
+  /**
+   * Parameters for regex parser scoring function configuration.
+   */
+  export interface RegexParserScoringFnParams {
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    /**
+     * Regex to extract the answer from generated response
+     */
+    parsing_regexes?: Array<string>;
+
+    type?: 'regex_parser';
+  }
+
+  /**
+   * Parameters for basic scoring function configuration.
+   */
+  export interface BasicScoringFnParams {
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    type?: 'basic';
+  }
 }
 
 /**
@@ -102,32 +184,23 @@ export namespace ScoringFnParams {
    * Parameters for LLM-as-judge scoring function configuration.
    */
   export interface LlmAsJudgeScoringFnParams {
+    judge_model: string;
+
     /**
      * Aggregation functions to apply to the scores of each row
      */
-    aggregation_functions: Array<
+    aggregation_functions?: Array<
       'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
     >;
 
     /**
-     * Identifier of the LLM model to use as a judge for scoring
-     */
-    judge_model: string;
-
-    /**
      * Regexes to extract the answer from generated response
      */
-    judge_score_regexes: Array<string>;
+    judge_score_regexes?: Array<string>;
 
-    /**
-     * The type of scoring function parameters, always llm_as_judge
-     */
-    type: 'llm_as_judge';
+    prompt_template?: string | null;
 
-    /**
-     * (Optional) Custom prompt template for the judge model
-     */
-    prompt_template?: string;
+    type?: 'llm_as_judge';
   }
 
   /**
@@ -137,19 +210,16 @@ export namespace ScoringFnParams {
     /**
      * Aggregation functions to apply to the scores of each row
      */
-    aggregation_functions: Array<
+    aggregation_functions?: Array<
       'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
     >;
 
     /**
      * Regex to extract the answer from generated response
      */
-    parsing_regexes: Array<string>;
+    parsing_regexes?: Array<string>;
 
-    /**
-     * The type of scoring function parameters, always regex_parser
-     */
-    type: 'regex_parser';
+    type?: 'regex_parser';
   }
 
   /**
@@ -159,63 +229,28 @@ export namespace ScoringFnParams {
     /**
      * Aggregation functions to apply to the scores of each row
      */
-    aggregation_functions: Array<
+    aggregation_functions?: Array<
       'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
     >;
 
-    /**
-     * The type of scoring function parameters, always basic
-     */
-    type: 'basic';
+    type?: 'basic';
   }
 }
 
 export type ScoringFunctionListResponse = Array<ScoringFn>;
 
 export interface ScoringFunctionRegisterParams {
-  /**
-   * The description of the scoring function.
-   */
-  description: string;
+  description: unknown;
 
-  return_type: ScoringFunctionRegisterParams.ReturnType;
+  return_type: unknown;
 
-  /**
-   * The ID of the scoring function to register.
-   */
-  scoring_fn_id: string;
+  scoring_fn_id: unknown;
 
-  /**
-   * The parameters for the scoring function for benchmark eval, these can be
-   * overridden for app eval.
-   */
-  params?: ScoringFnParams;
+  params?: unknown;
 
-  /**
-   * The ID of the provider to use for the scoring function.
-   */
-  provider_id?: string;
+  provider_id?: unknown;
 
-  /**
-   * The ID of the provider scoring function to use for the scoring function.
-   */
-  provider_scoring_fn_id?: string;
-}
-
-export namespace ScoringFunctionRegisterParams {
-  export interface ReturnType {
-    type:
-      | 'string'
-      | 'number'
-      | 'boolean'
-      | 'array'
-      | 'object'
-      | 'json'
-      | 'union'
-      | 'chat_completion_input'
-      | 'completion_input'
-      | 'agent_turn_input';
-  }
+  provider_scoring_fn_id?: unknown;
 }
 
 export declare namespace ScoringFunctions {

@@ -39,14 +39,14 @@ describe('resource responses', () => {
       temperature: 0,
       text: {
         format: {
-          type: 'text',
           description: 'description',
           name: 'name',
-          schema: { foo: true },
+          schema: { foo: 'bar' },
           strict: true,
+          type: 'text',
         },
       },
-      tools: [{ type: 'web_search', search_context_size: 'search_context_size' }],
+      tools: [{ search_context_size: 'S?oC"high', type: 'web_search' }],
     });
   });
 

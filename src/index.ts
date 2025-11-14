@@ -20,6 +20,16 @@ import {
 import * as Uploads from './uploads';
 import * as API from './resources/index';
 import {
+  BatchCancelResponse,
+  BatchCreateParams,
+  BatchCreateResponse,
+  BatchListParams,
+  BatchListResponse,
+  BatchListResponsesOpenAICursorPage,
+  BatchRetrieveResponse,
+  Batches,
+} from './resources/batches';
+import {
   CompletionCreateParams,
   CompletionCreateParamsNonStreaming,
   CompletionCreateParamsStreaming,
@@ -64,6 +74,14 @@ import {
   ShieldRegisterParams,
   Shields,
 } from './resources/shields';
+import {
+  ToolDef,
+  ToolInvocationResult,
+  ToolRuntime,
+  ToolRuntimeInvokeToolParams,
+  ToolRuntimeListToolsParams,
+  ToolRuntimeListToolsResponse,
+} from './resources/tool-runtime';
 import {
   ListToolGroupsResponse,
   ToolGroup,
@@ -119,14 +137,6 @@ import {
   ResponseObjectStream,
   Responses,
 } from './resources/responses/responses';
-import {
-  ToolDef,
-  ToolInvocationResult,
-  ToolRuntime,
-  ToolRuntimeInvokeToolParams,
-  ToolRuntimeListToolsParams,
-  ToolRuntimeListToolsResponse,
-} from './resources/tool-runtime/tool-runtime';
 import {
   ListVectorStoresResponse,
   VectorStore,
@@ -271,6 +281,7 @@ export class LlamaStackClient extends Core.APIClient {
   scoring: API.Scoring = new API.Scoring(this);
   scoringFunctions: API.ScoringFunctions = new API.ScoringFunctions(this);
   files: API.Files = new API.Files(this);
+  batches: API.Batches = new API.Batches(this);
   alpha: API.Alpha = new API.Alpha(this);
   beta: API.Beta = new API.Beta(this);
 
@@ -348,6 +359,8 @@ LlamaStackClient.Scoring = Scoring;
 LlamaStackClient.ScoringFunctions = ScoringFunctions;
 LlamaStackClient.Files = Files;
 LlamaStackClient.FilesOpenAICursorPage = FilesOpenAICursorPage;
+LlamaStackClient.Batches = Batches;
+LlamaStackClient.BatchListResponsesOpenAICursorPage = BatchListResponsesOpenAICursorPage;
 LlamaStackClient.Alpha = Alpha;
 LlamaStackClient.Beta = Beta;
 
@@ -530,6 +543,17 @@ export declare namespace LlamaStackClient {
     FilesOpenAICursorPage as FilesOpenAICursorPage,
     type FileCreateParams as FileCreateParams,
     type FileListParams as FileListParams,
+  };
+
+  export {
+    Batches as Batches,
+    type BatchCreateResponse as BatchCreateResponse,
+    type BatchRetrieveResponse as BatchRetrieveResponse,
+    type BatchListResponse as BatchListResponse,
+    type BatchCancelResponse as BatchCancelResponse,
+    BatchListResponsesOpenAICursorPage as BatchListResponsesOpenAICursorPage,
+    type BatchCreateParams as BatchCreateParams,
+    type BatchListParams as BatchListParams,
   };
 
   export { Alpha as Alpha };

@@ -56,45 +56,36 @@ export interface ListShieldsResponse {
  * A safety shield resource that can be used to check content.
  */
 export interface Shield {
+  /**
+   * Unique identifier for this resource in llama stack
+   */
   identifier: string;
 
+  /**
+   * ID of the provider that owns this resource
+   */
   provider_id: string;
 
-  /**
-   * The resource type, always shield
-   */
-  type: 'shield';
+  params?: { [key: string]: unknown } | null;
 
   /**
-   * (Optional) Configuration parameters for the shield
+   * Unique identifier for this resource in the provider
    */
-  params?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  provider_resource_id?: string | null;
 
-  provider_resource_id?: string;
+  type?: 'shield';
 }
 
 export type ShieldListResponse = Array<Shield>;
 
 export interface ShieldRegisterParams {
-  /**
-   * The identifier of the shield to register.
-   */
   shield_id: string;
 
-  /**
-   * The parameters of the shield.
-   */
-  params?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  params?: { [key: string]: unknown } | null;
 
-  /**
-   * The identifier of the provider.
-   */
-  provider_id?: string;
+  provider_id?: string | null;
 
-  /**
-   * The identifier of the shield in the provider.
-   */
-  provider_shield_id?: string;
+  provider_shield_id?: string | null;
 }
 
 export declare namespace Shields {

@@ -28,7 +28,7 @@ describe('resource fileBatches', () => {
   test('create: required and optional params', async () => {
     const response = await client.vectorStores.fileBatches.create('vector_store_id', {
       file_ids: ['string'],
-      attributes: { foo: true },
+      attributes: { foo: 'bar' },
       chunking_strategy: { type: 'auto' },
     });
   });

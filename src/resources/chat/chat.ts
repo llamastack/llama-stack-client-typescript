@@ -15,7 +15,6 @@ import {
   CompletionCreateResponse,
   CompletionListParams,
   CompletionListResponse,
-  CompletionListResponsesOpenAICursorPage,
   CompletionRetrieveResponse,
   Completions,
 } from './completions';
@@ -28,35 +27,20 @@ export class Chat extends APIResource {
  * Chunk from a streaming response to an OpenAI-compatible chat completion request.
  */
 export interface ChatCompletionChunk {
-  /**
-   * The ID of the chat completion
-   */
   id: string;
 
-  /**
-   * List of choices
-   */
   choices: Array<ChatCompletionChunk.Choice>;
 
-  /**
-   * The Unix timestamp in seconds when the chat completion was created
-   */
   created: number;
 
-  /**
-   * The model that was used to generate the chat completion
-   */
   model: string;
 
-  /**
-   * The object type, which will be "chat.completion.chunk"
-   */
-  object: 'chat.completion.chunk';
+  object?: 'chat.completion.chunk';
 
   /**
-   * Token usage information (typically included in final chunk with stream_options)
+   * Usage information for OpenAI chat completion.
    */
-  usage?: ChatCompletionChunk.Usage;
+  usage?: ChatCompletionChunk.Usage | null;
 }
 
 export namespace ChatCompletionChunk {
@@ -65,55 +49,35 @@ export namespace ChatCompletionChunk {
    */
   export interface Choice {
     /**
-     * The delta from the chunk
+     * A delta from an OpenAI-compatible chat completion streaming response.
      */
     delta: Choice.Delta;
 
-    /**
-     * The reason the model stopped generating
-     */
     finish_reason: string;
 
-    /**
-     * The index of the choice
-     */
     index: number;
 
     /**
-     * (Optional) The log probabilities for the tokens in the message
+     * The log probabilities for the tokens in the message from an OpenAI-compatible
+     * chat completion response.
      */
-    logprobs?: Choice.Logprobs;
+    logprobs?: Choice.Logprobs | null;
   }
 
   export namespace Choice {
     /**
-     * The delta from the chunk
+     * A delta from an OpenAI-compatible chat completion streaming response.
      */
     export interface Delta {
-      /**
-       * (Optional) The content of the delta
-       */
-      content?: string;
+      content?: string | null;
 
-      /**
-       * (Optional) The reasoning content from the model (non-standard, for o1/o3 models)
-       */
-      reasoning_content?: string;
+      reasoning_content?: string | null;
 
-      /**
-       * (Optional) The refusal of the delta
-       */
-      refusal?: string;
+      refusal?: string | null;
 
-      /**
-       * (Optional) The role of the delta
-       */
-      role?: string;
+      role?: string | null;
 
-      /**
-       * (Optional) The tool calls of the delta
-       */
-      tool_calls?: Array<Delta.ToolCall>;
+      tool_calls?: Array<Delta.ToolCall> | null;
     }
 
     export namespace Delta {
@@ -121,64 +85,47 @@ export namespace ChatCompletionChunk {
        * Tool call specification for OpenAI-compatible chat completion responses.
        */
       export interface ToolCall {
-        /**
-         * Must be "function" to identify this as a function call
-         */
-        type: 'function';
+        id?: string | null;
 
         /**
-         * (Optional) Unique identifier for the tool call
+         * Function call details for OpenAI-compatible tool calls.
          */
-        id?: string;
+        function?: ToolCall.Function | null;
 
-        /**
-         * (Optional) Function call details
-         */
-        function?: ToolCall.Function;
+        index?: number | null;
 
-        /**
-         * (Optional) Index of the tool call in the list
-         */
-        index?: number;
+        type?: 'function';
       }
 
       export namespace ToolCall {
         /**
-         * (Optional) Function call details
+         * Function call details for OpenAI-compatible tool calls.
          */
         export interface Function {
-          /**
-           * (Optional) Arguments to pass to the function as a JSON string
-           */
-          arguments?: string;
+          arguments?: string | null;
 
-          /**
-           * (Optional) Name of the function to call
-           */
-          name?: string;
+          name?: string | null;
         }
       }
     }
 
     /**
-     * (Optional) The log probabilities for the tokens in the message
+     * The log probabilities for the tokens in the message from an OpenAI-compatible
+     * chat completion response.
      */
     export interface Logprobs {
-      /**
-       * (Optional) The log probabilities for the tokens in the message
-       */
-      content?: Array<Logprobs.Content>;
+      content?: Array<Logprobs.Content> | null;
 
-      /**
-       * (Optional) The log probabilities for the tokens in the message
-       */
-      refusal?: Array<Logprobs.Refusal>;
+      refusal?: Array<Logprobs.Refusal> | null;
     }
 
     export namespace Logprobs {
       /**
        * The log probability for a token from an OpenAI-compatible chat completion
        * response.
+       *
+       * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+       * probability of the token :top_logprobs: The top log probabilities for the token
        */
       export interface Content {
         token: string;
@@ -187,26 +134,32 @@ export namespace ChatCompletionChunk {
 
         top_logprobs: Array<Content.TopLogprob>;
 
-        bytes?: Array<number>;
+        bytes?: Array<number> | null;
       }
 
       export namespace Content {
         /**
          * The top log probability for a token from an OpenAI-compatible chat completion
          * response.
+         *
+         * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+         * probability of the token
          */
         export interface TopLogprob {
           token: string;
 
           logprob: number;
 
-          bytes?: Array<number>;
+          bytes?: Array<number> | null;
         }
       }
 
       /**
        * The log probability for a token from an OpenAI-compatible chat completion
        * response.
+       *
+       * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+       * probability of the token :top_logprobs: The top log probabilities for the token
        */
       export interface Refusal {
         token: string;
@@ -215,53 +168,47 @@ export namespace ChatCompletionChunk {
 
         top_logprobs: Array<Refusal.TopLogprob>;
 
-        bytes?: Array<number>;
+        bytes?: Array<number> | null;
       }
 
       export namespace Refusal {
         /**
          * The top log probability for a token from an OpenAI-compatible chat completion
          * response.
+         *
+         * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+         * probability of the token
          */
         export interface TopLogprob {
           token: string;
 
           logprob: number;
 
-          bytes?: Array<number>;
+          bytes?: Array<number> | null;
         }
       }
     }
   }
 
   /**
-   * Token usage information (typically included in final chunk with stream_options)
+   * Usage information for OpenAI chat completion.
    */
   export interface Usage {
-    /**
-     * Number of tokens in the completion
-     */
     completion_tokens: number;
 
-    /**
-     * Number of tokens in the prompt
-     */
     prompt_tokens: number;
 
-    /**
-     * Total tokens used (prompt + completion)
-     */
     total_tokens: number;
 
     /**
      * Token details for output tokens in OpenAI chat completion usage.
      */
-    completion_tokens_details?: Usage.CompletionTokensDetails;
+    completion_tokens_details?: Usage.CompletionTokensDetails | null;
 
     /**
      * Token details for prompt tokens in OpenAI chat completion usage.
      */
-    prompt_tokens_details?: Usage.PromptTokensDetails;
+    prompt_tokens_details?: Usage.PromptTokensDetails | null;
   }
 
   export namespace Usage {
@@ -269,26 +216,19 @@ export namespace ChatCompletionChunk {
      * Token details for output tokens in OpenAI chat completion usage.
      */
     export interface CompletionTokensDetails {
-      /**
-       * Number of tokens used for reasoning (o1/o3 models)
-       */
-      reasoning_tokens?: number;
+      reasoning_tokens?: number | null;
     }
 
     /**
      * Token details for prompt tokens in OpenAI chat completion usage.
      */
     export interface PromptTokensDetails {
-      /**
-       * Number of tokens retrieved from cache
-       */
-      cached_tokens?: number;
+      cached_tokens?: number | null;
     }
   }
 }
 
 Chat.Completions = Completions;
-Chat.CompletionListResponsesOpenAICursorPage = CompletionListResponsesOpenAICursorPage;
 
 export declare namespace Chat {
   export { type ChatCompletionChunk as ChatCompletionChunk };
@@ -298,7 +238,6 @@ export declare namespace Chat {
     type CompletionCreateResponse as CompletionCreateResponse,
     type CompletionRetrieveResponse as CompletionRetrieveResponse,
     type CompletionListResponse as CompletionListResponse,
-    CompletionListResponsesOpenAICursorPage as CompletionListResponsesOpenAICursorPage,
     type CompletionCreateParams as CompletionCreateParams,
     type CompletionCreateParamsNonStreaming as CompletionCreateParamsNonStreaming,
     type CompletionCreateParamsStreaming as CompletionCreateParamsStreaming,

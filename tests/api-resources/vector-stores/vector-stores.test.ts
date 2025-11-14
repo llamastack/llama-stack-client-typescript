@@ -112,7 +112,7 @@ describe('resource vectorStores', () => {
   test('search: required and optional params', async () => {
     const response = await client.vectorStores.search('vector_store_id', {
       query: 'string',
-      filters: { foo: true },
+      filters: { foo: 'bar' },
       max_num_results: 0,
       ranking_options: { ranker: 'ranker', score_threshold: 0 },
       rewrite_query: true,

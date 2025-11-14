@@ -15,7 +15,9 @@ export class Models extends APIResource {
   openai: OpenAIAPI.OpenAI = new OpenAIAPI.OpenAI(this._client);
 
   /**
-   * Get model. Get a model by its identifier.
+   * Get model.
+   *
+   * Get a model by its identifier.
    */
   retrieve(modelId: string, options?: Core.RequestOptions): Core.APIPromise<ModelRetrieveResponse> {
     return this._client.get(`/v1/models/${modelId}`, options);
@@ -31,7 +33,9 @@ export class Models extends APIResource {
   }
 
   /**
-   * Register model. Register a model.
+   * Register model.
+   *
+   * Register a model.
    *
    * @deprecated
    */
@@ -40,7 +44,9 @@ export class Models extends APIResource {
   }
 
   /**
-   * Unregister model. Unregister a model.
+   * Unregister model.
+   *
+   * Unregister a model.
    *
    * @deprecated
    */
@@ -58,17 +64,22 @@ export interface ListModelsResponse {
 
 /**
  * A model from OpenAI.
+ *
+ * :id: The ID of the model :object: The object type, which will be "model"
+ * :created: The Unix timestamp in seconds when the model was created :owned_by:
+ * The owner of the model :custom_metadata: Llama Stack-specific metadata including
+ * model_type, provider info, and additional metadata
  */
 export interface Model {
   id: string;
 
   created: number;
 
-  object: 'model';
-
   owned_by: string;
 
-  custom_metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  custom_metadata?: { [key: string]: unknown } | null;
+
+  object?: 'model';
 }
 
 /**
@@ -81,29 +92,26 @@ export interface ModelRetrieveResponse {
   identifier: string;
 
   /**
-   * Any additional metadata for this model
-   */
-  metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-  /**
-   * The type of model (LLM or embedding model)
-   */
-  model_type: 'llm' | 'embedding' | 'rerank';
-
-  /**
    * ID of the provider that owns this resource
    */
   provider_id: string;
 
   /**
-   * The resource type, always 'model' for model resources
+   * Any additional metadata for this model
    */
-  type: 'model';
+  metadata?: { [key: string]: unknown };
+
+  /**
+   * Enumeration of supported model types in Llama Stack.
+   */
+  model_type?: 'llm' | 'embedding' | 'rerank';
 
   /**
    * Unique identifier for this resource in the provider
    */
-  provider_resource_id?: string;
+  provider_resource_id?: string | null;
+
+  type?: 'model';
 }
 
 export type ModelListResponse = Array<Model>;
@@ -118,56 +126,41 @@ export interface ModelRegisterResponse {
   identifier: string;
 
   /**
-   * Any additional metadata for this model
-   */
-  metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-  /**
-   * The type of model (LLM or embedding model)
-   */
-  model_type: 'llm' | 'embedding' | 'rerank';
-
-  /**
    * ID of the provider that owns this resource
    */
   provider_id: string;
 
   /**
-   * The resource type, always 'model' for model resources
+   * Any additional metadata for this model
    */
-  type: 'model';
+  metadata?: { [key: string]: unknown };
 
   /**
-   * Unique identifier for this resource in the provider
-   */
-  provider_resource_id?: string;
-}
-
-export interface ModelRegisterParams {
-  /**
-   * The identifier of the model to register.
-   */
-  model_id: string;
-
-  /**
-   * Any additional metadata for this model.
-   */
-  metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-  /**
-   * The type of model to register.
+   * Enumeration of supported model types in Llama Stack.
    */
   model_type?: 'llm' | 'embedding' | 'rerank';
 
   /**
-   * The identifier of the provider.
+   * Unique identifier for this resource in the provider
    */
-  provider_id?: string;
+  provider_resource_id?: string | null;
+
+  type?: 'model';
+}
+
+export interface ModelRegisterParams {
+  model_id: string;
+
+  metadata?: { [key: string]: unknown } | null;
 
   /**
-   * The identifier of the model in the provider.
+   * Enumeration of supported model types in Llama Stack.
    */
-  provider_model_id?: string;
+  model_type?: 'llm' | 'embedding' | 'rerank' | null;
+
+  provider_id?: string | null;
+
+  provider_model_id?: string | null;
 }
 
 Models.OpenAI = OpenAI;

@@ -120,52 +120,31 @@ export class VectorStoreFilesOpenAICursorPage extends OpenAICursorPage<VectorSto
  * OpenAI Vector Store File object.
  */
 export interface VectorStoreFile {
-  /**
-   * Unique identifier for the file
-   */
   id: string;
 
   /**
-   * Key-value attributes associated with the file
-   */
-  attributes: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-  /**
-   * Strategy used for splitting the file into chunks
+   * Automatic chunking strategy for vector store files.
    */
   chunking_strategy:
     | VectorStoreFile.VectorStoreChunkingStrategyAuto
     | VectorStoreFile.VectorStoreChunkingStrategyStatic;
 
-  /**
-   * Timestamp when the file was added to the vector store
-   */
   created_at: number;
 
-  /**
-   * Object type identifier, always "vector_store.file"
-   */
-  object: string;
-
-  /**
-   * Current processing status of the file
-   */
   status: 'completed' | 'in_progress' | 'cancelled' | 'failed';
 
-  /**
-   * Storage space used by this file in bytes
-   */
-  usage_bytes: number;
-
-  /**
-   * ID of the vector store containing this file
-   */
   vector_store_id: string;
 
+  attributes?: { [key: string]: unknown };
+
   /**
-   * (Optional) Error information if file processing failed
+   * Error information for failed vector store file processing.
    */
-  last_error?: VectorStoreFile.LastError;
+  last_error?: VectorStoreFile.LastError | null;
+
+  object?: string;
+
+  usage_bytes?: number;
 }
 
 export namespace VectorStoreFile {
@@ -173,10 +152,7 @@ export namespace VectorStoreFile {
    * Automatic chunking strategy for vector store files.
    */
   export interface VectorStoreChunkingStrategyAuto {
-    /**
-     * Strategy type, always "auto" for automatic chunking
-     */
-    type: 'auto';
+    type?: 'auto';
   }
 
   /**
@@ -184,45 +160,30 @@ export namespace VectorStoreFile {
    */
   export interface VectorStoreChunkingStrategyStatic {
     /**
-     * Configuration parameters for the static chunking strategy
+     * Configuration for static chunking strategy.
      */
     static: VectorStoreChunkingStrategyStatic.Static;
 
-    /**
-     * Strategy type, always "static" for static chunking
-     */
-    type: 'static';
+    type?: 'static';
   }
 
   export namespace VectorStoreChunkingStrategyStatic {
     /**
-     * Configuration parameters for the static chunking strategy
+     * Configuration for static chunking strategy.
      */
     export interface Static {
-      /**
-       * Number of tokens to overlap between adjacent chunks
-       */
-      chunk_overlap_tokens: number;
+      chunk_overlap_tokens?: number;
 
-      /**
-       * Maximum number of tokens per chunk, must be between 100 and 4096
-       */
-      max_chunk_size_tokens: number;
+      max_chunk_size_tokens?: number;
     }
   }
 
   /**
-   * (Optional) Error information if file processing failed
+   * Error information for failed vector store file processing.
    */
   export interface LastError {
-    /**
-     * Error code indicating the type of failure
-     */
     code: 'server_error' | 'rate_limit_exceeded';
 
-    /**
-     * Human-readable error message describing the failure
-     */
     message: string;
   }
 }
@@ -231,45 +192,24 @@ export namespace VectorStoreFile {
  * Response from deleting a vector store file.
  */
 export interface FileDeleteResponse {
-  /**
-   * Unique identifier of the deleted file
-   */
   id: string;
 
-  /**
-   * Whether the deletion operation was successful
-   */
-  deleted: boolean;
+  deleted?: boolean;
 
-  /**
-   * Object type identifier for the deletion response
-   */
-  object: string;
+  object?: string;
 }
 
 /**
  * Represents the parsed content of a vector store file.
  */
 export interface FileContentResponse {
-  /**
-   * Parsed content of the file
-   */
   data: Array<FileContentResponse.Data>;
 
-  /**
-   * Indicates if there are more content pages to fetch
-   */
-  has_more: boolean;
+  has_more?: boolean;
 
-  /**
-   * The object type, which is always `vector_store.file_content.page`
-   */
-  object: 'vector_store.file_content.page';
+  next_page?: string | null;
 
-  /**
-   * The token for the next page, if any
-   */
-  next_page?: string;
+  object?: 'vector_store.file_content.page';
 }
 
 export namespace FileContentResponse {
@@ -277,113 +217,72 @@ export namespace FileContentResponse {
    * Content item from a vector store file or search result.
    */
   export interface Data {
-    /**
-     * The actual text content
-     */
     text: string;
 
-    /**
-     * Content type, currently only "text" is supported
-     */
     type: 'text';
 
     /**
-     * Optional chunk metadata
+     * `ChunkMetadata` is backend metadata for a `Chunk` that is used to store
+     * additional information about the chunk that will not be used in the context
+     * during inference, but is required for backend functionality. The `ChunkMetadata`
+     * is set during chunk creation in `MemoryToolRuntimeImpl().insert()`and is not
+     * expected to change after. Use `Chunk.metadata` for metadata that will be used in
+     * the context during inference.
      */
-    chunk_metadata?: Data.ChunkMetadata;
+    chunk_metadata?: Data.ChunkMetadata | null;
 
-    /**
-     * Optional embedding vector for this content chunk
-     */
-    embedding?: Array<number>;
+    embedding?: Array<number> | null;
 
-    /**
-     * Optional user-defined metadata
-     */
-    metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+    metadata?: { [key: string]: unknown } | null;
   }
 
   export namespace Data {
     /**
-     * Optional chunk metadata
+     * `ChunkMetadata` is backend metadata for a `Chunk` that is used to store
+     * additional information about the chunk that will not be used in the context
+     * during inference, but is required for backend functionality. The `ChunkMetadata`
+     * is set during chunk creation in `MemoryToolRuntimeImpl().insert()`and is not
+     * expected to change after. Use `Chunk.metadata` for metadata that will be used in
+     * the context during inference.
      */
     export interface ChunkMetadata {
-      /**
-       * The dimension of the embedding vector for the chunk.
-       */
-      chunk_embedding_dimension?: number;
+      chunk_embedding_dimension?: number | null;
 
-      /**
-       * The embedding model used to create the chunk's embedding.
-       */
-      chunk_embedding_model?: string;
+      chunk_embedding_model?: string | null;
 
-      /**
-       * The ID of the chunk. If not set, it will be generated based on the document ID
-       * and content.
-       */
-      chunk_id?: string;
+      chunk_id?: string | null;
 
-      /**
-       * The tokenizer used to create the chunk. Default is Tiktoken.
-       */
-      chunk_tokenizer?: string;
+      chunk_tokenizer?: string | null;
 
-      /**
-       * The window of the chunk, which can be used to group related chunks together.
-       */
-      chunk_window?: string;
+      chunk_window?: string | null;
 
-      /**
-       * The number of tokens in the content of the chunk.
-       */
-      content_token_count?: number;
+      content_token_count?: number | null;
 
-      /**
-       * An optional timestamp indicating when the chunk was created.
-       */
-      created_timestamp?: number;
+      created_timestamp?: number | null;
 
-      /**
-       * The ID of the document this chunk belongs to.
-       */
-      document_id?: string;
+      document_id?: string | null;
 
-      /**
-       * The number of tokens in the metadata of the chunk.
-       */
-      metadata_token_count?: number;
+      metadata_token_count?: number | null;
 
-      /**
-       * The source of the content, such as a URL, file path, or other identifier.
-       */
-      source?: string;
+      source?: string | null;
 
-      /**
-       * An optional timestamp indicating when the chunk was last updated.
-       */
-      updated_timestamp?: number;
+      updated_timestamp?: number | null;
     }
   }
 }
 
 export interface FileCreateParams {
-  /**
-   * The ID of the file to attach to the vector store.
-   */
   file_id: string;
 
-  /**
-   * The key-value attributes stored with the file, which can be used for filtering.
-   */
-  attributes?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  attributes?: { [key: string]: unknown } | null;
 
   /**
-   * The chunking strategy to use for the file.
+   * Automatic chunking strategy for vector store files.
    */
   chunking_strategy?:
     | FileCreateParams.VectorStoreChunkingStrategyAuto
-    | FileCreateParams.VectorStoreChunkingStrategyStatic;
+    | FileCreateParams.VectorStoreChunkingStrategyStatic
+    | null;
 }
 
 export namespace FileCreateParams {
@@ -391,10 +290,7 @@ export namespace FileCreateParams {
    * Automatic chunking strategy for vector store files.
    */
   export interface VectorStoreChunkingStrategyAuto {
-    /**
-     * Strategy type, always "auto" for automatic chunking
-     */
-    type: 'auto';
+    type?: 'auto';
   }
 
   /**
@@ -402,70 +298,41 @@ export namespace FileCreateParams {
    */
   export interface VectorStoreChunkingStrategyStatic {
     /**
-     * Configuration parameters for the static chunking strategy
+     * Configuration for static chunking strategy.
      */
     static: VectorStoreChunkingStrategyStatic.Static;
 
-    /**
-     * Strategy type, always "static" for static chunking
-     */
-    type: 'static';
+    type?: 'static';
   }
 
   export namespace VectorStoreChunkingStrategyStatic {
     /**
-     * Configuration parameters for the static chunking strategy
+     * Configuration for static chunking strategy.
      */
     export interface Static {
-      /**
-       * Number of tokens to overlap between adjacent chunks
-       */
-      chunk_overlap_tokens: number;
+      chunk_overlap_tokens?: number;
 
-      /**
-       * Maximum number of tokens per chunk, must be between 100 and 4096
-       */
-      max_chunk_size_tokens: number;
+      max_chunk_size_tokens?: number;
     }
   }
 }
 
 export interface FileUpdateParams {
-  /**
-   * The updated key-value attributes to store with the file.
-   */
-  attributes: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  attributes: { [key: string]: unknown };
 }
 
 export interface FileListParams extends OpenAICursorPageParams {
-  /**
-   * (Optional) A cursor for use in pagination. `before` is an object ID that defines
-   * your place in the list.
-   */
-  before?: string;
+  before?: string | null;
 
-  /**
-   * (Optional) Filter by file status to only return files with the specified status.
-   */
-  filter?: 'completed' | 'in_progress' | 'cancelled' | 'failed';
+  filter?: 'completed' | 'in_progress' | 'cancelled' | 'failed' | null;
 
-  /**
-   * (Optional) Sort order by the `created_at` timestamp of the objects. `asc` for
-   * ascending order and `desc` for descending order.
-   */
-  order?: string;
+  order?: string | null;
 }
 
 export interface FileContentParams {
-  /**
-   * Whether to include embedding vectors in the response.
-   */
-  include_embeddings?: boolean;
+  include_embeddings?: boolean | null;
 
-  /**
-   * Whether to include chunk metadata in the response.
-   */
-  include_metadata?: boolean;
+  include_metadata?: boolean | null;
 }
 
 Files.VectorStoreFilesOpenAICursorPage = VectorStoreFilesOpenAICursorPage;

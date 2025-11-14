@@ -80,7 +80,7 @@ describe('resource shields', () => {
   test('register: required and optional params', async () => {
     const response = await client.shields.register({
       shield_id: 'shield_id',
-      params: { foo: true },
+      params: { foo: 'bar' },
       provider_id: 'provider_id',
       provider_shield_id: 'provider_shield_id',
     });

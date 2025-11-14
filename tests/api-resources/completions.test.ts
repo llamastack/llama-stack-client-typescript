@@ -38,7 +38,7 @@ describe('resource completions', () => {
       seed: 0,
       stop: 'string',
       stream: false,
-      stream_options: { foo: true },
+      stream_options: { foo: 'bar' },
       suffix: 'suffix',
       temperature: 0,
       top_p: 0,
