@@ -5753,6 +5753,11 @@ export namespace ResponseCreateParams {
     allowed_tools?: Array<string> | OpenAIResponseInputToolMcp.AllowedToolsFilter;
 
     /**
+     * (Optional) OAuth access token for authenticating with the MCP server
+     */
+    authorization?: string;
+
+    /**
      * (Optional) HTTP headers to include when connecting to the server
      */
     headers?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };

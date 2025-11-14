@@ -24,7 +24,11 @@ describe('resource toolRuntime', () => {
   });
 
   test('invokeTool: required and optional params', async () => {
-    const response = await client.toolRuntime.invokeTool({ kwargs: { foo: true }, tool_name: 'tool_name' });
+    const response = await client.toolRuntime.invokeTool({
+      kwargs: { foo: true },
+      tool_name: 'tool_name',
+      authorization: 'authorization',
+    });
   });
 
   test('listTools', async () => {
@@ -49,7 +53,7 @@ describe('resource toolRuntime', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.toolRuntime.listTools(
-        { mcp_endpoint: { uri: 'uri' }, tool_group_id: 'tool_group_id' },
+        { authorization: 'authorization', mcp_endpoint: { uri: 'uri' }, tool_group_id: 'tool_group_id' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(LlamaStackClient.NotFoundError);
