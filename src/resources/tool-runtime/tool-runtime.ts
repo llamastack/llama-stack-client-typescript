@@ -124,9 +124,19 @@ export interface ToolRuntimeInvokeToolParams {
    * The name of the tool to invoke.
    */
   tool_name: string;
+
+  /**
+   * (Optional) OAuth access token for authenticating with the MCP server.
+   */
+  authorization?: string;
 }
 
 export interface ToolRuntimeListToolsParams {
+  /**
+   * (Optional) OAuth access token for authenticating with the MCP server.
+   */
+  authorization?: string;
+
   /**
    * The MCP endpoint to use for the tool group.
    */
