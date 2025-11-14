@@ -1,0 +1,557 @@
+// Copyright (c) Meta Platforms, Inc. and affiliates.
+// All rights reserved.
+//
+// This source code is licensed under the terms described in the LICENSE file in
+// the root directory of this source tree.
+//
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+import { APIResource } from '../resource';
+import { isRequestOptions } from '../core';
+import * as Core from '../core';
+import { OpenAICursorPage, type OpenAICursorPageParams } from '../pagination';
+
+export class Batches extends APIResource {
+  /**
+   * Create a new batch for processing multiple API requests.
+   */
+  create(body: BatchCreateParams, options?: Core.RequestOptions): Core.APIPromise<BatchCreateResponse> {
+    return this._client.post('/v1/batches', { body, ...options });
+  }
+
+  /**
+   * Retrieve information about a specific batch.
+   */
+  retrieve(batchId: string, options?: Core.RequestOptions): Core.APIPromise<BatchRetrieveResponse> {
+    return this._client.get(`/v1/batches/${batchId}`, options);
+  }
+
+  /**
+   * List all batches for the current user.
+   */
+  list(
+    query?: BatchListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<BatchListResponsesOpenAICursorPage, BatchListResponse>;
+  list(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<BatchListResponsesOpenAICursorPage, BatchListResponse>;
+  list(
+    query: BatchListParams | Core.RequestOptions = {},
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<BatchListResponsesOpenAICursorPage, BatchListResponse> {
+    if (isRequestOptions(query)) {
+      return this.list({}, query);
+    }
+    return this._client.getAPIList('/v1/batches', BatchListResponsesOpenAICursorPage, { query, ...options });
+  }
+
+  /**
+   * Cancel a batch that is in progress.
+   */
+  cancel(batchId: string, options?: Core.RequestOptions): Core.APIPromise<BatchCancelResponse> {
+    return this._client.post(`/v1/batches/${batchId}/cancel`, options);
+  }
+}
+
+export class BatchListResponsesOpenAICursorPage extends OpenAICursorPage<BatchListResponse> {}
+
+export interface BatchCreateResponse {
+  id: string;
+
+  completion_window: string;
+
+  created_at: number;
+
+  endpoint: string;
+
+  input_file_id: string;
+
+  object: 'batch';
+
+  status:
+    | 'validating'
+    | 'failed'
+    | 'in_progress'
+    | 'finalizing'
+    | 'completed'
+    | 'expired'
+    | 'cancelling'
+    | 'cancelled';
+
+  cancelled_at?: number | null;
+
+  cancelling_at?: number | null;
+
+  completed_at?: number | null;
+
+  error_file_id?: string | null;
+
+  errors?: BatchCreateResponse.Errors | null;
+
+  expired_at?: number | null;
+
+  expires_at?: number | null;
+
+  failed_at?: number | null;
+
+  finalizing_at?: number | null;
+
+  in_progress_at?: number | null;
+
+  metadata?: { [key: string]: string } | null;
+
+  model?: string | null;
+
+  output_file_id?: string | null;
+
+  request_counts?: BatchCreateResponse.RequestCounts | null;
+
+  usage?: BatchCreateResponse.Usage | null;
+
+  [k: string]: unknown;
+}
+
+export namespace BatchCreateResponse {
+  export interface Errors {
+    data?: Array<Errors.Data> | null;
+
+    object?: string | null;
+
+    [k: string]: unknown;
+  }
+
+  export namespace Errors {
+    export interface Data {
+      code?: string | null;
+
+      line?: number | null;
+
+      message?: string | null;
+
+      param?: string | null;
+
+      [k: string]: unknown;
+    }
+  }
+
+  export interface RequestCounts {
+    completed: number;
+
+    failed: number;
+
+    total: number;
+
+    [k: string]: unknown;
+  }
+
+  export interface Usage {
+    input_tokens: number;
+
+    input_tokens_details: Usage.InputTokensDetails;
+
+    output_tokens: number;
+
+    output_tokens_details: Usage.OutputTokensDetails;
+
+    total_tokens: number;
+
+    [k: string]: unknown;
+  }
+
+  export namespace Usage {
+    export interface InputTokensDetails {
+      cached_tokens: number;
+
+      [k: string]: unknown;
+    }
+
+    export interface OutputTokensDetails {
+      reasoning_tokens: number;
+
+      [k: string]: unknown;
+    }
+  }
+}
+
+export interface BatchRetrieveResponse {
+  id: string;
+
+  completion_window: string;
+
+  created_at: number;
+
+  endpoint: string;
+
+  input_file_id: string;
+
+  object: 'batch';
+
+  status:
+    | 'validating'
+    | 'failed'
+    | 'in_progress'
+    | 'finalizing'
+    | 'completed'
+    | 'expired'
+    | 'cancelling'
+    | 'cancelled';
+
+  cancelled_at?: number | null;
+
+  cancelling_at?: number | null;
+
+  completed_at?: number | null;
+
+  error_file_id?: string | null;
+
+  errors?: BatchRetrieveResponse.Errors | null;
+
+  expired_at?: number | null;
+
+  expires_at?: number | null;
+
+  failed_at?: number | null;
+
+  finalizing_at?: number | null;
+
+  in_progress_at?: number | null;
+
+  metadata?: { [key: string]: string } | null;
+
+  model?: string | null;
+
+  output_file_id?: string | null;
+
+  request_counts?: BatchRetrieveResponse.RequestCounts | null;
+
+  usage?: BatchRetrieveResponse.Usage | null;
+
+  [k: string]: unknown;
+}
+
+export namespace BatchRetrieveResponse {
+  export interface Errors {
+    data?: Array<Errors.Data> | null;
+
+    object?: string | null;
+
+    [k: string]: unknown;
+  }
+
+  export namespace Errors {
+    export interface Data {
+      code?: string | null;
+
+      line?: number | null;
+
+      message?: string | null;
+
+      param?: string | null;
+
+      [k: string]: unknown;
+    }
+  }
+
+  export interface RequestCounts {
+    completed: number;
+
+    failed: number;
+
+    total: number;
+
+    [k: string]: unknown;
+  }
+
+  export interface Usage {
+    input_tokens: number;
+
+    input_tokens_details: Usage.InputTokensDetails;
+
+    output_tokens: number;
+
+    output_tokens_details: Usage.OutputTokensDetails;
+
+    total_tokens: number;
+
+    [k: string]: unknown;
+  }
+
+  export namespace Usage {
+    export interface InputTokensDetails {
+      cached_tokens: number;
+
+      [k: string]: unknown;
+    }
+
+    export interface OutputTokensDetails {
+      reasoning_tokens: number;
+
+      [k: string]: unknown;
+    }
+  }
+}
+
+export interface BatchListResponse {
+  id: string;
+
+  completion_window: string;
+
+  created_at: number;
+
+  endpoint: string;
+
+  input_file_id: string;
+
+  object: 'batch';
+
+  status:
+    | 'validating'
+    | 'failed'
+    | 'in_progress'
+    | 'finalizing'
+    | 'completed'
+    | 'expired'
+    | 'cancelling'
+    | 'cancelled';
+
+  cancelled_at?: number | null;
+
+  cancelling_at?: number | null;
+
+  completed_at?: number | null;
+
+  error_file_id?: string | null;
+
+  errors?: BatchListResponse.Errors | null;
+
+  expired_at?: number | null;
+
+  expires_at?: number | null;
+
+  failed_at?: number | null;
+
+  finalizing_at?: number | null;
+
+  in_progress_at?: number | null;
+
+  metadata?: { [key: string]: string } | null;
+
+  model?: string | null;
+
+  output_file_id?: string | null;
+
+  request_counts?: BatchListResponse.RequestCounts | null;
+
+  usage?: BatchListResponse.Usage | null;
+
+  [k: string]: unknown;
+}
+
+export namespace BatchListResponse {
+  export interface Errors {
+    data?: Array<Errors.Data> | null;
+
+    object?: string | null;
+
+    [k: string]: unknown;
+  }
+
+  export namespace Errors {
+    export interface Data {
+      code?: string | null;
+
+      line?: number | null;
+
+      message?: string | null;
+
+      param?: string | null;
+
+      [k: string]: unknown;
+    }
+  }
+
+  export interface RequestCounts {
+    completed: number;
+
+    failed: number;
+
+    total: number;
+
+    [k: string]: unknown;
+  }
+
+  export interface Usage {
+    input_tokens: number;
+
+    input_tokens_details: Usage.InputTokensDetails;
+
+    output_tokens: number;
+
+    output_tokens_details: Usage.OutputTokensDetails;
+
+    total_tokens: number;
+
+    [k: string]: unknown;
+  }
+
+  export namespace Usage {
+    export interface InputTokensDetails {
+      cached_tokens: number;
+
+      [k: string]: unknown;
+    }
+
+    export interface OutputTokensDetails {
+      reasoning_tokens: number;
+
+      [k: string]: unknown;
+    }
+  }
+}
+
+export interface BatchCancelResponse {
+  id: string;
+
+  completion_window: string;
+
+  created_at: number;
+
+  endpoint: string;
+
+  input_file_id: string;
+
+  object: 'batch';
+
+  status:
+    | 'validating'
+    | 'failed'
+    | 'in_progress'
+    | 'finalizing'
+    | 'completed'
+    | 'expired'
+    | 'cancelling'
+    | 'cancelled';
+
+  cancelled_at?: number | null;
+
+  cancelling_at?: number | null;
+
+  completed_at?: number | null;
+
+  error_file_id?: string | null;
+
+  errors?: BatchCancelResponse.Errors | null;
+
+  expired_at?: number | null;
+
+  expires_at?: number | null;
+
+  failed_at?: number | null;
+
+  finalizing_at?: number | null;
+
+  in_progress_at?: number | null;
+
+  metadata?: { [key: string]: string } | null;
+
+  model?: string | null;
+
+  output_file_id?: string | null;
+
+  request_counts?: BatchCancelResponse.RequestCounts | null;
+
+  usage?: BatchCancelResponse.Usage | null;
+
+  [k: string]: unknown;
+}
+
+export namespace BatchCancelResponse {
+  export interface Errors {
+    data?: Array<Errors.Data> | null;
+
+    object?: string | null;
+
+    [k: string]: unknown;
+  }
+
+  export namespace Errors {
+    export interface Data {
+      code?: string | null;
+
+      line?: number | null;
+
+      message?: string | null;
+
+      param?: string | null;
+
+      [k: string]: unknown;
+    }
+  }
+
+  export interface RequestCounts {
+    completed: number;
+
+    failed: number;
+
+    total: number;
+
+    [k: string]: unknown;
+  }
+
+  export interface Usage {
+    input_tokens: number;
+
+    input_tokens_details: Usage.InputTokensDetails;
+
+    output_tokens: number;
+
+    output_tokens_details: Usage.OutputTokensDetails;
+
+    total_tokens: number;
+
+    [k: string]: unknown;
+  }
+
+  export namespace Usage {
+    export interface InputTokensDetails {
+      cached_tokens: number;
+
+      [k: string]: unknown;
+    }
+
+    export interface OutputTokensDetails {
+      reasoning_tokens: number;
+
+      [k: string]: unknown;
+    }
+  }
+}
+
+export interface BatchCreateParams {
+  completion_window: '24h';
+
+  endpoint: string;
+
+  input_file_id: string;
+
+  idempotency_key?: string | null;
+
+  metadata?: { [key: string]: string } | null;
+}
+
+export interface BatchListParams extends OpenAICursorPageParams {}
+
+Batches.BatchListResponsesOpenAICursorPage = BatchListResponsesOpenAICursorPage;
+
+export declare namespace Batches {
+  export {
+    type BatchCreateResponse as BatchCreateResponse,
+    type BatchRetrieveResponse as BatchRetrieveResponse,
+    type BatchListResponse as BatchListResponse,
+    type BatchCancelResponse as BatchCancelResponse,
+    BatchListResponsesOpenAICursorPage as BatchListResponsesOpenAICursorPage,
+    type BatchCreateParams as BatchCreateParams,
+    type BatchListParams as BatchListParams,
+  };
+}

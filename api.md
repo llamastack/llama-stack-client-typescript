@@ -40,16 +40,14 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/tool-runtime/tool-runtime.ts">ToolDef</a></code>
-- <code><a href="./src/resources/tool-runtime/tool-runtime.ts">ToolInvocationResult</a></code>
-- <code><a href="./src/resources/tool-runtime/tool-runtime.ts">ToolRuntimeListToolsResponse</a></code>
+- <code><a href="./src/resources/tool-runtime.ts">ToolDef</a></code>
+- <code><a href="./src/resources/tool-runtime.ts">ToolInvocationResult</a></code>
+- <code><a href="./src/resources/tool-runtime.ts">ToolRuntimeListToolsResponse</a></code>
 
 Methods:
 
-- <code title="post /v1/tool-runtime/invoke">client.toolRuntime.<a href="./src/resources/tool-runtime/tool-runtime.ts">invokeTool</a>({ ...params }) -> ToolInvocationResult</code>
-- <code title="get /v1/tool-runtime/list-tools">client.toolRuntime.<a href="./src/resources/tool-runtime/tool-runtime.ts">listTools</a>({ ...params }) -> ToolRuntimeListToolsResponse</code>
-
-## RagTool
+- <code title="post /v1/tool-runtime/invoke">client.toolRuntime.<a href="./src/resources/tool-runtime.ts">invokeTool</a>({ ...params }) -> ToolInvocationResult</code>
+- <code title="get /v1/tool-runtime/list-tools">client.toolRuntime.<a href="./src/resources/tool-runtime.ts">listTools</a>({ ...params }) -> ToolRuntimeListToolsResponse</code>
 
 # Responses
 
@@ -120,12 +118,14 @@ Types:
 
 - <code><a href="./src/resources/conversations/items.ts">ItemCreateResponse</a></code>
 - <code><a href="./src/resources/conversations/items.ts">ItemListResponse</a></code>
+- <code><a href="./src/resources/conversations/items.ts">ItemDeleteResponse</a></code>
 - <code><a href="./src/resources/conversations/items.ts">ItemGetResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/conversations/{conversation_id}/items">client.conversations.items.<a href="./src/resources/conversations/items.ts">create</a>(conversationId, { ...params }) -> ItemCreateResponse</code>
 - <code title="get /v1/conversations/{conversation_id}/items">client.conversations.items.<a href="./src/resources/conversations/items.ts">list</a>(conversationId, { ...params }) -> ItemListResponsesOpenAICursorPage</code>
+- <code title="delete /v1/conversations/{conversation_id}/items/{item_id}">client.conversations.items.<a href="./src/resources/conversations/items.ts">delete</a>(conversationId, itemId) -> ItemDeleteResponse</code>
 - <code title="get /v1/conversations/{conversation_id}/items/{item_id}">client.conversations.items.<a href="./src/resources/conversations/items.ts">get</a>(conversationId, itemId) -> ItemGetResponse</code>
 
 # Inspect
@@ -170,7 +170,7 @@ Methods:
 
 - <code title="post /v1/chat/completions">client.chat.completions.<a href="./src/resources/chat/completions.ts">create</a>({ ...params }) -> CompletionCreateResponse</code>
 - <code title="get /v1/chat/completions/{completion_id}">client.chat.completions.<a href="./src/resources/chat/completions.ts">retrieve</a>(completionId) -> CompletionRetrieveResponse</code>
-- <code title="get /v1/chat/completions">client.chat.completions.<a href="./src/resources/chat/completions.ts">list</a>({ ...params }) -> CompletionListResponsesOpenAICursorPage</code>
+- <code title="get /v1/chat/completions">client.chat.completions.<a href="./src/resources/chat/completions.ts">list</a>({ ...params }) -> CompletionListResponse</code>
 
 # Completions
 
@@ -349,6 +349,7 @@ Methods:
 - <code title="get /v1/scoring-functions/{scoring_fn_id}">client.scoringFunctions.<a href="./src/resources/scoring-functions.ts">retrieve</a>(scoringFnId) -> ScoringFn</code>
 - <code title="get /v1/scoring-functions">client.scoringFunctions.<a href="./src/resources/scoring-functions.ts">list</a>() -> ScoringFunctionListResponse</code>
 - <code title="post /v1/scoring-functions">client.scoringFunctions.<a href="./src/resources/scoring-functions.ts">register</a>({ ...params }) -> void</code>
+- <code title="delete /v1/scoring-functions/{scoring_fn_id}">client.scoringFunctions.<a href="./src/resources/scoring-functions.ts">unregister</a>(scoringFnId) -> void</code>
 
 # Files
 
@@ -366,6 +367,22 @@ Methods:
 - <code title="get /v1/files">client.files.<a href="./src/resources/files.ts">list</a>({ ...params }) -> FilesOpenAICursorPage</code>
 - <code title="delete /v1/files/{file_id}">client.files.<a href="./src/resources/files.ts">delete</a>(fileId) -> DeleteFileResponse</code>
 - <code title="get /v1/files/{file_id}/content">client.files.<a href="./src/resources/files.ts">content</a>(fileId) -> unknown</code>
+
+# Batches
+
+Types:
+
+- <code><a href="./src/resources/batches.ts">BatchCreateResponse</a></code>
+- <code><a href="./src/resources/batches.ts">BatchRetrieveResponse</a></code>
+- <code><a href="./src/resources/batches.ts">BatchListResponse</a></code>
+- <code><a href="./src/resources/batches.ts">BatchCancelResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/batches">client.batches.<a href="./src/resources/batches.ts">create</a>({ ...params }) -> BatchCreateResponse</code>
+- <code title="get /v1/batches/{batch_id}">client.batches.<a href="./src/resources/batches.ts">retrieve</a>(batchId) -> BatchRetrieveResponse</code>
+- <code title="get /v1/batches">client.batches.<a href="./src/resources/batches.ts">list</a>({ ...params }) -> BatchListResponsesOpenAICursorPage</code>
+- <code title="post /v1/batches/{batch_id}/cancel">client.batches.<a href="./src/resources/batches.ts">cancel</a>(batchId) -> BatchCancelResponse</code>
 
 # Alpha
 
@@ -420,6 +437,7 @@ Methods:
 - <code title="get /v1alpha/eval/benchmarks/{benchmark_id}">client.alpha.benchmarks.<a href="./src/resources/alpha/benchmarks.ts">retrieve</a>(benchmarkId) -> Benchmark</code>
 - <code title="get /v1alpha/eval/benchmarks">client.alpha.benchmarks.<a href="./src/resources/alpha/benchmarks.ts">list</a>() -> BenchmarkListResponse</code>
 - <code title="post /v1alpha/eval/benchmarks">client.alpha.benchmarks.<a href="./src/resources/alpha/benchmarks.ts">register</a>({ ...params }) -> void</code>
+- <code title="delete /v1alpha/eval/benchmarks/{benchmark_id}">client.alpha.benchmarks.<a href="./src/resources/alpha/benchmarks.ts">unregister</a>(benchmarkId) -> void</code>
 
 ## Eval
 

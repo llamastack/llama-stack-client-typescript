@@ -50,9 +50,9 @@ describe('resource scoringFunctions', () => {
 
   test('register: only required params', async () => {
     const responsePromise = client.scoringFunctions.register({
-      description: 'description',
-      return_type: { type: 'string' },
-      scoring_fn_id: 'scoring_fn_id',
+      description: {},
+      return_type: {},
+      scoring_fn_id: {},
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -65,18 +65,30 @@ describe('resource scoringFunctions', () => {
 
   test('register: required and optional params', async () => {
     const response = await client.scoringFunctions.register({
-      description: 'description',
-      return_type: { type: 'string' },
-      scoring_fn_id: 'scoring_fn_id',
-      params: {
-        aggregation_functions: ['average'],
-        judge_model: 'judge_model',
-        judge_score_regexes: ['string'],
-        type: 'llm_as_judge',
-        prompt_template: 'prompt_template',
-      },
-      provider_id: 'provider_id',
-      provider_scoring_fn_id: 'provider_scoring_fn_id',
+      description: {},
+      return_type: {},
+      scoring_fn_id: {},
+      params: {},
+      provider_id: {},
+      provider_scoring_fn_id: {},
     });
+  });
+
+  test('unregister', async () => {
+    const responsePromise = client.scoringFunctions.unregister('scoring_fn_id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('unregister: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.scoringFunctions.unregister('scoring_fn_id', { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(LlamaStackClient.NotFoundError);
   });
 });

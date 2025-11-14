@@ -12,7 +12,9 @@ import * as PromptsAPI from './prompts';
 
 export class Versions extends APIResource {
   /**
-   * List prompt versions. List all versions of a specific prompt.
+   * List prompt versions.
+   *
+   * List all versions of a specific prompt.
    */
   list(promptId: string, options?: Core.RequestOptions): Core.APIPromise<PromptsAPI.PromptListResponse> {
     return (

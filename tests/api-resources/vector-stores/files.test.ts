@@ -26,7 +26,7 @@ describe('resource files', () => {
   test('create: required and optional params', async () => {
     const response = await client.vectorStores.files.create('vector_store_id', {
       file_id: 'file_id',
-      attributes: { foo: true },
+      attributes: { foo: 'bar' },
       chunking_strategy: { type: 'auto' },
     });
   });
@@ -51,7 +51,7 @@ describe('resource files', () => {
 
   test('update: only required params', async () => {
     const responsePromise = client.vectorStores.files.update('vector_store_id', 'file_id', {
-      attributes: { foo: true },
+      attributes: { foo: 'bar' },
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -64,7 +64,7 @@ describe('resource files', () => {
 
   test('update: required and optional params', async () => {
     const response = await client.vectorStores.files.update('vector_store_id', 'file_id', {
-      attributes: { foo: true },
+      attributes: { foo: 'bar' },
     });
   });
 

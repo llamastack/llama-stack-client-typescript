@@ -66,7 +66,7 @@ describe('resource toolgroups', () => {
     const response = await client.toolgroups.register({
       provider_id: 'provider_id',
       toolgroup_id: 'toolgroup_id',
-      args: { foo: true },
+      args: { foo: 'bar' },
       mcp_endpoint: { uri: 'uri' },
     });
   });

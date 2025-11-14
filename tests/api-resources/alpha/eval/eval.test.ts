@@ -14,18 +14,8 @@ const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] 
 describe('resource eval', () => {
   test('evaluateRows: only required params', async () => {
     const responsePromise = client.alpha.eval.evaluateRows('benchmark_id', {
-      benchmark_config: {
-        eval_candidate: { model: 'model', sampling_params: { strategy: { type: 'greedy' } }, type: 'model' },
-        scoring_params: {
-          foo: {
-            aggregation_functions: ['average'],
-            judge_model: 'judge_model',
-            judge_score_regexes: ['string'],
-            type: 'llm_as_judge',
-          },
-        },
-      },
-      input_rows: [{ foo: true }],
+      benchmark_config: { eval_candidate: { model: 'model', sampling_params: {} } },
+      input_rows: [{ foo: 'bar' }],
       scoring_functions: ['string'],
     });
     const rawResponse = await responsePromise.asResponse();
@@ -43,44 +33,34 @@ describe('resource eval', () => {
         eval_candidate: {
           model: 'model',
           sampling_params: {
-            strategy: { type: 'greedy' },
             max_tokens: 0,
             repetition_penalty: 0,
             stop: ['string'],
+            strategy: { type: 'greedy' },
           },
-          type: 'model',
           system_message: { content: 'string', role: 'system' },
-        },
-        scoring_params: {
-          foo: {
-            aggregation_functions: ['average'],
-            judge_model: 'judge_model',
-            judge_score_regexes: ['string'],
-            type: 'llm_as_judge',
-            prompt_template: 'prompt_template',
-          },
+          type: 'model',
         },
         num_examples: 0,
+        scoring_params: {
+          foo: {
+            judge_model: 'judge_model',
+            aggregation_functions: ['average'],
+            judge_score_regexes: ['string'],
+            prompt_template: 'prompt_template',
+            type: 'llm_as_judge',
+          },
+        },
       },
-      input_rows: [{ foo: true }],
+      input_rows: [{ foo: 'bar' }],
       scoring_functions: ['string'],
     });
   });
 
   test('evaluateRowsAlpha: only required params', async () => {
     const responsePromise = client.alpha.eval.evaluateRowsAlpha('benchmark_id', {
-      benchmark_config: {
-        eval_candidate: { model: 'model', sampling_params: { strategy: { type: 'greedy' } }, type: 'model' },
-        scoring_params: {
-          foo: {
-            aggregation_functions: ['average'],
-            judge_model: 'judge_model',
-            judge_score_regexes: ['string'],
-            type: 'llm_as_judge',
-          },
-        },
-      },
-      input_rows: [{ foo: true }],
+      benchmark_config: { eval_candidate: { model: 'model', sampling_params: {} } },
+      input_rows: [{ foo: 'bar' }],
       scoring_functions: ['string'],
     });
     const rawResponse = await responsePromise.asResponse();
@@ -98,43 +78,33 @@ describe('resource eval', () => {
         eval_candidate: {
           model: 'model',
           sampling_params: {
-            strategy: { type: 'greedy' },
             max_tokens: 0,
             repetition_penalty: 0,
             stop: ['string'],
+            strategy: { type: 'greedy' },
           },
-          type: 'model',
           system_message: { content: 'string', role: 'system' },
-        },
-        scoring_params: {
-          foo: {
-            aggregation_functions: ['average'],
-            judge_model: 'judge_model',
-            judge_score_regexes: ['string'],
-            type: 'llm_as_judge',
-            prompt_template: 'prompt_template',
-          },
+          type: 'model',
         },
         num_examples: 0,
+        scoring_params: {
+          foo: {
+            judge_model: 'judge_model',
+            aggregation_functions: ['average'],
+            judge_score_regexes: ['string'],
+            prompt_template: 'prompt_template',
+            type: 'llm_as_judge',
+          },
+        },
       },
-      input_rows: [{ foo: true }],
+      input_rows: [{ foo: 'bar' }],
       scoring_functions: ['string'],
     });
   });
 
   test('runEval: only required params', async () => {
     const responsePromise = client.alpha.eval.runEval('benchmark_id', {
-      benchmark_config: {
-        eval_candidate: { model: 'model', sampling_params: { strategy: { type: 'greedy' } }, type: 'model' },
-        scoring_params: {
-          foo: {
-            aggregation_functions: ['average'],
-            judge_model: 'judge_model',
-            judge_score_regexes: ['string'],
-            type: 'llm_as_judge',
-          },
-        },
-      },
+      eval_candidate: { model: 'model', sampling_params: {} },
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -147,45 +117,33 @@ describe('resource eval', () => {
 
   test('runEval: required and optional params', async () => {
     const response = await client.alpha.eval.runEval('benchmark_id', {
-      benchmark_config: {
-        eval_candidate: {
-          model: 'model',
-          sampling_params: {
-            strategy: { type: 'greedy' },
-            max_tokens: 0,
-            repetition_penalty: 0,
-            stop: ['string'],
-          },
-          type: 'model',
-          system_message: { content: 'string', role: 'system' },
+      eval_candidate: {
+        model: 'model',
+        sampling_params: {
+          max_tokens: 0,
+          repetition_penalty: 0,
+          stop: ['string'],
+          strategy: { type: 'greedy' },
         },
-        scoring_params: {
-          foo: {
-            aggregation_functions: ['average'],
-            judge_model: 'judge_model',
-            judge_score_regexes: ['string'],
-            type: 'llm_as_judge',
-            prompt_template: 'prompt_template',
-          },
+        system_message: { content: 'string', role: 'system' },
+        type: 'model',
+      },
+      num_examples: 0,
+      scoring_params: {
+        foo: {
+          judge_model: 'judge_model',
+          aggregation_functions: ['average'],
+          judge_score_regexes: ['string'],
+          prompt_template: 'prompt_template',
+          type: 'llm_as_judge',
         },
-        num_examples: 0,
       },
     });
   });
 
   test('runEvalAlpha: only required params', async () => {
     const responsePromise = client.alpha.eval.runEvalAlpha('benchmark_id', {
-      benchmark_config: {
-        eval_candidate: { model: 'model', sampling_params: { strategy: { type: 'greedy' } }, type: 'model' },
-        scoring_params: {
-          foo: {
-            aggregation_functions: ['average'],
-            judge_model: 'judge_model',
-            judge_score_regexes: ['string'],
-            type: 'llm_as_judge',
-          },
-        },
-      },
+      eval_candidate: { model: 'model', sampling_params: {} },
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -198,28 +156,26 @@ describe('resource eval', () => {
 
   test('runEvalAlpha: required and optional params', async () => {
     const response = await client.alpha.eval.runEvalAlpha('benchmark_id', {
-      benchmark_config: {
-        eval_candidate: {
-          model: 'model',
-          sampling_params: {
-            strategy: { type: 'greedy' },
-            max_tokens: 0,
-            repetition_penalty: 0,
-            stop: ['string'],
-          },
-          type: 'model',
-          system_message: { content: 'string', role: 'system' },
+      eval_candidate: {
+        model: 'model',
+        sampling_params: {
+          max_tokens: 0,
+          repetition_penalty: 0,
+          stop: ['string'],
+          strategy: { type: 'greedy' },
         },
-        scoring_params: {
-          foo: {
-            aggregation_functions: ['average'],
-            judge_model: 'judge_model',
-            judge_score_regexes: ['string'],
-            type: 'llm_as_judge',
-            prompt_template: 'prompt_template',
-          },
+        system_message: { content: 'string', role: 'system' },
+        type: 'model',
+      },
+      num_examples: 0,
+      scoring_params: {
+        foo: {
+          judge_model: 'judge_model',
+          aggregation_functions: ['average'],
+          judge_score_regexes: ['string'],
+          prompt_template: 'prompt_template',
+          type: 'llm_as_judge',
         },
-        num_examples: 0,
       },
     });
   });

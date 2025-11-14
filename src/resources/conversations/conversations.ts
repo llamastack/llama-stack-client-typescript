@@ -12,6 +12,7 @@ import * as ItemsAPI from './items';
 import {
   ItemCreateParams,
   ItemCreateResponse,
+  ItemDeleteResponse,
   ItemGetResponse,
   ItemListParams,
   ItemListResponse,
@@ -23,21 +24,27 @@ export class Conversations extends APIResource {
   items: ItemsAPI.Items = new ItemsAPI.Items(this._client);
 
   /**
-   * Create a conversation. Create a conversation.
+   * Create a conversation.
+   *
+   * Create a conversation.
    */
   create(body: ConversationCreateParams, options?: Core.RequestOptions): Core.APIPromise<ConversationObject> {
     return this._client.post('/v1/conversations', { body, ...options });
   }
 
   /**
-   * Retrieve a conversation. Get a conversation with the given ID.
+   * Retrieve a conversation.
+   *
+   * Get a conversation with the given ID.
    */
   retrieve(conversationId: string, options?: Core.RequestOptions): Core.APIPromise<ConversationObject> {
     return this._client.get(`/v1/conversations/${conversationId}`, options);
   }
 
   /**
-   * Update a conversation. Update a conversation's metadata with the given ID.
+   * Update a conversation.
+   *
+   * Update a conversation's metadata with the given ID.
    */
   update(
     conversationId: string,
@@ -48,7 +55,9 @@ export class Conversations extends APIResource {
   }
 
   /**
-   * Delete a conversation. Delete a conversation with the given ID.
+   * Delete a conversation.
+   *
+   * Delete a conversation with the given ID.
    */
   delete(conversationId: string, options?: Core.RequestOptions): Core.APIPromise<ConversationDeleteResponse> {
     return this._client.delete(`/v1/conversations/${conversationId}`, options);
@@ -59,34 +68,59 @@ export class Conversations extends APIResource {
  * OpenAI-compatible conversation object.
  */
 export interface ConversationObject {
+  /**
+   * The unique ID of the conversation.
+   */
   id: string;
 
+  /**
+   * The time at which the conversation was created, measured in seconds since the
+   * Unix epoch.
+   */
   created_at: number;
 
-  object: 'conversation';
+  /**
+   * Initial items to include in the conversation context. You may add up to 20 items
+   * at a time.
+   */
+  items?: Array<{ [key: string]: unknown }> | null;
 
-  items?: Array<unknown>;
+  /**
+   * Set of 16 key-value pairs that can be attached to an object. This can be useful
+   * for storing additional information about the object in a structured format, and
+   * querying for objects via API or the dashboard.
+   */
+  metadata?: { [key: string]: string } | null;
 
-  metadata?: { [key: string]: string };
+  /**
+   * The object type, which is always conversation.
+   */
+  object?: 'conversation';
 }
 
 /**
  * Response for deleted conversation.
  */
 export interface ConversationDeleteResponse {
+  /**
+   * The deleted conversation identifier
+   */
   id: string;
 
-  deleted: boolean;
+  /**
+   * Whether the object was deleted
+   */
+  deleted?: boolean;
 
-  object: string;
+  /**
+   * Object type
+   */
+  object?: string;
 }
 
 export interface ConversationCreateParams {
-  /**
-   * Initial items to include in the conversation context.
-   */
   items?: Array<
-    | ConversationCreateParams.OpenAIResponseMessage
+    | ConversationCreateParams.OpenAIResponseMessageInput
     | ConversationCreateParams.OpenAIResponseOutputMessageWebSearchToolCall
     | ConversationCreateParams.OpenAIResponseOutputMessageFileSearchToolCall
     | ConversationCreateParams.OpenAIResponseOutputMessageFunctionToolCall
@@ -95,12 +129,9 @@ export interface ConversationCreateParams {
     | ConversationCreateParams.OpenAIResponseMcpApprovalResponse
     | ConversationCreateParams.OpenAIResponseOutputMessageMcpCall
     | ConversationCreateParams.OpenAIResponseOutputMessageMcpListTools
-  >;
+  > | null;
 
-  /**
-   * Set of key-value pairs that can be attached to an object.
-   */
-  metadata?: { [key: string]: string };
+  metadata?: { [key: string]: string } | null;
 }
 
 export namespace ConversationCreateParams {
@@ -109,110 +140,77 @@ export namespace ConversationCreateParams {
    * under one type because the Responses API gives them all the same "type" value,
    * and there is no way to tell them apart in certain scenarios.
    */
-  export interface OpenAIResponseMessage {
+  export interface OpenAIResponseMessageInput {
     content:
       | string
       | Array<
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentFile
+          | OpenAIResponseMessageInput.OpenAIResponseInputMessageContentText
+          | OpenAIResponseMessageInput.OpenAIResponseInputMessageContentImage
+          | OpenAIResponseMessageInput.OpenAIResponseInputMessageContentFile
         >
       | Array<
-          | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
-          | OpenAIResponseMessage.OpenAIResponseContentPartRefusal
+          | OpenAIResponseMessageInput.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessageInput.OpenAIResponseContentPartRefusal
         >;
 
     role: 'system' | 'developer' | 'user' | 'assistant';
 
-    type: 'message';
+    id?: string | null;
 
-    id?: string;
+    status?: string | null;
 
-    status?: string;
+    type?: 'message';
   }
 
-  export namespace OpenAIResponseMessage {
+  export namespace OpenAIResponseMessageInput {
     /**
      * Text content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentText {
-      /**
-       * The text content of the input message
-       */
       text: string;
 
-      /**
-       * Content type identifier, always "input_text"
-       */
-      type: 'input_text';
+      type?: 'input_text';
     }
 
     /**
      * Image content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentImage {
-      /**
-       * Level of detail for image processing, can be "low", "high", or "auto"
-       */
-      detail: 'low' | 'high' | 'auto';
+      detail?: 'low' | 'high' | 'auto';
 
-      /**
-       * Content type identifier, always "input_image"
-       */
-      type: 'input_image';
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      image_url?: string | null;
 
-      /**
-       * (Optional) URL of the image content
-       */
-      image_url?: string;
+      type?: 'input_image';
     }
 
     /**
      * File content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentFile {
-      /**
-       * The type of the input item. Always `input_file`.
-       */
-      type: 'input_file';
+      file_data?: string | null;
 
-      /**
-       * The data of the file to be sent to the model.
-       */
-      file_data?: string;
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      file_url?: string | null;
 
-      /**
-       * The URL of the file to be sent to the model.
-       */
-      file_url?: string;
+      filename?: string | null;
 
-      /**
-       * The name of the file to be sent to the model.
-       */
-      filename?: string;
+      type?: 'input_file';
     }
 
     export interface OpenAIResponseOutputMessageContentOutputText {
-      annotations: Array<
+      text: string;
+
+      annotations?: Array<
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
       >;
 
-      text: string;
-
-      type: 'output_text';
+      type?: 'output_text';
     }
 
     export namespace OpenAIResponseOutputMessageContentOutputText {
@@ -220,55 +218,28 @@ export namespace ConversationCreateParams {
        * File citation annotation for referencing specific files in response content.
        */
       export interface OpenAIResponseAnnotationFileCitation {
-        /**
-         * Unique identifier of the referenced file
-         */
         file_id: string;
 
-        /**
-         * Name of the referenced file
-         */
         filename: string;
 
-        /**
-         * Position index of the citation within the content
-         */
         index: number;
 
-        /**
-         * Annotation type identifier, always "file_citation"
-         */
-        type: 'file_citation';
+        type?: 'file_citation';
       }
 
       /**
        * URL citation annotation for referencing external web resources.
        */
       export interface OpenAIResponseAnnotationCitation {
-        /**
-         * End position of the citation span in the content
-         */
         end_index: number;
 
-        /**
-         * Start position of the citation span in the content
-         */
         start_index: number;
 
-        /**
-         * Title of the referenced web resource
-         */
         title: string;
 
-        /**
-         * Annotation type identifier, always "url_citation"
-         */
-        type: 'url_citation';
-
-        /**
-         * URL of the referenced web resource
-         */
         url: string;
+
+        type?: 'url_citation';
       }
 
       export interface OpenAIResponseAnnotationContainerFileCitation {
@@ -282,7 +253,7 @@ export namespace ConversationCreateParams {
 
         start_index: number;
 
-        type: 'container_file_citation';
+        type?: 'container_file_citation';
       }
 
       export interface OpenAIResponseAnnotationFilePath {
@@ -290,7 +261,7 @@ export namespace ConversationCreateParams {
 
         index: number;
 
-        type: 'file_path';
+        type?: 'file_path';
       }
     }
 
@@ -298,15 +269,9 @@ export namespace ConversationCreateParams {
      * Refusal content within a streamed response part.
      */
     export interface OpenAIResponseContentPartRefusal {
-      /**
-       * Refusal text supplied by the model
-       */
       refusal: string;
 
-      /**
-       * Content part type identifier, always "refusal"
-       */
-      type: 'refusal';
+      type?: 'refusal';
     }
   }
 
@@ -314,50 +279,26 @@ export namespace ConversationCreateParams {
    * Web search tool call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageWebSearchToolCall {
-    /**
-     * Unique identifier for this tool call
-     */
     id: string;
 
-    /**
-     * Current status of the web search operation
-     */
     status: string;
 
-    /**
-     * Tool call type identifier, always "web_search_call"
-     */
-    type: 'web_search_call';
+    type?: 'web_search_call';
   }
 
   /**
    * File search tool call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageFileSearchToolCall {
-    /**
-     * Unique identifier for this tool call
-     */
     id: string;
 
-    /**
-     * List of search queries executed
-     */
     queries: Array<string>;
 
-    /**
-     * Current status of the file search operation
-     */
     status: string;
 
-    /**
-     * Tool call type identifier, always "file_search_call"
-     */
-    type: 'file_search_call';
+    results?: Array<OpenAIResponseOutputMessageFileSearchToolCall.Result> | null;
 
-    /**
-     * (Optional) Search results returned by the file search operation
-     */
-    results?: Array<OpenAIResponseOutputMessageFileSearchToolCall.Result>;
+    type?: 'file_search_call';
   }
 
   export namespace OpenAIResponseOutputMessageFileSearchToolCall {
@@ -365,29 +306,14 @@ export namespace ConversationCreateParams {
      * Search results returned by the file search operation.
      */
     export interface Result {
-      /**
-       * (Optional) Key-value attributes associated with the file
-       */
-      attributes: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+      attributes: { [key: string]: unknown };
 
-      /**
-       * Unique identifier of the file containing the result
-       */
       file_id: string;
 
-      /**
-       * Name of the file containing the result
-       */
       filename: string;
 
-      /**
-       * Relevance score for this search result (between 0 and 1)
-       */
       score: number;
 
-      /**
-       * Text content of the search result
-       */
       text: string;
     }
   }
@@ -396,35 +322,17 @@ export namespace ConversationCreateParams {
    * Function tool call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageFunctionToolCall {
-    /**
-     * JSON string containing the function arguments
-     */
     arguments: string;
 
-    /**
-     * Unique identifier for the function call
-     */
     call_id: string;
 
-    /**
-     * Name of the function being called
-     */
     name: string;
 
-    /**
-     * Tool call type identifier, always "function_call"
-     */
-    type: 'function_call';
+    id?: string | null;
 
-    /**
-     * (Optional) Additional identifier for the tool call
-     */
-    id?: string;
+    status?: string | null;
 
-    /**
-     * (Optional) Current status of the function call execution
-     */
-    status?: string;
+    type?: 'function_call';
   }
 
   /**
@@ -436,11 +344,11 @@ export namespace ConversationCreateParams {
 
     output: string;
 
-    type: 'function_call_output';
+    id?: string | null;
 
-    id?: string;
+    status?: string | null;
 
-    status?: string;
+    type?: 'function_call_output';
   }
 
   /**
@@ -455,7 +363,7 @@ export namespace ConversationCreateParams {
 
     server_label: string;
 
-    type: 'mcp_approval_request';
+    type?: 'mcp_approval_request';
   }
 
   /**
@@ -466,76 +374,43 @@ export namespace ConversationCreateParams {
 
     approve: boolean;
 
-    type: 'mcp_approval_response';
+    id?: string | null;
 
-    id?: string;
+    reason?: string | null;
 
-    reason?: string;
+    type?: 'mcp_approval_response';
   }
 
   /**
    * Model Context Protocol (MCP) call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageMcpCall {
-    /**
-     * Unique identifier for this MCP call
-     */
     id: string;
 
-    /**
-     * JSON string containing the MCP call arguments
-     */
     arguments: string;
 
-    /**
-     * Name of the MCP method being called
-     */
     name: string;
 
-    /**
-     * Label identifying the MCP server handling the call
-     */
     server_label: string;
 
-    /**
-     * Tool call type identifier, always "mcp_call"
-     */
-    type: 'mcp_call';
+    error?: string | null;
 
-    /**
-     * (Optional) Error message if the MCP call failed
-     */
-    error?: string;
+    output?: string | null;
 
-    /**
-     * (Optional) Output result from the successful MCP call
-     */
-    output?: string;
+    type?: 'mcp_call';
   }
 
   /**
    * MCP list tools output message containing available tools from an MCP server.
    */
   export interface OpenAIResponseOutputMessageMcpListTools {
-    /**
-     * Unique identifier for this MCP list tools operation
-     */
     id: string;
 
-    /**
-     * Label identifying the MCP server providing the tools
-     */
     server_label: string;
 
-    /**
-     * List of available tools provided by the MCP server
-     */
     tools: Array<OpenAIResponseOutputMessageMcpListTools.Tool>;
 
-    /**
-     * Tool call type identifier, always "mcp_list_tools"
-     */
-    type: 'mcp_list_tools';
+    type?: 'mcp_list_tools';
   }
 
   export namespace OpenAIResponseOutputMessageMcpListTools {
@@ -543,28 +418,16 @@ export namespace ConversationCreateParams {
      * Tool definition returned by MCP list tools operation.
      */
     export interface Tool {
-      /**
-       * JSON schema defining the tool's input parameters
-       */
-      input_schema: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+      input_schema: { [key: string]: unknown };
 
-      /**
-       * Name of the tool
-       */
       name: string;
 
-      /**
-       * (Optional) Description of what the tool does
-       */
-      description?: string;
+      description?: string | null;
     }
   }
 }
 
 export interface ConversationUpdateParams {
-  /**
-   * Set of key-value pairs that can be attached to an object.
-   */
   metadata: { [key: string]: string };
 }
 
@@ -583,6 +446,7 @@ export declare namespace Conversations {
     Items as Items,
     type ItemCreateResponse as ItemCreateResponse,
     type ItemListResponse as ItemListResponse,
+    type ItemDeleteResponse as ItemDeleteResponse,
     type ItemGetResponse as ItemGetResponse,
     ItemListResponsesOpenAICursorPage as ItemListResponsesOpenAICursorPage,
     type ItemCreateParams as ItemCreateParams,

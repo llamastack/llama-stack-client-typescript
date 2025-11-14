@@ -53,11 +53,7 @@ describe('resource prompts', () => {
   });
 
   test('update: only required params', async () => {
-    const responsePromise = client.prompts.update('prompt_id', {
-      prompt: 'prompt',
-      set_as_default: true,
-      version: 0,
-    });
+    const responsePromise = client.prompts.update('prompt_id', { prompt: 'prompt', version: 0 });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -70,8 +66,8 @@ describe('resource prompts', () => {
   test('update: required and optional params', async () => {
     const response = await client.prompts.update('prompt_id', {
       prompt: 'prompt',
-      set_as_default: true,
       version: 0,
+      set_as_default: true,
       variables: ['string'],
     });
   });

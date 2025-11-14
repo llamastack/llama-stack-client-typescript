@@ -53,65 +53,32 @@ export namespace AlgorithmConfig {
    * Configuration for Low-Rank Adaptation (LoRA) fine-tuning.
    */
   export interface LoraFinetuningConfig {
-    /**
-     * LoRA scaling parameter that controls adaptation strength
-     */
     alpha: number;
 
-    /**
-     * Whether to apply LoRA to MLP layers
-     */
     apply_lora_to_mlp: boolean;
 
-    /**
-     * Whether to apply LoRA to output projection layers
-     */
     apply_lora_to_output: boolean;
 
-    /**
-     * List of attention module names to apply LoRA to
-     */
     lora_attn_modules: Array<string>;
 
-    /**
-     * Rank of the LoRA adaptation (lower rank = fewer parameters)
-     */
     rank: number;
 
-    /**
-     * Algorithm type identifier, always "LoRA"
-     */
-    type: 'LoRA';
+    quantize_base?: boolean | null;
 
-    /**
-     * (Optional) Whether to quantize the base model weights
-     */
-    quantize_base?: boolean;
+    type?: 'LoRA';
 
-    /**
-     * (Optional) Whether to use DoRA (Weight-Decomposed Low-Rank Adaptation)
-     */
-    use_dora?: boolean;
+    use_dora?: boolean | null;
   }
 
   /**
    * Configuration for Quantization-Aware Training (QAT) fine-tuning.
    */
   export interface QatFinetuningConfig {
-    /**
-     * Size of groups for grouped quantization
-     */
     group_size: number;
 
-    /**
-     * Name of the quantization algorithm to use
-     */
     quantizer_name: string;
 
-    /**
-     * Algorithm type identifier, always "QAT"
-     */
-    type: 'QAT';
+    type?: 'QAT';
   }
 }
 
@@ -125,365 +92,260 @@ export interface PostTrainingJob {
 
 export interface PostTrainingPreferenceOptimizeParams {
   /**
-   * The algorithm configuration.
+   * Configuration for Direct Preference Optimization (DPO) alignment.
    */
   algorithm_config: PostTrainingPreferenceOptimizeParams.AlgorithmConfig;
 
-  /**
-   * The model to fine-tune.
-   */
   finetuned_model: string;
 
-  /**
-   * The hyperparam search configuration.
-   */
-  hyperparam_search_config: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  hyperparam_search_config: { [key: string]: unknown };
 
-  /**
-   * The UUID of the job to create.
-   */
   job_uuid: string;
 
-  /**
-   * The logger configuration.
-   */
-  logger_config: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  logger_config: { [key: string]: unknown };
 
   /**
-   * The training configuration.
+   * Comprehensive configuration for the training process.
    */
   training_config: PostTrainingPreferenceOptimizeParams.TrainingConfig;
 }
 
 export namespace PostTrainingPreferenceOptimizeParams {
   /**
-   * The algorithm configuration.
+   * Configuration for Direct Preference Optimization (DPO) alignment.
    */
   export interface AlgorithmConfig {
-    /**
-     * Temperature parameter for the DPO loss
-     */
     beta: number;
 
-    /**
-     * The type of loss function to use for DPO
-     */
-    loss_type: 'sigmoid' | 'hinge' | 'ipo' | 'kto_pair';
+    loss_type?: 'sigmoid' | 'hinge' | 'ipo' | 'kto_pair';
   }
 
   /**
-   * The training configuration.
+   * Comprehensive configuration for the training process.
    */
   export interface TrainingConfig {
-    /**
-     * Number of steps to accumulate gradients before updating
-     */
-    gradient_accumulation_steps: number;
-
-    /**
-     * Maximum number of steps to run per epoch
-     */
-    max_steps_per_epoch: number;
-
-    /**
-     * Number of training epochs to run
-     */
     n_epochs: number;
 
     /**
-     * (Optional) Configuration for data loading and formatting
+     * Configuration for training data and data loading.
      */
-    data_config?: TrainingConfig.DataConfig;
+    data_config?: TrainingConfig.DataConfig | null;
+
+    dtype?: string | null;
 
     /**
-     * (Optional) Data type for model parameters (bf16, fp16, fp32)
+     * Configuration for memory and compute efficiency optimizations.
      */
-    dtype?: string;
+    efficiency_config?: TrainingConfig.EfficiencyConfig | null;
+
+    gradient_accumulation_steps?: number;
+
+    max_steps_per_epoch?: number;
+
+    max_validation_steps?: number | null;
 
     /**
-     * (Optional) Configuration for memory and compute optimizations
+     * Configuration parameters for the optimization algorithm.
      */
-    efficiency_config?: TrainingConfig.EfficiencyConfig;
-
-    /**
-     * (Optional) Maximum number of validation steps per epoch
-     */
-    max_validation_steps?: number;
-
-    /**
-     * (Optional) Configuration for the optimization algorithm
-     */
-    optimizer_config?: TrainingConfig.OptimizerConfig;
+    optimizer_config?: TrainingConfig.OptimizerConfig | null;
   }
 
   export namespace TrainingConfig {
     /**
-     * (Optional) Configuration for data loading and formatting
+     * Configuration for training data and data loading.
      */
     export interface DataConfig {
-      /**
-       * Number of samples per training batch
-       */
       batch_size: number;
 
       /**
-       * Format of the dataset (instruct or dialog)
+       * Format of the training dataset.
        */
       data_format: 'instruct' | 'dialog';
 
-      /**
-       * Unique identifier for the training dataset
-       */
       dataset_id: string;
 
-      /**
-       * Whether to shuffle the dataset during training
-       */
       shuffle: boolean;
 
-      /**
-       * (Optional) Whether to pack multiple samples into a single sequence for
-       * efficiency
-       */
-      packed?: boolean;
+      packed?: boolean | null;
 
-      /**
-       * (Optional) Whether to compute loss on input tokens as well as output tokens
-       */
-      train_on_input?: boolean;
+      train_on_input?: boolean | null;
 
-      /**
-       * (Optional) Unique identifier for the validation dataset
-       */
-      validation_dataset_id?: string;
+      validation_dataset_id?: string | null;
     }
 
     /**
-     * (Optional) Configuration for memory and compute optimizations
+     * Configuration for memory and compute efficiency optimizations.
      */
     export interface EfficiencyConfig {
-      /**
-       * (Optional) Whether to use activation checkpointing to reduce memory usage
-       */
-      enable_activation_checkpointing?: boolean;
+      enable_activation_checkpointing?: boolean | null;
 
-      /**
-       * (Optional) Whether to offload activations to CPU to save GPU memory
-       */
-      enable_activation_offloading?: boolean;
+      enable_activation_offloading?: boolean | null;
 
-      /**
-       * (Optional) Whether to offload FSDP parameters to CPU
-       */
-      fsdp_cpu_offload?: boolean;
+      fsdp_cpu_offload?: boolean | null;
 
-      /**
-       * (Optional) Whether to use memory-efficient FSDP wrapping
-       */
-      memory_efficient_fsdp_wrap?: boolean;
+      memory_efficient_fsdp_wrap?: boolean | null;
     }
 
     /**
-     * (Optional) Configuration for the optimization algorithm
+     * Configuration parameters for the optimization algorithm.
      */
     export interface OptimizerConfig {
-      /**
-       * Learning rate for the optimizer
-       */
       lr: number;
 
-      /**
-       * Number of steps for learning rate warmup
-       */
       num_warmup_steps: number;
 
       /**
-       * Type of optimizer to use (adam, adamw, or sgd)
+       * Available optimizer algorithms for training.
        */
       optimizer_type: 'adam' | 'adamw' | 'sgd';
 
-      /**
-       * Weight decay coefficient for regularization
-       */
       weight_decay: number;
     }
   }
 }
 
 export interface PostTrainingSupervisedFineTuneParams {
-  /**
-   * The hyperparam search configuration.
-   */
-  hyperparam_search_config: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  hyperparam_search_config: { [key: string]: unknown };
 
-  /**
-   * The UUID of the job to create.
-   */
   job_uuid: string;
 
-  /**
-   * The logger configuration.
-   */
-  logger_config: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  logger_config: { [key: string]: unknown };
 
   /**
-   * The training configuration.
+   * Comprehensive configuration for the training process.
    */
   training_config: PostTrainingSupervisedFineTuneParams.TrainingConfig;
 
   /**
-   * The algorithm configuration.
+   * Configuration for Low-Rank Adaptation (LoRA) fine-tuning.
    */
-  algorithm_config?: AlgorithmConfig;
+  algorithm_config?:
+    | PostTrainingSupervisedFineTuneParams.LoraFinetuningConfig
+    | PostTrainingSupervisedFineTuneParams.QatFinetuningConfig
+    | null;
+
+  checkpoint_dir?: string | null;
 
   /**
-   * The directory to save checkpoint(s) to.
+   * Model descriptor for training if not in provider config`
    */
-  checkpoint_dir?: string;
-
-  /**
-   * The model to fine-tune.
-   */
-  model?: string;
+  model?: string | null;
 }
 
 export namespace PostTrainingSupervisedFineTuneParams {
   /**
-   * The training configuration.
+   * Comprehensive configuration for the training process.
    */
   export interface TrainingConfig {
-    /**
-     * Number of steps to accumulate gradients before updating
-     */
-    gradient_accumulation_steps: number;
-
-    /**
-     * Maximum number of steps to run per epoch
-     */
-    max_steps_per_epoch: number;
-
-    /**
-     * Number of training epochs to run
-     */
     n_epochs: number;
 
     /**
-     * (Optional) Configuration for data loading and formatting
+     * Configuration for training data and data loading.
      */
-    data_config?: TrainingConfig.DataConfig;
+    data_config?: TrainingConfig.DataConfig | null;
+
+    dtype?: string | null;
 
     /**
-     * (Optional) Data type for model parameters (bf16, fp16, fp32)
+     * Configuration for memory and compute efficiency optimizations.
      */
-    dtype?: string;
+    efficiency_config?: TrainingConfig.EfficiencyConfig | null;
+
+    gradient_accumulation_steps?: number;
+
+    max_steps_per_epoch?: number;
+
+    max_validation_steps?: number | null;
 
     /**
-     * (Optional) Configuration for memory and compute optimizations
+     * Configuration parameters for the optimization algorithm.
      */
-    efficiency_config?: TrainingConfig.EfficiencyConfig;
-
-    /**
-     * (Optional) Maximum number of validation steps per epoch
-     */
-    max_validation_steps?: number;
-
-    /**
-     * (Optional) Configuration for the optimization algorithm
-     */
-    optimizer_config?: TrainingConfig.OptimizerConfig;
+    optimizer_config?: TrainingConfig.OptimizerConfig | null;
   }
 
   export namespace TrainingConfig {
     /**
-     * (Optional) Configuration for data loading and formatting
+     * Configuration for training data and data loading.
      */
     export interface DataConfig {
-      /**
-       * Number of samples per training batch
-       */
       batch_size: number;
 
       /**
-       * Format of the dataset (instruct or dialog)
+       * Format of the training dataset.
        */
       data_format: 'instruct' | 'dialog';
 
-      /**
-       * Unique identifier for the training dataset
-       */
       dataset_id: string;
 
-      /**
-       * Whether to shuffle the dataset during training
-       */
       shuffle: boolean;
 
-      /**
-       * (Optional) Whether to pack multiple samples into a single sequence for
-       * efficiency
-       */
-      packed?: boolean;
+      packed?: boolean | null;
 
-      /**
-       * (Optional) Whether to compute loss on input tokens as well as output tokens
-       */
-      train_on_input?: boolean;
+      train_on_input?: boolean | null;
 
-      /**
-       * (Optional) Unique identifier for the validation dataset
-       */
-      validation_dataset_id?: string;
+      validation_dataset_id?: string | null;
     }
 
     /**
-     * (Optional) Configuration for memory and compute optimizations
+     * Configuration for memory and compute efficiency optimizations.
      */
     export interface EfficiencyConfig {
-      /**
-       * (Optional) Whether to use activation checkpointing to reduce memory usage
-       */
-      enable_activation_checkpointing?: boolean;
+      enable_activation_checkpointing?: boolean | null;
 
-      /**
-       * (Optional) Whether to offload activations to CPU to save GPU memory
-       */
-      enable_activation_offloading?: boolean;
+      enable_activation_offloading?: boolean | null;
 
-      /**
-       * (Optional) Whether to offload FSDP parameters to CPU
-       */
-      fsdp_cpu_offload?: boolean;
+      fsdp_cpu_offload?: boolean | null;
 
-      /**
-       * (Optional) Whether to use memory-efficient FSDP wrapping
-       */
-      memory_efficient_fsdp_wrap?: boolean;
+      memory_efficient_fsdp_wrap?: boolean | null;
     }
 
     /**
-     * (Optional) Configuration for the optimization algorithm
+     * Configuration parameters for the optimization algorithm.
      */
     export interface OptimizerConfig {
-      /**
-       * Learning rate for the optimizer
-       */
       lr: number;
 
-      /**
-       * Number of steps for learning rate warmup
-       */
       num_warmup_steps: number;
 
       /**
-       * Type of optimizer to use (adam, adamw, or sgd)
+       * Available optimizer algorithms for training.
        */
       optimizer_type: 'adam' | 'adamw' | 'sgd';
 
-      /**
-       * Weight decay coefficient for regularization
-       */
       weight_decay: number;
     }
+  }
+
+  /**
+   * Configuration for Low-Rank Adaptation (LoRA) fine-tuning.
+   */
+  export interface LoraFinetuningConfig {
+    alpha: number;
+
+    apply_lora_to_mlp: boolean;
+
+    apply_lora_to_output: boolean;
+
+    lora_attn_modules: Array<string>;
+
+    rank: number;
+
+    quantize_base?: boolean | null;
+
+    type?: 'LoRA';
+
+    use_dora?: boolean | null;
+  }
+
+  /**
+   * Configuration for Quantization-Aware Training (QAT) fine-tuning.
+   */
+  export interface QatFinetuningConfig {
+    group_size: number;
+
+    quantizer_name: string;
+
+    type?: 'QAT';
   }
 }
 

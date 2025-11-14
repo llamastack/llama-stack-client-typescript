@@ -28,11 +28,11 @@ describe('resource completions', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.chat.completions.create({
-      messages: [{ content: 'string', role: 'user', name: 'name' }],
+      messages: [{ content: 'string', name: 'name', role: 'user' }],
       model: 'model',
       frequency_penalty: 0,
       function_call: 'string',
-      functions: [{ foo: true }],
+      functions: [{ foo: 'bar' }],
       logit_bias: { foo: 0 },
       logprobs: true,
       max_completion_tokens: 0,
@@ -44,10 +44,10 @@ describe('resource completions', () => {
       seed: 0,
       stop: 'string',
       stream: false,
-      stream_options: { foo: true },
+      stream_options: { foo: 'bar' },
       temperature: 0,
       tool_choice: 'string',
-      tools: [{ foo: true }],
+      tools: [{ foo: 'bar' }],
       top_logprobs: 0,
       top_p: 0,
       user: 'user',

@@ -68,9 +68,27 @@ describe('resource benchmarks', () => {
       benchmark_id: 'benchmark_id',
       dataset_id: 'dataset_id',
       scoring_functions: ['string'],
-      metadata: { foo: true },
+      metadata: { foo: 'bar' },
       provider_benchmark_id: 'provider_benchmark_id',
       provider_id: 'provider_id',
     });
+  });
+
+  test('unregister', async () => {
+    const responsePromise = client.alpha.benchmarks.unregister('benchmark_id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('unregister: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.alpha.benchmarks.unregister('benchmark_id', { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(LlamaStackClient.NotFoundError);
   });
 });
