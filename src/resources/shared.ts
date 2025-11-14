@@ -13,7 +13,7 @@ export type InterleavedContent =
   | string
   | InterleavedContent.ImageContentItem
   | InterleavedContent.TextContentItem
-  | Array<InterleavedContentItem>;
+  | Array<InterleavedContent.ImageContentItem | InterleavedContent.TextContentItem>;
 
 export namespace InterleavedContent {
   /**
@@ -21,42 +21,31 @@ export namespace InterleavedContent {
    */
   export interface ImageContentItem {
     /**
-     * Image as a base64 encoded string or an URL
+     * A URL or a base64 encoded string
      */
     image: ImageContentItem.Image;
 
-    /**
-     * Discriminator type of the content item. Always "image"
-     */
-    type: 'image';
+    type?: 'image';
   }
 
   export namespace ImageContentItem {
     /**
-     * Image as a base64 encoded string or an URL
+     * A URL or a base64 encoded string
      */
     export interface Image {
-      /**
-       * base64 encoded image data as string
-       */
-      data?: string;
+      data?: string | null;
 
       /**
-       * A URL of the image or data URL in the format of data:image/{type};base64,{data}.
-       * Note that URL could have length limits.
+       * A URL reference to external content.
        */
-      url?: Image.URL;
+      url?: Image.URL | null;
     }
 
     export namespace Image {
       /**
-       * A URL of the image or data URL in the format of data:image/{type};base64,{data}.
-       * Note that URL could have length limits.
+       * A URL reference to external content.
        */
       export interface URL {
-        /**
-         * The URL string pointing to the resource
-         */
         uri: string;
       }
     }
@@ -66,15 +55,53 @@ export namespace InterleavedContent {
    * A text content item
    */
   export interface TextContentItem {
-    /**
-     * Text content
-     */
     text: string;
 
+    type?: 'text';
+  }
+
+  /**
+   * A image content item
+   */
+  export interface ImageContentItem {
     /**
-     * Discriminator type of the content item. Always "text"
+     * A URL or a base64 encoded string
      */
-    type: 'text';
+    image: ImageContentItem.Image;
+
+    type?: 'image';
+  }
+
+  export namespace ImageContentItem {
+    /**
+     * A URL or a base64 encoded string
+     */
+    export interface Image {
+      data?: string | null;
+
+      /**
+       * A URL reference to external content.
+       */
+      url?: Image.URL | null;
+    }
+
+    export namespace Image {
+      /**
+       * A URL reference to external content.
+       */
+      export interface URL {
+        uri: string;
+      }
+    }
+  }
+
+  /**
+   * A text content item
+   */
+  export interface TextContentItem {
+    text: string;
+
+    type?: 'text';
   }
 }
 
@@ -91,42 +118,31 @@ export namespace InterleavedContentItem {
    */
   export interface ImageContentItem {
     /**
-     * Image as a base64 encoded string or an URL
+     * A URL or a base64 encoded string
      */
     image: ImageContentItem.Image;
 
-    /**
-     * Discriminator type of the content item. Always "image"
-     */
-    type: 'image';
+    type?: 'image';
   }
 
   export namespace ImageContentItem {
     /**
-     * Image as a base64 encoded string or an URL
+     * A URL or a base64 encoded string
      */
     export interface Image {
-      /**
-       * base64 encoded image data as string
-       */
-      data?: string;
+      data?: string | null;
 
       /**
-       * A URL of the image or data URL in the format of data:image/{type};base64,{data}.
-       * Note that URL could have length limits.
+       * A URL reference to external content.
        */
-      url?: Image.URL;
+      url?: Image.URL | null;
     }
 
     export namespace Image {
       /**
-       * A URL of the image or data URL in the format of data:image/{type};base64,{data}.
-       * Note that URL could have length limits.
+       * A URL reference to external content.
        */
       export interface URL {
-        /**
-         * The URL string pointing to the resource
-         */
         uri: string;
       }
     }
@@ -136,15 +152,9 @@ export namespace InterleavedContentItem {
    * A text content item
    */
   export interface TextContentItem {
-    /**
-     * Text content
-     */
     text: string;
 
-    /**
-     * Discriminator type of the content item. Always "text"
-     */
-    type: 'text';
+    type?: 'text';
   }
 }
 
@@ -167,90 +177,63 @@ export namespace ParamType {
    * Parameter type for string values.
    */
   export interface StringType {
-    /**
-     * Discriminator type. Always "string"
-     */
-    type: 'string';
+    type?: 'string';
   }
 
   /**
    * Parameter type for numeric values.
    */
   export interface NumberType {
-    /**
-     * Discriminator type. Always "number"
-     */
-    type: 'number';
+    type?: 'number';
   }
 
   /**
    * Parameter type for boolean values.
    */
   export interface BooleanType {
-    /**
-     * Discriminator type. Always "boolean"
-     */
-    type: 'boolean';
+    type?: 'boolean';
   }
 
   /**
    * Parameter type for array values.
    */
   export interface ArrayType {
-    /**
-     * Discriminator type. Always "array"
-     */
-    type: 'array';
+    type?: 'array';
   }
 
   /**
    * Parameter type for object values.
    */
   export interface ObjectType {
-    /**
-     * Discriminator type. Always "object"
-     */
-    type: 'object';
+    type?: 'object';
   }
 
   /**
    * Parameter type for JSON values.
    */
   export interface JsonType {
-    /**
-     * Discriminator type. Always "json"
-     */
-    type: 'json';
+    type?: 'json';
   }
 
   /**
    * Parameter type for union values.
    */
   export interface UnionType {
-    /**
-     * Discriminator type. Always "union"
-     */
-    type: 'union';
+    type?: 'union';
   }
 
   /**
    * Parameter type for chat completion input.
    */
   export interface ChatCompletionInputType {
-    /**
-     * Discriminator type. Always "chat_completion_input"
-     */
-    type: 'chat_completion_input';
+    type?: 'chat_completion_input';
   }
 
   /**
    * Parameter type for completion input.
    */
   export interface CompletionInputType {
-    /**
-     * Discriminator type. Always "completion_input"
-     */
-    type: 'completion_input';
+    type?: 'completion_input';
   }
 }
 
@@ -259,52 +242,33 @@ export namespace ParamType {
  */
 export interface SafetyViolation {
   /**
-   * Additional metadata including specific violation codes for debugging and
-   * telemetry
-   */
-  metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-  /**
-   * Severity level of the violation
+   * Severity level of a safety violation.
    */
   violation_level: 'info' | 'warn' | 'error';
 
-  /**
-   * (Optional) Message to convey to the user about the violation
-   */
-  user_message?: string;
+  metadata?: { [key: string]: unknown };
+
+  user_message?: string | null;
 }
 
 /**
  * Sampling parameters.
  */
 export interface SamplingParams {
+  max_tokens?: number | null;
+
+  repetition_penalty?: number | null;
+
+  stop?: Array<string> | null;
+
   /**
-   * The sampling strategy.
+   * Greedy sampling strategy that selects the highest probability token at each
+   * step.
    */
-  strategy:
+  strategy?:
     | SamplingParams.GreedySamplingStrategy
     | SamplingParams.TopPSamplingStrategy
     | SamplingParams.TopKSamplingStrategy;
-
-  /**
-   * The maximum number of tokens that can be generated in the completion. The token
-   * count of your prompt plus max_tokens cannot exceed the model's context length.
-   */
-  max_tokens?: number;
-
-  /**
-   * Number between -2.0 and 2.0. Positive values penalize new tokens based on
-   * whether they appear in the text so far, increasing the model's likelihood to
-   * talk about new topics.
-   */
-  repetition_penalty?: number;
-
-  /**
-   * Up to 4 sequences where the API will stop generating further tokens. The
-   * returned text will not contain the stop sequence.
-   */
-  stop?: Array<string>;
 }
 
 export namespace SamplingParams {
@@ -313,10 +277,7 @@ export namespace SamplingParams {
    * step.
    */
   export interface GreedySamplingStrategy {
-    /**
-     * Must be "greedy" to identify this sampling strategy
-     */
-    type: 'greedy';
+    type?: 'greedy';
   }
 
   /**
@@ -324,35 +285,20 @@ export namespace SamplingParams {
    * with cumulative probability >= p.
    */
   export interface TopPSamplingStrategy {
-    /**
-     * Must be "top_p" to identify this sampling strategy
-     */
-    type: 'top_p';
+    temperature: number | null;
 
-    /**
-     * Controls randomness in sampling. Higher values increase randomness
-     */
-    temperature?: number;
+    top_p?: number | null;
 
-    /**
-     * Cumulative probability threshold for nucleus sampling. Defaults to 0.95
-     */
-    top_p?: number;
+    type?: 'top_p';
   }
 
   /**
    * Top-k sampling strategy that restricts sampling to the k most likely tokens.
    */
   export interface TopKSamplingStrategy {
-    /**
-     * Number of top tokens to consider for sampling. Must be at least 1
-     */
     top_k: number;
 
-    /**
-     * Must be "top_k" to identify this sampling strategy
-     */
-    type: 'top_k';
+    type?: 'top_k';
   }
 }
 
@@ -360,15 +306,9 @@ export namespace SamplingParams {
  * A scoring result for a single row.
  */
 export interface ScoringResult {
-  /**
-   * Map of metric name to aggregated value
-   */
-  aggregated_results: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  aggregated_results: { [key: string]: unknown };
 
-  /**
-   * The scoring result for each row. Each row is a map of column name to value.
-   */
-  score_rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
+  score_rows: Array<{ [key: string]: unknown }>;
 }
 
 /**
@@ -376,14 +316,103 @@ export interface ScoringResult {
  */
 export interface SystemMessage {
   /**
-   * The content of the "system prompt". If multiple system messages are provided,
-   * they are concatenated. The underlying Llama Stack code may also add other system
-   * messages (for example, for formatting tool definitions).
+   * A image content item
    */
-  content: InterleavedContent;
+  content:
+    | string
+    | SystemMessage.ImageContentItemInput
+    | SystemMessage.TextContentItem
+    | Array<SystemMessage.ImageContentItemInput | SystemMessage.TextContentItem>;
+
+  role?: 'system';
+}
+
+export namespace SystemMessage {
+  /**
+   * A image content item
+   */
+  export interface ImageContentItemInput {
+    /**
+     * A URL or a base64 encoded string
+     */
+    image: ImageContentItemInput.Image;
+
+    type?: 'image';
+  }
+
+  export namespace ImageContentItemInput {
+    /**
+     * A URL or a base64 encoded string
+     */
+    export interface Image {
+      data?: string | null;
+
+      /**
+       * A URL reference to external content.
+       */
+      url?: Image.URL | null;
+    }
+
+    export namespace Image {
+      /**
+       * A URL reference to external content.
+       */
+      export interface URL {
+        uri: string;
+      }
+    }
+  }
 
   /**
-   * Must be "system" to identify this as a system message
+   * A text content item
    */
-  role: 'system';
+  export interface TextContentItem {
+    text: string;
+
+    type?: 'text';
+  }
+
+  /**
+   * A image content item
+   */
+  export interface ImageContentItemInput {
+    /**
+     * A URL or a base64 encoded string
+     */
+    image: ImageContentItemInput.Image;
+
+    type?: 'image';
+  }
+
+  export namespace ImageContentItemInput {
+    /**
+     * A URL or a base64 encoded string
+     */
+    export interface Image {
+      data?: string | null;
+
+      /**
+       * A URL reference to external content.
+       */
+      url?: Image.URL | null;
+    }
+
+    export namespace Image {
+      /**
+       * A URL reference to external content.
+       */
+      export interface URL {
+        uri: string;
+      }
+    }
+  }
+
+  /**
+   * A text content item
+   */
+  export interface TextContentItem {
+    text: string;
+
+    type?: 'text';
+  }
 }

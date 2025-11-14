@@ -49,7 +49,7 @@ describe('resource datasets', () => {
   });
 
   test('appendrows: only required params', async () => {
-    const responsePromise = client.beta.datasets.appendrows('dataset_id', { rows: [{ foo: true }] });
+    const responsePromise = client.beta.datasets.appendrows('dataset_id', { rows: [{ foo: 'bar' }] });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -60,7 +60,7 @@ describe('resource datasets', () => {
   });
 
   test('appendrows: required and optional params', async () => {
-    const response = await client.beta.datasets.appendrows('dataset_id', { rows: [{ foo: true }] });
+    const response = await client.beta.datasets.appendrows('dataset_id', { rows: [{ foo: 'bar' }] });
   });
 
   test('iterrows', async () => {
@@ -93,10 +93,7 @@ describe('resource datasets', () => {
   });
 
   test('register: only required params', async () => {
-    const responsePromise = client.beta.datasets.register({
-      purpose: 'post-training/messages',
-      source: { type: 'uri', uri: 'uri' },
-    });
+    const responsePromise = client.beta.datasets.register({ purpose: {}, source: {} });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -108,10 +105,10 @@ describe('resource datasets', () => {
 
   test('register: required and optional params', async () => {
     const response = await client.beta.datasets.register({
-      purpose: 'post-training/messages',
-      source: { type: 'uri', uri: 'uri' },
-      dataset_id: 'dataset_id',
-      metadata: { foo: true },
+      purpose: {},
+      source: {},
+      dataset_id: {},
+      metadata: {},
     });
   });
 

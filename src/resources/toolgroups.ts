@@ -56,9 +56,6 @@ export class Toolgroups extends APIResource {
  * Response containing a list of tool groups.
  */
 export interface ListToolGroupsResponse {
-  /**
-   * List of tool groups
-   */
   data: ToolgroupListResponse;
 }
 
@@ -66,75 +63,60 @@ export interface ListToolGroupsResponse {
  * A group of related tools managed together.
  */
 export interface ToolGroup {
+  /**
+   * Unique identifier for this resource in llama stack
+   */
   identifier: string;
 
+  /**
+   * ID of the provider that owns this resource
+   */
   provider_id: string;
 
-  /**
-   * Type of resource, always 'tool_group'
-   */
-  type: 'tool_group';
+  args?: { [key: string]: unknown } | null;
 
   /**
-   * (Optional) Additional arguments for the tool group
+   * A URL reference to external content.
    */
-  args?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  mcp_endpoint?: ToolGroup.McpEndpoint | null;
 
   /**
-   * (Optional) Model Context Protocol endpoint for remote tools
+   * Unique identifier for this resource in the provider
    */
-  mcp_endpoint?: ToolGroup.McpEndpoint;
+  provider_resource_id?: string | null;
 
-  provider_resource_id?: string;
+  type?: 'tool_group';
 }
 
 export namespace ToolGroup {
   /**
-   * (Optional) Model Context Protocol endpoint for remote tools
+   * A URL reference to external content.
    */
   export interface McpEndpoint {
-    /**
-     * The URL string pointing to the resource
-     */
     uri: string;
   }
 }
 
-/**
- * List of tool groups
- */
 export type ToolgroupListResponse = Array<ToolGroup>;
 
 export interface ToolgroupRegisterParams {
-  /**
-   * The ID of the provider to use for the tool group.
-   */
   provider_id: string;
 
-  /**
-   * The ID of the tool group to register.
-   */
   toolgroup_id: string;
 
-  /**
-   * A dictionary of arguments to pass to the tool group.
-   */
-  args?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+  args?: { [key: string]: unknown } | null;
 
   /**
-   * The MCP endpoint to use for the tool group.
+   * A URL reference to external content.
    */
-  mcp_endpoint?: ToolgroupRegisterParams.McpEndpoint;
+  mcp_endpoint?: ToolgroupRegisterParams.McpEndpoint | null;
 }
 
 export namespace ToolgroupRegisterParams {
   /**
-   * The MCP endpoint to use for the tool group.
+   * A URL reference to external content.
    */
   export interface McpEndpoint {
-    /**
-     * The URL string pointing to the resource
-     */
     uri: string;
   }
 }

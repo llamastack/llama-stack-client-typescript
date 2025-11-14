@@ -18,6 +18,7 @@ export {
   Items,
   type ItemCreateResponse,
   type ItemListResponse,
+  type ItemDeleteResponse,
   type ItemGetResponse,
   type ItemCreateParams,
   type ItemListParams,

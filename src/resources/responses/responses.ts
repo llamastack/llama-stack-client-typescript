@@ -84,31 +84,14 @@ export class ResponseListResponsesOpenAICursorPage extends OpenAICursorPage<Resp
  * Complete OpenAI response object containing generation results and metadata.
  */
 export interface ResponseObject {
-  /**
-   * Unique identifier for this response
-   */
   id: string;
 
-  /**
-   * Unix timestamp when the response was created
-   */
   created_at: number;
 
-  /**
-   * Model identifier used for generation
-   */
   model: string;
 
-  /**
-   * Object type identifier, always "response"
-   */
-  object: 'response';
-
-  /**
-   * List of generated output items (messages, tool calls, etc.)
-   */
   output: Array<
-    | ResponseObject.OpenAIResponseMessage
+    | ResponseObject.OpenAIResponseMessageOutput
     | ResponseObject.OpenAIResponseOutputMessageWebSearchToolCall
     | ResponseObject.OpenAIResponseOutputMessageFileSearchToolCall
     | ResponseObject.OpenAIResponseOutputMessageFunctionToolCall
@@ -117,76 +100,50 @@ export interface ResponseObject {
     | ResponseObject.OpenAIResponseMcpApprovalRequest
   >;
 
-  /**
-   * Whether tool calls can be executed in parallel
-   */
-  parallel_tool_calls: boolean;
-
-  /**
-   * Current status of the response generation
-   */
   status: string;
 
   /**
-   * Text formatting configuration for the response
+   * Error details for failed OpenAI response requests.
    */
-  text: ResponseObject.Text;
+  error?: ResponseObject.Error | null;
+
+  instructions?: string | null;
+
+  max_tool_calls?: number | null;
+
+  object?: 'response';
+
+  parallel_tool_calls?: boolean;
+
+  previous_response_id?: string | null;
 
   /**
-   * (Optional) Error details if the response generation failed
+   * OpenAI compatible Prompt object that is used in OpenAI responses.
    */
-  error?: ResponseObject.Error;
+  prompt?: ResponseObject.Prompt | null;
+
+  temperature?: number | null;
 
   /**
-   * (Optional) System message inserted into the model's context
+   * Text response configuration for OpenAI responses.
    */
-  instructions?: string;
+  text?: ResponseObject.Text;
 
-  /**
-   * (Optional) Max number of total calls to built-in tools that can be processed in
-   * a response
-   */
-  max_tool_calls?: number;
-
-  /**
-   * (Optional) ID of the previous response in a conversation
-   */
-  previous_response_id?: string;
-
-  /**
-   * (Optional) Reference to a prompt template and its variables.
-   */
-  prompt?: ResponseObject.Prompt;
-
-  /**
-   * (Optional) Sampling temperature used for generation
-   */
-  temperature?: number;
-
-  /**
-   * (Optional) An array of tools the model may call while generating a response.
-   */
   tools?: Array<
     | ResponseObject.OpenAIResponseInputToolWebSearch
     | ResponseObject.OpenAIResponseInputToolFileSearch
     | ResponseObject.OpenAIResponseInputToolFunction
     | ResponseObject.OpenAIResponseToolMcp
-  >;
+  > | null;
+
+  top_p?: number | null;
+
+  truncation?: string | null;
 
   /**
-   * (Optional) Nucleus sampling parameter used for generation
+   * Usage information for OpenAI response.
    */
-  top_p?: number;
-
-  /**
-   * (Optional) Truncation strategy applied to the response
-   */
-  truncation?: string;
-
-  /**
-   * (Optional) Token usage information for the response
-   */
-  usage?: ResponseObject.Usage;
+  usage?: ResponseObject.Usage | null;
 }
 
 export namespace ResponseObject {
@@ -195,110 +152,77 @@ export namespace ResponseObject {
    * under one type because the Responses API gives them all the same "type" value,
    * and there is no way to tell them apart in certain scenarios.
    */
-  export interface OpenAIResponseMessage {
+  export interface OpenAIResponseMessageOutput {
     content:
       | string
       | Array<
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentFile
+          | OpenAIResponseMessageOutput.OpenAIResponseInputMessageContentText
+          | OpenAIResponseMessageOutput.OpenAIResponseInputMessageContentImage
+          | OpenAIResponseMessageOutput.OpenAIResponseInputMessageContentFile
         >
       | Array<
-          | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
-          | OpenAIResponseMessage.OpenAIResponseContentPartRefusal
+          | OpenAIResponseMessageOutput.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessageOutput.OpenAIResponseContentPartRefusal
         >;
 
     role: 'system' | 'developer' | 'user' | 'assistant';
 
-    type: 'message';
+    id?: string | null;
 
-    id?: string;
+    status?: string | null;
 
-    status?: string;
+    type?: 'message';
   }
 
-  export namespace OpenAIResponseMessage {
+  export namespace OpenAIResponseMessageOutput {
     /**
      * Text content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentText {
-      /**
-       * The text content of the input message
-       */
       text: string;
 
-      /**
-       * Content type identifier, always "input_text"
-       */
-      type: 'input_text';
+      type?: 'input_text';
     }
 
     /**
      * Image content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentImage {
-      /**
-       * Level of detail for image processing, can be "low", "high", or "auto"
-       */
-      detail: 'low' | 'high' | 'auto';
+      detail?: 'low' | 'high' | 'auto';
 
-      /**
-       * Content type identifier, always "input_image"
-       */
-      type: 'input_image';
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      image_url?: string | null;
 
-      /**
-       * (Optional) URL of the image content
-       */
-      image_url?: string;
+      type?: 'input_image';
     }
 
     /**
      * File content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentFile {
-      /**
-       * The type of the input item. Always `input_file`.
-       */
-      type: 'input_file';
+      file_data?: string | null;
 
-      /**
-       * The data of the file to be sent to the model.
-       */
-      file_data?: string;
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      file_url?: string | null;
 
-      /**
-       * The URL of the file to be sent to the model.
-       */
-      file_url?: string;
+      filename?: string | null;
 
-      /**
-       * The name of the file to be sent to the model.
-       */
-      filename?: string;
+      type?: 'input_file';
     }
 
     export interface OpenAIResponseOutputMessageContentOutputText {
-      annotations: Array<
+      text: string;
+
+      annotations?: Array<
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
       >;
 
-      text: string;
-
-      type: 'output_text';
+      type?: 'output_text';
     }
 
     export namespace OpenAIResponseOutputMessageContentOutputText {
@@ -306,55 +230,28 @@ export namespace ResponseObject {
        * File citation annotation for referencing specific files in response content.
        */
       export interface OpenAIResponseAnnotationFileCitation {
-        /**
-         * Unique identifier of the referenced file
-         */
         file_id: string;
 
-        /**
-         * Name of the referenced file
-         */
         filename: string;
 
-        /**
-         * Position index of the citation within the content
-         */
         index: number;
 
-        /**
-         * Annotation type identifier, always "file_citation"
-         */
-        type: 'file_citation';
+        type?: 'file_citation';
       }
 
       /**
        * URL citation annotation for referencing external web resources.
        */
       export interface OpenAIResponseAnnotationCitation {
-        /**
-         * End position of the citation span in the content
-         */
         end_index: number;
 
-        /**
-         * Start position of the citation span in the content
-         */
         start_index: number;
 
-        /**
-         * Title of the referenced web resource
-         */
         title: string;
 
-        /**
-         * Annotation type identifier, always "url_citation"
-         */
-        type: 'url_citation';
-
-        /**
-         * URL of the referenced web resource
-         */
         url: string;
+
+        type?: 'url_citation';
       }
 
       export interface OpenAIResponseAnnotationContainerFileCitation {
@@ -368,7 +265,7 @@ export namespace ResponseObject {
 
         start_index: number;
 
-        type: 'container_file_citation';
+        type?: 'container_file_citation';
       }
 
       export interface OpenAIResponseAnnotationFilePath {
@@ -376,7 +273,7 @@ export namespace ResponseObject {
 
         index: number;
 
-        type: 'file_path';
+        type?: 'file_path';
       }
     }
 
@@ -384,15 +281,9 @@ export namespace ResponseObject {
      * Refusal content within a streamed response part.
      */
     export interface OpenAIResponseContentPartRefusal {
-      /**
-       * Refusal text supplied by the model
-       */
       refusal: string;
 
-      /**
-       * Content part type identifier, always "refusal"
-       */
-      type: 'refusal';
+      type?: 'refusal';
     }
   }
 
@@ -400,50 +291,26 @@ export namespace ResponseObject {
    * Web search tool call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageWebSearchToolCall {
-    /**
-     * Unique identifier for this tool call
-     */
     id: string;
 
-    /**
-     * Current status of the web search operation
-     */
     status: string;
 
-    /**
-     * Tool call type identifier, always "web_search_call"
-     */
-    type: 'web_search_call';
+    type?: 'web_search_call';
   }
 
   /**
    * File search tool call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageFileSearchToolCall {
-    /**
-     * Unique identifier for this tool call
-     */
     id: string;
 
-    /**
-     * List of search queries executed
-     */
     queries: Array<string>;
 
-    /**
-     * Current status of the file search operation
-     */
     status: string;
 
-    /**
-     * Tool call type identifier, always "file_search_call"
-     */
-    type: 'file_search_call';
+    results?: Array<OpenAIResponseOutputMessageFileSearchToolCall.Result> | null;
 
-    /**
-     * (Optional) Search results returned by the file search operation
-     */
-    results?: Array<OpenAIResponseOutputMessageFileSearchToolCall.Result>;
+    type?: 'file_search_call';
   }
 
   export namespace OpenAIResponseOutputMessageFileSearchToolCall {
@@ -451,29 +318,14 @@ export namespace ResponseObject {
      * Search results returned by the file search operation.
      */
     export interface Result {
-      /**
-       * (Optional) Key-value attributes associated with the file
-       */
-      attributes: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+      attributes: { [key: string]: unknown };
 
-      /**
-       * Unique identifier of the file containing the result
-       */
       file_id: string;
 
-      /**
-       * Name of the file containing the result
-       */
       filename: string;
 
-      /**
-       * Relevance score for this search result (between 0 and 1)
-       */
       score: number;
 
-      /**
-       * Text content of the search result
-       */
       text: string;
     }
   }
@@ -482,100 +334,49 @@ export namespace ResponseObject {
    * Function tool call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageFunctionToolCall {
-    /**
-     * JSON string containing the function arguments
-     */
     arguments: string;
 
-    /**
-     * Unique identifier for the function call
-     */
     call_id: string;
 
-    /**
-     * Name of the function being called
-     */
     name: string;
 
-    /**
-     * Tool call type identifier, always "function_call"
-     */
-    type: 'function_call';
+    id?: string | null;
 
-    /**
-     * (Optional) Additional identifier for the tool call
-     */
-    id?: string;
+    status?: string | null;
 
-    /**
-     * (Optional) Current status of the function call execution
-     */
-    status?: string;
+    type?: 'function_call';
   }
 
   /**
    * Model Context Protocol (MCP) call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageMcpCall {
-    /**
-     * Unique identifier for this MCP call
-     */
     id: string;
 
-    /**
-     * JSON string containing the MCP call arguments
-     */
     arguments: string;
 
-    /**
-     * Name of the MCP method being called
-     */
     name: string;
 
-    /**
-     * Label identifying the MCP server handling the call
-     */
     server_label: string;
 
-    /**
-     * Tool call type identifier, always "mcp_call"
-     */
-    type: 'mcp_call';
+    error?: string | null;
 
-    /**
-     * (Optional) Error message if the MCP call failed
-     */
-    error?: string;
+    output?: string | null;
 
-    /**
-     * (Optional) Output result from the successful MCP call
-     */
-    output?: string;
+    type?: 'mcp_call';
   }
 
   /**
    * MCP list tools output message containing available tools from an MCP server.
    */
   export interface OpenAIResponseOutputMessageMcpListTools {
-    /**
-     * Unique identifier for this MCP list tools operation
-     */
     id: string;
 
-    /**
-     * Label identifying the MCP server providing the tools
-     */
     server_label: string;
 
-    /**
-     * List of available tools provided by the MCP server
-     */
     tools: Array<OpenAIResponseOutputMessageMcpListTools.Tool>;
 
-    /**
-     * Tool call type identifier, always "mcp_list_tools"
-     */
-    type: 'mcp_list_tools';
+    type?: 'mcp_list_tools';
   }
 
   export namespace OpenAIResponseOutputMessageMcpListTools {
@@ -583,20 +384,11 @@ export namespace ResponseObject {
      * Tool definition returned by MCP list tools operation.
      */
     export interface Tool {
-      /**
-       * JSON schema defining the tool's input parameters
-       */
-      input_schema: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+      input_schema: { [key: string]: unknown };
 
-      /**
-       * Name of the tool
-       */
       name: string;
 
-      /**
-       * (Optional) Description of what the tool does
-       */
-      description?: string;
+      description?: string | null;
     }
   }
 
@@ -612,93 +404,32 @@ export namespace ResponseObject {
 
     server_label: string;
 
-    type: 'mcp_approval_request';
+    type?: 'mcp_approval_request';
   }
 
   /**
-   * Text formatting configuration for the response
-   */
-  export interface Text {
-    /**
-     * (Optional) Text format configuration specifying output format requirements
-     */
-    format?: Text.Format;
-  }
-
-  export namespace Text {
-    /**
-     * (Optional) Text format configuration specifying output format requirements
-     */
-    export interface Format {
-      /**
-       * Must be "text", "json_schema", or "json_object" to identify the format type
-       */
-      type: 'text' | 'json_schema' | 'json_object';
-
-      /**
-       * (Optional) A description of the response format. Only used for json_schema.
-       */
-      description?: string;
-
-      /**
-       * The name of the response format. Only used for json_schema.
-       */
-      name?: string;
-
-      /**
-       * The JSON schema the response should conform to. In a Python SDK, this is often a
-       * `pydantic` model. Only used for json_schema.
-       */
-      schema?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-      /**
-       * (Optional) Whether to strictly enforce the JSON schema. If true, the response
-       * must match the schema exactly. Only used for json_schema.
-       */
-      strict?: boolean;
-    }
-  }
-
-  /**
-   * (Optional) Error details if the response generation failed
+   * Error details for failed OpenAI response requests.
    */
   export interface Error {
-    /**
-     * Error code identifying the type of failure
-     */
     code: string;
 
-    /**
-     * Human-readable error message describing the failure
-     */
     message: string;
   }
 
   /**
-   * (Optional) Reference to a prompt template and its variables.
+   * OpenAI compatible Prompt object that is used in OpenAI responses.
    */
   export interface Prompt {
-    /**
-     * Unique identifier of the prompt template
-     */
     id: string;
 
-    /**
-     * Dictionary of variable names to OpenAIResponseInputMessageContent structure for
-     * template substitution. The substitution values can either be strings, or other
-     * Response input types like images or files.
-     */
     variables?: {
       [key: string]:
         | Prompt.OpenAIResponseInputMessageContentText
         | Prompt.OpenAIResponseInputMessageContentImage
         | Prompt.OpenAIResponseInputMessageContentFile;
-    };
+    } | null;
 
-    /**
-     * Version number of the prompt to use (defaults to latest if not specified)
-     */
-    version?: string;
+    version?: string | null;
   }
 
   export namespace Prompt {
@@ -706,70 +437,64 @@ export namespace ResponseObject {
      * Text content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentText {
-      /**
-       * The text content of the input message
-       */
       text: string;
 
-      /**
-       * Content type identifier, always "input_text"
-       */
-      type: 'input_text';
+      type?: 'input_text';
     }
 
     /**
      * Image content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentImage {
-      /**
-       * Level of detail for image processing, can be "low", "high", or "auto"
-       */
-      detail: 'low' | 'high' | 'auto';
+      detail?: 'low' | 'high' | 'auto';
 
-      /**
-       * Content type identifier, always "input_image"
-       */
-      type: 'input_image';
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      image_url?: string | null;
 
-      /**
-       * (Optional) URL of the image content
-       */
-      image_url?: string;
+      type?: 'input_image';
     }
 
     /**
      * File content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentFile {
-      /**
-       * The type of the input item. Always `input_file`.
-       */
-      type: 'input_file';
+      file_data?: string | null;
 
-      /**
-       * The data of the file to be sent to the model.
-       */
-      file_data?: string;
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      file_url?: string | null;
 
-      /**
-       * The URL of the file to be sent to the model.
-       */
-      file_url?: string;
+      filename?: string | null;
 
-      /**
-       * The name of the file to be sent to the model.
-       */
-      filename?: string;
+      type?: 'input_file';
+    }
+  }
+
+  /**
+   * Text response configuration for OpenAI responses.
+   */
+  export interface Text {
+    /**
+     * Configuration for Responses API text format.
+     */
+    format?: Text.Format | null;
+  }
+
+  export namespace Text {
+    /**
+     * Configuration for Responses API text format.
+     */
+    export interface Format {
+      description?: string | null;
+
+      name?: string | null;
+
+      schema?: { [key: string]: unknown } | null;
+
+      strict?: boolean | null;
+
+      type?: 'text' | 'json_schema' | 'json_object';
     }
   }
 
@@ -777,61 +502,37 @@ export namespace ResponseObject {
    * Web search tool configuration for OpenAI response inputs.
    */
   export interface OpenAIResponseInputToolWebSearch {
-    /**
-     * Web search tool type variant to use
-     */
-    type: 'web_search' | 'web_search_preview' | 'web_search_preview_2025_03_11' | 'web_search_2025_08_26';
+    search_context_size?: string | null;
 
-    /**
-     * (Optional) Size of search context, must be "low", "medium", or "high"
-     */
-    search_context_size?: string;
+    type?: 'web_search' | 'web_search_preview' | 'web_search_preview_2025_03_11' | 'web_search_2025_08_26';
   }
 
   /**
    * File search tool configuration for OpenAI response inputs.
    */
   export interface OpenAIResponseInputToolFileSearch {
-    /**
-     * Tool type identifier, always "file_search"
-     */
-    type: 'file_search';
-
-    /**
-     * List of vector store identifiers to search within
-     */
     vector_store_ids: Array<string>;
 
-    /**
-     * (Optional) Additional filters to apply to the search
-     */
-    filters?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+    filters?: { [key: string]: unknown } | null;
+
+    max_num_results?: number | null;
 
     /**
-     * (Optional) Maximum number of search results to return (1-50)
+     * Options for ranking and filtering search results.
      */
-    max_num_results?: number;
+    ranking_options?: OpenAIResponseInputToolFileSearch.RankingOptions | null;
 
-    /**
-     * (Optional) Options for ranking and scoring search results
-     */
-    ranking_options?: OpenAIResponseInputToolFileSearch.RankingOptions;
+    type?: 'file_search';
   }
 
   export namespace OpenAIResponseInputToolFileSearch {
     /**
-     * (Optional) Options for ranking and scoring search results
+     * Options for ranking and filtering search results.
      */
     export interface RankingOptions {
-      /**
-       * (Optional) Name of the ranking algorithm to use
-       */
-      ranker?: string;
+      ranker?: string | null;
 
-      /**
-       * (Optional) Minimum relevance score threshold for results
-       */
-      score_threshold?: number;
+      score_threshold?: number | null;
     }
   }
 
@@ -839,50 +540,29 @@ export namespace ResponseObject {
    * Function tool configuration for OpenAI response inputs.
    */
   export interface OpenAIResponseInputToolFunction {
-    /**
-     * Name of the function that can be called
-     */
     name: string;
 
-    /**
-     * Tool type identifier, always "function"
-     */
-    type: 'function';
+    parameters: { [key: string]: unknown } | null;
 
-    /**
-     * (Optional) Description of what the function does
-     */
-    description?: string;
+    description?: string | null;
 
-    /**
-     * (Optional) JSON schema defining the function's parameters
-     */
-    parameters?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+    strict?: boolean | null;
 
-    /**
-     * (Optional) Whether to enforce strict parameter validation
-     */
-    strict?: boolean;
+    type?: 'function';
   }
 
   /**
    * Model Context Protocol (MCP) tool configuration for OpenAI response object.
    */
   export interface OpenAIResponseToolMcp {
-    /**
-     * Label to identify this MCP server
-     */
     server_label: string;
 
     /**
-     * Tool type identifier, always "mcp"
+     * Filter configuration for restricting which MCP tools can be used.
      */
-    type: 'mcp';
+    allowed_tools?: Array<string> | OpenAIResponseToolMcp.AllowedToolsFilter | null;
 
-    /**
-     * (Optional) Restriction on which tools can be used from this server
-     */
-    allowed_tools?: Array<string> | OpenAIResponseToolMcp.AllowedToolsFilter;
+    type?: 'mcp';
   }
 
   export namespace OpenAIResponseToolMcp {
@@ -890,62 +570,44 @@ export namespace ResponseObject {
      * Filter configuration for restricting which MCP tools can be used.
      */
     export interface AllowedToolsFilter {
-      /**
-       * (Optional) List of specific tool names that are allowed
-       */
-      tool_names?: Array<string>;
+      tool_names?: Array<string> | null;
     }
   }
 
   /**
-   * (Optional) Token usage information for the response
+   * Usage information for OpenAI response.
    */
   export interface Usage {
-    /**
-     * Number of tokens in the input
-     */
     input_tokens: number;
 
-    /**
-     * Number of tokens in the output
-     */
     output_tokens: number;
 
-    /**
-     * Total tokens used (input + output)
-     */
     total_tokens: number;
 
     /**
-     * Detailed breakdown of input token usage
+     * Token details for input tokens in OpenAI response usage.
      */
-    input_tokens_details?: Usage.InputTokensDetails;
+    input_tokens_details?: Usage.InputTokensDetails | null;
 
     /**
-     * Detailed breakdown of output token usage
+     * Token details for output tokens in OpenAI response usage.
      */
-    output_tokens_details?: Usage.OutputTokensDetails;
+    output_tokens_details?: Usage.OutputTokensDetails | null;
   }
 
   export namespace Usage {
     /**
-     * Detailed breakdown of input token usage
+     * Token details for input tokens in OpenAI response usage.
      */
     export interface InputTokensDetails {
-      /**
-       * Number of tokens retrieved from cache
-       */
-      cached_tokens?: number;
+      cached_tokens?: number | null;
     }
 
     /**
-     * Detailed breakdown of output token usage
+     * Token details for output tokens in OpenAI response usage.
      */
     export interface OutputTokensDetails {
-      /**
-       * Number of tokens used for reasoning (o1/o3 models)
-       */
-      reasoning_tokens?: number;
+      reasoning_tokens?: number | null;
     }
   }
 }
@@ -997,14 +659,11 @@ export namespace ResponseObjectStream {
    */
   export interface OpenAIResponseObjectStreamResponseCreated {
     /**
-     * The response object that was created
+     * Complete OpenAI response object containing generation results and metadata.
      */
     response: ResponsesAPI.ResponseObject;
 
-    /**
-     * Event type identifier, always "response.created"
-     */
-    type: 'response.created';
+    type?: 'response.created';
   }
 
   /**
@@ -1012,19 +671,13 @@ export namespace ResponseObjectStream {
    */
   export interface OpenAIResponseObjectStreamResponseInProgress {
     /**
-     * Current response state while in progress
+     * Complete OpenAI response object containing generation results and metadata.
      */
     response: ResponsesAPI.ResponseObject;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.in_progress"
-     */
-    type: 'response.in_progress';
+    type?: 'response.in_progress';
   }
 
   /**
@@ -1032,7 +685,9 @@ export namespace ResponseObjectStream {
    */
   export interface OpenAIResponseObjectStreamResponseOutputItemAdded {
     /**
-     * The output item that was added (message, tool call, etc.)
+     * Corresponds to the various Message types in the Responses API. They are all
+     * under one type because the Responses API gives them all the same "type" value,
+     * and there is no way to tell them apart in certain scenarios.
      */
     item:
       | OpenAIResponseObjectStreamResponseOutputItemAdded.OpenAIResponseMessage
@@ -1043,25 +698,13 @@ export namespace ResponseObjectStream {
       | OpenAIResponseObjectStreamResponseOutputItemAdded.OpenAIResponseOutputMessageMcpListTools
       | OpenAIResponseObjectStreamResponseOutputItemAdded.OpenAIResponseMcpApprovalRequest;
 
-    /**
-     * Index position of this item in the output list
-     */
     output_index: number;
 
-    /**
-     * Unique identifier of the response containing this output
-     */
     response_id: string;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.output_item.added"
-     */
-    type: 'response.output_item.added';
+    type?: 'response.output_item.added';
   }
 
   export namespace OpenAIResponseObjectStreamResponseOutputItemAdded {
@@ -1085,11 +728,11 @@ export namespace ResponseObjectStream {
 
       role: 'system' | 'developer' | 'user' | 'assistant';
 
-      type: 'message';
+      id?: string | null;
 
-      id?: string;
+      status?: string | null;
 
-      status?: string;
+      type?: 'message';
     }
 
     export namespace OpenAIResponseMessage {
@@ -1097,83 +740,50 @@ export namespace ResponseObjectStream {
        * Text content for input messages in OpenAI response format.
        */
       export interface OpenAIResponseInputMessageContentText {
-        /**
-         * The text content of the input message
-         */
         text: string;
 
-        /**
-         * Content type identifier, always "input_text"
-         */
-        type: 'input_text';
+        type?: 'input_text';
       }
 
       /**
        * Image content for input messages in OpenAI response format.
        */
       export interface OpenAIResponseInputMessageContentImage {
-        /**
-         * Level of detail for image processing, can be "low", "high", or "auto"
-         */
-        detail: 'low' | 'high' | 'auto';
+        detail?: 'low' | 'high' | 'auto';
 
-        /**
-         * Content type identifier, always "input_image"
-         */
-        type: 'input_image';
+        file_id?: string | null;
 
-        /**
-         * (Optional) The ID of the file to be sent to the model.
-         */
-        file_id?: string;
+        image_url?: string | null;
 
-        /**
-         * (Optional) URL of the image content
-         */
-        image_url?: string;
+        type?: 'input_image';
       }
 
       /**
        * File content for input messages in OpenAI response format.
        */
       export interface OpenAIResponseInputMessageContentFile {
-        /**
-         * The type of the input item. Always `input_file`.
-         */
-        type: 'input_file';
+        file_data?: string | null;
 
-        /**
-         * The data of the file to be sent to the model.
-         */
-        file_data?: string;
+        file_id?: string | null;
 
-        /**
-         * (Optional) The ID of the file to be sent to the model.
-         */
-        file_id?: string;
+        file_url?: string | null;
 
-        /**
-         * The URL of the file to be sent to the model.
-         */
-        file_url?: string;
+        filename?: string | null;
 
-        /**
-         * The name of the file to be sent to the model.
-         */
-        filename?: string;
+        type?: 'input_file';
       }
 
       export interface OpenAIResponseOutputMessageContentOutputText {
-        annotations: Array<
+        text: string;
+
+        annotations?: Array<
           | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
           | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
           | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
           | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
         >;
 
-        text: string;
-
-        type: 'output_text';
+        type?: 'output_text';
       }
 
       export namespace OpenAIResponseOutputMessageContentOutputText {
@@ -1181,55 +791,28 @@ export namespace ResponseObjectStream {
          * File citation annotation for referencing specific files in response content.
          */
         export interface OpenAIResponseAnnotationFileCitation {
-          /**
-           * Unique identifier of the referenced file
-           */
           file_id: string;
 
-          /**
-           * Name of the referenced file
-           */
           filename: string;
 
-          /**
-           * Position index of the citation within the content
-           */
           index: number;
 
-          /**
-           * Annotation type identifier, always "file_citation"
-           */
-          type: 'file_citation';
+          type?: 'file_citation';
         }
 
         /**
          * URL citation annotation for referencing external web resources.
          */
         export interface OpenAIResponseAnnotationCitation {
-          /**
-           * End position of the citation span in the content
-           */
           end_index: number;
 
-          /**
-           * Start position of the citation span in the content
-           */
           start_index: number;
 
-          /**
-           * Title of the referenced web resource
-           */
           title: string;
 
-          /**
-           * Annotation type identifier, always "url_citation"
-           */
-          type: 'url_citation';
-
-          /**
-           * URL of the referenced web resource
-           */
           url: string;
+
+          type?: 'url_citation';
         }
 
         export interface OpenAIResponseAnnotationContainerFileCitation {
@@ -1243,7 +826,7 @@ export namespace ResponseObjectStream {
 
           start_index: number;
 
-          type: 'container_file_citation';
+          type?: 'container_file_citation';
         }
 
         export interface OpenAIResponseAnnotationFilePath {
@@ -1251,7 +834,7 @@ export namespace ResponseObjectStream {
 
           index: number;
 
-          type: 'file_path';
+          type?: 'file_path';
         }
       }
 
@@ -1259,15 +842,9 @@ export namespace ResponseObjectStream {
        * Refusal content within a streamed response part.
        */
       export interface OpenAIResponseContentPartRefusal {
-        /**
-         * Refusal text supplied by the model
-         */
         refusal: string;
 
-        /**
-         * Content part type identifier, always "refusal"
-         */
-        type: 'refusal';
+        type?: 'refusal';
       }
     }
 
@@ -1275,50 +852,26 @@ export namespace ResponseObjectStream {
      * Web search tool call output message for OpenAI responses.
      */
     export interface OpenAIResponseOutputMessageWebSearchToolCall {
-      /**
-       * Unique identifier for this tool call
-       */
       id: string;
 
-      /**
-       * Current status of the web search operation
-       */
       status: string;
 
-      /**
-       * Tool call type identifier, always "web_search_call"
-       */
-      type: 'web_search_call';
+      type?: 'web_search_call';
     }
 
     /**
      * File search tool call output message for OpenAI responses.
      */
     export interface OpenAIResponseOutputMessageFileSearchToolCall {
-      /**
-       * Unique identifier for this tool call
-       */
       id: string;
 
-      /**
-       * List of search queries executed
-       */
       queries: Array<string>;
 
-      /**
-       * Current status of the file search operation
-       */
       status: string;
 
-      /**
-       * Tool call type identifier, always "file_search_call"
-       */
-      type: 'file_search_call';
+      results?: Array<OpenAIResponseOutputMessageFileSearchToolCall.Result> | null;
 
-      /**
-       * (Optional) Search results returned by the file search operation
-       */
-      results?: Array<OpenAIResponseOutputMessageFileSearchToolCall.Result>;
+      type?: 'file_search_call';
     }
 
     export namespace OpenAIResponseOutputMessageFileSearchToolCall {
@@ -1326,29 +879,14 @@ export namespace ResponseObjectStream {
        * Search results returned by the file search operation.
        */
       export interface Result {
-        /**
-         * (Optional) Key-value attributes associated with the file
-         */
-        attributes: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+        attributes: { [key: string]: unknown };
 
-        /**
-         * Unique identifier of the file containing the result
-         */
         file_id: string;
 
-        /**
-         * Name of the file containing the result
-         */
         filename: string;
 
-        /**
-         * Relevance score for this search result (between 0 and 1)
-         */
         score: number;
 
-        /**
-         * Text content of the search result
-         */
         text: string;
       }
     }
@@ -1357,100 +895,49 @@ export namespace ResponseObjectStream {
      * Function tool call output message for OpenAI responses.
      */
     export interface OpenAIResponseOutputMessageFunctionToolCall {
-      /**
-       * JSON string containing the function arguments
-       */
       arguments: string;
 
-      /**
-       * Unique identifier for the function call
-       */
       call_id: string;
 
-      /**
-       * Name of the function being called
-       */
       name: string;
 
-      /**
-       * Tool call type identifier, always "function_call"
-       */
-      type: 'function_call';
+      id?: string | null;
 
-      /**
-       * (Optional) Additional identifier for the tool call
-       */
-      id?: string;
+      status?: string | null;
 
-      /**
-       * (Optional) Current status of the function call execution
-       */
-      status?: string;
+      type?: 'function_call';
     }
 
     /**
      * Model Context Protocol (MCP) call output message for OpenAI responses.
      */
     export interface OpenAIResponseOutputMessageMcpCall {
-      /**
-       * Unique identifier for this MCP call
-       */
       id: string;
 
-      /**
-       * JSON string containing the MCP call arguments
-       */
       arguments: string;
 
-      /**
-       * Name of the MCP method being called
-       */
       name: string;
 
-      /**
-       * Label identifying the MCP server handling the call
-       */
       server_label: string;
 
-      /**
-       * Tool call type identifier, always "mcp_call"
-       */
-      type: 'mcp_call';
+      error?: string | null;
 
-      /**
-       * (Optional) Error message if the MCP call failed
-       */
-      error?: string;
+      output?: string | null;
 
-      /**
-       * (Optional) Output result from the successful MCP call
-       */
-      output?: string;
+      type?: 'mcp_call';
     }
 
     /**
      * MCP list tools output message containing available tools from an MCP server.
      */
     export interface OpenAIResponseOutputMessageMcpListTools {
-      /**
-       * Unique identifier for this MCP list tools operation
-       */
       id: string;
 
-      /**
-       * Label identifying the MCP server providing the tools
-       */
       server_label: string;
 
-      /**
-       * List of available tools provided by the MCP server
-       */
       tools: Array<OpenAIResponseOutputMessageMcpListTools.Tool>;
 
-      /**
-       * Tool call type identifier, always "mcp_list_tools"
-       */
-      type: 'mcp_list_tools';
+      type?: 'mcp_list_tools';
     }
 
     export namespace OpenAIResponseOutputMessageMcpListTools {
@@ -1458,20 +945,11 @@ export namespace ResponseObjectStream {
        * Tool definition returned by MCP list tools operation.
        */
       export interface Tool {
-        /**
-         * JSON schema defining the tool's input parameters
-         */
-        input_schema: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+        input_schema: { [key: string]: unknown };
 
-        /**
-         * Name of the tool
-         */
         name: string;
 
-        /**
-         * (Optional) Description of what the tool does
-         */
-        description?: string;
+        description?: string | null;
       }
     }
 
@@ -1487,7 +965,7 @@ export namespace ResponseObjectStream {
 
       server_label: string;
 
-      type: 'mcp_approval_request';
+      type?: 'mcp_approval_request';
     }
   }
 
@@ -1496,7 +974,9 @@ export namespace ResponseObjectStream {
    */
   export interface OpenAIResponseObjectStreamResponseOutputItemDone {
     /**
-     * The completed output item (message, tool call, etc.)
+     * Corresponds to the various Message types in the Responses API. They are all
+     * under one type because the Responses API gives them all the same "type" value,
+     * and there is no way to tell them apart in certain scenarios.
      */
     item:
       | OpenAIResponseObjectStreamResponseOutputItemDone.OpenAIResponseMessage
@@ -1507,25 +987,13 @@ export namespace ResponseObjectStream {
       | OpenAIResponseObjectStreamResponseOutputItemDone.OpenAIResponseOutputMessageMcpListTools
       | OpenAIResponseObjectStreamResponseOutputItemDone.OpenAIResponseMcpApprovalRequest;
 
-    /**
-     * Index position of this item in the output list
-     */
     output_index: number;
 
-    /**
-     * Unique identifier of the response containing this output
-     */
     response_id: string;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.output_item.done"
-     */
-    type: 'response.output_item.done';
+    type?: 'response.output_item.done';
   }
 
   export namespace OpenAIResponseObjectStreamResponseOutputItemDone {
@@ -1549,11 +1017,11 @@ export namespace ResponseObjectStream {
 
       role: 'system' | 'developer' | 'user' | 'assistant';
 
-      type: 'message';
+      id?: string | null;
 
-      id?: string;
+      status?: string | null;
 
-      status?: string;
+      type?: 'message';
     }
 
     export namespace OpenAIResponseMessage {
@@ -1561,83 +1029,50 @@ export namespace ResponseObjectStream {
        * Text content for input messages in OpenAI response format.
        */
       export interface OpenAIResponseInputMessageContentText {
-        /**
-         * The text content of the input message
-         */
         text: string;
 
-        /**
-         * Content type identifier, always "input_text"
-         */
-        type: 'input_text';
+        type?: 'input_text';
       }
 
       /**
        * Image content for input messages in OpenAI response format.
        */
       export interface OpenAIResponseInputMessageContentImage {
-        /**
-         * Level of detail for image processing, can be "low", "high", or "auto"
-         */
-        detail: 'low' | 'high' | 'auto';
+        detail?: 'low' | 'high' | 'auto';
 
-        /**
-         * Content type identifier, always "input_image"
-         */
-        type: 'input_image';
+        file_id?: string | null;
 
-        /**
-         * (Optional) The ID of the file to be sent to the model.
-         */
-        file_id?: string;
+        image_url?: string | null;
 
-        /**
-         * (Optional) URL of the image content
-         */
-        image_url?: string;
+        type?: 'input_image';
       }
 
       /**
        * File content for input messages in OpenAI response format.
        */
       export interface OpenAIResponseInputMessageContentFile {
-        /**
-         * The type of the input item. Always `input_file`.
-         */
-        type: 'input_file';
+        file_data?: string | null;
 
-        /**
-         * The data of the file to be sent to the model.
-         */
-        file_data?: string;
+        file_id?: string | null;
 
-        /**
-         * (Optional) The ID of the file to be sent to the model.
-         */
-        file_id?: string;
+        file_url?: string | null;
 
-        /**
-         * The URL of the file to be sent to the model.
-         */
-        file_url?: string;
+        filename?: string | null;
 
-        /**
-         * The name of the file to be sent to the model.
-         */
-        filename?: string;
+        type?: 'input_file';
       }
 
       export interface OpenAIResponseOutputMessageContentOutputText {
-        annotations: Array<
+        text: string;
+
+        annotations?: Array<
           | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
           | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
           | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
           | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
         >;
 
-        text: string;
-
-        type: 'output_text';
+        type?: 'output_text';
       }
 
       export namespace OpenAIResponseOutputMessageContentOutputText {
@@ -1645,55 +1080,28 @@ export namespace ResponseObjectStream {
          * File citation annotation for referencing specific files in response content.
          */
         export interface OpenAIResponseAnnotationFileCitation {
-          /**
-           * Unique identifier of the referenced file
-           */
           file_id: string;
 
-          /**
-           * Name of the referenced file
-           */
           filename: string;
 
-          /**
-           * Position index of the citation within the content
-           */
           index: number;
 
-          /**
-           * Annotation type identifier, always "file_citation"
-           */
-          type: 'file_citation';
+          type?: 'file_citation';
         }
 
         /**
          * URL citation annotation for referencing external web resources.
          */
         export interface OpenAIResponseAnnotationCitation {
-          /**
-           * End position of the citation span in the content
-           */
           end_index: number;
 
-          /**
-           * Start position of the citation span in the content
-           */
           start_index: number;
 
-          /**
-           * Title of the referenced web resource
-           */
           title: string;
 
-          /**
-           * Annotation type identifier, always "url_citation"
-           */
-          type: 'url_citation';
-
-          /**
-           * URL of the referenced web resource
-           */
           url: string;
+
+          type?: 'url_citation';
         }
 
         export interface OpenAIResponseAnnotationContainerFileCitation {
@@ -1707,7 +1115,7 @@ export namespace ResponseObjectStream {
 
           start_index: number;
 
-          type: 'container_file_citation';
+          type?: 'container_file_citation';
         }
 
         export interface OpenAIResponseAnnotationFilePath {
@@ -1715,7 +1123,7 @@ export namespace ResponseObjectStream {
 
           index: number;
 
-          type: 'file_path';
+          type?: 'file_path';
         }
       }
 
@@ -1723,15 +1131,9 @@ export namespace ResponseObjectStream {
        * Refusal content within a streamed response part.
        */
       export interface OpenAIResponseContentPartRefusal {
-        /**
-         * Refusal text supplied by the model
-         */
         refusal: string;
 
-        /**
-         * Content part type identifier, always "refusal"
-         */
-        type: 'refusal';
+        type?: 'refusal';
       }
     }
 
@@ -1739,50 +1141,26 @@ export namespace ResponseObjectStream {
      * Web search tool call output message for OpenAI responses.
      */
     export interface OpenAIResponseOutputMessageWebSearchToolCall {
-      /**
-       * Unique identifier for this tool call
-       */
       id: string;
 
-      /**
-       * Current status of the web search operation
-       */
       status: string;
 
-      /**
-       * Tool call type identifier, always "web_search_call"
-       */
-      type: 'web_search_call';
+      type?: 'web_search_call';
     }
 
     /**
      * File search tool call output message for OpenAI responses.
      */
     export interface OpenAIResponseOutputMessageFileSearchToolCall {
-      /**
-       * Unique identifier for this tool call
-       */
       id: string;
 
-      /**
-       * List of search queries executed
-       */
       queries: Array<string>;
 
-      /**
-       * Current status of the file search operation
-       */
       status: string;
 
-      /**
-       * Tool call type identifier, always "file_search_call"
-       */
-      type: 'file_search_call';
+      results?: Array<OpenAIResponseOutputMessageFileSearchToolCall.Result> | null;
 
-      /**
-       * (Optional) Search results returned by the file search operation
-       */
-      results?: Array<OpenAIResponseOutputMessageFileSearchToolCall.Result>;
+      type?: 'file_search_call';
     }
 
     export namespace OpenAIResponseOutputMessageFileSearchToolCall {
@@ -1790,29 +1168,14 @@ export namespace ResponseObjectStream {
        * Search results returned by the file search operation.
        */
       export interface Result {
-        /**
-         * (Optional) Key-value attributes associated with the file
-         */
-        attributes: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+        attributes: { [key: string]: unknown };
 
-        /**
-         * Unique identifier of the file containing the result
-         */
         file_id: string;
 
-        /**
-         * Name of the file containing the result
-         */
         filename: string;
 
-        /**
-         * Relevance score for this search result (between 0 and 1)
-         */
         score: number;
 
-        /**
-         * Text content of the search result
-         */
         text: string;
       }
     }
@@ -1821,100 +1184,49 @@ export namespace ResponseObjectStream {
      * Function tool call output message for OpenAI responses.
      */
     export interface OpenAIResponseOutputMessageFunctionToolCall {
-      /**
-       * JSON string containing the function arguments
-       */
       arguments: string;
 
-      /**
-       * Unique identifier for the function call
-       */
       call_id: string;
 
-      /**
-       * Name of the function being called
-       */
       name: string;
 
-      /**
-       * Tool call type identifier, always "function_call"
-       */
-      type: 'function_call';
+      id?: string | null;
 
-      /**
-       * (Optional) Additional identifier for the tool call
-       */
-      id?: string;
+      status?: string | null;
 
-      /**
-       * (Optional) Current status of the function call execution
-       */
-      status?: string;
+      type?: 'function_call';
     }
 
     /**
      * Model Context Protocol (MCP) call output message for OpenAI responses.
      */
     export interface OpenAIResponseOutputMessageMcpCall {
-      /**
-       * Unique identifier for this MCP call
-       */
       id: string;
 
-      /**
-       * JSON string containing the MCP call arguments
-       */
       arguments: string;
 
-      /**
-       * Name of the MCP method being called
-       */
       name: string;
 
-      /**
-       * Label identifying the MCP server handling the call
-       */
       server_label: string;
 
-      /**
-       * Tool call type identifier, always "mcp_call"
-       */
-      type: 'mcp_call';
+      error?: string | null;
 
-      /**
-       * (Optional) Error message if the MCP call failed
-       */
-      error?: string;
+      output?: string | null;
 
-      /**
-       * (Optional) Output result from the successful MCP call
-       */
-      output?: string;
+      type?: 'mcp_call';
     }
 
     /**
      * MCP list tools output message containing available tools from an MCP server.
      */
     export interface OpenAIResponseOutputMessageMcpListTools {
-      /**
-       * Unique identifier for this MCP list tools operation
-       */
       id: string;
 
-      /**
-       * Label identifying the MCP server providing the tools
-       */
       server_label: string;
 
-      /**
-       * List of available tools provided by the MCP server
-       */
       tools: Array<OpenAIResponseOutputMessageMcpListTools.Tool>;
 
-      /**
-       * Tool call type identifier, always "mcp_list_tools"
-       */
-      type: 'mcp_list_tools';
+      type?: 'mcp_list_tools';
     }
 
     export namespace OpenAIResponseOutputMessageMcpListTools {
@@ -1922,20 +1234,11 @@ export namespace ResponseObjectStream {
        * Tool definition returned by MCP list tools operation.
        */
       export interface Tool {
-        /**
-         * JSON schema defining the tool's input parameters
-         */
-        input_schema: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+        input_schema: { [key: string]: unknown };
 
-        /**
-         * Name of the tool
-         */
         name: string;
 
-        /**
-         * (Optional) Description of what the tool does
-         */
-        description?: string;
+        description?: string | null;
       }
     }
 
@@ -1951,7 +1254,7 @@ export namespace ResponseObjectStream {
 
       server_label: string;
 
-      type: 'mcp_approval_request';
+      type?: 'mcp_approval_request';
     }
   }
 
@@ -1959,155 +1262,77 @@ export namespace ResponseObjectStream {
    * Streaming event for incremental text content updates.
    */
   export interface OpenAIResponseObjectStreamResponseOutputTextDelta {
-    /**
-     * Index position within the text content
-     */
     content_index: number;
 
-    /**
-     * Incremental text content being added
-     */
     delta: string;
 
-    /**
-     * Unique identifier of the output item being updated
-     */
     item_id: string;
 
-    /**
-     * Index position of the item in the output list
-     */
     output_index: number;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.output_text.delta"
-     */
-    type: 'response.output_text.delta';
+    type?: 'response.output_text.delta';
   }
 
   /**
    * Streaming event for when text output is completed.
    */
   export interface OpenAIResponseObjectStreamResponseOutputTextDone {
-    /**
-     * Index position within the text content
-     */
     content_index: number;
 
-    /**
-     * Unique identifier of the completed output item
-     */
     item_id: string;
 
-    /**
-     * Index position of the item in the output list
-     */
     output_index: number;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Final complete text content of the output item
-     */
     text: string;
 
-    /**
-     * Event type identifier, always "response.output_text.done"
-     */
-    type: 'response.output_text.done';
+    type?: 'response.output_text.done';
   }
 
   /**
    * Streaming event for incremental function call argument updates.
    */
   export interface OpenAIResponseObjectStreamResponseFunctionCallArgumentsDelta {
-    /**
-     * Incremental function call arguments being added
-     */
     delta: string;
 
-    /**
-     * Unique identifier of the function call being updated
-     */
     item_id: string;
 
-    /**
-     * Index position of the item in the output list
-     */
     output_index: number;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.function_call_arguments.delta"
-     */
-    type: 'response.function_call_arguments.delta';
+    type?: 'response.function_call_arguments.delta';
   }
 
   /**
    * Streaming event for when function call arguments are completed.
    */
   export interface OpenAIResponseObjectStreamResponseFunctionCallArgumentsDone {
-    /**
-     * Final complete arguments JSON string for the function call
-     */
     arguments: string;
 
-    /**
-     * Unique identifier of the completed function call
-     */
     item_id: string;
 
-    /**
-     * Index position of the item in the output list
-     */
     output_index: number;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.function_call_arguments.done"
-     */
-    type: 'response.function_call_arguments.done';
+    type?: 'response.function_call_arguments.done';
   }
 
   /**
    * Streaming event for web search calls in progress.
    */
   export interface OpenAIResponseObjectStreamResponseWebSearchCallInProgress {
-    /**
-     * Unique identifier of the web search call
-     */
     item_id: string;
 
-    /**
-     * Index position of the item in the output list
-     */
     output_index: number;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.web_search_call.in_progress"
-     */
-    type: 'response.web_search_call.in_progress';
+    type?: 'response.web_search_call.in_progress';
   }
 
   export interface OpenAIResponseObjectStreamResponseWebSearchCallSearching {
@@ -2117,50 +1342,38 @@ export namespace ResponseObjectStream {
 
     sequence_number: number;
 
-    type: 'response.web_search_call.searching';
+    type?: 'response.web_search_call.searching';
   }
 
   /**
    * Streaming event for completed web search calls.
    */
   export interface OpenAIResponseObjectStreamResponseWebSearchCallCompleted {
-    /**
-     * Unique identifier of the completed web search call
-     */
     item_id: string;
 
-    /**
-     * Index position of the item in the output list
-     */
     output_index: number;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.web_search_call.completed"
-     */
-    type: 'response.web_search_call.completed';
+    type?: 'response.web_search_call.completed';
   }
 
   export interface OpenAIResponseObjectStreamResponseMcpListToolsInProgress {
     sequence_number: number;
 
-    type: 'response.mcp_list_tools.in_progress';
+    type?: 'response.mcp_list_tools.in_progress';
   }
 
   export interface OpenAIResponseObjectStreamResponseMcpListToolsFailed {
     sequence_number: number;
 
-    type: 'response.mcp_list_tools.failed';
+    type?: 'response.mcp_list_tools.failed';
   }
 
   export interface OpenAIResponseObjectStreamResponseMcpListToolsCompleted {
     sequence_number: number;
 
-    type: 'response.mcp_list_tools.completed';
+    type?: 'response.mcp_list_tools.completed';
   }
 
   export interface OpenAIResponseObjectStreamResponseMcpCallArgumentsDelta {
@@ -2172,7 +1385,7 @@ export namespace ResponseObjectStream {
 
     sequence_number: number;
 
-    type: 'response.mcp_call.arguments.delta';
+    type?: 'response.mcp_call.arguments.delta';
   }
 
   export interface OpenAIResponseObjectStreamResponseMcpCallArgumentsDone {
@@ -2184,105 +1397,63 @@ export namespace ResponseObjectStream {
 
     sequence_number: number;
 
-    type: 'response.mcp_call.arguments.done';
+    type?: 'response.mcp_call.arguments.done';
   }
 
   /**
    * Streaming event for MCP calls in progress.
    */
   export interface OpenAIResponseObjectStreamResponseMcpCallInProgress {
-    /**
-     * Unique identifier of the MCP call
-     */
     item_id: string;
 
-    /**
-     * Index position of the item in the output list
-     */
     output_index: number;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.mcp_call.in_progress"
-     */
-    type: 'response.mcp_call.in_progress';
+    type?: 'response.mcp_call.in_progress';
   }
 
   /**
    * Streaming event for failed MCP calls.
    */
   export interface OpenAIResponseObjectStreamResponseMcpCallFailed {
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.mcp_call.failed"
-     */
-    type: 'response.mcp_call.failed';
+    type?: 'response.mcp_call.failed';
   }
 
   /**
    * Streaming event for completed MCP calls.
    */
   export interface OpenAIResponseObjectStreamResponseMcpCallCompleted {
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.mcp_call.completed"
-     */
-    type: 'response.mcp_call.completed';
+    type?: 'response.mcp_call.completed';
   }
 
   /**
    * Streaming event for when a new content part is added to a response item.
    */
   export interface OpenAIResponseObjectStreamResponseContentPartAdded {
-    /**
-     * Index position of the part within the content array
-     */
     content_index: number;
 
-    /**
-     * Unique identifier of the output item containing this content part
-     */
     item_id: string;
 
-    /**
-     * Index position of the output item in the response
-     */
     output_index: number;
 
     /**
-     * The content part that was added
+     * Text content within a streamed response part.
      */
     part:
       | OpenAIResponseObjectStreamResponseContentPartAdded.OpenAIResponseContentPartOutputText
       | OpenAIResponseObjectStreamResponseContentPartAdded.OpenAIResponseContentPartRefusal
       | OpenAIResponseObjectStreamResponseContentPartAdded.OpenAIResponseContentPartReasoningText;
 
-    /**
-     * Unique identifier of the response containing this content
-     */
     response_id: string;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.content_part.added"
-     */
-    type: 'response.content_part.added';
+    type?: 'response.content_part.added';
   }
 
   export namespace OpenAIResponseObjectStreamResponseContentPartAdded {
@@ -2290,30 +1461,18 @@ export namespace ResponseObjectStream {
      * Text content within a streamed response part.
      */
     export interface OpenAIResponseContentPartOutputText {
-      /**
-       * Structured annotations associated with the text
-       */
-      annotations: Array<
+      text: string;
+
+      annotations?: Array<
         | OpenAIResponseContentPartOutputText.OpenAIResponseAnnotationFileCitation
         | OpenAIResponseContentPartOutputText.OpenAIResponseAnnotationCitation
         | OpenAIResponseContentPartOutputText.OpenAIResponseAnnotationContainerFileCitation
         | OpenAIResponseContentPartOutputText.OpenAIResponseAnnotationFilePath
       >;
 
-      /**
-       * Text emitted for this content part
-       */
-      text: string;
+      logprobs?: Array<{ [key: string]: unknown }> | null;
 
-      /**
-       * Content part type identifier, always "output_text"
-       */
-      type: 'output_text';
-
-      /**
-       * (Optional) Token log probability details
-       */
-      logprobs?: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
+      type?: 'output_text';
     }
 
     export namespace OpenAIResponseContentPartOutputText {
@@ -2321,55 +1480,28 @@ export namespace ResponseObjectStream {
        * File citation annotation for referencing specific files in response content.
        */
       export interface OpenAIResponseAnnotationFileCitation {
-        /**
-         * Unique identifier of the referenced file
-         */
         file_id: string;
 
-        /**
-         * Name of the referenced file
-         */
         filename: string;
 
-        /**
-         * Position index of the citation within the content
-         */
         index: number;
 
-        /**
-         * Annotation type identifier, always "file_citation"
-         */
-        type: 'file_citation';
+        type?: 'file_citation';
       }
 
       /**
        * URL citation annotation for referencing external web resources.
        */
       export interface OpenAIResponseAnnotationCitation {
-        /**
-         * End position of the citation span in the content
-         */
         end_index: number;
 
-        /**
-         * Start position of the citation span in the content
-         */
         start_index: number;
 
-        /**
-         * Title of the referenced web resource
-         */
         title: string;
 
-        /**
-         * Annotation type identifier, always "url_citation"
-         */
-        type: 'url_citation';
-
-        /**
-         * URL of the referenced web resource
-         */
         url: string;
+
+        type?: 'url_citation';
       }
 
       export interface OpenAIResponseAnnotationContainerFileCitation {
@@ -2383,7 +1515,7 @@ export namespace ResponseObjectStream {
 
         start_index: number;
 
-        type: 'container_file_citation';
+        type?: 'container_file_citation';
       }
 
       export interface OpenAIResponseAnnotationFilePath {
@@ -2391,7 +1523,7 @@ export namespace ResponseObjectStream {
 
         index: number;
 
-        type: 'file_path';
+        type?: 'file_path';
       }
     }
 
@@ -2399,30 +1531,18 @@ export namespace ResponseObjectStream {
      * Refusal content within a streamed response part.
      */
     export interface OpenAIResponseContentPartRefusal {
-      /**
-       * Refusal text supplied by the model
-       */
       refusal: string;
 
-      /**
-       * Content part type identifier, always "refusal"
-       */
-      type: 'refusal';
+      type?: 'refusal';
     }
 
     /**
      * Reasoning text emitted as part of a streamed response.
      */
     export interface OpenAIResponseContentPartReasoningText {
-      /**
-       * Reasoning text supplied by the model
-       */
       text: string;
 
-      /**
-       * Content part type identifier, always "reasoning_text"
-       */
-      type: 'reasoning_text';
+      type?: 'reasoning_text';
     }
   }
 
@@ -2430,43 +1550,25 @@ export namespace ResponseObjectStream {
    * Streaming event for when a content part is completed.
    */
   export interface OpenAIResponseObjectStreamResponseContentPartDone {
-    /**
-     * Index position of the part within the content array
-     */
     content_index: number;
 
-    /**
-     * Unique identifier of the output item containing this content part
-     */
     item_id: string;
 
-    /**
-     * Index position of the output item in the response
-     */
     output_index: number;
 
     /**
-     * The completed content part
+     * Text content within a streamed response part.
      */
     part:
       | OpenAIResponseObjectStreamResponseContentPartDone.OpenAIResponseContentPartOutputText
       | OpenAIResponseObjectStreamResponseContentPartDone.OpenAIResponseContentPartRefusal
       | OpenAIResponseObjectStreamResponseContentPartDone.OpenAIResponseContentPartReasoningText;
 
-    /**
-     * Unique identifier of the response containing this content
-     */
     response_id: string;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.content_part.done"
-     */
-    type: 'response.content_part.done';
+    type?: 'response.content_part.done';
   }
 
   export namespace OpenAIResponseObjectStreamResponseContentPartDone {
@@ -2474,30 +1576,18 @@ export namespace ResponseObjectStream {
      * Text content within a streamed response part.
      */
     export interface OpenAIResponseContentPartOutputText {
-      /**
-       * Structured annotations associated with the text
-       */
-      annotations: Array<
+      text: string;
+
+      annotations?: Array<
         | OpenAIResponseContentPartOutputText.OpenAIResponseAnnotationFileCitation
         | OpenAIResponseContentPartOutputText.OpenAIResponseAnnotationCitation
         | OpenAIResponseContentPartOutputText.OpenAIResponseAnnotationContainerFileCitation
         | OpenAIResponseContentPartOutputText.OpenAIResponseAnnotationFilePath
       >;
 
-      /**
-       * Text emitted for this content part
-       */
-      text: string;
+      logprobs?: Array<{ [key: string]: unknown }> | null;
 
-      /**
-       * Content part type identifier, always "output_text"
-       */
-      type: 'output_text';
-
-      /**
-       * (Optional) Token log probability details
-       */
-      logprobs?: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
+      type?: 'output_text';
     }
 
     export namespace OpenAIResponseContentPartOutputText {
@@ -2505,55 +1595,28 @@ export namespace ResponseObjectStream {
        * File citation annotation for referencing specific files in response content.
        */
       export interface OpenAIResponseAnnotationFileCitation {
-        /**
-         * Unique identifier of the referenced file
-         */
         file_id: string;
 
-        /**
-         * Name of the referenced file
-         */
         filename: string;
 
-        /**
-         * Position index of the citation within the content
-         */
         index: number;
 
-        /**
-         * Annotation type identifier, always "file_citation"
-         */
-        type: 'file_citation';
+        type?: 'file_citation';
       }
 
       /**
        * URL citation annotation for referencing external web resources.
        */
       export interface OpenAIResponseAnnotationCitation {
-        /**
-         * End position of the citation span in the content
-         */
         end_index: number;
 
-        /**
-         * Start position of the citation span in the content
-         */
         start_index: number;
 
-        /**
-         * Title of the referenced web resource
-         */
         title: string;
 
-        /**
-         * Annotation type identifier, always "url_citation"
-         */
-        type: 'url_citation';
-
-        /**
-         * URL of the referenced web resource
-         */
         url: string;
+
+        type?: 'url_citation';
       }
 
       export interface OpenAIResponseAnnotationContainerFileCitation {
@@ -2567,7 +1630,7 @@ export namespace ResponseObjectStream {
 
         start_index: number;
 
-        type: 'container_file_citation';
+        type?: 'container_file_citation';
       }
 
       export interface OpenAIResponseAnnotationFilePath {
@@ -2575,7 +1638,7 @@ export namespace ResponseObjectStream {
 
         index: number;
 
-        type: 'file_path';
+        type?: 'file_path';
       }
     }
 
@@ -2583,30 +1646,18 @@ export namespace ResponseObjectStream {
      * Refusal content within a streamed response part.
      */
     export interface OpenAIResponseContentPartRefusal {
-      /**
-       * Refusal text supplied by the model
-       */
       refusal: string;
 
-      /**
-       * Content part type identifier, always "refusal"
-       */
-      type: 'refusal';
+      type?: 'refusal';
     }
 
     /**
      * Reasoning text emitted as part of a streamed response.
      */
     export interface OpenAIResponseContentPartReasoningText {
-      /**
-       * Reasoning text supplied by the model
-       */
       text: string;
 
-      /**
-       * Content part type identifier, always "reasoning_text"
-       */
-      type: 'reasoning_text';
+      type?: 'reasoning_text';
     }
   }
 
@@ -2614,121 +1665,64 @@ export namespace ResponseObjectStream {
    * Streaming event for incremental reasoning text updates.
    */
   export interface OpenAIResponseObjectStreamResponseReasoningTextDelta {
-    /**
-     * Index position of the reasoning content part
-     */
     content_index: number;
 
-    /**
-     * Incremental reasoning text being added
-     */
     delta: string;
 
-    /**
-     * Unique identifier of the output item being updated
-     */
     item_id: string;
 
-    /**
-     * Index position of the item in the output list
-     */
     output_index: number;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.reasoning_text.delta"
-     */
-    type: 'response.reasoning_text.delta';
+    type?: 'response.reasoning_text.delta';
   }
 
   /**
    * Streaming event for when reasoning text is completed.
    */
   export interface OpenAIResponseObjectStreamResponseReasoningTextDone {
-    /**
-     * Index position of the reasoning content part
-     */
     content_index: number;
 
-    /**
-     * Unique identifier of the completed output item
-     */
     item_id: string;
 
-    /**
-     * Index position of the item in the output list
-     */
     output_index: number;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Final complete reasoning text
-     */
     text: string;
 
-    /**
-     * Event type identifier, always "response.reasoning_text.done"
-     */
-    type: 'response.reasoning_text.done';
+    type?: 'response.reasoning_text.done';
   }
 
   /**
    * Streaming event for when a new reasoning summary part is added.
    */
   export interface OpenAIResponseObjectStreamResponseReasoningSummaryPartAdded {
-    /**
-     * Unique identifier of the output item
-     */
     item_id: string;
 
-    /**
-     * Index position of the output item
-     */
     output_index: number;
 
     /**
-     * The summary part that was added
+     * Reasoning summary part in a streamed response.
      */
     part: OpenAIResponseObjectStreamResponseReasoningSummaryPartAdded.Part;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Index of the summary part within the reasoning summary
-     */
     summary_index: number;
 
-    /**
-     * Event type identifier, always "response.reasoning_summary_part.added"
-     */
-    type: 'response.reasoning_summary_part.added';
+    type?: 'response.reasoning_summary_part.added';
   }
 
   export namespace OpenAIResponseObjectStreamResponseReasoningSummaryPartAdded {
     /**
-     * The summary part that was added
+     * Reasoning summary part in a streamed response.
      */
     export interface Part {
-      /**
-       * Summary text
-       */
       text: string;
 
-      /**
-       * Content part type identifier, always "summary_text"
-       */
-      type: 'summary_text';
+      type?: 'summary_text';
     }
   }
 
@@ -2736,51 +1730,30 @@ export namespace ResponseObjectStream {
    * Streaming event for when a reasoning summary part is completed.
    */
   export interface OpenAIResponseObjectStreamResponseReasoningSummaryPartDone {
-    /**
-     * Unique identifier of the output item
-     */
     item_id: string;
 
-    /**
-     * Index position of the output item
-     */
     output_index: number;
 
     /**
-     * The completed summary part
+     * Reasoning summary part in a streamed response.
      */
     part: OpenAIResponseObjectStreamResponseReasoningSummaryPartDone.Part;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Index of the summary part within the reasoning summary
-     */
     summary_index: number;
 
-    /**
-     * Event type identifier, always "response.reasoning_summary_part.done"
-     */
-    type: 'response.reasoning_summary_part.done';
+    type?: 'response.reasoning_summary_part.done';
   }
 
   export namespace OpenAIResponseObjectStreamResponseReasoningSummaryPartDone {
     /**
-     * The completed summary part
+     * Reasoning summary part in a streamed response.
      */
     export interface Part {
-      /**
-       * Summary text
-       */
       text: string;
 
-      /**
-       * Content part type identifier, always "summary_text"
-       */
-      type: 'summary_text';
+      type?: 'summary_text';
     }
   }
 
@@ -2788,140 +1761,68 @@ export namespace ResponseObjectStream {
    * Streaming event for incremental reasoning summary text updates.
    */
   export interface OpenAIResponseObjectStreamResponseReasoningSummaryTextDelta {
-    /**
-     * Incremental summary text being added
-     */
     delta: string;
 
-    /**
-     * Unique identifier of the output item
-     */
     item_id: string;
 
-    /**
-     * Index position of the output item
-     */
     output_index: number;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Index of the summary part within the reasoning summary
-     */
     summary_index: number;
 
-    /**
-     * Event type identifier, always "response.reasoning_summary_text.delta"
-     */
-    type: 'response.reasoning_summary_text.delta';
+    type?: 'response.reasoning_summary_text.delta';
   }
 
   /**
    * Streaming event for when reasoning summary text is completed.
    */
   export interface OpenAIResponseObjectStreamResponseReasoningSummaryTextDone {
-    /**
-     * Unique identifier of the output item
-     */
     item_id: string;
 
-    /**
-     * Index position of the output item
-     */
     output_index: number;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Index of the summary part within the reasoning summary
-     */
     summary_index: number;
 
-    /**
-     * Final complete summary text
-     */
     text: string;
 
-    /**
-     * Event type identifier, always "response.reasoning_summary_text.done"
-     */
-    type: 'response.reasoning_summary_text.done';
+    type?: 'response.reasoning_summary_text.done';
   }
 
   /**
    * Streaming event for incremental refusal text updates.
    */
   export interface OpenAIResponseObjectStreamResponseRefusalDelta {
-    /**
-     * Index position of the content part
-     */
     content_index: number;
 
-    /**
-     * Incremental refusal text being added
-     */
     delta: string;
 
-    /**
-     * Unique identifier of the output item
-     */
     item_id: string;
 
-    /**
-     * Index position of the item in the output list
-     */
     output_index: number;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.refusal.delta"
-     */
-    type: 'response.refusal.delta';
+    type?: 'response.refusal.delta';
   }
 
   /**
    * Streaming event for when refusal text is completed.
    */
   export interface OpenAIResponseObjectStreamResponseRefusalDone {
-    /**
-     * Index position of the content part
-     */
     content_index: number;
 
-    /**
-     * Unique identifier of the output item
-     */
     item_id: string;
 
-    /**
-     * Index position of the item in the output list
-     */
     output_index: number;
 
-    /**
-     * Final complete refusal text
-     */
     refusal: string;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.refusal.done"
-     */
-    type: 'response.refusal.done';
+    type?: 'response.refusal.done';
   }
 
   /**
@@ -2929,7 +1830,7 @@ export namespace ResponseObjectStream {
    */
   export interface OpenAIResponseObjectStreamResponseOutputTextAnnotationAdded {
     /**
-     * The annotation object being added
+     * File citation annotation for referencing specific files in response content.
      */
     annotation:
       | OpenAIResponseObjectStreamResponseOutputTextAnnotationAdded.OpenAIResponseAnnotationFileCitation
@@ -2937,35 +1838,17 @@ export namespace ResponseObjectStream {
       | OpenAIResponseObjectStreamResponseOutputTextAnnotationAdded.OpenAIResponseAnnotationContainerFileCitation
       | OpenAIResponseObjectStreamResponseOutputTextAnnotationAdded.OpenAIResponseAnnotationFilePath;
 
-    /**
-     * Index of the annotation within the content part
-     */
     annotation_index: number;
 
-    /**
-     * Index position of the content part within the output item
-     */
     content_index: number;
 
-    /**
-     * Unique identifier of the item to which the annotation is being added
-     */
     item_id: string;
 
-    /**
-     * Index position of the output item in the response's output array
-     */
     output_index: number;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.output_text.annotation.added"
-     */
-    type: 'response.output_text.annotation.added';
+    type?: 'response.output_text.annotation.added';
   }
 
   export namespace OpenAIResponseObjectStreamResponseOutputTextAnnotationAdded {
@@ -2973,55 +1856,28 @@ export namespace ResponseObjectStream {
      * File citation annotation for referencing specific files in response content.
      */
     export interface OpenAIResponseAnnotationFileCitation {
-      /**
-       * Unique identifier of the referenced file
-       */
       file_id: string;
 
-      /**
-       * Name of the referenced file
-       */
       filename: string;
 
-      /**
-       * Position index of the citation within the content
-       */
       index: number;
 
-      /**
-       * Annotation type identifier, always "file_citation"
-       */
-      type: 'file_citation';
+      type?: 'file_citation';
     }
 
     /**
      * URL citation annotation for referencing external web resources.
      */
     export interface OpenAIResponseAnnotationCitation {
-      /**
-       * End position of the citation span in the content
-       */
       end_index: number;
 
-      /**
-       * Start position of the citation span in the content
-       */
       start_index: number;
 
-      /**
-       * Title of the referenced web resource
-       */
       title: string;
 
-      /**
-       * Annotation type identifier, always "url_citation"
-       */
-      type: 'url_citation';
-
-      /**
-       * URL of the referenced web resource
-       */
       url: string;
+
+      type?: 'url_citation';
     }
 
     export interface OpenAIResponseAnnotationContainerFileCitation {
@@ -3035,7 +1891,7 @@ export namespace ResponseObjectStream {
 
       start_index: number;
 
-      type: 'container_file_citation';
+      type?: 'container_file_citation';
     }
 
     export interface OpenAIResponseAnnotationFilePath {
@@ -3043,7 +1899,7 @@ export namespace ResponseObjectStream {
 
       index: number;
 
-      type: 'file_path';
+      type?: 'file_path';
     }
   }
 
@@ -3051,75 +1907,39 @@ export namespace ResponseObjectStream {
    * Streaming event for file search calls in progress.
    */
   export interface OpenAIResponseObjectStreamResponseFileSearchCallInProgress {
-    /**
-     * Unique identifier of the file search call
-     */
     item_id: string;
 
-    /**
-     * Index position of the item in the output list
-     */
     output_index: number;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.file_search_call.in_progress"
-     */
-    type: 'response.file_search_call.in_progress';
+    type?: 'response.file_search_call.in_progress';
   }
 
   /**
    * Streaming event for file search currently searching.
    */
   export interface OpenAIResponseObjectStreamResponseFileSearchCallSearching {
-    /**
-     * Unique identifier of the file search call
-     */
     item_id: string;
 
-    /**
-     * Index position of the item in the output list
-     */
     output_index: number;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.file_search_call.searching"
-     */
-    type: 'response.file_search_call.searching';
+    type?: 'response.file_search_call.searching';
   }
 
   /**
    * Streaming event for completed file search calls.
    */
   export interface OpenAIResponseObjectStreamResponseFileSearchCallCompleted {
-    /**
-     * Unique identifier of the completed file search call
-     */
     item_id: string;
 
-    /**
-     * Index position of the item in the output list
-     */
     output_index: number;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.file_search_call.completed"
-     */
-    type: 'response.file_search_call.completed';
+    type?: 'response.file_search_call.completed';
   }
 
   /**
@@ -3127,19 +1947,13 @@ export namespace ResponseObjectStream {
    */
   export interface OpenAIResponseObjectStreamResponseIncomplete {
     /**
-     * Response object describing the incomplete state
+     * Complete OpenAI response object containing generation results and metadata.
      */
     response: ResponsesAPI.ResponseObject;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.incomplete"
-     */
-    type: 'response.incomplete';
+    type?: 'response.incomplete';
   }
 
   /**
@@ -3147,19 +1961,13 @@ export namespace ResponseObjectStream {
    */
   export interface OpenAIResponseObjectStreamResponseFailed {
     /**
-     * Response object describing the failure
+     * Complete OpenAI response object containing generation results and metadata.
      */
     response: ResponsesAPI.ResponseObject;
 
-    /**
-     * Sequential number for ordering streaming events
-     */
     sequence_number: number;
 
-    /**
-     * Event type identifier, always "response.failed"
-     */
-    type: 'response.failed';
+    type?: 'response.failed';
   }
 
   /**
@@ -3167,14 +1975,11 @@ export namespace ResponseObjectStream {
    */
   export interface OpenAIResponseObjectStreamResponseCompleted {
     /**
-     * Completed response object
+     * Complete OpenAI response object containing generation results and metadata.
      */
     response: ResponsesAPI.ResponseObject;
 
-    /**
-     * Event type identifier, always "response.completed"
-     */
-    type: 'response.completed';
+    type?: 'response.completed';
   }
 }
 
@@ -3182,21 +1987,12 @@ export namespace ResponseObjectStream {
  * OpenAI response object extended with input context information.
  */
 export interface ResponseListResponse {
-  /**
-   * Unique identifier for this response
-   */
   id: string;
 
-  /**
-   * Unix timestamp when the response was created
-   */
   created_at: number;
 
-  /**
-   * List of input items that led to this response
-   */
   input: Array<
-    | ResponseListResponse.OpenAIResponseMessage
+    | ResponseListResponse.OpenAIResponseMessageOutput
     | ResponseListResponse.OpenAIResponseOutputMessageWebSearchToolCall
     | ResponseListResponse.OpenAIResponseOutputMessageFileSearchToolCall
     | ResponseListResponse.OpenAIResponseOutputMessageFunctionToolCall
@@ -3205,24 +2001,13 @@ export interface ResponseListResponse {
     | ResponseListResponse.OpenAIResponseMcpApprovalRequest
     | ResponseListResponse.OpenAIResponseInputFunctionToolCallOutput
     | ResponseListResponse.OpenAIResponseMcpApprovalResponse
-    | ResponseListResponse.OpenAIResponseMessage
+    | ResponseListResponse.OpenAIResponseMessageOutput
   >;
 
-  /**
-   * Model identifier used for generation
-   */
   model: string;
 
-  /**
-   * Object type identifier, always "response"
-   */
-  object: 'response';
-
-  /**
-   * List of generated output items (messages, tool calls, etc.)
-   */
   output: Array<
-    | ResponseListResponse.OpenAIResponseMessage
+    | ResponseListResponse.OpenAIResponseMessageOutput
     | ResponseListResponse.OpenAIResponseOutputMessageWebSearchToolCall
     | ResponseListResponse.OpenAIResponseOutputMessageFileSearchToolCall
     | ResponseListResponse.OpenAIResponseOutputMessageFunctionToolCall
@@ -3231,76 +2016,50 @@ export interface ResponseListResponse {
     | ResponseListResponse.OpenAIResponseMcpApprovalRequest
   >;
 
-  /**
-   * Whether tool calls can be executed in parallel
-   */
-  parallel_tool_calls: boolean;
-
-  /**
-   * Current status of the response generation
-   */
   status: string;
 
   /**
-   * Text formatting configuration for the response
+   * Error details for failed OpenAI response requests.
    */
-  text: ResponseListResponse.Text;
+  error?: ResponseListResponse.Error | null;
+
+  instructions?: string | null;
+
+  max_tool_calls?: number | null;
+
+  object?: 'response';
+
+  parallel_tool_calls?: boolean;
+
+  previous_response_id?: string | null;
 
   /**
-   * (Optional) Error details if the response generation failed
+   * OpenAI compatible Prompt object that is used in OpenAI responses.
    */
-  error?: ResponseListResponse.Error;
+  prompt?: ResponseListResponse.Prompt | null;
+
+  temperature?: number | null;
 
   /**
-   * (Optional) System message inserted into the model's context
+   * Text response configuration for OpenAI responses.
    */
-  instructions?: string;
+  text?: ResponseListResponse.Text;
 
-  /**
-   * (Optional) Max number of total calls to built-in tools that can be processed in
-   * a response
-   */
-  max_tool_calls?: number;
-
-  /**
-   * (Optional) ID of the previous response in a conversation
-   */
-  previous_response_id?: string;
-
-  /**
-   * (Optional) Reference to a prompt template and its variables.
-   */
-  prompt?: ResponseListResponse.Prompt;
-
-  /**
-   * (Optional) Sampling temperature used for generation
-   */
-  temperature?: number;
-
-  /**
-   * (Optional) An array of tools the model may call while generating a response.
-   */
   tools?: Array<
     | ResponseListResponse.OpenAIResponseInputToolWebSearch
     | ResponseListResponse.OpenAIResponseInputToolFileSearch
     | ResponseListResponse.OpenAIResponseInputToolFunction
     | ResponseListResponse.OpenAIResponseToolMcp
-  >;
+  > | null;
+
+  top_p?: number | null;
+
+  truncation?: string | null;
 
   /**
-   * (Optional) Nucleus sampling parameter used for generation
+   * Usage information for OpenAI response.
    */
-  top_p?: number;
-
-  /**
-   * (Optional) Truncation strategy applied to the response
-   */
-  truncation?: string;
-
-  /**
-   * (Optional) Token usage information for the response
-   */
-  usage?: ResponseListResponse.Usage;
+  usage?: ResponseListResponse.Usage | null;
 }
 
 export namespace ResponseListResponse {
@@ -3309,110 +2068,77 @@ export namespace ResponseListResponse {
    * under one type because the Responses API gives them all the same "type" value,
    * and there is no way to tell them apart in certain scenarios.
    */
-  export interface OpenAIResponseMessage {
+  export interface OpenAIResponseMessageOutput {
     content:
       | string
       | Array<
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentFile
+          | OpenAIResponseMessageOutput.OpenAIResponseInputMessageContentText
+          | OpenAIResponseMessageOutput.OpenAIResponseInputMessageContentImage
+          | OpenAIResponseMessageOutput.OpenAIResponseInputMessageContentFile
         >
       | Array<
-          | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
-          | OpenAIResponseMessage.OpenAIResponseContentPartRefusal
+          | OpenAIResponseMessageOutput.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessageOutput.OpenAIResponseContentPartRefusal
         >;
 
     role: 'system' | 'developer' | 'user' | 'assistant';
 
-    type: 'message';
+    id?: string | null;
 
-    id?: string;
+    status?: string | null;
 
-    status?: string;
+    type?: 'message';
   }
 
-  export namespace OpenAIResponseMessage {
+  export namespace OpenAIResponseMessageOutput {
     /**
      * Text content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentText {
-      /**
-       * The text content of the input message
-       */
       text: string;
 
-      /**
-       * Content type identifier, always "input_text"
-       */
-      type: 'input_text';
+      type?: 'input_text';
     }
 
     /**
      * Image content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentImage {
-      /**
-       * Level of detail for image processing, can be "low", "high", or "auto"
-       */
-      detail: 'low' | 'high' | 'auto';
+      detail?: 'low' | 'high' | 'auto';
 
-      /**
-       * Content type identifier, always "input_image"
-       */
-      type: 'input_image';
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      image_url?: string | null;
 
-      /**
-       * (Optional) URL of the image content
-       */
-      image_url?: string;
+      type?: 'input_image';
     }
 
     /**
      * File content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentFile {
-      /**
-       * The type of the input item. Always `input_file`.
-       */
-      type: 'input_file';
+      file_data?: string | null;
 
-      /**
-       * The data of the file to be sent to the model.
-       */
-      file_data?: string;
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      file_url?: string | null;
 
-      /**
-       * The URL of the file to be sent to the model.
-       */
-      file_url?: string;
+      filename?: string | null;
 
-      /**
-       * The name of the file to be sent to the model.
-       */
-      filename?: string;
+      type?: 'input_file';
     }
 
     export interface OpenAIResponseOutputMessageContentOutputText {
-      annotations: Array<
+      text: string;
+
+      annotations?: Array<
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
       >;
 
-      text: string;
-
-      type: 'output_text';
+      type?: 'output_text';
     }
 
     export namespace OpenAIResponseOutputMessageContentOutputText {
@@ -3420,55 +2146,28 @@ export namespace ResponseListResponse {
        * File citation annotation for referencing specific files in response content.
        */
       export interface OpenAIResponseAnnotationFileCitation {
-        /**
-         * Unique identifier of the referenced file
-         */
         file_id: string;
 
-        /**
-         * Name of the referenced file
-         */
         filename: string;
 
-        /**
-         * Position index of the citation within the content
-         */
         index: number;
 
-        /**
-         * Annotation type identifier, always "file_citation"
-         */
-        type: 'file_citation';
+        type?: 'file_citation';
       }
 
       /**
        * URL citation annotation for referencing external web resources.
        */
       export interface OpenAIResponseAnnotationCitation {
-        /**
-         * End position of the citation span in the content
-         */
         end_index: number;
 
-        /**
-         * Start position of the citation span in the content
-         */
         start_index: number;
 
-        /**
-         * Title of the referenced web resource
-         */
         title: string;
 
-        /**
-         * Annotation type identifier, always "url_citation"
-         */
-        type: 'url_citation';
-
-        /**
-         * URL of the referenced web resource
-         */
         url: string;
+
+        type?: 'url_citation';
       }
 
       export interface OpenAIResponseAnnotationContainerFileCitation {
@@ -3482,7 +2181,7 @@ export namespace ResponseListResponse {
 
         start_index: number;
 
-        type: 'container_file_citation';
+        type?: 'container_file_citation';
       }
 
       export interface OpenAIResponseAnnotationFilePath {
@@ -3490,7 +2189,7 @@ export namespace ResponseListResponse {
 
         index: number;
 
-        type: 'file_path';
+        type?: 'file_path';
       }
     }
 
@@ -3498,15 +2197,9 @@ export namespace ResponseListResponse {
      * Refusal content within a streamed response part.
      */
     export interface OpenAIResponseContentPartRefusal {
-      /**
-       * Refusal text supplied by the model
-       */
       refusal: string;
 
-      /**
-       * Content part type identifier, always "refusal"
-       */
-      type: 'refusal';
+      type?: 'refusal';
     }
   }
 
@@ -3514,50 +2207,26 @@ export namespace ResponseListResponse {
    * Web search tool call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageWebSearchToolCall {
-    /**
-     * Unique identifier for this tool call
-     */
     id: string;
 
-    /**
-     * Current status of the web search operation
-     */
     status: string;
 
-    /**
-     * Tool call type identifier, always "web_search_call"
-     */
-    type: 'web_search_call';
+    type?: 'web_search_call';
   }
 
   /**
    * File search tool call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageFileSearchToolCall {
-    /**
-     * Unique identifier for this tool call
-     */
     id: string;
 
-    /**
-     * List of search queries executed
-     */
     queries: Array<string>;
 
-    /**
-     * Current status of the file search operation
-     */
     status: string;
 
-    /**
-     * Tool call type identifier, always "file_search_call"
-     */
-    type: 'file_search_call';
+    results?: Array<OpenAIResponseOutputMessageFileSearchToolCall.Result> | null;
 
-    /**
-     * (Optional) Search results returned by the file search operation
-     */
-    results?: Array<OpenAIResponseOutputMessageFileSearchToolCall.Result>;
+    type?: 'file_search_call';
   }
 
   export namespace OpenAIResponseOutputMessageFileSearchToolCall {
@@ -3565,29 +2234,14 @@ export namespace ResponseListResponse {
      * Search results returned by the file search operation.
      */
     export interface Result {
-      /**
-       * (Optional) Key-value attributes associated with the file
-       */
-      attributes: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+      attributes: { [key: string]: unknown };
 
-      /**
-       * Unique identifier of the file containing the result
-       */
       file_id: string;
 
-      /**
-       * Name of the file containing the result
-       */
       filename: string;
 
-      /**
-       * Relevance score for this search result (between 0 and 1)
-       */
       score: number;
 
-      /**
-       * Text content of the search result
-       */
       text: string;
     }
   }
@@ -3596,100 +2250,49 @@ export namespace ResponseListResponse {
    * Function tool call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageFunctionToolCall {
-    /**
-     * JSON string containing the function arguments
-     */
     arguments: string;
 
-    /**
-     * Unique identifier for the function call
-     */
     call_id: string;
 
-    /**
-     * Name of the function being called
-     */
     name: string;
 
-    /**
-     * Tool call type identifier, always "function_call"
-     */
-    type: 'function_call';
+    id?: string | null;
 
-    /**
-     * (Optional) Additional identifier for the tool call
-     */
-    id?: string;
+    status?: string | null;
 
-    /**
-     * (Optional) Current status of the function call execution
-     */
-    status?: string;
+    type?: 'function_call';
   }
 
   /**
    * Model Context Protocol (MCP) call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageMcpCall {
-    /**
-     * Unique identifier for this MCP call
-     */
     id: string;
 
-    /**
-     * JSON string containing the MCP call arguments
-     */
     arguments: string;
 
-    /**
-     * Name of the MCP method being called
-     */
     name: string;
 
-    /**
-     * Label identifying the MCP server handling the call
-     */
     server_label: string;
 
-    /**
-     * Tool call type identifier, always "mcp_call"
-     */
-    type: 'mcp_call';
+    error?: string | null;
 
-    /**
-     * (Optional) Error message if the MCP call failed
-     */
-    error?: string;
+    output?: string | null;
 
-    /**
-     * (Optional) Output result from the successful MCP call
-     */
-    output?: string;
+    type?: 'mcp_call';
   }
 
   /**
    * MCP list tools output message containing available tools from an MCP server.
    */
   export interface OpenAIResponseOutputMessageMcpListTools {
-    /**
-     * Unique identifier for this MCP list tools operation
-     */
     id: string;
 
-    /**
-     * Label identifying the MCP server providing the tools
-     */
     server_label: string;
 
-    /**
-     * List of available tools provided by the MCP server
-     */
     tools: Array<OpenAIResponseOutputMessageMcpListTools.Tool>;
 
-    /**
-     * Tool call type identifier, always "mcp_list_tools"
-     */
-    type: 'mcp_list_tools';
+    type?: 'mcp_list_tools';
   }
 
   export namespace OpenAIResponseOutputMessageMcpListTools {
@@ -3697,20 +2300,11 @@ export namespace ResponseListResponse {
      * Tool definition returned by MCP list tools operation.
      */
     export interface Tool {
-      /**
-       * JSON schema defining the tool's input parameters
-       */
-      input_schema: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+      input_schema: { [key: string]: unknown };
 
-      /**
-       * Name of the tool
-       */
       name: string;
 
-      /**
-       * (Optional) Description of what the tool does
-       */
-      description?: string;
+      description?: string | null;
     }
   }
 
@@ -3726,7 +2320,7 @@ export namespace ResponseListResponse {
 
     server_label: string;
 
-    type: 'mcp_approval_request';
+    type?: 'mcp_approval_request';
   }
 
   /**
@@ -3738,11 +2332,11 @@ export namespace ResponseListResponse {
 
     output: string;
 
-    type: 'function_call_output';
+    id?: string | null;
 
-    id?: string;
+    status?: string | null;
 
-    status?: string;
+    type?: 'function_call_output';
   }
 
   /**
@@ -3753,11 +2347,11 @@ export namespace ResponseListResponse {
 
     approve: boolean;
 
-    type: 'mcp_approval_response';
+    id?: string | null;
 
-    id?: string;
+    reason?: string | null;
 
-    reason?: string;
+    type?: 'mcp_approval_response';
   }
 
   /**
@@ -3765,110 +2359,77 @@ export namespace ResponseListResponse {
    * under one type because the Responses API gives them all the same "type" value,
    * and there is no way to tell them apart in certain scenarios.
    */
-  export interface OpenAIResponseMessage {
+  export interface OpenAIResponseMessageOutput {
     content:
       | string
       | Array<
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentFile
+          | OpenAIResponseMessageOutput.OpenAIResponseInputMessageContentText
+          | OpenAIResponseMessageOutput.OpenAIResponseInputMessageContentImage
+          | OpenAIResponseMessageOutput.OpenAIResponseInputMessageContentFile
         >
       | Array<
-          | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
-          | OpenAIResponseMessage.OpenAIResponseContentPartRefusal
+          | OpenAIResponseMessageOutput.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessageOutput.OpenAIResponseContentPartRefusal
         >;
 
     role: 'system' | 'developer' | 'user' | 'assistant';
 
-    type: 'message';
+    id?: string | null;
 
-    id?: string;
+    status?: string | null;
 
-    status?: string;
+    type?: 'message';
   }
 
-  export namespace OpenAIResponseMessage {
+  export namespace OpenAIResponseMessageOutput {
     /**
      * Text content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentText {
-      /**
-       * The text content of the input message
-       */
       text: string;
 
-      /**
-       * Content type identifier, always "input_text"
-       */
-      type: 'input_text';
+      type?: 'input_text';
     }
 
     /**
      * Image content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentImage {
-      /**
-       * Level of detail for image processing, can be "low", "high", or "auto"
-       */
-      detail: 'low' | 'high' | 'auto';
+      detail?: 'low' | 'high' | 'auto';
 
-      /**
-       * Content type identifier, always "input_image"
-       */
-      type: 'input_image';
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      image_url?: string | null;
 
-      /**
-       * (Optional) URL of the image content
-       */
-      image_url?: string;
+      type?: 'input_image';
     }
 
     /**
      * File content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentFile {
-      /**
-       * The type of the input item. Always `input_file`.
-       */
-      type: 'input_file';
+      file_data?: string | null;
 
-      /**
-       * The data of the file to be sent to the model.
-       */
-      file_data?: string;
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      file_url?: string | null;
 
-      /**
-       * The URL of the file to be sent to the model.
-       */
-      file_url?: string;
+      filename?: string | null;
 
-      /**
-       * The name of the file to be sent to the model.
-       */
-      filename?: string;
+      type?: 'input_file';
     }
 
     export interface OpenAIResponseOutputMessageContentOutputText {
-      annotations: Array<
+      text: string;
+
+      annotations?: Array<
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
       >;
 
-      text: string;
-
-      type: 'output_text';
+      type?: 'output_text';
     }
 
     export namespace OpenAIResponseOutputMessageContentOutputText {
@@ -3876,55 +2437,28 @@ export namespace ResponseListResponse {
        * File citation annotation for referencing specific files in response content.
        */
       export interface OpenAIResponseAnnotationFileCitation {
-        /**
-         * Unique identifier of the referenced file
-         */
         file_id: string;
 
-        /**
-         * Name of the referenced file
-         */
         filename: string;
 
-        /**
-         * Position index of the citation within the content
-         */
         index: number;
 
-        /**
-         * Annotation type identifier, always "file_citation"
-         */
-        type: 'file_citation';
+        type?: 'file_citation';
       }
 
       /**
        * URL citation annotation for referencing external web resources.
        */
       export interface OpenAIResponseAnnotationCitation {
-        /**
-         * End position of the citation span in the content
-         */
         end_index: number;
 
-        /**
-         * Start position of the citation span in the content
-         */
         start_index: number;
 
-        /**
-         * Title of the referenced web resource
-         */
         title: string;
 
-        /**
-         * Annotation type identifier, always "url_citation"
-         */
-        type: 'url_citation';
-
-        /**
-         * URL of the referenced web resource
-         */
         url: string;
+
+        type?: 'url_citation';
       }
 
       export interface OpenAIResponseAnnotationContainerFileCitation {
@@ -3938,7 +2472,7 @@ export namespace ResponseListResponse {
 
         start_index: number;
 
-        type: 'container_file_citation';
+        type?: 'container_file_citation';
       }
 
       export interface OpenAIResponseAnnotationFilePath {
@@ -3946,7 +2480,7 @@ export namespace ResponseListResponse {
 
         index: number;
 
-        type: 'file_path';
+        type?: 'file_path';
       }
     }
 
@@ -3954,15 +2488,9 @@ export namespace ResponseListResponse {
      * Refusal content within a streamed response part.
      */
     export interface OpenAIResponseContentPartRefusal {
-      /**
-       * Refusal text supplied by the model
-       */
       refusal: string;
 
-      /**
-       * Content part type identifier, always "refusal"
-       */
-      type: 'refusal';
+      type?: 'refusal';
     }
   }
 
@@ -3971,110 +2499,77 @@ export namespace ResponseListResponse {
    * under one type because the Responses API gives them all the same "type" value,
    * and there is no way to tell them apart in certain scenarios.
    */
-  export interface OpenAIResponseMessage {
+  export interface OpenAIResponseMessageOutput {
     content:
       | string
       | Array<
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentFile
+          | OpenAIResponseMessageOutput.OpenAIResponseInputMessageContentText
+          | OpenAIResponseMessageOutput.OpenAIResponseInputMessageContentImage
+          | OpenAIResponseMessageOutput.OpenAIResponseInputMessageContentFile
         >
       | Array<
-          | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
-          | OpenAIResponseMessage.OpenAIResponseContentPartRefusal
+          | OpenAIResponseMessageOutput.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessageOutput.OpenAIResponseContentPartRefusal
         >;
 
     role: 'system' | 'developer' | 'user' | 'assistant';
 
-    type: 'message';
+    id?: string | null;
 
-    id?: string;
+    status?: string | null;
 
-    status?: string;
+    type?: 'message';
   }
 
-  export namespace OpenAIResponseMessage {
+  export namespace OpenAIResponseMessageOutput {
     /**
      * Text content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentText {
-      /**
-       * The text content of the input message
-       */
       text: string;
 
-      /**
-       * Content type identifier, always "input_text"
-       */
-      type: 'input_text';
+      type?: 'input_text';
     }
 
     /**
      * Image content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentImage {
-      /**
-       * Level of detail for image processing, can be "low", "high", or "auto"
-       */
-      detail: 'low' | 'high' | 'auto';
+      detail?: 'low' | 'high' | 'auto';
 
-      /**
-       * Content type identifier, always "input_image"
-       */
-      type: 'input_image';
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      image_url?: string | null;
 
-      /**
-       * (Optional) URL of the image content
-       */
-      image_url?: string;
+      type?: 'input_image';
     }
 
     /**
      * File content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentFile {
-      /**
-       * The type of the input item. Always `input_file`.
-       */
-      type: 'input_file';
+      file_data?: string | null;
 
-      /**
-       * The data of the file to be sent to the model.
-       */
-      file_data?: string;
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      file_url?: string | null;
 
-      /**
-       * The URL of the file to be sent to the model.
-       */
-      file_url?: string;
+      filename?: string | null;
 
-      /**
-       * The name of the file to be sent to the model.
-       */
-      filename?: string;
+      type?: 'input_file';
     }
 
     export interface OpenAIResponseOutputMessageContentOutputText {
-      annotations: Array<
+      text: string;
+
+      annotations?: Array<
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
       >;
 
-      text: string;
-
-      type: 'output_text';
+      type?: 'output_text';
     }
 
     export namespace OpenAIResponseOutputMessageContentOutputText {
@@ -4082,55 +2577,28 @@ export namespace ResponseListResponse {
        * File citation annotation for referencing specific files in response content.
        */
       export interface OpenAIResponseAnnotationFileCitation {
-        /**
-         * Unique identifier of the referenced file
-         */
         file_id: string;
 
-        /**
-         * Name of the referenced file
-         */
         filename: string;
 
-        /**
-         * Position index of the citation within the content
-         */
         index: number;
 
-        /**
-         * Annotation type identifier, always "file_citation"
-         */
-        type: 'file_citation';
+        type?: 'file_citation';
       }
 
       /**
        * URL citation annotation for referencing external web resources.
        */
       export interface OpenAIResponseAnnotationCitation {
-        /**
-         * End position of the citation span in the content
-         */
         end_index: number;
 
-        /**
-         * Start position of the citation span in the content
-         */
         start_index: number;
 
-        /**
-         * Title of the referenced web resource
-         */
         title: string;
 
-        /**
-         * Annotation type identifier, always "url_citation"
-         */
-        type: 'url_citation';
-
-        /**
-         * URL of the referenced web resource
-         */
         url: string;
+
+        type?: 'url_citation';
       }
 
       export interface OpenAIResponseAnnotationContainerFileCitation {
@@ -4144,7 +2612,7 @@ export namespace ResponseListResponse {
 
         start_index: number;
 
-        type: 'container_file_citation';
+        type?: 'container_file_citation';
       }
 
       export interface OpenAIResponseAnnotationFilePath {
@@ -4152,7 +2620,7 @@ export namespace ResponseListResponse {
 
         index: number;
 
-        type: 'file_path';
+        type?: 'file_path';
       }
     }
 
@@ -4160,15 +2628,9 @@ export namespace ResponseListResponse {
      * Refusal content within a streamed response part.
      */
     export interface OpenAIResponseContentPartRefusal {
-      /**
-       * Refusal text supplied by the model
-       */
       refusal: string;
 
-      /**
-       * Content part type identifier, always "refusal"
-       */
-      type: 'refusal';
+      type?: 'refusal';
     }
   }
 
@@ -4176,50 +2638,26 @@ export namespace ResponseListResponse {
    * Web search tool call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageWebSearchToolCall {
-    /**
-     * Unique identifier for this tool call
-     */
     id: string;
 
-    /**
-     * Current status of the web search operation
-     */
     status: string;
 
-    /**
-     * Tool call type identifier, always "web_search_call"
-     */
-    type: 'web_search_call';
+    type?: 'web_search_call';
   }
 
   /**
    * File search tool call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageFileSearchToolCall {
-    /**
-     * Unique identifier for this tool call
-     */
     id: string;
 
-    /**
-     * List of search queries executed
-     */
     queries: Array<string>;
 
-    /**
-     * Current status of the file search operation
-     */
     status: string;
 
-    /**
-     * Tool call type identifier, always "file_search_call"
-     */
-    type: 'file_search_call';
+    results?: Array<OpenAIResponseOutputMessageFileSearchToolCall.Result> | null;
 
-    /**
-     * (Optional) Search results returned by the file search operation
-     */
-    results?: Array<OpenAIResponseOutputMessageFileSearchToolCall.Result>;
+    type?: 'file_search_call';
   }
 
   export namespace OpenAIResponseOutputMessageFileSearchToolCall {
@@ -4227,29 +2665,14 @@ export namespace ResponseListResponse {
      * Search results returned by the file search operation.
      */
     export interface Result {
-      /**
-       * (Optional) Key-value attributes associated with the file
-       */
-      attributes: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+      attributes: { [key: string]: unknown };
 
-      /**
-       * Unique identifier of the file containing the result
-       */
       file_id: string;
 
-      /**
-       * Name of the file containing the result
-       */
       filename: string;
 
-      /**
-       * Relevance score for this search result (between 0 and 1)
-       */
       score: number;
 
-      /**
-       * Text content of the search result
-       */
       text: string;
     }
   }
@@ -4258,100 +2681,49 @@ export namespace ResponseListResponse {
    * Function tool call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageFunctionToolCall {
-    /**
-     * JSON string containing the function arguments
-     */
     arguments: string;
 
-    /**
-     * Unique identifier for the function call
-     */
     call_id: string;
 
-    /**
-     * Name of the function being called
-     */
     name: string;
 
-    /**
-     * Tool call type identifier, always "function_call"
-     */
-    type: 'function_call';
+    id?: string | null;
 
-    /**
-     * (Optional) Additional identifier for the tool call
-     */
-    id?: string;
+    status?: string | null;
 
-    /**
-     * (Optional) Current status of the function call execution
-     */
-    status?: string;
+    type?: 'function_call';
   }
 
   /**
    * Model Context Protocol (MCP) call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageMcpCall {
-    /**
-     * Unique identifier for this MCP call
-     */
     id: string;
 
-    /**
-     * JSON string containing the MCP call arguments
-     */
     arguments: string;
 
-    /**
-     * Name of the MCP method being called
-     */
     name: string;
 
-    /**
-     * Label identifying the MCP server handling the call
-     */
     server_label: string;
 
-    /**
-     * Tool call type identifier, always "mcp_call"
-     */
-    type: 'mcp_call';
+    error?: string | null;
 
-    /**
-     * (Optional) Error message if the MCP call failed
-     */
-    error?: string;
+    output?: string | null;
 
-    /**
-     * (Optional) Output result from the successful MCP call
-     */
-    output?: string;
+    type?: 'mcp_call';
   }
 
   /**
    * MCP list tools output message containing available tools from an MCP server.
    */
   export interface OpenAIResponseOutputMessageMcpListTools {
-    /**
-     * Unique identifier for this MCP list tools operation
-     */
     id: string;
 
-    /**
-     * Label identifying the MCP server providing the tools
-     */
     server_label: string;
 
-    /**
-     * List of available tools provided by the MCP server
-     */
     tools: Array<OpenAIResponseOutputMessageMcpListTools.Tool>;
 
-    /**
-     * Tool call type identifier, always "mcp_list_tools"
-     */
-    type: 'mcp_list_tools';
+    type?: 'mcp_list_tools';
   }
 
   export namespace OpenAIResponseOutputMessageMcpListTools {
@@ -4359,20 +2731,11 @@ export namespace ResponseListResponse {
      * Tool definition returned by MCP list tools operation.
      */
     export interface Tool {
-      /**
-       * JSON schema defining the tool's input parameters
-       */
-      input_schema: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+      input_schema: { [key: string]: unknown };
 
-      /**
-       * Name of the tool
-       */
       name: string;
 
-      /**
-       * (Optional) Description of what the tool does
-       */
-      description?: string;
+      description?: string | null;
     }
   }
 
@@ -4388,93 +2751,32 @@ export namespace ResponseListResponse {
 
     server_label: string;
 
-    type: 'mcp_approval_request';
+    type?: 'mcp_approval_request';
   }
 
   /**
-   * Text formatting configuration for the response
-   */
-  export interface Text {
-    /**
-     * (Optional) Text format configuration specifying output format requirements
-     */
-    format?: Text.Format;
-  }
-
-  export namespace Text {
-    /**
-     * (Optional) Text format configuration specifying output format requirements
-     */
-    export interface Format {
-      /**
-       * Must be "text", "json_schema", or "json_object" to identify the format type
-       */
-      type: 'text' | 'json_schema' | 'json_object';
-
-      /**
-       * (Optional) A description of the response format. Only used for json_schema.
-       */
-      description?: string;
-
-      /**
-       * The name of the response format. Only used for json_schema.
-       */
-      name?: string;
-
-      /**
-       * The JSON schema the response should conform to. In a Python SDK, this is often a
-       * `pydantic` model. Only used for json_schema.
-       */
-      schema?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
-      /**
-       * (Optional) Whether to strictly enforce the JSON schema. If true, the response
-       * must match the schema exactly. Only used for json_schema.
-       */
-      strict?: boolean;
-    }
-  }
-
-  /**
-   * (Optional) Error details if the response generation failed
+   * Error details for failed OpenAI response requests.
    */
   export interface Error {
-    /**
-     * Error code identifying the type of failure
-     */
     code: string;
 
-    /**
-     * Human-readable error message describing the failure
-     */
     message: string;
   }
 
   /**
-   * (Optional) Reference to a prompt template and its variables.
+   * OpenAI compatible Prompt object that is used in OpenAI responses.
    */
   export interface Prompt {
-    /**
-     * Unique identifier of the prompt template
-     */
     id: string;
 
-    /**
-     * Dictionary of variable names to OpenAIResponseInputMessageContent structure for
-     * template substitution. The substitution values can either be strings, or other
-     * Response input types like images or files.
-     */
     variables?: {
       [key: string]:
         | Prompt.OpenAIResponseInputMessageContentText
         | Prompt.OpenAIResponseInputMessageContentImage
         | Prompt.OpenAIResponseInputMessageContentFile;
-    };
+    } | null;
 
-    /**
-     * Version number of the prompt to use (defaults to latest if not specified)
-     */
-    version?: string;
+    version?: string | null;
   }
 
   export namespace Prompt {
@@ -4482,70 +2784,64 @@ export namespace ResponseListResponse {
      * Text content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentText {
-      /**
-       * The text content of the input message
-       */
       text: string;
 
-      /**
-       * Content type identifier, always "input_text"
-       */
-      type: 'input_text';
+      type?: 'input_text';
     }
 
     /**
      * Image content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentImage {
-      /**
-       * Level of detail for image processing, can be "low", "high", or "auto"
-       */
-      detail: 'low' | 'high' | 'auto';
+      detail?: 'low' | 'high' | 'auto';
 
-      /**
-       * Content type identifier, always "input_image"
-       */
-      type: 'input_image';
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      image_url?: string | null;
 
-      /**
-       * (Optional) URL of the image content
-       */
-      image_url?: string;
+      type?: 'input_image';
     }
 
     /**
      * File content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentFile {
-      /**
-       * The type of the input item. Always `input_file`.
-       */
-      type: 'input_file';
+      file_data?: string | null;
 
-      /**
-       * The data of the file to be sent to the model.
-       */
-      file_data?: string;
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      file_url?: string | null;
 
-      /**
-       * The URL of the file to be sent to the model.
-       */
-      file_url?: string;
+      filename?: string | null;
 
-      /**
-       * The name of the file to be sent to the model.
-       */
-      filename?: string;
+      type?: 'input_file';
+    }
+  }
+
+  /**
+   * Text response configuration for OpenAI responses.
+   */
+  export interface Text {
+    /**
+     * Configuration for Responses API text format.
+     */
+    format?: Text.Format | null;
+  }
+
+  export namespace Text {
+    /**
+     * Configuration for Responses API text format.
+     */
+    export interface Format {
+      description?: string | null;
+
+      name?: string | null;
+
+      schema?: { [key: string]: unknown } | null;
+
+      strict?: boolean | null;
+
+      type?: 'text' | 'json_schema' | 'json_object';
     }
   }
 
@@ -4553,61 +2849,37 @@ export namespace ResponseListResponse {
    * Web search tool configuration for OpenAI response inputs.
    */
   export interface OpenAIResponseInputToolWebSearch {
-    /**
-     * Web search tool type variant to use
-     */
-    type: 'web_search' | 'web_search_preview' | 'web_search_preview_2025_03_11' | 'web_search_2025_08_26';
+    search_context_size?: string | null;
 
-    /**
-     * (Optional) Size of search context, must be "low", "medium", or "high"
-     */
-    search_context_size?: string;
+    type?: 'web_search' | 'web_search_preview' | 'web_search_preview_2025_03_11' | 'web_search_2025_08_26';
   }
 
   /**
    * File search tool configuration for OpenAI response inputs.
    */
   export interface OpenAIResponseInputToolFileSearch {
-    /**
-     * Tool type identifier, always "file_search"
-     */
-    type: 'file_search';
-
-    /**
-     * List of vector store identifiers to search within
-     */
     vector_store_ids: Array<string>;
 
-    /**
-     * (Optional) Additional filters to apply to the search
-     */
-    filters?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+    filters?: { [key: string]: unknown } | null;
+
+    max_num_results?: number | null;
 
     /**
-     * (Optional) Maximum number of search results to return (1-50)
+     * Options for ranking and filtering search results.
      */
-    max_num_results?: number;
+    ranking_options?: OpenAIResponseInputToolFileSearch.RankingOptions | null;
 
-    /**
-     * (Optional) Options for ranking and scoring search results
-     */
-    ranking_options?: OpenAIResponseInputToolFileSearch.RankingOptions;
+    type?: 'file_search';
   }
 
   export namespace OpenAIResponseInputToolFileSearch {
     /**
-     * (Optional) Options for ranking and scoring search results
+     * Options for ranking and filtering search results.
      */
     export interface RankingOptions {
-      /**
-       * (Optional) Name of the ranking algorithm to use
-       */
-      ranker?: string;
+      ranker?: string | null;
 
-      /**
-       * (Optional) Minimum relevance score threshold for results
-       */
-      score_threshold?: number;
+      score_threshold?: number | null;
     }
   }
 
@@ -4615,50 +2887,29 @@ export namespace ResponseListResponse {
    * Function tool configuration for OpenAI response inputs.
    */
   export interface OpenAIResponseInputToolFunction {
-    /**
-     * Name of the function that can be called
-     */
     name: string;
 
-    /**
-     * Tool type identifier, always "function"
-     */
-    type: 'function';
+    parameters: { [key: string]: unknown } | null;
 
-    /**
-     * (Optional) Description of what the function does
-     */
-    description?: string;
+    description?: string | null;
 
-    /**
-     * (Optional) JSON schema defining the function's parameters
-     */
-    parameters?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+    strict?: boolean | null;
 
-    /**
-     * (Optional) Whether to enforce strict parameter validation
-     */
-    strict?: boolean;
+    type?: 'function';
   }
 
   /**
    * Model Context Protocol (MCP) tool configuration for OpenAI response object.
    */
   export interface OpenAIResponseToolMcp {
-    /**
-     * Label to identify this MCP server
-     */
     server_label: string;
 
     /**
-     * Tool type identifier, always "mcp"
+     * Filter configuration for restricting which MCP tools can be used.
      */
-    type: 'mcp';
+    allowed_tools?: Array<string> | OpenAIResponseToolMcp.AllowedToolsFilter | null;
 
-    /**
-     * (Optional) Restriction on which tools can be used from this server
-     */
-    allowed_tools?: Array<string> | OpenAIResponseToolMcp.AllowedToolsFilter;
+    type?: 'mcp';
   }
 
   export namespace OpenAIResponseToolMcp {
@@ -4666,62 +2917,44 @@ export namespace ResponseListResponse {
      * Filter configuration for restricting which MCP tools can be used.
      */
     export interface AllowedToolsFilter {
-      /**
-       * (Optional) List of specific tool names that are allowed
-       */
-      tool_names?: Array<string>;
+      tool_names?: Array<string> | null;
     }
   }
 
   /**
-   * (Optional) Token usage information for the response
+   * Usage information for OpenAI response.
    */
   export interface Usage {
-    /**
-     * Number of tokens in the input
-     */
     input_tokens: number;
 
-    /**
-     * Number of tokens in the output
-     */
     output_tokens: number;
 
-    /**
-     * Total tokens used (input + output)
-     */
     total_tokens: number;
 
     /**
-     * Detailed breakdown of input token usage
+     * Token details for input tokens in OpenAI response usage.
      */
-    input_tokens_details?: Usage.InputTokensDetails;
+    input_tokens_details?: Usage.InputTokensDetails | null;
 
     /**
-     * Detailed breakdown of output token usage
+     * Token details for output tokens in OpenAI response usage.
      */
-    output_tokens_details?: Usage.OutputTokensDetails;
+    output_tokens_details?: Usage.OutputTokensDetails | null;
   }
 
   export namespace Usage {
     /**
-     * Detailed breakdown of input token usage
+     * Token details for input tokens in OpenAI response usage.
      */
     export interface InputTokensDetails {
-      /**
-       * Number of tokens retrieved from cache
-       */
-      cached_tokens?: number;
+      cached_tokens?: number | null;
     }
 
     /**
-     * Detailed breakdown of output token usage
+     * Token details for output tokens in OpenAI response usage.
      */
     export interface OutputTokensDetails {
-      /**
-       * Number of tokens used for reasoning (o1/o3 models)
-       */
-      reasoning_tokens?: number;
+      reasoning_tokens?: number | null;
     }
   }
 }
@@ -4730,32 +2963,20 @@ export namespace ResponseListResponse {
  * Response object confirming deletion of an OpenAI response.
  */
 export interface ResponseDeleteResponse {
-  /**
-   * Unique identifier of the deleted response
-   */
   id: string;
 
-  /**
-   * Deletion confirmation flag, always True
-   */
-  deleted: boolean;
+  deleted?: boolean;
 
-  /**
-   * Object type identifier, always "response"
-   */
-  object: 'response';
+  object?: 'response';
 }
 
 export type ResponseCreateParams = ResponseCreateParamsNonStreaming | ResponseCreateParamsStreaming;
 
 export interface ResponseCreateParamsBase {
-  /**
-   * Input message(s) to create the response.
-   */
   input:
     | string
     | Array<
-        | ResponseCreateParams.OpenAIResponseMessage
+        | ResponseCreateParams.OpenAIResponseMessageInput
         | ResponseCreateParams.OpenAIResponseOutputMessageWebSearchToolCall
         | ResponseCreateParams.OpenAIResponseOutputMessageFileSearchToolCall
         | ResponseCreateParams.OpenAIResponseOutputMessageFunctionToolCall
@@ -4764,65 +2985,45 @@ export interface ResponseCreateParamsBase {
         | ResponseCreateParams.OpenAIResponseMcpApprovalRequest
         | ResponseCreateParams.OpenAIResponseInputFunctionToolCallOutput
         | ResponseCreateParams.OpenAIResponseMcpApprovalResponse
-        | ResponseCreateParams.OpenAIResponseMessage
+        | ResponseCreateParams.OpenAIResponseMessageInput
       >;
 
-  /**
-   * The underlying LLM used for completions.
-   */
   model: string;
 
-  /**
-   * (Optional) The ID of a conversation to add the response to. Must begin with
-   * 'conv\_'. Input and output messages will be automatically added to the
-   * conversation.
-   */
-  conversation?: string;
+  conversation?: string | null;
+
+  include?: Array<string> | null;
+
+  instructions?: string | null;
+
+  max_infer_iters?: number | null;
+
+  max_tool_calls?: number | null;
+
+  previous_response_id?: string | null;
 
   /**
-   * (Optional) Additional fields to include in the response.
+   * OpenAI compatible Prompt object that is used in OpenAI responses.
    */
-  include?: Array<string>;
+  prompt?: ResponseCreateParams.Prompt | null;
 
-  instructions?: string;
+  store?: boolean | null;
 
-  max_infer_iters?: number;
+  stream?: boolean | null;
 
-  /**
-   * (Optional) Max number of total calls to built-in tools that can be processed in
-   * a response.
-   */
-  max_tool_calls?: number;
-
-  /**
-   * (Optional) if specified, the new response will be a continuation of the previous
-   * response. This can be used to easily fork-off new responses from existing
-   * responses.
-   */
-  previous_response_id?: string;
-
-  /**
-   * (Optional) Prompt object with ID, version, and variables.
-   */
-  prompt?: ResponseCreateParams.Prompt;
-
-  store?: boolean;
-
-  stream?: boolean;
-
-  temperature?: number;
+  temperature?: number | null;
 
   /**
    * Text response configuration for OpenAI responses.
    */
-  text?: ResponseCreateParams.Text;
+  text?: ResponseCreateParams.Text | null;
 
   tools?: Array<
     | ResponseCreateParams.OpenAIResponseInputToolWebSearch
     | ResponseCreateParams.OpenAIResponseInputToolFileSearch
     | ResponseCreateParams.OpenAIResponseInputToolFunction
     | ResponseCreateParams.OpenAIResponseInputToolMcp
-  >;
+  > | null;
 }
 
 export namespace ResponseCreateParams {
@@ -4831,110 +3032,77 @@ export namespace ResponseCreateParams {
    * under one type because the Responses API gives them all the same "type" value,
    * and there is no way to tell them apart in certain scenarios.
    */
-  export interface OpenAIResponseMessage {
+  export interface OpenAIResponseMessageInput {
     content:
       | string
       | Array<
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentFile
+          | OpenAIResponseMessageInput.OpenAIResponseInputMessageContentText
+          | OpenAIResponseMessageInput.OpenAIResponseInputMessageContentImage
+          | OpenAIResponseMessageInput.OpenAIResponseInputMessageContentFile
         >
       | Array<
-          | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
-          | OpenAIResponseMessage.OpenAIResponseContentPartRefusal
+          | OpenAIResponseMessageInput.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessageInput.OpenAIResponseContentPartRefusal
         >;
 
     role: 'system' | 'developer' | 'user' | 'assistant';
 
-    type: 'message';
+    id?: string | null;
 
-    id?: string;
+    status?: string | null;
 
-    status?: string;
+    type?: 'message';
   }
 
-  export namespace OpenAIResponseMessage {
+  export namespace OpenAIResponseMessageInput {
     /**
      * Text content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentText {
-      /**
-       * The text content of the input message
-       */
       text: string;
 
-      /**
-       * Content type identifier, always "input_text"
-       */
-      type: 'input_text';
+      type?: 'input_text';
     }
 
     /**
      * Image content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentImage {
-      /**
-       * Level of detail for image processing, can be "low", "high", or "auto"
-       */
-      detail: 'low' | 'high' | 'auto';
+      detail?: 'low' | 'high' | 'auto';
 
-      /**
-       * Content type identifier, always "input_image"
-       */
-      type: 'input_image';
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      image_url?: string | null;
 
-      /**
-       * (Optional) URL of the image content
-       */
-      image_url?: string;
+      type?: 'input_image';
     }
 
     /**
      * File content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentFile {
-      /**
-       * The type of the input item. Always `input_file`.
-       */
-      type: 'input_file';
+      file_data?: string | null;
 
-      /**
-       * The data of the file to be sent to the model.
-       */
-      file_data?: string;
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      file_url?: string | null;
 
-      /**
-       * The URL of the file to be sent to the model.
-       */
-      file_url?: string;
+      filename?: string | null;
 
-      /**
-       * The name of the file to be sent to the model.
-       */
-      filename?: string;
+      type?: 'input_file';
     }
 
     export interface OpenAIResponseOutputMessageContentOutputText {
-      annotations: Array<
+      text: string;
+
+      annotations?: Array<
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
       >;
 
-      text: string;
-
-      type: 'output_text';
+      type?: 'output_text';
     }
 
     export namespace OpenAIResponseOutputMessageContentOutputText {
@@ -4942,55 +3110,28 @@ export namespace ResponseCreateParams {
        * File citation annotation for referencing specific files in response content.
        */
       export interface OpenAIResponseAnnotationFileCitation {
-        /**
-         * Unique identifier of the referenced file
-         */
         file_id: string;
 
-        /**
-         * Name of the referenced file
-         */
         filename: string;
 
-        /**
-         * Position index of the citation within the content
-         */
         index: number;
 
-        /**
-         * Annotation type identifier, always "file_citation"
-         */
-        type: 'file_citation';
+        type?: 'file_citation';
       }
 
       /**
        * URL citation annotation for referencing external web resources.
        */
       export interface OpenAIResponseAnnotationCitation {
-        /**
-         * End position of the citation span in the content
-         */
         end_index: number;
 
-        /**
-         * Start position of the citation span in the content
-         */
         start_index: number;
 
-        /**
-         * Title of the referenced web resource
-         */
         title: string;
 
-        /**
-         * Annotation type identifier, always "url_citation"
-         */
-        type: 'url_citation';
-
-        /**
-         * URL of the referenced web resource
-         */
         url: string;
+
+        type?: 'url_citation';
       }
 
       export interface OpenAIResponseAnnotationContainerFileCitation {
@@ -5004,7 +3145,7 @@ export namespace ResponseCreateParams {
 
         start_index: number;
 
-        type: 'container_file_citation';
+        type?: 'container_file_citation';
       }
 
       export interface OpenAIResponseAnnotationFilePath {
@@ -5012,7 +3153,7 @@ export namespace ResponseCreateParams {
 
         index: number;
 
-        type: 'file_path';
+        type?: 'file_path';
       }
     }
 
@@ -5020,15 +3161,9 @@ export namespace ResponseCreateParams {
      * Refusal content within a streamed response part.
      */
     export interface OpenAIResponseContentPartRefusal {
-      /**
-       * Refusal text supplied by the model
-       */
       refusal: string;
 
-      /**
-       * Content part type identifier, always "refusal"
-       */
-      type: 'refusal';
+      type?: 'refusal';
     }
   }
 
@@ -5036,50 +3171,26 @@ export namespace ResponseCreateParams {
    * Web search tool call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageWebSearchToolCall {
-    /**
-     * Unique identifier for this tool call
-     */
     id: string;
 
-    /**
-     * Current status of the web search operation
-     */
     status: string;
 
-    /**
-     * Tool call type identifier, always "web_search_call"
-     */
-    type: 'web_search_call';
+    type?: 'web_search_call';
   }
 
   /**
    * File search tool call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageFileSearchToolCall {
-    /**
-     * Unique identifier for this tool call
-     */
     id: string;
 
-    /**
-     * List of search queries executed
-     */
     queries: Array<string>;
 
-    /**
-     * Current status of the file search operation
-     */
     status: string;
 
-    /**
-     * Tool call type identifier, always "file_search_call"
-     */
-    type: 'file_search_call';
+    results?: Array<OpenAIResponseOutputMessageFileSearchToolCall.Result> | null;
 
-    /**
-     * (Optional) Search results returned by the file search operation
-     */
-    results?: Array<OpenAIResponseOutputMessageFileSearchToolCall.Result>;
+    type?: 'file_search_call';
   }
 
   export namespace OpenAIResponseOutputMessageFileSearchToolCall {
@@ -5087,29 +3198,14 @@ export namespace ResponseCreateParams {
      * Search results returned by the file search operation.
      */
     export interface Result {
-      /**
-       * (Optional) Key-value attributes associated with the file
-       */
-      attributes: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+      attributes: { [key: string]: unknown };
 
-      /**
-       * Unique identifier of the file containing the result
-       */
       file_id: string;
 
-      /**
-       * Name of the file containing the result
-       */
       filename: string;
 
-      /**
-       * Relevance score for this search result (between 0 and 1)
-       */
       score: number;
 
-      /**
-       * Text content of the search result
-       */
       text: string;
     }
   }
@@ -5118,100 +3214,49 @@ export namespace ResponseCreateParams {
    * Function tool call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageFunctionToolCall {
-    /**
-     * JSON string containing the function arguments
-     */
     arguments: string;
 
-    /**
-     * Unique identifier for the function call
-     */
     call_id: string;
 
-    /**
-     * Name of the function being called
-     */
     name: string;
 
-    /**
-     * Tool call type identifier, always "function_call"
-     */
-    type: 'function_call';
+    id?: string | null;
 
-    /**
-     * (Optional) Additional identifier for the tool call
-     */
-    id?: string;
+    status?: string | null;
 
-    /**
-     * (Optional) Current status of the function call execution
-     */
-    status?: string;
+    type?: 'function_call';
   }
 
   /**
    * Model Context Protocol (MCP) call output message for OpenAI responses.
    */
   export interface OpenAIResponseOutputMessageMcpCall {
-    /**
-     * Unique identifier for this MCP call
-     */
     id: string;
 
-    /**
-     * JSON string containing the MCP call arguments
-     */
     arguments: string;
 
-    /**
-     * Name of the MCP method being called
-     */
     name: string;
 
-    /**
-     * Label identifying the MCP server handling the call
-     */
     server_label: string;
 
-    /**
-     * Tool call type identifier, always "mcp_call"
-     */
-    type: 'mcp_call';
+    error?: string | null;
 
-    /**
-     * (Optional) Error message if the MCP call failed
-     */
-    error?: string;
+    output?: string | null;
 
-    /**
-     * (Optional) Output result from the successful MCP call
-     */
-    output?: string;
+    type?: 'mcp_call';
   }
 
   /**
    * MCP list tools output message containing available tools from an MCP server.
    */
   export interface OpenAIResponseOutputMessageMcpListTools {
-    /**
-     * Unique identifier for this MCP list tools operation
-     */
     id: string;
 
-    /**
-     * Label identifying the MCP server providing the tools
-     */
     server_label: string;
 
-    /**
-     * List of available tools provided by the MCP server
-     */
     tools: Array<OpenAIResponseOutputMessageMcpListTools.Tool>;
 
-    /**
-     * Tool call type identifier, always "mcp_list_tools"
-     */
-    type: 'mcp_list_tools';
+    type?: 'mcp_list_tools';
   }
 
   export namespace OpenAIResponseOutputMessageMcpListTools {
@@ -5219,20 +3264,11 @@ export namespace ResponseCreateParams {
      * Tool definition returned by MCP list tools operation.
      */
     export interface Tool {
-      /**
-       * JSON schema defining the tool's input parameters
-       */
-      input_schema: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+      input_schema: { [key: string]: unknown };
 
-      /**
-       * Name of the tool
-       */
       name: string;
 
-      /**
-       * (Optional) Description of what the tool does
-       */
-      description?: string;
+      description?: string | null;
     }
   }
 
@@ -5248,7 +3284,7 @@ export namespace ResponseCreateParams {
 
     server_label: string;
 
-    type: 'mcp_approval_request';
+    type?: 'mcp_approval_request';
   }
 
   /**
@@ -5260,11 +3296,11 @@ export namespace ResponseCreateParams {
 
     output: string;
 
-    type: 'function_call_output';
+    id?: string | null;
 
-    id?: string;
+    status?: string | null;
 
-    status?: string;
+    type?: 'function_call_output';
   }
 
   /**
@@ -5275,11 +3311,11 @@ export namespace ResponseCreateParams {
 
     approve: boolean;
 
-    type: 'mcp_approval_response';
+    id?: string | null;
 
-    id?: string;
+    reason?: string | null;
 
-    reason?: string;
+    type?: 'mcp_approval_response';
   }
 
   /**
@@ -5287,110 +3323,77 @@ export namespace ResponseCreateParams {
    * under one type because the Responses API gives them all the same "type" value,
    * and there is no way to tell them apart in certain scenarios.
    */
-  export interface OpenAIResponseMessage {
+  export interface OpenAIResponseMessageInput {
     content:
       | string
       | Array<
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentText
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentImage
-          | OpenAIResponseMessage.OpenAIResponseInputMessageContentFile
+          | OpenAIResponseMessageInput.OpenAIResponseInputMessageContentText
+          | OpenAIResponseMessageInput.OpenAIResponseInputMessageContentImage
+          | OpenAIResponseMessageInput.OpenAIResponseInputMessageContentFile
         >
       | Array<
-          | OpenAIResponseMessage.OpenAIResponseOutputMessageContentOutputText
-          | OpenAIResponseMessage.OpenAIResponseContentPartRefusal
+          | OpenAIResponseMessageInput.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessageInput.OpenAIResponseContentPartRefusal
         >;
 
     role: 'system' | 'developer' | 'user' | 'assistant';
 
-    type: 'message';
+    id?: string | null;
 
-    id?: string;
+    status?: string | null;
 
-    status?: string;
+    type?: 'message';
   }
 
-  export namespace OpenAIResponseMessage {
+  export namespace OpenAIResponseMessageInput {
     /**
      * Text content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentText {
-      /**
-       * The text content of the input message
-       */
       text: string;
 
-      /**
-       * Content type identifier, always "input_text"
-       */
-      type: 'input_text';
+      type?: 'input_text';
     }
 
     /**
      * Image content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentImage {
-      /**
-       * Level of detail for image processing, can be "low", "high", or "auto"
-       */
-      detail: 'low' | 'high' | 'auto';
+      detail?: 'low' | 'high' | 'auto';
 
-      /**
-       * Content type identifier, always "input_image"
-       */
-      type: 'input_image';
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      image_url?: string | null;
 
-      /**
-       * (Optional) URL of the image content
-       */
-      image_url?: string;
+      type?: 'input_image';
     }
 
     /**
      * File content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentFile {
-      /**
-       * The type of the input item. Always `input_file`.
-       */
-      type: 'input_file';
+      file_data?: string | null;
 
-      /**
-       * The data of the file to be sent to the model.
-       */
-      file_data?: string;
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      file_url?: string | null;
 
-      /**
-       * The URL of the file to be sent to the model.
-       */
-      file_url?: string;
+      filename?: string | null;
 
-      /**
-       * The name of the file to be sent to the model.
-       */
-      filename?: string;
+      type?: 'input_file';
     }
 
     export interface OpenAIResponseOutputMessageContentOutputText {
-      annotations: Array<
+      text: string;
+
+      annotations?: Array<
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
         | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
       >;
 
-      text: string;
-
-      type: 'output_text';
+      type?: 'output_text';
     }
 
     export namespace OpenAIResponseOutputMessageContentOutputText {
@@ -5398,55 +3401,28 @@ export namespace ResponseCreateParams {
        * File citation annotation for referencing specific files in response content.
        */
       export interface OpenAIResponseAnnotationFileCitation {
-        /**
-         * Unique identifier of the referenced file
-         */
         file_id: string;
 
-        /**
-         * Name of the referenced file
-         */
         filename: string;
 
-        /**
-         * Position index of the citation within the content
-         */
         index: number;
 
-        /**
-         * Annotation type identifier, always "file_citation"
-         */
-        type: 'file_citation';
+        type?: 'file_citation';
       }
 
       /**
        * URL citation annotation for referencing external web resources.
        */
       export interface OpenAIResponseAnnotationCitation {
-        /**
-         * End position of the citation span in the content
-         */
         end_index: number;
 
-        /**
-         * Start position of the citation span in the content
-         */
         start_index: number;
 
-        /**
-         * Title of the referenced web resource
-         */
         title: string;
 
-        /**
-         * Annotation type identifier, always "url_citation"
-         */
-        type: 'url_citation';
-
-        /**
-         * URL of the referenced web resource
-         */
         url: string;
+
+        type?: 'url_citation';
       }
 
       export interface OpenAIResponseAnnotationContainerFileCitation {
@@ -5460,7 +3436,7 @@ export namespace ResponseCreateParams {
 
         start_index: number;
 
-        type: 'container_file_citation';
+        type?: 'container_file_citation';
       }
 
       export interface OpenAIResponseAnnotationFilePath {
@@ -5468,7 +3444,7 @@ export namespace ResponseCreateParams {
 
         index: number;
 
-        type: 'file_path';
+        type?: 'file_path';
       }
     }
 
@@ -5476,43 +3452,26 @@ export namespace ResponseCreateParams {
      * Refusal content within a streamed response part.
      */
     export interface OpenAIResponseContentPartRefusal {
-      /**
-       * Refusal text supplied by the model
-       */
       refusal: string;
 
-      /**
-       * Content part type identifier, always "refusal"
-       */
-      type: 'refusal';
+      type?: 'refusal';
     }
   }
 
   /**
-   * (Optional) Prompt object with ID, version, and variables.
+   * OpenAI compatible Prompt object that is used in OpenAI responses.
    */
   export interface Prompt {
-    /**
-     * Unique identifier of the prompt template
-     */
     id: string;
 
-    /**
-     * Dictionary of variable names to OpenAIResponseInputMessageContent structure for
-     * template substitution. The substitution values can either be strings, or other
-     * Response input types like images or files.
-     */
     variables?: {
       [key: string]:
         | Prompt.OpenAIResponseInputMessageContentText
         | Prompt.OpenAIResponseInputMessageContentImage
         | Prompt.OpenAIResponseInputMessageContentFile;
-    };
+    } | null;
 
-    /**
-     * Version number of the prompt to use (defaults to latest if not specified)
-     */
-    version?: string;
+    version?: string | null;
   }
 
   export namespace Prompt {
@@ -5520,70 +3479,37 @@ export namespace ResponseCreateParams {
      * Text content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentText {
-      /**
-       * The text content of the input message
-       */
       text: string;
 
-      /**
-       * Content type identifier, always "input_text"
-       */
-      type: 'input_text';
+      type?: 'input_text';
     }
 
     /**
      * Image content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentImage {
-      /**
-       * Level of detail for image processing, can be "low", "high", or "auto"
-       */
-      detail: 'low' | 'high' | 'auto';
+      detail?: 'low' | 'high' | 'auto';
 
-      /**
-       * Content type identifier, always "input_image"
-       */
-      type: 'input_image';
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      image_url?: string | null;
 
-      /**
-       * (Optional) URL of the image content
-       */
-      image_url?: string;
+      type?: 'input_image';
     }
 
     /**
      * File content for input messages in OpenAI response format.
      */
     export interface OpenAIResponseInputMessageContentFile {
-      /**
-       * The type of the input item. Always `input_file`.
-       */
-      type: 'input_file';
+      file_data?: string | null;
 
-      /**
-       * The data of the file to be sent to the model.
-       */
-      file_data?: string;
+      file_id?: string | null;
 
-      /**
-       * (Optional) The ID of the file to be sent to the model.
-       */
-      file_id?: string;
+      file_url?: string | null;
 
-      /**
-       * The URL of the file to be sent to the model.
-       */
-      file_url?: string;
+      filename?: string | null;
 
-      /**
-       * The name of the file to be sent to the model.
-       */
-      filename?: string;
+      type?: 'input_file';
     }
   }
 
@@ -5592,42 +3518,25 @@ export namespace ResponseCreateParams {
    */
   export interface Text {
     /**
-     * (Optional) Text format configuration specifying output format requirements
+     * Configuration for Responses API text format.
      */
-    format?: Text.Format;
+    format?: Text.Format | null;
   }
 
   export namespace Text {
     /**
-     * (Optional) Text format configuration specifying output format requirements
+     * Configuration for Responses API text format.
      */
     export interface Format {
-      /**
-       * Must be "text", "json_schema", or "json_object" to identify the format type
-       */
-      type: 'text' | 'json_schema' | 'json_object';
+      description?: string | null;
 
-      /**
-       * (Optional) A description of the response format. Only used for json_schema.
-       */
-      description?: string;
+      name?: string | null;
 
-      /**
-       * The name of the response format. Only used for json_schema.
-       */
-      name?: string;
+      schema?: { [key: string]: unknown } | null;
 
-      /**
-       * The JSON schema the response should conform to. In a Python SDK, this is often a
-       * `pydantic` model. Only used for json_schema.
-       */
-      schema?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+      strict?: boolean | null;
 
-      /**
-       * (Optional) Whether to strictly enforce the JSON schema. If true, the response
-       * must match the schema exactly. Only used for json_schema.
-       */
-      strict?: boolean;
+      type?: 'text' | 'json_schema' | 'json_object';
     }
   }
 
@@ -5635,61 +3544,37 @@ export namespace ResponseCreateParams {
    * Web search tool configuration for OpenAI response inputs.
    */
   export interface OpenAIResponseInputToolWebSearch {
-    /**
-     * Web search tool type variant to use
-     */
-    type: 'web_search' | 'web_search_preview' | 'web_search_preview_2025_03_11' | 'web_search_2025_08_26';
+    search_context_size?: string | null;
 
-    /**
-     * (Optional) Size of search context, must be "low", "medium", or "high"
-     */
-    search_context_size?: string;
+    type?: 'web_search' | 'web_search_preview' | 'web_search_preview_2025_03_11' | 'web_search_2025_08_26';
   }
 
   /**
    * File search tool configuration for OpenAI response inputs.
    */
   export interface OpenAIResponseInputToolFileSearch {
-    /**
-     * Tool type identifier, always "file_search"
-     */
-    type: 'file_search';
-
-    /**
-     * List of vector store identifiers to search within
-     */
     vector_store_ids: Array<string>;
 
-    /**
-     * (Optional) Additional filters to apply to the search
-     */
-    filters?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+    filters?: { [key: string]: unknown } | null;
+
+    max_num_results?: number | null;
 
     /**
-     * (Optional) Maximum number of search results to return (1-50)
+     * Options for ranking and filtering search results.
      */
-    max_num_results?: number;
+    ranking_options?: OpenAIResponseInputToolFileSearch.RankingOptions | null;
 
-    /**
-     * (Optional) Options for ranking and scoring search results
-     */
-    ranking_options?: OpenAIResponseInputToolFileSearch.RankingOptions;
+    type?: 'file_search';
   }
 
   export namespace OpenAIResponseInputToolFileSearch {
     /**
-     * (Optional) Options for ranking and scoring search results
+     * Options for ranking and filtering search results.
      */
     export interface RankingOptions {
-      /**
-       * (Optional) Name of the ranking algorithm to use
-       */
-      ranker?: string;
+      ranker?: string | null;
 
-      /**
-       * (Optional) Minimum relevance score threshold for results
-       */
-      score_threshold?: number;
+      score_threshold?: number | null;
     }
   }
 
@@ -5697,96 +3582,57 @@ export namespace ResponseCreateParams {
    * Function tool configuration for OpenAI response inputs.
    */
   export interface OpenAIResponseInputToolFunction {
-    /**
-     * Name of the function that can be called
-     */
     name: string;
 
-    /**
-     * Tool type identifier, always "function"
-     */
-    type: 'function';
+    parameters: { [key: string]: unknown } | null;
 
-    /**
-     * (Optional) Description of what the function does
-     */
-    description?: string;
+    description?: string | null;
 
-    /**
-     * (Optional) JSON schema defining the function's parameters
-     */
-    parameters?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
+    strict?: boolean | null;
 
-    /**
-     * (Optional) Whether to enforce strict parameter validation
-     */
-    strict?: boolean;
+    type?: 'function';
   }
 
   /**
    * Model Context Protocol (MCP) tool configuration for OpenAI response inputs.
    */
   export interface OpenAIResponseInputToolMcp {
-    /**
-     * Approval requirement for tool calls ("always", "never", or filter)
-     */
-    require_approval: 'always' | 'never' | OpenAIResponseInputToolMcp.ApprovalFilter;
-
-    /**
-     * Label to identify this MCP server
-     */
     server_label: string;
 
-    /**
-     * URL endpoint of the MCP server
-     */
     server_url: string;
-
-    /**
-     * Tool type identifier, always "mcp"
-     */
-    type: 'mcp';
-
-    /**
-     * (Optional) Restriction on which tools can be used from this server
-     */
-    allowed_tools?: Array<string> | OpenAIResponseInputToolMcp.AllowedToolsFilter;
-
-    /**
-     * (Optional) OAuth access token for authenticating with the MCP server
-     */
-    authorization?: string;
-
-    /**
-     * (Optional) HTTP headers to include when connecting to the server
-     */
-    headers?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-  }
-
-  export namespace OpenAIResponseInputToolMcp {
-    /**
-     * Filter configuration for MCP tool approval requirements.
-     */
-    export interface ApprovalFilter {
-      /**
-       * (Optional) List of tool names that always require approval
-       */
-      always?: Array<string>;
-
-      /**
-       * (Optional) List of tool names that never require approval
-       */
-      never?: Array<string>;
-    }
 
     /**
      * Filter configuration for restricting which MCP tools can be used.
      */
+    allowed_tools?: Array<string> | OpenAIResponseInputToolMcp.AllowedToolsFilter | null;
+
+    authorization?: string | null;
+
+    headers?: { [key: string]: unknown } | null;
+
+    /**
+     * Filter configuration for MCP tool approval requirements.
+     */
+    require_approval?: 'always' | 'never' | OpenAIResponseInputToolMcp.ApprovalFilter;
+
+    type?: 'mcp';
+  }
+
+  export namespace OpenAIResponseInputToolMcp {
+    /**
+     * Filter configuration for restricting which MCP tools can be used.
+     */
     export interface AllowedToolsFilter {
-      /**
-       * (Optional) List of specific tool names that are allowed
-       */
-      tool_names?: Array<string>;
+      tool_names?: Array<string> | null;
+    }
+
+    /**
+     * Filter configuration for MCP tool approval requirements.
+     */
+    export interface ApprovalFilter {
+      always?: Array<string> | null;
+
+      never?: Array<string> | null;
     }
   }
 
@@ -5795,7 +3641,7 @@ export namespace ResponseCreateParams {
 }
 
 export interface ResponseCreateParamsNonStreaming extends ResponseCreateParamsBase {
-  stream?: false;
+  stream?: false | null;
 }
 
 export interface ResponseCreateParamsStreaming extends ResponseCreateParamsBase {
@@ -5803,15 +3649,12 @@ export interface ResponseCreateParamsStreaming extends ResponseCreateParamsBase 
 }
 
 export interface ResponseListParams extends OpenAICursorPageParams {
-  /**
-   * The model to filter responses by.
-   */
-  model?: string;
+  model?: string | null;
 
   /**
-   * The order to sort responses by when sorted by created_at ('asc' or 'desc').
+   * Sort order for paginated responses.
    */
-  order?: 'asc' | 'desc';
+  order?: 'asc' | 'desc' | null;
 }
 
 Responses.ResponseListResponsesOpenAICursorPage = ResponseListResponsesOpenAICursorPage;

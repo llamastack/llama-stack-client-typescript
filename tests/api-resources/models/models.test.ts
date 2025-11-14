@@ -62,7 +62,7 @@ describe('resource models', () => {
   test('register: required and optional params', async () => {
     const response = await client.models.register({
       model_id: 'model_id',
-      metadata: { foo: true },
+      metadata: { foo: 'bar' },
       model_type: 'llm',
       provider_id: 'provider_id',
       provider_model_id: 'provider_model_id',

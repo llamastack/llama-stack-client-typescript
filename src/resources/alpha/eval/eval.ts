@@ -8,7 +8,6 @@
 
 import { APIResource } from '../../../resource';
 import * as Core from '../../../core';
-import * as ScoringFunctionsAPI from '../../scoring-functions';
 import * as Shared from '../../shared';
 import * as JobsAPI from './jobs';
 import { Jobs } from './jobs';
@@ -62,44 +61,102 @@ export class Eval extends APIResource {
  */
 export interface BenchmarkConfig {
   /**
-   * The candidate to evaluate.
+   * A model candidate for evaluation.
    */
   eval_candidate: BenchmarkConfig.EvalCandidate;
+
+  /**
+   * Number of examples to evaluate (useful for testing), if not provided, all
+   * examples in the dataset will be evaluated
+   */
+  num_examples?: number | null;
 
   /**
    * Map between scoring function id and parameters for each scoring function you
    * want to run
    */
-  scoring_params: { [key: string]: ScoringFunctionsAPI.ScoringFnParams };
-
-  /**
-   * (Optional) The number of examples to evaluate. If not provided, all examples in
-   * the dataset will be evaluated
-   */
-  num_examples?: number;
+  scoring_params?: {
+    [key: string]:
+      | BenchmarkConfig.LlmAsJudgeScoringFnParams
+      | BenchmarkConfig.RegexParserScoringFnParams
+      | BenchmarkConfig.BasicScoringFnParams;
+  };
 }
 
 export namespace BenchmarkConfig {
   /**
-   * The candidate to evaluate.
+   * A model candidate for evaluation.
    */
   export interface EvalCandidate {
-    /**
-     * The model ID to evaluate.
-     */
     model: string;
 
     /**
-     * The sampling parameters for the model.
+     * Sampling parameters.
      */
     sampling_params: Shared.SamplingParams;
 
-    type: 'model';
+    /**
+     * A system message providing instructions or context to the model.
+     */
+    system_message?: Shared.SystemMessage | null;
+
+    type?: 'model';
+  }
+
+  /**
+   * Parameters for LLM-as-judge scoring function configuration.
+   */
+  export interface LlmAsJudgeScoringFnParams {
+    judge_model: string;
 
     /**
-     * (Optional) The system message providing instructions or context to the model.
+     * Aggregation functions to apply to the scores of each row
      */
-    system_message?: Shared.SystemMessage;
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    /**
+     * Regexes to extract the answer from generated response
+     */
+    judge_score_regexes?: Array<string>;
+
+    prompt_template?: string | null;
+
+    type?: 'llm_as_judge';
+  }
+
+  /**
+   * Parameters for regex parser scoring function configuration.
+   */
+  export interface RegexParserScoringFnParams {
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    /**
+     * Regex to extract the answer from generated response
+     */
+    parsing_regexes?: Array<string>;
+
+    type?: 'regex_parser';
+  }
+
+  /**
+   * Parameters for basic scoring function configuration.
+   */
+  export interface BasicScoringFnParams {
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    type?: 'basic';
   }
 }
 
@@ -107,14 +164,8 @@ export namespace BenchmarkConfig {
  * The response from an evaluation.
  */
 export interface EvaluateResponse {
-  /**
-   * The generations from the evaluation.
-   */
-  generations: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
+  generations: Array<{ [key: string]: unknown }>;
 
-  /**
-   * The scores from the evaluation.
-   */
   scores: { [key: string]: Shared.ScoringResult };
 }
 
@@ -122,63 +173,236 @@ export interface EvaluateResponse {
  * A job execution instance with status tracking.
  */
 export interface Job {
-  /**
-   * Unique identifier for the job
-   */
   job_id: string;
 
   /**
-   * Current execution status of the job
+   * Status of a job execution.
    */
   status: 'completed' | 'in_progress' | 'failed' | 'scheduled' | 'cancelled';
 }
 
 export interface EvalEvaluateRowsParams {
   /**
-   * The configuration for the benchmark.
+   * A benchmark configuration for evaluation.
    */
   benchmark_config: BenchmarkConfig;
 
-  /**
-   * The rows to evaluate.
-   */
-  input_rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
+  input_rows: Array<{ [key: string]: unknown }>;
 
-  /**
-   * The scoring functions to use for the evaluation.
-   */
   scoring_functions: Array<string>;
 }
 
 export interface EvalEvaluateRowsAlphaParams {
   /**
-   * The configuration for the benchmark.
+   * A benchmark configuration for evaluation.
    */
   benchmark_config: BenchmarkConfig;
 
-  /**
-   * The rows to evaluate.
-   */
-  input_rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
+  input_rows: Array<{ [key: string]: unknown }>;
 
-  /**
-   * The scoring functions to use for the evaluation.
-   */
   scoring_functions: Array<string>;
 }
 
 export interface EvalRunEvalParams {
   /**
-   * The configuration for the benchmark.
+   * A model candidate for evaluation.
    */
-  benchmark_config: BenchmarkConfig;
+  eval_candidate: EvalRunEvalParams.EvalCandidate;
+
+  /**
+   * Number of examples to evaluate (useful for testing), if not provided, all
+   * examples in the dataset will be evaluated
+   */
+  num_examples?: number | null;
+
+  /**
+   * Map between scoring function id and parameters for each scoring function you
+   * want to run
+   */
+  scoring_params?: {
+    [key: string]:
+      | EvalRunEvalParams.LlmAsJudgeScoringFnParams
+      | EvalRunEvalParams.RegexParserScoringFnParams
+      | EvalRunEvalParams.BasicScoringFnParams;
+  };
+}
+
+export namespace EvalRunEvalParams {
+  /**
+   * A model candidate for evaluation.
+   */
+  export interface EvalCandidate {
+    model: string;
+
+    /**
+     * Sampling parameters.
+     */
+    sampling_params: Shared.SamplingParams;
+
+    /**
+     * A system message providing instructions or context to the model.
+     */
+    system_message?: Shared.SystemMessage | null;
+
+    type?: 'model';
+  }
+
+  /**
+   * Parameters for LLM-as-judge scoring function configuration.
+   */
+  export interface LlmAsJudgeScoringFnParams {
+    judge_model: string;
+
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    /**
+     * Regexes to extract the answer from generated response
+     */
+    judge_score_regexes?: Array<string>;
+
+    prompt_template?: string | null;
+
+    type?: 'llm_as_judge';
+  }
+
+  /**
+   * Parameters for regex parser scoring function configuration.
+   */
+  export interface RegexParserScoringFnParams {
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    /**
+     * Regex to extract the answer from generated response
+     */
+    parsing_regexes?: Array<string>;
+
+    type?: 'regex_parser';
+  }
+
+  /**
+   * Parameters for basic scoring function configuration.
+   */
+  export interface BasicScoringFnParams {
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    type?: 'basic';
+  }
 }
 
 export interface EvalRunEvalAlphaParams {
   /**
-   * The configuration for the benchmark.
+   * A model candidate for evaluation.
    */
-  benchmark_config: BenchmarkConfig;
+  eval_candidate: EvalRunEvalAlphaParams.EvalCandidate;
+
+  /**
+   * Number of examples to evaluate (useful for testing), if not provided, all
+   * examples in the dataset will be evaluated
+   */
+  num_examples?: number | null;
+
+  /**
+   * Map between scoring function id and parameters for each scoring function you
+   * want to run
+   */
+  scoring_params?: {
+    [key: string]:
+      | EvalRunEvalAlphaParams.LlmAsJudgeScoringFnParams
+      | EvalRunEvalAlphaParams.RegexParserScoringFnParams
+      | EvalRunEvalAlphaParams.BasicScoringFnParams;
+  };
+}
+
+export namespace EvalRunEvalAlphaParams {
+  /**
+   * A model candidate for evaluation.
+   */
+  export interface EvalCandidate {
+    model: string;
+
+    /**
+     * Sampling parameters.
+     */
+    sampling_params: Shared.SamplingParams;
+
+    /**
+     * A system message providing instructions or context to the model.
+     */
+    system_message?: Shared.SystemMessage | null;
+
+    type?: 'model';
+  }
+
+  /**
+   * Parameters for LLM-as-judge scoring function configuration.
+   */
+  export interface LlmAsJudgeScoringFnParams {
+    judge_model: string;
+
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    /**
+     * Regexes to extract the answer from generated response
+     */
+    judge_score_regexes?: Array<string>;
+
+    prompt_template?: string | null;
+
+    type?: 'llm_as_judge';
+  }
+
+  /**
+   * Parameters for regex parser scoring function configuration.
+   */
+  export interface RegexParserScoringFnParams {
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    /**
+     * Regex to extract the answer from generated response
+     */
+    parsing_regexes?: Array<string>;
+
+    type?: 'regex_parser';
+  }
+
+  /**
+   * Parameters for basic scoring function configuration.
+   */
+  export interface BasicScoringFnParams {
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    type?: 'basic';
+  }
 }
 
 Eval.Jobs = Jobs;

@@ -11,10 +11,12 @@ import { Response } from 'node-fetch';
 
 const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
 
-describe('resource items', () => {
+describe('resource batches', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.conversations.items.create('conversation_id', {
-      items: [{ content: 'string', role: 'system', type: 'message' }],
+    const responsePromise = client.batches.create({
+      completion_window: '24h',
+      endpoint: 'endpoint',
+      input_file_id: 'input_file_id',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -26,13 +28,35 @@ describe('resource items', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await client.conversations.items.create('conversation_id', {
-      items: [{ content: 'string', role: 'system', id: 'id', status: 'status', type: 'message' }],
+    const response = await client.batches.create({
+      completion_window: '24h',
+      endpoint: 'endpoint',
+      input_file_id: 'input_file_id',
+      idempotency_key: 'idempotency_key',
+      metadata: { foo: 'string' },
     });
   });
 
+  test('retrieve', async () => {
+    const responsePromise = client.batches.retrieve('batch_id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('retrieve: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(client.batches.retrieve('batch_id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
+      LlamaStackClient.NotFoundError,
+    );
+  });
+
   test('list', async () => {
-    const responsePromise = client.conversations.items.list('conversation_id');
+    const responsePromise = client.batches.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -44,24 +68,20 @@ describe('resource items', () => {
 
   test('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.conversations.items.list('conversation_id', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(LlamaStackClient.NotFoundError);
+    await expect(client.batches.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      LlamaStackClient.NotFoundError,
+    );
   });
 
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.conversations.items.list(
-        'conversation_id',
-        { after: 'after', include: ['web_search_call.action.sources'], limit: 0, order: 'asc' },
-        { path: '/_stainless_unknown_path' },
-      ),
+      client.batches.list({ after: 'after', limit: 0 }, { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(LlamaStackClient.NotFoundError);
   });
 
-  test('delete', async () => {
-    const responsePromise = client.conversations.items.delete('conversation_id', 'item_id');
+  test('cancel', async () => {
+    const responsePromise = client.batches.cancel('batch_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -71,28 +91,10 @@ describe('resource items', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('delete: request options instead of params are passed correctly', async () => {
+  test('cancel: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.conversations.items.delete('conversation_id', 'item_id', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(LlamaStackClient.NotFoundError);
-  });
-
-  test('get', async () => {
-    const responsePromise = client.conversations.items.get('conversation_id', 'item_id');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('get: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.conversations.items.get('conversation_id', 'item_id', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(LlamaStackClient.NotFoundError);
+    await expect(client.batches.cancel('batch_id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
+      LlamaStackClient.NotFoundError,
+    );
   });
 });

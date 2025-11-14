@@ -9,7 +9,7 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
-import * as ToolRuntimeAPI from './tool-runtime/tool-runtime';
+import * as ToolRuntimeAPI from './tool-runtime';
 
 export class Tools extends APIResource {
   /**
@@ -37,16 +37,10 @@ export class Tools extends APIResource {
   }
 }
 
-/**
- * List of tool definitions
- */
 export type ToolListResponse = Array<ToolRuntimeAPI.ToolDef>;
 
 export interface ToolListParams {
-  /**
-   * The ID of the tool group to list tools for.
-   */
-  toolgroup_id?: string;
+  toolgroup_id?: string | null;
 }
 
 export declare namespace Tools {

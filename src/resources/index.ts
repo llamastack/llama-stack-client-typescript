@@ -8,6 +8,16 @@
 
 export * from './shared';
 export { Alpha } from './alpha/alpha';
+export {
+  BatchListResponsesOpenAICursorPage,
+  Batches,
+  type BatchCreateResponse,
+  type BatchRetrieveResponse,
+  type BatchListResponse,
+  type BatchCancelResponse,
+  type BatchCreateParams,
+  type BatchListParams,
+} from './batches';
 export { Beta } from './beta/beta';
 export { Chat, type ChatCompletionChunk } from './chat/chat';
 export {
@@ -100,7 +110,7 @@ export {
   type ToolRuntimeListToolsResponse,
   type ToolRuntimeInvokeToolParams,
   type ToolRuntimeListToolsParams,
-} from './tool-runtime/tool-runtime';
+} from './tool-runtime';
 export {
   Toolgroups,
   type ListToolGroupsResponse,

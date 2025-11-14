@@ -27,9 +27,7 @@ import LlamaStackClient from 'llama-stack-client';
 
 const client = new LlamaStackClient();
 
-const response = await client.models.register({ model_id: 'model_id' });
-
-console.log(response.identifier);
+const models = await client.models.list();
 ```
 
 ## Streaming responses
@@ -47,7 +45,7 @@ const stream = await client.chat.completions.create({
   stream: true,
 });
 for await (const chatCompletionChunk of stream) {
-  console.log(chatCompletionChunk);
+  console.log(chatCompletionChunk.id);
 }
 ```
 
@@ -203,7 +201,7 @@ const { data: completion, response: raw } = await client.chat.completions
   .create({ messages: [{ content: 'string', role: 'user' }], model: 'model' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(completion);
+console.log(completion.id);
 ```
 
 ### Making custom/undocumented requests

@@ -43,7 +43,9 @@ export class Datasets extends APIResource {
   }
 
   /**
-   * Get a paginated list of rows from a dataset. Uses offset-based pagination where:
+   * Get a paginated list of rows from a dataset.
+   *
+   * Uses offset-based pagination where:
    *
    * - start_index: The starting index (0-based). If None, starts from beginning.
    * - limit: Number of items to return. If None or -1, returns all items.
@@ -99,9 +101,6 @@ export class Datasets extends APIResource {
  * Response from listing datasets.
  */
 export interface ListDatasetsResponse {
-  /**
-   * List of datasets
-   */
   data: DatasetListResponse;
 }
 
@@ -109,31 +108,37 @@ export interface ListDatasetsResponse {
  * Dataset resource for storing and accessing training or evaluation data.
  */
 export interface DatasetRetrieveResponse {
+  /**
+   * Unique identifier for this resource in llama stack
+   */
   identifier: string;
 
   /**
-   * Additional metadata for the dataset
+   * ID of the provider that owns this resource
    */
-  metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
   provider_id: string;
 
   /**
-   * Purpose of the dataset indicating its intended use
+   * Purpose of the dataset. Each purpose has a required input data schema.
    */
   purpose: 'post-training/messages' | 'eval/question-answer' | 'eval/messages-answer';
 
   /**
-   * Data source configuration for the dataset
+   * A dataset that can be obtained from a URI.
    */
   source: DatasetRetrieveResponse.UriDataSource | DatasetRetrieveResponse.RowsDataSource;
 
   /**
-   * Type of resource, always 'dataset' for datasets
+   * Any additional metadata for this dataset
    */
-  type: 'dataset';
+  metadata?: { [key: string]: unknown };
 
-  provider_resource_id?: string;
+  /**
+   * Unique identifier for this resource in the provider
+   */
+  provider_resource_id?: string | null;
+
+  type?: 'dataset';
 }
 
 export namespace DatasetRetrieveResponse {
@@ -141,34 +146,21 @@ export namespace DatasetRetrieveResponse {
    * A dataset that can be obtained from a URI.
    */
   export interface UriDataSource {
-    type: 'uri';
-
-    /**
-     * The dataset can be obtained from a URI. E.g. -
-     * "https://mywebsite.com/mydata.jsonl" - "lsfs://mydata.jsonl" -
-     * "data:csv;base64,{base64_content}"
-     */
     uri: string;
+
+    type?: 'uri';
   }
 
   /**
    * A dataset stored in rows.
    */
   export interface RowsDataSource {
-    /**
-     * The dataset is stored in rows. E.g. - [ {"messages": [{"role": "user",
-     * "content": "Hello, world!"}, {"role": "assistant", "content": "Hello, world!"}]}
-     * ]
-     */
-    rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
+    rows: Array<{ [key: string]: unknown }>;
 
-    type: 'rows';
+    type?: 'rows';
   }
 }
 
-/**
- * List of datasets
- */
 export type DatasetListResponse = Array<DatasetListResponse.DatasetListResponseItem>;
 
 export namespace DatasetListResponse {
@@ -176,31 +168,37 @@ export namespace DatasetListResponse {
    * Dataset resource for storing and accessing training or evaluation data.
    */
   export interface DatasetListResponseItem {
+    /**
+     * Unique identifier for this resource in llama stack
+     */
     identifier: string;
 
     /**
-     * Additional metadata for the dataset
+     * ID of the provider that owns this resource
      */
-    metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
     provider_id: string;
 
     /**
-     * Purpose of the dataset indicating its intended use
+     * Purpose of the dataset. Each purpose has a required input data schema.
      */
     purpose: 'post-training/messages' | 'eval/question-answer' | 'eval/messages-answer';
 
     /**
-     * Data source configuration for the dataset
+     * A dataset that can be obtained from a URI.
      */
     source: DatasetListResponseItem.UriDataSource | DatasetListResponseItem.RowsDataSource;
 
     /**
-     * Type of resource, always 'dataset' for datasets
+     * Any additional metadata for this dataset
      */
-    type: 'dataset';
+    metadata?: { [key: string]: unknown };
 
-    provider_resource_id?: string;
+    /**
+     * Unique identifier for this resource in the provider
+     */
+    provider_resource_id?: string | null;
+
+    type?: 'dataset';
   }
 
   export namespace DatasetListResponseItem {
@@ -208,28 +206,18 @@ export namespace DatasetListResponse {
      * A dataset that can be obtained from a URI.
      */
     export interface UriDataSource {
-      type: 'uri';
-
-      /**
-       * The dataset can be obtained from a URI. E.g. -
-       * "https://mywebsite.com/mydata.jsonl" - "lsfs://mydata.jsonl" -
-       * "data:csv;base64,{base64_content}"
-       */
       uri: string;
+
+      type?: 'uri';
     }
 
     /**
      * A dataset stored in rows.
      */
     export interface RowsDataSource {
-      /**
-       * The dataset is stored in rows. E.g. - [ {"messages": [{"role": "user",
-       * "content": "Hello, world!"}, {"role": "assistant", "content": "Hello, world!"}]}
-       * ]
-       */
-      rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
+      rows: Array<{ [key: string]: unknown }>;
 
-      type: 'rows';
+      type?: 'rows';
     }
   }
 }
@@ -238,51 +226,48 @@ export namespace DatasetListResponse {
  * A generic paginated response that follows a simple format.
  */
 export interface DatasetIterrowsResponse {
-  /**
-   * The list of items for the current page
-   */
-  data: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
+  data: Array<{ [key: string]: unknown }>;
 
-  /**
-   * Whether there are more items available after this set
-   */
   has_more: boolean;
 
-  /**
-   * The URL for accessing this list
-   */
-  url?: string;
+  url?: string | null;
 }
 
 /**
  * Dataset resource for storing and accessing training or evaluation data.
  */
 export interface DatasetRegisterResponse {
+  /**
+   * Unique identifier for this resource in llama stack
+   */
   identifier: string;
 
   /**
-   * Additional metadata for the dataset
+   * ID of the provider that owns this resource
    */
-  metadata: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-
   provider_id: string;
 
   /**
-   * Purpose of the dataset indicating its intended use
+   * Purpose of the dataset. Each purpose has a required input data schema.
    */
   purpose: 'post-training/messages' | 'eval/question-answer' | 'eval/messages-answer';
 
   /**
-   * Data source configuration for the dataset
+   * A dataset that can be obtained from a URI.
    */
   source: DatasetRegisterResponse.UriDataSource | DatasetRegisterResponse.RowsDataSource;
 
   /**
-   * Type of resource, always 'dataset' for datasets
+   * Any additional metadata for this dataset
    */
-  type: 'dataset';
+  metadata?: { [key: string]: unknown };
 
-  provider_resource_id?: string;
+  /**
+   * Unique identifier for this resource in the provider
+   */
+  provider_resource_id?: string | null;
+
+  type?: 'dataset';
 }
 
 export namespace DatasetRegisterResponse {
@@ -290,117 +275,39 @@ export namespace DatasetRegisterResponse {
    * A dataset that can be obtained from a URI.
    */
   export interface UriDataSource {
-    type: 'uri';
-
-    /**
-     * The dataset can be obtained from a URI. E.g. -
-     * "https://mywebsite.com/mydata.jsonl" - "lsfs://mydata.jsonl" -
-     * "data:csv;base64,{base64_content}"
-     */
     uri: string;
+
+    type?: 'uri';
   }
 
   /**
    * A dataset stored in rows.
    */
   export interface RowsDataSource {
-    /**
-     * The dataset is stored in rows. E.g. - [ {"messages": [{"role": "user",
-     * "content": "Hello, world!"}, {"role": "assistant", "content": "Hello, world!"}]}
-     * ]
-     */
-    rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
+    rows: Array<{ [key: string]: unknown }>;
 
-    type: 'rows';
+    type?: 'rows';
   }
 }
 
 export interface DatasetAppendrowsParams {
-  /**
-   * The rows to append to the dataset.
-   */
-  rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
+  rows: Array<{ [key: string]: unknown }>;
 }
 
 export interface DatasetIterrowsParams {
-  /**
-   * The number of rows to get.
-   */
-  limit?: number;
+  limit?: number | null;
 
-  /**
-   * Index into dataset for the first row to get. Get all rows if None.
-   */
-  start_index?: number;
+  start_index?: number | null;
 }
 
 export interface DatasetRegisterParams {
-  /**
-   * The purpose of the dataset. One of: - "post-training/messages": The dataset
-   * contains a messages column with list of messages for post-training. {
-   * "messages": [ {"role": "user", "content": "Hello, world!"}, {"role":
-   * "assistant", "content": "Hello, world!"}, ] } - "eval/question-answer": The
-   * dataset contains a question column and an answer column for evaluation. {
-   * "question": "What is the capital of France?", "answer": "Paris" } -
-   * "eval/messages-answer": The dataset contains a messages column with list of
-   * messages and an answer column for evaluation. { "messages": [ {"role": "user",
-   * "content": "Hello, my name is John Doe."}, {"role": "assistant", "content":
-   * "Hello, John Doe. How can I help you today?"}, {"role": "user", "content":
-   * "What's my name?"}, ], "answer": "John Doe" }
-   */
-  purpose: 'post-training/messages' | 'eval/question-answer' | 'eval/messages-answer';
+  purpose: unknown;
 
-  /**
-   * The data source of the dataset. Ensure that the data source schema is compatible
-   * with the purpose of the dataset. Examples: - { "type": "uri", "uri":
-   * "https://mywebsite.com/mydata.jsonl" } - { "type": "uri", "uri":
-   * "lsfs://mydata.jsonl" } - { "type": "uri", "uri":
-   * "data:csv;base64,{base64_content}" } - { "type": "uri", "uri":
-   * "huggingface://llamastack/simpleqa?split=train" } - { "type": "rows", "rows": [
-   * { "messages": [ {"role": "user", "content": "Hello, world!"}, {"role":
-   * "assistant", "content": "Hello, world!"}, ] } ] }
-   */
-  source: DatasetRegisterParams.UriDataSource | DatasetRegisterParams.RowsDataSource;
+  source: unknown;
 
-  /**
-   * The ID of the dataset. If not provided, an ID will be generated.
-   */
-  dataset_id?: string;
+  dataset_id?: unknown;
 
-  /**
-   * The metadata for the dataset. - E.g. {"description": "My dataset"}.
-   */
-  metadata?: { [key: string]: boolean | number | string | Array<unknown> | unknown | null };
-}
-
-export namespace DatasetRegisterParams {
-  /**
-   * A dataset that can be obtained from a URI.
-   */
-  export interface UriDataSource {
-    type: 'uri';
-
-    /**
-     * The dataset can be obtained from a URI. E.g. -
-     * "https://mywebsite.com/mydata.jsonl" - "lsfs://mydata.jsonl" -
-     * "data:csv;base64,{base64_content}"
-     */
-    uri: string;
-  }
-
-  /**
-   * A dataset stored in rows.
-   */
-  export interface RowsDataSource {
-    /**
-     * The dataset is stored in rows. E.g. - [ {"messages": [{"role": "user",
-     * "content": "Hello, world!"}, {"role": "assistant", "content": "Hello, world!"}]}
-     * ]
-     */
-    rows: Array<{ [key: string]: boolean | number | string | Array<unknown> | unknown | null }>;
-
-    type: 'rows';
-  }
+  metadata?: unknown;
 }
 
 export declare namespace Datasets {
