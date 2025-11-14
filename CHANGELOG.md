@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.0-alpha.4 (2025-11-14)
+
+Full Changelog: [v0.4.0-alpha.3...v0.4.0-alpha.4](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.4.0-alpha.3...v0.4.0-alpha.4)
+
+### Bug Fixes
+
+* **ci:** release doctor workflow had a typo ([c2417e3](https://github.com/llamastack/llama-stack-client-typescript/commit/c2417e399a0c8f14dc3f29c2682d7889d6149069))
+
+
+### Chores
+
+* use Pydantic to generate OpenAPI schema ([264cd8d](https://github.com/llamastack/llama-stack-client-typescript/commit/264cd8dd9dbba40fb55ef07462c664eb1de7f526))
+
 ## 0.4.0-alpha.3 (2025-11-14)
 
 Full Changelog: [v0.4.0-alpha.2...v0.4.0-alpha.3](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.4.0-alpha.2...v0.4.0-alpha.3)
