@@ -240,17 +240,96 @@ export namespace ScoringFnParams {
 export type ScoringFunctionListResponse = Array<ScoringFn>;
 
 export interface ScoringFunctionRegisterParams {
-  description: unknown;
+  description: string;
 
-  return_type: unknown;
+  return_type: ScoringFunctionRegisterParams.ReturnType;
 
-  scoring_fn_id: unknown;
+  scoring_fn_id: string;
 
-  params?: unknown;
+  /**
+   * Parameters for LLM-as-judge scoring function configuration.
+   */
+  params?:
+    | ScoringFunctionRegisterParams.LlmAsJudgeScoringFnParams
+    | ScoringFunctionRegisterParams.RegexParserScoringFnParams
+    | ScoringFunctionRegisterParams.BasicScoringFnParams
+    | null;
 
-  provider_id?: unknown;
+  provider_id?: string | null;
 
-  provider_scoring_fn_id?: unknown;
+  provider_scoring_fn_id?: string | null;
+}
+
+export namespace ScoringFunctionRegisterParams {
+  export interface ReturnType {
+    type:
+      | 'string'
+      | 'number'
+      | 'boolean'
+      | 'array'
+      | 'object'
+      | 'json'
+      | 'union'
+      | 'chat_completion_input'
+      | 'completion_input'
+      | 'agent_turn_input';
+  }
+
+  /**
+   * Parameters for LLM-as-judge scoring function configuration.
+   */
+  export interface LlmAsJudgeScoringFnParams {
+    judge_model: string;
+
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    /**
+     * Regexes to extract the answer from generated response
+     */
+    judge_score_regexes?: Array<string>;
+
+    prompt_template?: string | null;
+
+    type?: 'llm_as_judge';
+  }
+
+  /**
+   * Parameters for regex parser scoring function configuration.
+   */
+  export interface RegexParserScoringFnParams {
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    /**
+     * Regex to extract the answer from generated response
+     */
+    parsing_regexes?: Array<string>;
+
+    type?: 'regex_parser';
+  }
+
+  /**
+   * Parameters for basic scoring function configuration.
+   */
+  export interface BasicScoringFnParams {
+    /**
+     * Aggregation functions to apply to the scores of each row
+     */
+    aggregation_functions?: Array<
+      'average' | 'weighted_average' | 'median' | 'categorical_count' | 'accuracy'
+    >;
+
+    type?: 'basic';
+  }
 }
 
 export declare namespace ScoringFunctions {
