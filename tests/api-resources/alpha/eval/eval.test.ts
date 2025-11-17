@@ -104,7 +104,7 @@ describe('resource eval', () => {
 
   test('runEval: only required params', async () => {
     const responsePromise = client.alpha.eval.runEval('benchmark_id', {
-      eval_candidate: { model: 'model', sampling_params: {} },
+      benchmark_config: { eval_candidate: { model: 'model', sampling_params: {} } },
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -117,25 +117,27 @@ describe('resource eval', () => {
 
   test('runEval: required and optional params', async () => {
     const response = await client.alpha.eval.runEval('benchmark_id', {
-      eval_candidate: {
-        model: 'model',
-        sampling_params: {
-          max_tokens: 0,
-          repetition_penalty: 0,
-          stop: ['string'],
-          strategy: { type: 'greedy' },
+      benchmark_config: {
+        eval_candidate: {
+          model: 'model',
+          sampling_params: {
+            max_tokens: 0,
+            repetition_penalty: 0,
+            stop: ['string'],
+            strategy: { type: 'greedy' },
+          },
+          system_message: { content: 'string', role: 'system' },
+          type: 'model',
         },
-        system_message: { content: 'string', role: 'system' },
-        type: 'model',
-      },
-      num_examples: 0,
-      scoring_params: {
-        foo: {
-          judge_model: 'judge_model',
-          aggregation_functions: ['average'],
-          judge_score_regexes: ['string'],
-          prompt_template: 'prompt_template',
-          type: 'llm_as_judge',
+        num_examples: 0,
+        scoring_params: {
+          foo: {
+            judge_model: 'judge_model',
+            aggregation_functions: ['average'],
+            judge_score_regexes: ['string'],
+            prompt_template: 'prompt_template',
+            type: 'llm_as_judge',
+          },
         },
       },
     });
@@ -143,7 +145,7 @@ describe('resource eval', () => {
 
   test('runEvalAlpha: only required params', async () => {
     const responsePromise = client.alpha.eval.runEvalAlpha('benchmark_id', {
-      eval_candidate: { model: 'model', sampling_params: {} },
+      benchmark_config: { eval_candidate: { model: 'model', sampling_params: {} } },
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -156,25 +158,27 @@ describe('resource eval', () => {
 
   test('runEvalAlpha: required and optional params', async () => {
     const response = await client.alpha.eval.runEvalAlpha('benchmark_id', {
-      eval_candidate: {
-        model: 'model',
-        sampling_params: {
-          max_tokens: 0,
-          repetition_penalty: 0,
-          stop: ['string'],
-          strategy: { type: 'greedy' },
+      benchmark_config: {
+        eval_candidate: {
+          model: 'model',
+          sampling_params: {
+            max_tokens: 0,
+            repetition_penalty: 0,
+            stop: ['string'],
+            strategy: { type: 'greedy' },
+          },
+          system_message: { content: 'string', role: 'system' },
+          type: 'model',
         },
-        system_message: { content: 'string', role: 'system' },
-        type: 'model',
-      },
-      num_examples: 0,
-      scoring_params: {
-        foo: {
-          judge_model: 'judge_model',
-          aggregation_functions: ['average'],
-          judge_score_regexes: ['string'],
-          prompt_template: 'prompt_template',
-          type: 'llm_as_judge',
+        num_examples: 0,
+        scoring_params: {
+          foo: {
+            judge_model: 'judge_model',
+            aggregation_functions: ['average'],
+            judge_score_regexes: ['string'],
+            prompt_template: 'prompt_template',
+            type: 'llm_as_judge',
+          },
         },
       },
     });
