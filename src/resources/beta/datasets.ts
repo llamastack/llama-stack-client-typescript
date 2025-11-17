@@ -301,13 +301,39 @@ export interface DatasetIterrowsParams {
 }
 
 export interface DatasetRegisterParams {
-  purpose: unknown;
+  /**
+   * Purpose of the dataset. Each purpose has a required input data schema.
+   */
+  purpose: 'post-training/messages' | 'eval/question-answer' | 'eval/messages-answer';
 
-  source: unknown;
+  /**
+   * A dataset that can be obtained from a URI.
+   */
+  source: DatasetRegisterParams.UriDataSource | DatasetRegisterParams.RowsDataSource;
 
-  dataset_id?: unknown;
+  dataset_id?: string | null;
 
-  metadata?: unknown;
+  metadata?: { [key: string]: unknown } | null;
+}
+
+export namespace DatasetRegisterParams {
+  /**
+   * A dataset that can be obtained from a URI.
+   */
+  export interface UriDataSource {
+    uri: string;
+
+    type?: 'uri';
+  }
+
+  /**
+   * A dataset stored in rows.
+   */
+  export interface RowsDataSource {
+    rows: Array<{ [key: string]: unknown }>;
+
+    type?: 'rows';
+  }
 }
 
 export declare namespace Datasets {

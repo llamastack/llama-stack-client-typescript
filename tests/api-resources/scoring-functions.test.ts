@@ -50,9 +50,9 @@ describe('resource scoringFunctions', () => {
 
   test('register: only required params', async () => {
     const responsePromise = client.scoringFunctions.register({
-      description: {},
-      return_type: {},
-      scoring_fn_id: {},
+      description: 'description',
+      return_type: { type: 'string' },
+      scoring_fn_id: 'scoring_fn_id',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -65,12 +65,18 @@ describe('resource scoringFunctions', () => {
 
   test('register: required and optional params', async () => {
     const response = await client.scoringFunctions.register({
-      description: {},
-      return_type: {},
-      scoring_fn_id: {},
-      params: {},
-      provider_id: {},
-      provider_scoring_fn_id: {},
+      description: 'description',
+      return_type: { type: 'string' },
+      scoring_fn_id: 'scoring_fn_id',
+      params: {
+        judge_model: 'judge_model',
+        aggregation_functions: ['average'],
+        judge_score_regexes: ['string'],
+        prompt_template: 'prompt_template',
+        type: 'llm_as_judge',
+      },
+      provider_id: 'provider_id',
+      provider_scoring_fn_id: 'provider_scoring_fn_id',
     });
   });
 

@@ -93,7 +93,10 @@ describe('resource datasets', () => {
   });
 
   test('register: only required params', async () => {
-    const responsePromise = client.beta.datasets.register({ purpose: {}, source: {} });
+    const responsePromise = client.beta.datasets.register({
+      purpose: 'post-training/messages',
+      source: { uri: 'uri' },
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -105,10 +108,10 @@ describe('resource datasets', () => {
 
   test('register: required and optional params', async () => {
     const response = await client.beta.datasets.register({
-      purpose: {},
-      source: {},
-      dataset_id: {},
-      metadata: {},
+      purpose: 'post-training/messages',
+      source: { uri: 'uri', type: 'uri' },
+      dataset_id: 'dataset_id',
+      metadata: { foo: 'bar' },
     });
   });
 
