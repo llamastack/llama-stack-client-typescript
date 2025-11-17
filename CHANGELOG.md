@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0-alpha.5 (2025-11-17)
+
+Full Changelog: [v0.4.0-alpha.4...v0.4.0-alpha.5](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.4.0-alpha.4...v0.4.0-alpha.5)
+
+### Bug Fixes
+
+* **openapi:** restore embedded request wrappers ([b5604d7](https://github.com/llamastack/llama-stack-client-typescript/commit/b5604d767ace04d82c60c600401d72fa497e68b0))
+
 ## 0.4.0-alpha.4 (2025-11-14)
 
 Full Changelog: [v0.4.0-alpha.3...v0.4.0-alpha.4](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.4.0-alpha.3...v0.4.0-alpha.4)
