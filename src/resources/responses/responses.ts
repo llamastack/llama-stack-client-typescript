@@ -113,7 +113,7 @@ export interface ResponseObject {
 
   object?: 'response';
 
-  parallel_tool_calls?: boolean;
+  parallel_tool_calls?: boolean | null;
 
   previous_response_id?: string | null;
 
@@ -2029,7 +2029,7 @@ export interface ResponseListResponse {
 
   object?: 'response';
 
-  parallel_tool_calls?: boolean;
+  parallel_tool_calls?: boolean | null;
 
   previous_response_id?: string | null;
 
@@ -2999,6 +2999,8 @@ export interface ResponseCreateParamsBase {
   max_infer_iters?: number | null;
 
   max_tool_calls?: number | null;
+
+  parallel_tool_calls?: boolean | null;
 
   previous_response_id?: string | null;
 
