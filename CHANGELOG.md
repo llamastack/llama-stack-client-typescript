@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0-alpha.6 (2025-11-18)
+
+Full Changelog: [v0.4.0-alpha.5...v0.4.0-alpha.6](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.4.0-alpha.5...v0.4.0-alpha.6)
+
+### Features
+
+* Wire through parallel_tool_calls to Responses API ([3b91f14](https://github.com/llamastack/llama-stack-client-typescript/commit/3b91f14e0d40ecffd5f7b0bd55600995f934c616))
+
 ## 0.4.0-alpha.5 (2025-11-17)
 
 Full Changelog: [v0.4.0-alpha.4...v0.4.0-alpha.5](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.4.0-alpha.4...v0.4.0-alpha.5)
