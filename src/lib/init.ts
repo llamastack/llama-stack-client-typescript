@@ -107,8 +107,8 @@ const originalRetrieve = Responses.prototype.retrieve;
 Responses.prototype.create = function (...args: Parameters<typeof originalCreate>) {
   const result = originalCreate.apply(this, args);
   // Handle both streaming and non-streaming responses
-  if (result && typeof result.then === 'function') {
-    return result.then((value: any) => {
+  if (result && '_thenUnwrap' in result) {
+    return result._thenUnwrap((value: any) => {
       // Only process if it's not a Stream
       if (value && typeof value.on !== 'function' && typeof value[Symbol.asyncIterator] !== 'function') {
         return processResponse(value);
@@ -122,5 +122,5 @@ Responses.prototype.create = function (...args: Parameters<typeof originalCreate
 // Wrap retrieve method
 Responses.prototype.retrieve = function (...args: Parameters<typeof originalRetrieve>) {
   const result = originalRetrieve.apply(this, args) as APIPromise<any>;
-  return result.then(processResponse) as typeof result;
+  return result._thenUnwrap(processResponse) as typeof result;
 };
