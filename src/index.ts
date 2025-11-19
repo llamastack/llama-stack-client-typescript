@@ -151,9 +151,6 @@ import {
   VectorStoresOpenAICursorPage,
 } from './resources/vector-stores/vector-stores';
 
-// MANUAL: Auto-install response helpers (preserve across regeneration)
-import './lib/init';
-
 export interface ClientOptions {
   /**
    * Defaults to process.env['LLAMA_STACK_CLIENT_API_KEY'].
@@ -573,6 +570,7 @@ export declare namespace LlamaStackClient {
   export type SystemMessage = API.SystemMessage;
 }
 
+export { getResponseOutputText } from './lib/response-helpers';
 export { toFile, fileFromPath } from './uploads';
 export {
   LlamaStackClientError,
