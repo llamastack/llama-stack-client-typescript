@@ -1,0 +1,133 @@
+name: Integration Tests (Client-side)
+
+run-name: Run TypeScript client tests from llama-stack (replay mode)
+
+on:
+  push:
+    branches:
+      - main
+      - generated
+      - 'release-[0-9]+.[0-9]+.x'
+  pull_request:
+    branches:
+      - main
+      - generated
+      - 'release-[0-9]+.[0-9]+.x'
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'src/**'
+      - 'tests/integration/**'
+      - 'package.json'
+      - 'yarn.lock'
+      - '.github/workflows/integration-tests.yml'
+  workflow_dispatch:
+
+concurrency:
+  # Skip concurrency for pushes to main - each commit should be tested independently
+  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/main' && github.run_id || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  run-replay-mode-tests:
+    runs-on: ubuntu-latest
+    name: ${{ format('Integration Tests ({0}, {1})', matrix.suite, matrix.setup) }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # TypeScript client test configurations
+        # Must match entries in llama-stack/tests/integration/client-typescript/suites.json
+        include:
+          - suite: responses
+            setup: gpt
+          - suite: base
+            setup: ollama
+
+    steps:
+      - name: Checkout llama-stack-client-typescript repository
+        uses: actions/checkout@v4
+        with:
+          path: llama-stack-client-typescript
+
+      - name: Checkout llama-stack repository
+        uses: actions/checkout@v4
+        with:
+          repository: llamastack/llama-stack
+          ref: main
+          path: llama-stack
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: '3.12'
+          version: '0.7.6'
+
+      - name: Build TypeScript client
+        working-directory: llama-stack-client-typescript
+        run: |
+          echo "Building TypeScript client..."
+          yarn install --frozen-lockfile
+          yarn build
+
+          echo "✅ TypeScript client built successfully"
+
+      - name: Install llama-stack dependencies
+        working-directory: llama-stack
+        run: |
+          echo "Installing llama-stack dependencies"
+          uv sync --all-groups
+          uv pip install faiss-cpu
+
+      - name: Build Llama Stack
+        working-directory: llama-stack
+        run: |
+          echo "Building Llama Stack"
+          LLAMA_STACK_DIR=. \
+            uv run --no-sync llama stack list-deps ci-tests | xargs -L1 uv pip install
+
+      - name: Configure git for commits
+        working-directory: llama-stack
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+      - name: Check Storage and Memory Available Before Tests
+        if: always()
+        run: |
+          free -h
+          df -h
+
+      - name: Run Integration Tests (TypeScript only)
+        working-directory: llama-stack
+        env:
+          OPENAI_API_KEY: dummy
+          TS_CLIENT_PATH: ${{ github.workspace }}/llama-stack-client-typescript
+        run: |
+          STACK_CONFIG="server:ci-tests"
+
+          SCRIPT_ARGS="--stack-config $STACK_CONFIG --inference-mode replay --typescript-only"
+
+          # Add suite and setup arguments
+          SCRIPT_ARGS="$SCRIPT_ARGS --setup ${{ matrix.setup }}"
+          SCRIPT_ARGS="$SCRIPT_ARGS --suite ${{ matrix.suite }}"
+
+          echo "=== Running TypeScript client tests only ==="
+          echo "Client path: $TS_CLIENT_PATH"
+          echo "Command: uv run --no-sync ./scripts/integration-tests.sh $SCRIPT_ARGS"
+          echo ""
+
+          uv run --no-sync ./scripts/integration-tests.sh $SCRIPT_ARGS | tee typescript-tests.log
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-${{ github.run_id }}-${{ github.run_attempt || '1' }}-${{ strategy.job-index || github.job }}-${{ github.action }}
+          path: |
+            llama-stack/*.log
+          retention-days: 1
