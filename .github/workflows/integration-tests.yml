@@ -1,6 +1,6 @@
 name: Integration Tests (Client-side)
 
-run-name: Run integration tests from llama-stack using local TypeScript client
+run-name: Run TypeScript client tests from llama-stack (replay mode)
 
 on:
   push:
@@ -102,7 +102,7 @@ jobs:
           free -h
           df -h
 
-      - name: Run Integration Tests (Replay Mode)
+      - name: Run Integration Tests (TypeScript only)
         working-directory: llama-stack
         env:
           OPENAI_API_KEY: dummy
@@ -110,18 +110,18 @@ jobs:
         run: |
           STACK_CONFIG="server:ci-tests"
 
-          SCRIPT_ARGS="--stack-config $STACK_CONFIG --inference-mode replay"
+          SCRIPT_ARGS="--stack-config $STACK_CONFIG --inference-mode replay --typescript-only"
 
           # Add suite and setup arguments
           SCRIPT_ARGS="$SCRIPT_ARGS --setup ${{ matrix.setup }}"
           SCRIPT_ARGS="$SCRIPT_ARGS --suite ${{ matrix.suite }}"
 
-          echo "=== Running integration tests with TypeScript client ==="
+          echo "=== Running TypeScript client tests only ==="
           echo "Client path: $TS_CLIENT_PATH"
           echo "Command: uv run --no-sync ./scripts/integration-tests.sh $SCRIPT_ARGS"
           echo ""
 
-          uv run --no-sync ./scripts/integration-tests.sh $SCRIPT_ARGS | tee pytest-replay.log
+          uv run --no-sync ./scripts/integration-tests.sh $SCRIPT_ARGS | tee typescript-tests.log
 
       - name: Upload logs
         if: always()
