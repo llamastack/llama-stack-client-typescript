@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.4.0-alpha.7 (2025-11-20)
+
+Full Changelog: [v0.4.0-alpha.6...v0.4.0-alpha.7](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.4.0-alpha.6...v0.4.0-alpha.7)
+
+### ⚠ BREAKING CHANGES
+
+* replace output_text property with getResponseOutputText helper ([#48](https://github.com/llamastack/llama-stack-client-typescript/issues/48))
+
+### Features
+
+* add `output_text` property on Response object ([#42](https://github.com/llamastack/llama-stack-client-typescript/issues/42)) ([bced728](https://github.com/llamastack/llama-stack-client-typescript/commit/bced72805f3314f41d03f5d60502204a4e41ee07))
+* add integration tests CI workflow ([#49](https://github.com/llamastack/llama-stack-client-typescript/issues/49)) ([5675ef1](https://github.com/llamastack/llama-stack-client-typescript/commit/5675ef11021ac703ce4fc967544c812030d05361))
+* replace output_text property with getResponseOutputText helper ([#48](https://github.com/llamastack/llama-stack-client-typescript/issues/48)) ([53e799e](https://github.com/llamastack/llama-stack-client-typescript/commit/53e799edd1da5fa1566610f83a3f4e5722e46d2c))
+
+
+### Bug Fixes
+
+* add test for the exported symbol ([e78b187](https://github.com/llamastack/llama-stack-client-typescript/commit/e78b18756b539acf37a37402c3afb44f97460545))
+* Pydantic validation error with list-type metadata in vector search ([#3797](https://github.com/llamastack/llama-stack-client-typescript/issues/3797)) ([e1c40d2](https://github.com/llamastack/llama-stack-client-typescript/commit/e1c40d2a3d6a3abb52f38108f231a9e6bec074ce))
+
 ## 0.4.0-alpha.6 (2025-11-18)
 
 Full Changelog: [v0.4.0-alpha.5...v0.4.0-alpha.6](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.4.0-alpha.5...v0.4.0-alpha.6)
