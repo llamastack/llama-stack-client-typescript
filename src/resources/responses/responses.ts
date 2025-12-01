@@ -111,6 +111,8 @@ export interface ResponseObject {
 
   max_tool_calls?: number | null;
 
+  metadata?: { [key: string]: string } | null;
+
   object?: 'response';
 
   parallel_tool_calls?: boolean | null;
@@ -2027,6 +2029,8 @@ export interface ResponseListResponse {
 
   max_tool_calls?: number | null;
 
+  metadata?: { [key: string]: string } | null;
+
   object?: 'response';
 
   parallel_tool_calls?: boolean | null;
@@ -2999,6 +3003,8 @@ export interface ResponseCreateParamsBase {
   max_infer_iters?: number | null;
 
   max_tool_calls?: number | null;
+
+  metadata?: { [key: string]: string } | null;
 
   parallel_tool_calls?: boolean | null;
 
