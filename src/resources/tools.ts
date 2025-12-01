@@ -14,6 +14,8 @@ import * as ToolRuntimeAPI from './tool-runtime';
 export class Tools extends APIResource {
   /**
    * List tools with optional tool group.
+   *
+   * @deprecated
    */
   list(query?: ToolListParams, options?: Core.RequestOptions): Core.APIPromise<ToolListResponse>;
   list(options?: Core.RequestOptions): Core.APIPromise<ToolListResponse>;
@@ -31,6 +33,8 @@ export class Tools extends APIResource {
 
   /**
    * Get a tool by its name.
+   *
+   * @deprecated
    */
   get(toolName: string, options?: Core.RequestOptions): Core.APIPromise<ToolRuntimeAPI.ToolDef> {
     return this._client.get(`/v1/tools/${toolName}`, options);
