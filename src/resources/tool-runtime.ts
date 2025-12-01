@@ -13,6 +13,8 @@ import * as Core from '../core';
 export class ToolRuntime extends APIResource {
   /**
    * Run a tool with the given arguments.
+   *
+   * @deprecated
    */
   invokeTool(
     body: ToolRuntimeInvokeToolParams,
@@ -23,6 +25,8 @@ export class ToolRuntime extends APIResource {
 
   /**
    * List all tools in the runtime.
+   *
+   * @deprecated
    */
   listTools(
     query?: ToolRuntimeListToolsParams,
