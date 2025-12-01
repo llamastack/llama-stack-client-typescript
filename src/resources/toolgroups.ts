@@ -12,6 +12,8 @@ import * as Core from '../core';
 export class Toolgroups extends APIResource {
   /**
    * List tool groups with optional provider.
+   *
+   * @deprecated
    */
   list(options?: Core.RequestOptions): Core.APIPromise<ToolgroupListResponse> {
     return (
@@ -21,6 +23,8 @@ export class Toolgroups extends APIResource {
 
   /**
    * Get a tool group by its ID.
+   *
+   * @deprecated
    */
   get(toolgroupId: string, options?: Core.RequestOptions): Core.APIPromise<ToolGroup> {
     return this._client.get(`/v1/toolgroups/${toolgroupId}`, options);
