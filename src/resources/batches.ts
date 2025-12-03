@@ -529,14 +529,29 @@ export namespace BatchCancelResponse {
 }
 
 export interface BatchCreateParams {
+  /**
+   * The time window within which the batch should be processed.
+   */
   completion_window: '24h';
 
+  /**
+   * The endpoint to be used for all requests in the batch.
+   */
   endpoint: string;
 
+  /**
+   * The ID of an uploaded file containing requests for the batch.
+   */
   input_file_id: string;
 
+  /**
+   * Optional idempotency key. When provided, enables idempotent behavior.
+   */
   idempotency_key?: string | null;
 
+  /**
+   * Optional metadata for the batch.
+   */
   metadata?: { [key: string]: string } | null;
 }
 
