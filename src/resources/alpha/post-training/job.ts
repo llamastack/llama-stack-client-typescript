@@ -46,6 +46,10 @@ export class Job extends APIResource {
   }
 }
 
+export interface ListPostTrainingJobsResponse {
+  data: JobListResponse;
+}
+
 export type JobListResponse = Array<PostTrainingAPI.PostTrainingJob>;
 
 /**
@@ -167,6 +171,7 @@ export interface JobStatusParams {
 
 export declare namespace Job {
   export {
+    type ListPostTrainingJobsResponse as ListPostTrainingJobsResponse,
     type JobListResponse as JobListResponse,
     type JobArtifactsResponse as JobArtifactsResponse,
     type JobStatusResponse as JobStatusResponse,
