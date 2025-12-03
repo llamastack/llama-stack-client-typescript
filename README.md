@@ -348,6 +348,8 @@ If you are interested in other runtime environments, please open or upvote an is
 
 See [the contributing documentation](./CONTRIBUTING.md).
 
+Note: This project uses [yarn](https://classic.yarnpkg.com/) v1 as its package manager for development. Please ensure you have yarn installed before contributing.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
