@@ -401,7 +401,6 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/alpha/post-training/post-training.ts">AlgorithmConfig</a></code>
-- <code><a href="./src/resources/alpha/post-training/post-training.ts">ListPostTrainingJobsResponse</a></code>
 - <code><a href="./src/resources/alpha/post-training/post-training.ts">PostTrainingJob</a></code>
 
 Methods:
@@ -413,6 +412,7 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/alpha/post-training/job.ts">ListPostTrainingJobsResponse</a></code>
 - <code><a href="./src/resources/alpha/post-training/job.ts">JobListResponse</a></code>
 - <code><a href="./src/resources/alpha/post-training/job.ts">JobArtifactsResponse</a></code>
 - <code><a href="./src/resources/alpha/post-training/job.ts">JobStatusResponse</a></code>
