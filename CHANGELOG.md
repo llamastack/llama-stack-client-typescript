@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.4.0-alpha.7 (2025-12-03)
+
+Full Changelog: [v0.4.0-alpha.6...v0.4.0-alpha.7](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.4.0-alpha.6...v0.4.0-alpha.7)
+
+### ⚠ BREAKING CHANGES
+
+* replace output_text property with getResponseOutputText helper ([#48](https://github.com/llamastack/llama-stack-client-typescript/issues/48))
+
+### Features
+
+* add `output_text` property on Response object ([#42](https://github.com/llamastack/llama-stack-client-typescript/issues/42)) ([bced728](https://github.com/llamastack/llama-stack-client-typescript/commit/bced72805f3314f41d03f5d60502204a4e41ee07))
+* add integration tests CI workflow ([#49](https://github.com/llamastack/llama-stack-client-typescript/issues/49)) ([5675ef1](https://github.com/llamastack/llama-stack-client-typescript/commit/5675ef11021ac703ce4fc967544c812030d05361))
+* Add metadata field to request and response ([fdf65b2](https://github.com/llamastack/llama-stack-client-typescript/commit/fdf65b2cd70b350cf3f821ca01e3bf6190440565))
+* **api:** deprecate `toolgroup` and `tool_runtime` apis ([3f75ac5](https://github.com/llamastack/llama-stack-client-typescript/commit/3f75ac506692b7706c978f11b5d4d6e012fd7357))
+* Implement FastAPI router system ([ea26c3e](https://github.com/llamastack/llama-stack-client-typescript/commit/ea26c3e2a340985f2dacf6df86070dbf71d93749))
+* replace output_text property with getResponseOutputText helper ([#48](https://github.com/llamastack/llama-stack-client-typescript/issues/48)) ([53e799e](https://github.com/llamastack/llama-stack-client-typescript/commit/53e799edd1da5fa1566610f83a3f4e5722e46d2c))
+
+
+### Bug Fixes
+
+* add test for the exported symbol ([e78b187](https://github.com/llamastack/llama-stack-client-typescript/commit/e78b18756b539acf37a37402c3afb44f97460545))
+* **client:** fix issue with duplicate definitions in Go ([48d4f16](https://github.com/llamastack/llama-stack-client-typescript/commit/48d4f166d3ba438a2b4a9fec3e98d958ea8f035b))
+* Pydantic validation error with list-type metadata in vector search ([#3797](https://github.com/llamastack/llama-stack-client-typescript/issues/3797)) ([e1c40d2](https://github.com/llamastack/llama-stack-client-typescript/commit/e1c40d2a3d6a3abb52f38108f231a9e6bec074ce))
+
 ## 0.4.0-alpha.6 (2025-11-18)
 
 Full Changelog: [v0.4.0-alpha.5...v0.4.0-alpha.6](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.4.0-alpha.5...v0.4.0-alpha.6)
