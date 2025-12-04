@@ -21,6 +21,10 @@ fi
 
 echo "==> Installing Node dependencies…"
 
-PACKAGE_MANAGER=$(command -v yarn >/dev/null 2>&1 && echo "yarn" || echo "npm")
+if ! command -v yarn >/dev/null 2>&1; then
+  echo "Error: yarn is required but not installed."
+  echo "Please install yarn: https://classic.yarnpkg.com/en/docs/install"
+  exit 1
+fi
 
-$PACKAGE_MANAGER install
+yarn install

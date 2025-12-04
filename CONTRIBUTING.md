@@ -25,7 +25,7 @@ All files in the `examples/` directory are not modified by the generator and can
 ```ts
 // add an example to examples/<your-example>.ts
 
-#!/usr/bin/env -S npm run tsn -T
+#!/usr/bin/env -S yarn tsn -T
 …
 ```
 
@@ -37,7 +37,7 @@ $ yarn tsn -T examples/<your-example>.ts
 
 ## Using the repository from source
 
-If you’d like to use the repository from source, you can either install from git or link to a cloned repository:
+If you'd like to use the repository from source, you can either install from git or link to a cloned repository:
 
 To install via git:
 
@@ -57,6 +57,11 @@ $ yarn link
 $ cd ../my-package
 $ yarn link llama-stack-client
 
+# With npm
+$ npm link
+$ cd ../my-package
+$ npm link llama-stack-client
+
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
@@ -68,7 +73,7 @@ $ pnpm link -—global llama-stack-client
 Most tests require you to [set up a mock server](https://github.com/stoplightio/prism) against the OpenAPI spec to run the tests.
 
 ```sh
-$ npx prism mock path/to/your/openapi.yml
+$ npx @stainless-api/prism-cli@5.15.0 prism mock path/to/your/openapi.yml
 ```
 
 ```sh
