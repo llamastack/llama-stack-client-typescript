@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.4.0-alpha.8 (2025-12-06)
+
+Full Changelog: [v0.4.0-alpha.7...v0.4.0-alpha.8](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.4.0-alpha.7...v0.4.0-alpha.8)
+
+### Bug Fixes
+
+* **mcp:** correct code tool API endpoint ([6006307](https://github.com/llamastack/llama-stack-client-typescript/commit/60063077b65f31a31dabf254dbcfae50909cd692))
+* **mcp:** return correct lines on typescript errors ([368f4b5](https://github.com/llamastack/llama-stack-client-typescript/commit/368f4b50eb87213ab27f43a161df688d3cba4f62))
+
+
+### Chores
+
+* clarify use of yarn for development and npm/yarn/pnpm for users ([#51](https://github.com/llamastack/llama-stack-client-typescript/issues/51)) ([b413eed](https://github.com/llamastack/llama-stack-client-typescript/commit/b413eedc57a6666df5aa98af4c8726a468cb77ec))
+* **internal:** codegen related update ([b5ea21d](https://github.com/llamastack/llama-stack-client-typescript/commit/b5ea21d0dcf0a71a49420efdf721f21254b9a0ce))
+* **internal:** codegen related update ([d199aff](https://github.com/llamastack/llama-stack-client-typescript/commit/d199aff3d638854e58ae5575979d2c7f57eebc10))
+
 ## 0.4.0-alpha.7 (2025-12-03)
 
 Full Changelog: [v0.4.0-alpha.6...v0.4.0-alpha.7](https://github.com/llamastack/llama-stack-client-typescript/compare/v0.4.0-alpha.6...v0.4.0-alpha.7)
