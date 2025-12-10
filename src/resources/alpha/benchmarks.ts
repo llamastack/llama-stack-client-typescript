@@ -58,6 +58,9 @@ export class Benchmarks extends APIResource {
  * A benchmark resource for evaluating model performance.
  */
 export interface Benchmark {
+  /**
+   * Identifier of the dataset to use for the benchmark evaluation.
+   */
   dataset_id: string;
 
   /**
@@ -70,10 +73,13 @@ export interface Benchmark {
    */
   provider_id: string;
 
+  /**
+   * List of scoring function identifiers to apply during evaluation.
+   */
   scoring_functions: Array<string>;
 
   /**
-   * Metadata for this evaluation task
+   * Metadata for this evaluation task.
    */
   metadata?: { [key: string]: unknown };
 
@@ -82,26 +88,56 @@ export interface Benchmark {
    */
   provider_resource_id?: string | null;
 
+  /**
+   * The resource type, always benchmark.
+   */
   type?: 'benchmark';
 }
 
+/**
+ * Response containing a list of benchmark objects.
+ */
 export interface ListBenchmarksResponse {
+  /**
+   * List of benchmark objects.
+   */
   data: BenchmarkListResponse;
 }
 
+/**
+ * List of benchmark objects.
+ */
 export type BenchmarkListResponse = Array<Benchmark>;
 
 export interface BenchmarkRegisterParams {
+  /**
+   * The ID of the benchmark to register.
+   */
   benchmark_id: string;
 
+  /**
+   * The ID of the dataset to use for the benchmark.
+   */
   dataset_id: string;
 
+  /**
+   * The scoring functions to use for the benchmark.
+   */
   scoring_functions: Array<string>;
 
+  /**
+   * The metadata to use for the benchmark.
+   */
   metadata?: { [key: string]: unknown } | null;
 
+  /**
+   * The ID of the provider benchmark to use for the benchmark.
+   */
   provider_benchmark_id?: string | null;
 
+  /**
+   * The ID of the provider to use for the benchmark.
+   */
   provider_id?: string | null;
 }
 
