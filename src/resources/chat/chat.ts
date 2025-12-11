@@ -132,9 +132,9 @@ export namespace ChatCompletionChunk {
 
         logprob: number;
 
-        top_logprobs: Array<Content.TopLogprob>;
-
         bytes?: Array<number> | null;
+
+        top_logprobs?: Array<Content.TopLogprob> | null;
       }
 
       export namespace Content {
@@ -166,9 +166,9 @@ export namespace ChatCompletionChunk {
 
         logprob: number;
 
-        top_logprobs: Array<Refusal.TopLogprob>;
-
         bytes?: Array<number> | null;
+
+        top_logprobs?: Array<Refusal.TopLogprob> | null;
       }
 
       export namespace Refusal {

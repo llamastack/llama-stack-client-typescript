@@ -67,7 +67,7 @@ export namespace InputItemListResponse {
           | OpenAIResponseMessageOutput.OpenAIResponseInputMessageContentFile
         >
       | Array<
-          | OpenAIResponseMessageOutput.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessageOutput.OpenAIResponseOutputMessageContentOutputTextOutput
           | OpenAIResponseMessageOutput.OpenAIResponseContentPartRefusal
         >;
 
@@ -118,20 +118,22 @@ export namespace InputItemListResponse {
       type?: 'input_file';
     }
 
-    export interface OpenAIResponseOutputMessageContentOutputText {
+    export interface OpenAIResponseOutputMessageContentOutputTextOutput {
       text: string;
 
       annotations?: Array<
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationFileCitation
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationCitation
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationContainerFileCitation
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationFilePath
       >;
+
+      logprobs?: Array<OpenAIResponseOutputMessageContentOutputTextOutput.Logprob> | null;
 
       type?: 'output_text';
     }
 
-    export namespace OpenAIResponseOutputMessageContentOutputText {
+    export namespace OpenAIResponseOutputMessageContentOutputTextOutput {
       /**
        * File citation annotation for referencing specific files in response content.
        */
@@ -180,6 +182,40 @@ export namespace InputItemListResponse {
         index: number;
 
         type?: 'file_path';
+      }
+
+      /**
+       * The log probability for a token from an OpenAI-compatible chat completion
+       * response.
+       *
+       * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+       * probability of the token :top_logprobs: The top log probabilities for the token
+       */
+      export interface Logprob {
+        token: string;
+
+        logprob: number;
+
+        bytes?: Array<number> | null;
+
+        top_logprobs?: Array<Logprob.TopLogprob> | null;
+      }
+
+      export namespace Logprob {
+        /**
+         * The top log probability for a token from an OpenAI-compatible chat completion
+         * response.
+         *
+         * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+         * probability of the token
+         */
+        export interface TopLogprob {
+          token: string;
+
+          logprob: number;
+
+          bytes?: Array<number> | null;
+        }
       }
     }
 
@@ -358,7 +394,7 @@ export namespace InputItemListResponse {
           | OpenAIResponseMessageOutput.OpenAIResponseInputMessageContentFile
         >
       | Array<
-          | OpenAIResponseMessageOutput.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessageOutput.OpenAIResponseOutputMessageContentOutputTextOutput
           | OpenAIResponseMessageOutput.OpenAIResponseContentPartRefusal
         >;
 
@@ -409,20 +445,22 @@ export namespace InputItemListResponse {
       type?: 'input_file';
     }
 
-    export interface OpenAIResponseOutputMessageContentOutputText {
+    export interface OpenAIResponseOutputMessageContentOutputTextOutput {
       text: string;
 
       annotations?: Array<
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationFileCitation
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationCitation
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationContainerFileCitation
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationFilePath
       >;
+
+      logprobs?: Array<OpenAIResponseOutputMessageContentOutputTextOutput.Logprob> | null;
 
       type?: 'output_text';
     }
 
-    export namespace OpenAIResponseOutputMessageContentOutputText {
+    export namespace OpenAIResponseOutputMessageContentOutputTextOutput {
       /**
        * File citation annotation for referencing specific files in response content.
        */
@@ -471,6 +509,40 @@ export namespace InputItemListResponse {
         index: number;
 
         type?: 'file_path';
+      }
+
+      /**
+       * The log probability for a token from an OpenAI-compatible chat completion
+       * response.
+       *
+       * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+       * probability of the token :top_logprobs: The top log probabilities for the token
+       */
+      export interface Logprob {
+        token: string;
+
+        logprob: number;
+
+        bytes?: Array<number> | null;
+
+        top_logprobs?: Array<Logprob.TopLogprob> | null;
+      }
+
+      export namespace Logprob {
+        /**
+         * The top log probability for a token from an OpenAI-compatible chat completion
+         * response.
+         *
+         * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+         * probability of the token
+         */
+        export interface TopLogprob {
+          token: string;
+
+          logprob: number;
+
+          bytes?: Array<number> | null;
+        }
       }
     }
 
