@@ -28,6 +28,7 @@ export { Inference, type InferenceRerankResponse, type InferenceRerankParams } f
 export {
   PostTraining,
   type AlgorithmConfig,
+  type ListPostTrainingJobsResponse,
   type PostTrainingJob,
   type PostTrainingPreferenceOptimizeParams,
   type PostTrainingSupervisedFineTuneParams,

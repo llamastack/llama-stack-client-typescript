@@ -17,7 +17,6 @@ import {
   JobListResponse,
   JobStatusParams,
   JobStatusResponse,
-  ListPostTrainingJobsResponse,
 } from './job';
 
 export class PostTraining extends APIResource {
@@ -81,6 +80,10 @@ export namespace AlgorithmConfig {
 
     type?: 'QAT';
   }
+}
+
+export interface ListPostTrainingJobsResponse {
+  data: JobAPI.JobListResponse;
 }
 
 export interface PostTrainingJob {
@@ -351,6 +354,7 @@ PostTraining.Job = Job;
 export declare namespace PostTraining {
   export {
     type AlgorithmConfig as AlgorithmConfig,
+    type ListPostTrainingJobsResponse as ListPostTrainingJobsResponse,
     type PostTrainingJob as PostTrainingJob,
     type PostTrainingPreferenceOptimizeParams as PostTrainingPreferenceOptimizeParams,
     type PostTrainingSupervisedFineTuneParams as PostTrainingSupervisedFineTuneParams,
@@ -358,7 +362,6 @@ export declare namespace PostTraining {
 
   export {
     Job as Job,
-    type ListPostTrainingJobsResponse as ListPostTrainingJobsResponse,
     type JobListResponse as JobListResponse,
     type JobArtifactsResponse as JobArtifactsResponse,
     type JobStatusResponse as JobStatusResponse,
