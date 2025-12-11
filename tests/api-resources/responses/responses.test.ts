@@ -28,7 +28,7 @@ describe('resource responses', () => {
       input: 'string',
       model: 'model',
       conversation: 'conversation',
-      include: ['string'],
+      include: ['web_search_call.action.sources'],
       instructions: 'instructions',
       max_infer_iters: 0,
       max_tool_calls: 0,

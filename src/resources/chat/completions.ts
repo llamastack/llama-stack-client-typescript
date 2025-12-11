@@ -326,9 +326,9 @@ export namespace CompletionCreateResponse {
 
         logprob: number;
 
-        top_logprobs: Array<Content.TopLogprob>;
-
         bytes?: Array<number> | null;
+
+        top_logprobs?: Array<Content.TopLogprob> | null;
       }
 
       export namespace Content {
@@ -360,9 +360,9 @@ export namespace CompletionCreateResponse {
 
         logprob: number;
 
-        top_logprobs: Array<Refusal.TopLogprob>;
-
         bytes?: Array<number> | null;
+
+        top_logprobs?: Array<Refusal.TopLogprob> | null;
       }
 
       export namespace Refusal {
@@ -686,9 +686,9 @@ export namespace CompletionRetrieveResponse {
 
         logprob: number;
 
-        top_logprobs: Array<Content.TopLogprob>;
-
         bytes?: Array<number> | null;
+
+        top_logprobs?: Array<Content.TopLogprob> | null;
       }
 
       export namespace Content {
@@ -720,9 +720,9 @@ export namespace CompletionRetrieveResponse {
 
         logprob: number;
 
-        top_logprobs: Array<Refusal.TopLogprob>;
-
         bytes?: Array<number> | null;
+
+        top_logprobs?: Array<Refusal.TopLogprob> | null;
       }
 
       export namespace Refusal {
@@ -1251,9 +1251,9 @@ export namespace CompletionListResponse {
 
           logprob: number;
 
-          top_logprobs: Array<Content.TopLogprob>;
-
           bytes?: Array<number> | null;
+
+          top_logprobs?: Array<Content.TopLogprob> | null;
         }
 
         export namespace Content {
@@ -1285,9 +1285,9 @@ export namespace CompletionListResponse {
 
           logprob: number;
 
-          top_logprobs: Array<Refusal.TopLogprob>;
-
           bytes?: Array<number> | null;
+
+          top_logprobs?: Array<Refusal.TopLogprob> | null;
         }
 
         export namespace Refusal {

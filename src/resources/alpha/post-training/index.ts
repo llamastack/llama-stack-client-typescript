@@ -8,7 +8,6 @@
 
 export {
   Job,
-  type ListPostTrainingJobsResponse,
   type JobListResponse,
   type JobArtifactsResponse,
   type JobStatusResponse,
@@ -19,6 +18,7 @@ export {
 export {
   PostTraining,
   type AlgorithmConfig,
+  type ListPostTrainingJobsResponse,
   type PostTrainingJob,
   type PostTrainingPreferenceOptimizeParams,
   type PostTrainingSupervisedFineTuneParams,

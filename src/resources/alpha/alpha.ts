@@ -31,6 +31,7 @@ import {
 import * as PostTrainingAPI from './post-training/post-training';
 import {
   AlgorithmConfig,
+  ListPostTrainingJobsResponse,
   PostTraining,
   PostTrainingJob,
   PostTrainingPreferenceOptimizeParams,
@@ -59,6 +60,7 @@ export declare namespace Alpha {
   export {
     PostTraining as PostTraining,
     type AlgorithmConfig as AlgorithmConfig,
+    type ListPostTrainingJobsResponse as ListPostTrainingJobsResponse,
     type PostTrainingJob as PostTrainingJob,
     type PostTrainingPreferenceOptimizeParams as PostTrainingPreferenceOptimizeParams,
     type PostTrainingSupervisedFineTuneParams as PostTrainingSupervisedFineTuneParams,

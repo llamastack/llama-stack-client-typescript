@@ -163,7 +163,7 @@ export namespace ResponseObject {
           | OpenAIResponseMessageOutput.OpenAIResponseInputMessageContentFile
         >
       | Array<
-          | OpenAIResponseMessageOutput.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessageOutput.OpenAIResponseOutputMessageContentOutputTextOutput
           | OpenAIResponseMessageOutput.OpenAIResponseContentPartRefusal
         >;
 
@@ -214,20 +214,22 @@ export namespace ResponseObject {
       type?: 'input_file';
     }
 
-    export interface OpenAIResponseOutputMessageContentOutputText {
+    export interface OpenAIResponseOutputMessageContentOutputTextOutput {
       text: string;
 
       annotations?: Array<
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationFileCitation
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationCitation
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationContainerFileCitation
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationFilePath
       >;
+
+      logprobs?: Array<OpenAIResponseOutputMessageContentOutputTextOutput.Logprob> | null;
 
       type?: 'output_text';
     }
 
-    export namespace OpenAIResponseOutputMessageContentOutputText {
+    export namespace OpenAIResponseOutputMessageContentOutputTextOutput {
       /**
        * File citation annotation for referencing specific files in response content.
        */
@@ -276,6 +278,40 @@ export namespace ResponseObject {
         index: number;
 
         type?: 'file_path';
+      }
+
+      /**
+       * The log probability for a token from an OpenAI-compatible chat completion
+       * response.
+       *
+       * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+       * probability of the token :top_logprobs: The top log probabilities for the token
+       */
+      export interface Logprob {
+        token: string;
+
+        logprob: number;
+
+        bytes?: Array<number> | null;
+
+        top_logprobs?: Array<Logprob.TopLogprob> | null;
+      }
+
+      export namespace Logprob {
+        /**
+         * The top log probability for a token from an OpenAI-compatible chat completion
+         * response.
+         *
+         * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+         * probability of the token
+         */
+        export interface TopLogprob {
+          token: string;
+
+          logprob: number;
+
+          bytes?: Array<number> | null;
+        }
       }
     }
 
@@ -785,6 +821,8 @@ export namespace ResponseObjectStream {
           | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
         >;
 
+        logprobs?: Array<OpenAIResponseOutputMessageContentOutputText.Logprob> | null;
+
         type?: 'output_text';
       }
 
@@ -837,6 +875,40 @@ export namespace ResponseObjectStream {
           index: number;
 
           type?: 'file_path';
+        }
+
+        /**
+         * The log probability for a token from an OpenAI-compatible chat completion
+         * response.
+         *
+         * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+         * probability of the token :top_logprobs: The top log probabilities for the token
+         */
+        export interface Logprob {
+          token: string;
+
+          logprob: number;
+
+          bytes?: Array<number> | null;
+
+          top_logprobs?: Array<Logprob.TopLogprob> | null;
+        }
+
+        export namespace Logprob {
+          /**
+           * The top log probability for a token from an OpenAI-compatible chat completion
+           * response.
+           *
+           * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+           * probability of the token
+           */
+          export interface TopLogprob {
+            token: string;
+
+            logprob: number;
+
+            bytes?: Array<number> | null;
+          }
         }
       }
 
@@ -1074,6 +1146,8 @@ export namespace ResponseObjectStream {
           | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
         >;
 
+        logprobs?: Array<OpenAIResponseOutputMessageContentOutputText.Logprob> | null;
+
         type?: 'output_text';
       }
 
@@ -1126,6 +1200,40 @@ export namespace ResponseObjectStream {
           index: number;
 
           type?: 'file_path';
+        }
+
+        /**
+         * The log probability for a token from an OpenAI-compatible chat completion
+         * response.
+         *
+         * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+         * probability of the token :top_logprobs: The top log probabilities for the token
+         */
+        export interface Logprob {
+          token: string;
+
+          logprob: number;
+
+          bytes?: Array<number> | null;
+
+          top_logprobs?: Array<Logprob.TopLogprob> | null;
+        }
+
+        export namespace Logprob {
+          /**
+           * The top log probability for a token from an OpenAI-compatible chat completion
+           * response.
+           *
+           * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+           * probability of the token
+           */
+          export interface TopLogprob {
+            token: string;
+
+            logprob: number;
+
+            bytes?: Array<number> | null;
+          }
         }
       }
 
@@ -1274,7 +1382,45 @@ export namespace ResponseObjectStream {
 
     sequence_number: number;
 
+    logprobs?: Array<OpenAIResponseObjectStreamResponseOutputTextDelta.Logprob> | null;
+
     type?: 'response.output_text.delta';
+  }
+
+  export namespace OpenAIResponseObjectStreamResponseOutputTextDelta {
+    /**
+     * The log probability for a token from an OpenAI-compatible chat completion
+     * response.
+     *
+     * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+     * probability of the token :top_logprobs: The top log probabilities for the token
+     */
+    export interface Logprob {
+      token: string;
+
+      logprob: number;
+
+      bytes?: Array<number> | null;
+
+      top_logprobs?: Array<Logprob.TopLogprob> | null;
+    }
+
+    export namespace Logprob {
+      /**
+       * The top log probability for a token from an OpenAI-compatible chat completion
+       * response.
+       *
+       * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+       * probability of the token
+       */
+      export interface TopLogprob {
+        token: string;
+
+        logprob: number;
+
+        bytes?: Array<number> | null;
+      }
+    }
   }
 
   /**
@@ -1472,7 +1618,7 @@ export namespace ResponseObjectStream {
         | OpenAIResponseContentPartOutputText.OpenAIResponseAnnotationFilePath
       >;
 
-      logprobs?: Array<{ [key: string]: unknown }> | null;
+      logprobs?: Array<OpenAIResponseContentPartOutputText.Logprob> | null;
 
       type?: 'output_text';
     }
@@ -1526,6 +1672,40 @@ export namespace ResponseObjectStream {
         index: number;
 
         type?: 'file_path';
+      }
+
+      /**
+       * The log probability for a token from an OpenAI-compatible chat completion
+       * response.
+       *
+       * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+       * probability of the token :top_logprobs: The top log probabilities for the token
+       */
+      export interface Logprob {
+        token: string;
+
+        logprob: number;
+
+        bytes?: Array<number> | null;
+
+        top_logprobs?: Array<Logprob.TopLogprob> | null;
+      }
+
+      export namespace Logprob {
+        /**
+         * The top log probability for a token from an OpenAI-compatible chat completion
+         * response.
+         *
+         * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+         * probability of the token
+         */
+        export interface TopLogprob {
+          token: string;
+
+          logprob: number;
+
+          bytes?: Array<number> | null;
+        }
       }
     }
 
@@ -1587,7 +1767,7 @@ export namespace ResponseObjectStream {
         | OpenAIResponseContentPartOutputText.OpenAIResponseAnnotationFilePath
       >;
 
-      logprobs?: Array<{ [key: string]: unknown }> | null;
+      logprobs?: Array<OpenAIResponseContentPartOutputText.Logprob> | null;
 
       type?: 'output_text';
     }
@@ -1641,6 +1821,40 @@ export namespace ResponseObjectStream {
         index: number;
 
         type?: 'file_path';
+      }
+
+      /**
+       * The log probability for a token from an OpenAI-compatible chat completion
+       * response.
+       *
+       * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+       * probability of the token :top_logprobs: The top log probabilities for the token
+       */
+      export interface Logprob {
+        token: string;
+
+        logprob: number;
+
+        bytes?: Array<number> | null;
+
+        top_logprobs?: Array<Logprob.TopLogprob> | null;
+      }
+
+      export namespace Logprob {
+        /**
+         * The top log probability for a token from an OpenAI-compatible chat completion
+         * response.
+         *
+         * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+         * probability of the token
+         */
+        export interface TopLogprob {
+          token: string;
+
+          logprob: number;
+
+          bytes?: Array<number> | null;
+        }
       }
     }
 
@@ -2081,7 +2295,7 @@ export namespace ResponseListResponse {
           | OpenAIResponseMessageOutput.OpenAIResponseInputMessageContentFile
         >
       | Array<
-          | OpenAIResponseMessageOutput.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessageOutput.OpenAIResponseOutputMessageContentOutputTextOutput
           | OpenAIResponseMessageOutput.OpenAIResponseContentPartRefusal
         >;
 
@@ -2132,20 +2346,22 @@ export namespace ResponseListResponse {
       type?: 'input_file';
     }
 
-    export interface OpenAIResponseOutputMessageContentOutputText {
+    export interface OpenAIResponseOutputMessageContentOutputTextOutput {
       text: string;
 
       annotations?: Array<
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationFileCitation
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationCitation
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationContainerFileCitation
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationFilePath
       >;
+
+      logprobs?: Array<OpenAIResponseOutputMessageContentOutputTextOutput.Logprob> | null;
 
       type?: 'output_text';
     }
 
-    export namespace OpenAIResponseOutputMessageContentOutputText {
+    export namespace OpenAIResponseOutputMessageContentOutputTextOutput {
       /**
        * File citation annotation for referencing specific files in response content.
        */
@@ -2194,6 +2410,40 @@ export namespace ResponseListResponse {
         index: number;
 
         type?: 'file_path';
+      }
+
+      /**
+       * The log probability for a token from an OpenAI-compatible chat completion
+       * response.
+       *
+       * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+       * probability of the token :top_logprobs: The top log probabilities for the token
+       */
+      export interface Logprob {
+        token: string;
+
+        logprob: number;
+
+        bytes?: Array<number> | null;
+
+        top_logprobs?: Array<Logprob.TopLogprob> | null;
+      }
+
+      export namespace Logprob {
+        /**
+         * The top log probability for a token from an OpenAI-compatible chat completion
+         * response.
+         *
+         * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+         * probability of the token
+         */
+        export interface TopLogprob {
+          token: string;
+
+          logprob: number;
+
+          bytes?: Array<number> | null;
+        }
       }
     }
 
@@ -2372,7 +2622,7 @@ export namespace ResponseListResponse {
           | OpenAIResponseMessageOutput.OpenAIResponseInputMessageContentFile
         >
       | Array<
-          | OpenAIResponseMessageOutput.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessageOutput.OpenAIResponseOutputMessageContentOutputTextOutput
           | OpenAIResponseMessageOutput.OpenAIResponseContentPartRefusal
         >;
 
@@ -2423,20 +2673,22 @@ export namespace ResponseListResponse {
       type?: 'input_file';
     }
 
-    export interface OpenAIResponseOutputMessageContentOutputText {
+    export interface OpenAIResponseOutputMessageContentOutputTextOutput {
       text: string;
 
       annotations?: Array<
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationFileCitation
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationCitation
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationContainerFileCitation
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationFilePath
       >;
+
+      logprobs?: Array<OpenAIResponseOutputMessageContentOutputTextOutput.Logprob> | null;
 
       type?: 'output_text';
     }
 
-    export namespace OpenAIResponseOutputMessageContentOutputText {
+    export namespace OpenAIResponseOutputMessageContentOutputTextOutput {
       /**
        * File citation annotation for referencing specific files in response content.
        */
@@ -2485,6 +2737,40 @@ export namespace ResponseListResponse {
         index: number;
 
         type?: 'file_path';
+      }
+
+      /**
+       * The log probability for a token from an OpenAI-compatible chat completion
+       * response.
+       *
+       * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+       * probability of the token :top_logprobs: The top log probabilities for the token
+       */
+      export interface Logprob {
+        token: string;
+
+        logprob: number;
+
+        bytes?: Array<number> | null;
+
+        top_logprobs?: Array<Logprob.TopLogprob> | null;
+      }
+
+      export namespace Logprob {
+        /**
+         * The top log probability for a token from an OpenAI-compatible chat completion
+         * response.
+         *
+         * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+         * probability of the token
+         */
+        export interface TopLogprob {
+          token: string;
+
+          logprob: number;
+
+          bytes?: Array<number> | null;
+        }
       }
     }
 
@@ -2512,7 +2798,7 @@ export namespace ResponseListResponse {
           | OpenAIResponseMessageOutput.OpenAIResponseInputMessageContentFile
         >
       | Array<
-          | OpenAIResponseMessageOutput.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessageOutput.OpenAIResponseOutputMessageContentOutputTextOutput
           | OpenAIResponseMessageOutput.OpenAIResponseContentPartRefusal
         >;
 
@@ -2563,20 +2849,22 @@ export namespace ResponseListResponse {
       type?: 'input_file';
     }
 
-    export interface OpenAIResponseOutputMessageContentOutputText {
+    export interface OpenAIResponseOutputMessageContentOutputTextOutput {
       text: string;
 
       annotations?: Array<
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationFileCitation
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationCitation
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationContainerFileCitation
+        | OpenAIResponseOutputMessageContentOutputTextOutput.OpenAIResponseAnnotationFilePath
       >;
+
+      logprobs?: Array<OpenAIResponseOutputMessageContentOutputTextOutput.Logprob> | null;
 
       type?: 'output_text';
     }
 
-    export namespace OpenAIResponseOutputMessageContentOutputText {
+    export namespace OpenAIResponseOutputMessageContentOutputTextOutput {
       /**
        * File citation annotation for referencing specific files in response content.
        */
@@ -2625,6 +2913,40 @@ export namespace ResponseListResponse {
         index: number;
 
         type?: 'file_path';
+      }
+
+      /**
+       * The log probability for a token from an OpenAI-compatible chat completion
+       * response.
+       *
+       * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+       * probability of the token :top_logprobs: The top log probabilities for the token
+       */
+      export interface Logprob {
+        token: string;
+
+        logprob: number;
+
+        bytes?: Array<number> | null;
+
+        top_logprobs?: Array<Logprob.TopLogprob> | null;
+      }
+
+      export namespace Logprob {
+        /**
+         * The top log probability for a token from an OpenAI-compatible chat completion
+         * response.
+         *
+         * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+         * probability of the token
+         */
+        export interface TopLogprob {
+          token: string;
+
+          logprob: number;
+
+          bytes?: Array<number> | null;
+        }
       }
     }
 
@@ -2996,7 +3318,15 @@ export interface ResponseCreateParamsBase {
 
   conversation?: string | null;
 
-  include?: Array<string> | null;
+  include?: Array<
+    | 'web_search_call.action.sources'
+    | 'code_interpreter_call.outputs'
+    | 'computer_call_output.output.image_url'
+    | 'file_search_call.results'
+    | 'message.input_image.image_url'
+    | 'message.output_text.logprobs'
+    | 'reasoning.encrypted_content'
+  > | null;
 
   instructions?: string | null;
 
@@ -3049,7 +3379,7 @@ export namespace ResponseCreateParams {
           | OpenAIResponseMessageInput.OpenAIResponseInputMessageContentFile
         >
       | Array<
-          | OpenAIResponseMessageInput.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessageInput.OpenAIResponseOutputMessageContentOutputTextInput
           | OpenAIResponseMessageInput.OpenAIResponseContentPartRefusal
         >;
 
@@ -3100,20 +3430,22 @@ export namespace ResponseCreateParams {
       type?: 'input_file';
     }
 
-    export interface OpenAIResponseOutputMessageContentOutputText {
+    export interface OpenAIResponseOutputMessageContentOutputTextInput {
       text: string;
 
       annotations?: Array<
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
+        | OpenAIResponseOutputMessageContentOutputTextInput.OpenAIResponseAnnotationFileCitation
+        | OpenAIResponseOutputMessageContentOutputTextInput.OpenAIResponseAnnotationCitation
+        | OpenAIResponseOutputMessageContentOutputTextInput.OpenAIResponseAnnotationContainerFileCitation
+        | OpenAIResponseOutputMessageContentOutputTextInput.OpenAIResponseAnnotationFilePath
       >;
+
+      logprobs?: Array<OpenAIResponseOutputMessageContentOutputTextInput.Logprob> | null;
 
       type?: 'output_text';
     }
 
-    export namespace OpenAIResponseOutputMessageContentOutputText {
+    export namespace OpenAIResponseOutputMessageContentOutputTextInput {
       /**
        * File citation annotation for referencing specific files in response content.
        */
@@ -3162,6 +3494,40 @@ export namespace ResponseCreateParams {
         index: number;
 
         type?: 'file_path';
+      }
+
+      /**
+       * The log probability for a token from an OpenAI-compatible chat completion
+       * response.
+       *
+       * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+       * probability of the token :top_logprobs: The top log probabilities for the token
+       */
+      export interface Logprob {
+        token: string;
+
+        logprob: number;
+
+        bytes?: Array<number> | null;
+
+        top_logprobs?: Array<Logprob.TopLogprob> | null;
+      }
+
+      export namespace Logprob {
+        /**
+         * The top log probability for a token from an OpenAI-compatible chat completion
+         * response.
+         *
+         * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+         * probability of the token
+         */
+        export interface TopLogprob {
+          token: string;
+
+          logprob: number;
+
+          bytes?: Array<number> | null;
+        }
       }
     }
 
@@ -3340,7 +3706,7 @@ export namespace ResponseCreateParams {
           | OpenAIResponseMessageInput.OpenAIResponseInputMessageContentFile
         >
       | Array<
-          | OpenAIResponseMessageInput.OpenAIResponseOutputMessageContentOutputText
+          | OpenAIResponseMessageInput.OpenAIResponseOutputMessageContentOutputTextInput
           | OpenAIResponseMessageInput.OpenAIResponseContentPartRefusal
         >;
 
@@ -3391,20 +3757,22 @@ export namespace ResponseCreateParams {
       type?: 'input_file';
     }
 
-    export interface OpenAIResponseOutputMessageContentOutputText {
+    export interface OpenAIResponseOutputMessageContentOutputTextInput {
       text: string;
 
       annotations?: Array<
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFileCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationContainerFileCitation
-        | OpenAIResponseOutputMessageContentOutputText.OpenAIResponseAnnotationFilePath
+        | OpenAIResponseOutputMessageContentOutputTextInput.OpenAIResponseAnnotationFileCitation
+        | OpenAIResponseOutputMessageContentOutputTextInput.OpenAIResponseAnnotationCitation
+        | OpenAIResponseOutputMessageContentOutputTextInput.OpenAIResponseAnnotationContainerFileCitation
+        | OpenAIResponseOutputMessageContentOutputTextInput.OpenAIResponseAnnotationFilePath
       >;
+
+      logprobs?: Array<OpenAIResponseOutputMessageContentOutputTextInput.Logprob> | null;
 
       type?: 'output_text';
     }
 
-    export namespace OpenAIResponseOutputMessageContentOutputText {
+    export namespace OpenAIResponseOutputMessageContentOutputTextInput {
       /**
        * File citation annotation for referencing specific files in response content.
        */
@@ -3453,6 +3821,40 @@ export namespace ResponseCreateParams {
         index: number;
 
         type?: 'file_path';
+      }
+
+      /**
+       * The log probability for a token from an OpenAI-compatible chat completion
+       * response.
+       *
+       * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+       * probability of the token :top_logprobs: The top log probabilities for the token
+       */
+      export interface Logprob {
+        token: string;
+
+        logprob: number;
+
+        bytes?: Array<number> | null;
+
+        top_logprobs?: Array<Logprob.TopLogprob> | null;
+      }
+
+      export namespace Logprob {
+        /**
+         * The top log probability for a token from an OpenAI-compatible chat completion
+         * response.
+         *
+         * :token: The token :bytes: (Optional) The bytes for the token :logprob: The log
+         * probability of the token
+         */
+        export interface TopLogprob {
+          token: string;
+
+          logprob: number;
+
+          bytes?: Array<number> | null;
+        }
       }
     }
 
