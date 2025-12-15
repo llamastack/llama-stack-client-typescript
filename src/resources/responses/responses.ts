@@ -131,6 +131,21 @@ export interface ResponseObject {
    */
   text?: ResponseObject.Text;
 
+  /**
+   * Constrains the tools available to the model to a pre-defined set.
+   */
+  tool_choice?:
+    | 'auto'
+    | 'required'
+    | 'none'
+    | ResponseObject.OpenAIResponseInputToolChoiceAllowedTools
+    | ResponseObject.OpenAIResponseInputToolChoiceFileSearch
+    | ResponseObject.OpenAIResponseInputToolChoiceWebSearch
+    | ResponseObject.OpenAIResponseInputToolChoiceFunctionTool
+    | ResponseObject.OpenAIResponseInputToolChoiceMcpTool
+    | ResponseObject.OpenAIResponseInputToolChoiceCustomTool
+    | null;
+
   tools?: Array<
     | ResponseObject.OpenAIResponseInputToolWebSearch
     | ResponseObject.OpenAIResponseInputToolFileSearch
@@ -534,6 +549,60 @@ export namespace ResponseObject {
 
       type?: 'text' | 'json_schema' | 'json_object';
     }
+  }
+
+  /**
+   * Constrains the tools available to the model to a pre-defined set.
+   */
+  export interface OpenAIResponseInputToolChoiceAllowedTools {
+    tools: Array<{ [key: string]: string }>;
+
+    mode?: 'auto' | 'required';
+
+    type?: 'allowed_tools';
+  }
+
+  /**
+   * Indicates that the model should use file search to generate a response.
+   */
+  export interface OpenAIResponseInputToolChoiceFileSearch {
+    type?: 'file_search';
+  }
+
+  /**
+   * Indicates that the model should use web search to generate a response
+   */
+  export interface OpenAIResponseInputToolChoiceWebSearch {
+    type?: 'web_search' | 'web_search_preview' | 'web_search_preview_2025_03_11' | 'web_search_2025_08_26';
+  }
+
+  /**
+   * Forces the model to call a specific function.
+   */
+  export interface OpenAIResponseInputToolChoiceFunctionTool {
+    name: string;
+
+    type?: 'function';
+  }
+
+  /**
+   * Forces the model to call a specific tool on a remote MCP server
+   */
+  export interface OpenAIResponseInputToolChoiceMcpTool {
+    server_label: string;
+
+    name?: string | null;
+
+    type?: 'mcp';
+  }
+
+  /**
+   * Forces the model to call a custom tool.
+   */
+  export interface OpenAIResponseInputToolChoiceCustomTool {
+    name: string;
+
+    type?: 'custom';
   }
 
   /**
@@ -2263,6 +2332,21 @@ export interface ResponseListResponse {
    */
   text?: ResponseListResponse.Text;
 
+  /**
+   * Constrains the tools available to the model to a pre-defined set.
+   */
+  tool_choice?:
+    | 'auto'
+    | 'required'
+    | 'none'
+    | ResponseListResponse.OpenAIResponseInputToolChoiceAllowedTools
+    | ResponseListResponse.OpenAIResponseInputToolChoiceFileSearch
+    | ResponseListResponse.OpenAIResponseInputToolChoiceWebSearch
+    | ResponseListResponse.OpenAIResponseInputToolChoiceFunctionTool
+    | ResponseListResponse.OpenAIResponseInputToolChoiceMcpTool
+    | ResponseListResponse.OpenAIResponseInputToolChoiceCustomTool
+    | null;
+
   tools?: Array<
     | ResponseListResponse.OpenAIResponseInputToolWebSearch
     | ResponseListResponse.OpenAIResponseInputToolFileSearch
@@ -3172,6 +3256,60 @@ export namespace ResponseListResponse {
   }
 
   /**
+   * Constrains the tools available to the model to a pre-defined set.
+   */
+  export interface OpenAIResponseInputToolChoiceAllowedTools {
+    tools: Array<{ [key: string]: string }>;
+
+    mode?: 'auto' | 'required';
+
+    type?: 'allowed_tools';
+  }
+
+  /**
+   * Indicates that the model should use file search to generate a response.
+   */
+  export interface OpenAIResponseInputToolChoiceFileSearch {
+    type?: 'file_search';
+  }
+
+  /**
+   * Indicates that the model should use web search to generate a response
+   */
+  export interface OpenAIResponseInputToolChoiceWebSearch {
+    type?: 'web_search' | 'web_search_preview' | 'web_search_preview_2025_03_11' | 'web_search_2025_08_26';
+  }
+
+  /**
+   * Forces the model to call a specific function.
+   */
+  export interface OpenAIResponseInputToolChoiceFunctionTool {
+    name: string;
+
+    type?: 'function';
+  }
+
+  /**
+   * Forces the model to call a specific tool on a remote MCP server
+   */
+  export interface OpenAIResponseInputToolChoiceMcpTool {
+    server_label: string;
+
+    name?: string | null;
+
+    type?: 'mcp';
+  }
+
+  /**
+   * Forces the model to call a custom tool.
+   */
+  export interface OpenAIResponseInputToolChoiceCustomTool {
+    name: string;
+
+    type?: 'custom';
+  }
+
+  /**
    * Web search tool configuration for OpenAI response inputs.
    */
   export interface OpenAIResponseInputToolWebSearch {
@@ -3355,6 +3493,21 @@ export interface ResponseCreateParamsBase {
    * Text response configuration for OpenAI responses.
    */
   text?: ResponseCreateParams.Text | null;
+
+  /**
+   * Constrains the tools available to the model to a pre-defined set.
+   */
+  tool_choice?:
+    | 'auto'
+    | 'required'
+    | 'none'
+    | ResponseCreateParams.OpenAIResponseInputToolChoiceAllowedTools
+    | ResponseCreateParams.OpenAIResponseInputToolChoiceFileSearch
+    | ResponseCreateParams.OpenAIResponseInputToolChoiceWebSearch
+    | ResponseCreateParams.OpenAIResponseInputToolChoiceFunctionTool
+    | ResponseCreateParams.OpenAIResponseInputToolChoiceMcpTool
+    | ResponseCreateParams.OpenAIResponseInputToolChoiceCustomTool
+    | null;
 
   tools?: Array<
     | ResponseCreateParams.OpenAIResponseInputToolWebSearch
@@ -3948,6 +4101,60 @@ export namespace ResponseCreateParams {
 
       type?: 'text' | 'json_schema' | 'json_object';
     }
+  }
+
+  /**
+   * Constrains the tools available to the model to a pre-defined set.
+   */
+  export interface OpenAIResponseInputToolChoiceAllowedTools {
+    tools: Array<{ [key: string]: string }>;
+
+    mode?: 'auto' | 'required';
+
+    type?: 'allowed_tools';
+  }
+
+  /**
+   * Indicates that the model should use file search to generate a response.
+   */
+  export interface OpenAIResponseInputToolChoiceFileSearch {
+    type?: 'file_search';
+  }
+
+  /**
+   * Indicates that the model should use web search to generate a response
+   */
+  export interface OpenAIResponseInputToolChoiceWebSearch {
+    type?: 'web_search' | 'web_search_preview' | 'web_search_preview_2025_03_11' | 'web_search_2025_08_26';
+  }
+
+  /**
+   * Forces the model to call a specific function.
+   */
+  export interface OpenAIResponseInputToolChoiceFunctionTool {
+    name: string;
+
+    type?: 'function';
+  }
+
+  /**
+   * Forces the model to call a specific tool on a remote MCP server
+   */
+  export interface OpenAIResponseInputToolChoiceMcpTool {
+    server_label: string;
+
+    name?: string | null;
+
+    type?: 'mcp';
+  }
+
+  /**
+   * Forces the model to call a custom tool.
+   */
+  export interface OpenAIResponseInputToolChoiceCustomTool {
+    name: string;
+
+    type?: 'custom';
   }
 
   /**
