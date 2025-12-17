@@ -41,14 +41,29 @@ export interface HealthInfo {
  * status.
  */
 export interface ProviderInfo {
+  /**
+   * The API name this provider implements
+   */
   api: string;
 
+  /**
+   * Configuration parameters for the provider
+   */
   config: { [key: string]: unknown };
 
+  /**
+   * Current health status of the provider
+   */
   health: { [key: string]: unknown };
 
+  /**
+   * Unique identifier for the provider
+   */
   provider_id: string;
 
+  /**
+   * The type of provider implementation
+   */
   provider_type: string;
 }
 
