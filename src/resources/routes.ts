@@ -13,8 +13,6 @@ import * as InspectAPI from './inspect';
 
 export class Routes extends APIResource {
   /**
-   * List routes.
-   *
    * List all available API routes with their methods and implementing providers.
    */
   list(query?: RouteListParams, options?: Core.RequestOptions): Core.APIPromise<RouteListResponse>;
@@ -38,12 +36,24 @@ export class Routes extends APIResource {
  * Response containing a list of all available API routes.
  */
 export interface ListRoutesResponse {
+  /**
+   * List of available API routes
+   */
   data: RouteListResponse;
 }
 
+/**
+ * List of available API routes
+ */
 export type RouteListResponse = Array<InspectAPI.RouteInfo>;
 
 export interface RouteListParams {
+  /**
+   * Optional filter to control which routes are returned. Can be an API level ('v1',
+   * 'v1alpha', 'v1beta') to show non-deprecated routes at that level, or
+   * 'deprecated' to show deprecated routes across all levels. If not specified,
+   * returns all non-deprecated routes.
+   */
   api_filter?: 'v1' | 'v1alpha' | 'v1beta' | 'deprecated' | null;
 }
 
