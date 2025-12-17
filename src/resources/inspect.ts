@@ -11,8 +11,6 @@ import * as Core from '../core';
 
 export class Inspect extends APIResource {
   /**
-   * Get health status.
-   *
    * Get the current health status of the service.
    */
   health(options?: Core.RequestOptions): Core.APIPromise<HealthInfo> {
@@ -20,8 +18,6 @@ export class Inspect extends APIResource {
   }
 
   /**
-   * Get version.
-   *
    * Get the version of the service.
    */
   version(options?: Core.RequestOptions): Core.APIPromise<VersionInfo> {
@@ -33,6 +29,9 @@ export class Inspect extends APIResource {
  * Health status information for the service.
  */
 export interface HealthInfo {
+  /**
+   * The health status of the service
+   */
   status: 'OK' | 'Error' | 'Not Implemented';
 }
 
@@ -72,10 +71,19 @@ export interface ProviderInfo {
  * providers.
  */
 export interface RouteInfo {
+  /**
+   * The HTTP method for the route
+   */
   method: string;
 
+  /**
+   * List of provider types implementing this route
+   */
   provider_types: Array<string>;
 
+  /**
+   * The API route path
+   */
   route: string;
 }
 
@@ -83,6 +91,9 @@ export interface RouteInfo {
  * Version information for the service.
  */
 export interface VersionInfo {
+  /**
+   * The version string of the service
+   */
   version: string;
 }
 
