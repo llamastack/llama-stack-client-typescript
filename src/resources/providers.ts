@@ -12,8 +12,6 @@ import * as InspectAPI from './inspect';
 
 export class Providers extends APIResource {
   /**
-   * Get provider.
-   *
    * Get detailed information about a specific provider.
    */
   retrieve(providerId: string, options?: Core.RequestOptions): Core.APIPromise<InspectAPI.ProviderInfo> {
@@ -21,8 +19,6 @@ export class Providers extends APIResource {
   }
 
   /**
-   * List providers.
-   *
    * List all available providers.
    */
   list(options?: Core.RequestOptions): Core.APIPromise<ProviderListResponse> {
@@ -36,9 +32,15 @@ export class Providers extends APIResource {
  * Response containing a list of all available providers.
  */
 export interface ListProvidersResponse {
+  /**
+   * List of provider information objects
+   */
   data: ProviderListResponse;
 }
 
+/**
+ * List of provider information objects
+ */
 export type ProviderListResponse = Array<InspectAPI.ProviderInfo>;
 
 export declare namespace Providers {
