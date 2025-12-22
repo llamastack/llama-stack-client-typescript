@@ -7,6 +7,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../resource';
+import * as AdminAPI from './admin';
+import { Admin, AdminListRoutesParams } from './admin';
 import * as BenchmarksAPI from './benchmarks';
 import {
   Benchmark,
@@ -43,12 +45,14 @@ export class Alpha extends APIResource {
   postTraining: PostTrainingAPI.PostTraining = new PostTrainingAPI.PostTraining(this._client);
   benchmarks: BenchmarksAPI.Benchmarks = new BenchmarksAPI.Benchmarks(this._client);
   eval: EvalAPI.Eval = new EvalAPI.Eval(this._client);
+  admin: AdminAPI.Admin = new AdminAPI.Admin(this._client);
 }
 
 Alpha.Inference = Inference;
 Alpha.PostTraining = PostTraining;
 Alpha.Benchmarks = Benchmarks;
 Alpha.Eval = Eval;
+Alpha.Admin = Admin;
 
 export declare namespace Alpha {
   export {
@@ -84,4 +88,6 @@ export declare namespace Alpha {
     type EvalRunEvalParams as EvalRunEvalParams,
     type EvalRunEvalAlphaParams as EvalRunEvalAlphaParams,
   };
+
+  export { Admin as Admin, type AdminListRoutesParams as AdminListRoutesParams };
 }

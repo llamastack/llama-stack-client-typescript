@@ -9,7 +9,7 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
-import * as InspectAPI from './inspect';
+import * as Shared from './shared';
 
 export class Routes extends APIResource {
   /**
@@ -33,19 +33,9 @@ export class Routes extends APIResource {
 }
 
 /**
- * Response containing a list of all available API routes.
- */
-export interface ListRoutesResponse {
-  /**
-   * List of available API routes
-   */
-  data: RouteListResponse;
-}
-
-/**
  * List of available API routes
  */
-export type RouteListResponse = Array<InspectAPI.RouteInfo>;
+export type RouteListResponse = Array<Shared.RouteInfo>;
 
 export interface RouteListParams {
   /**
@@ -58,9 +48,5 @@ export interface RouteListParams {
 }
 
 export declare namespace Routes {
-  export {
-    type ListRoutesResponse as ListRoutesResponse,
-    type RouteListResponse as RouteListResponse,
-    type RouteListParams as RouteListParams,
-  };
+  export { type RouteListResponse as RouteListResponse, type RouteListParams as RouteListParams };
 }
