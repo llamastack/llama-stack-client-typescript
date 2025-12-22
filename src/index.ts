@@ -47,10 +47,10 @@ import {
   FilesOpenAICursorPage,
   ListFilesResponse,
 } from './resources/files';
-import { HealthInfo, Inspect, ProviderInfo, RouteInfo, VersionInfo } from './resources/inspect';
+import { Inspect } from './resources/inspect';
 import { CreateResponse, ModerationCreateParams, Moderations } from './resources/moderations';
-import { ListProvidersResponse, ProviderListResponse, Providers } from './resources/providers';
-import { ListRoutesResponse, RouteListParams, RouteListResponse, Routes } from './resources/routes';
+import { ProviderListResponse, Providers } from './resources/providers';
+import { RouteListParams, RouteListResponse, Routes } from './resources/routes';
 import { RunShieldResponse, Safety, SafetyRunShieldParams } from './resources/safety';
 import {
   Scoring,
@@ -430,13 +430,7 @@ export declare namespace LlamaStackClient {
     type ConversationUpdateParams as ConversationUpdateParams,
   };
 
-  export {
-    Inspect as Inspect,
-    type HealthInfo as HealthInfo,
-    type ProviderInfo as ProviderInfo,
-    type RouteInfo as RouteInfo,
-    type VersionInfo as VersionInfo,
-  };
+  export { Inspect as Inspect };
 
   export {
     Embeddings as Embeddings,
@@ -484,15 +478,10 @@ export declare namespace LlamaStackClient {
     type ModelRegisterParams as ModelRegisterParams,
   };
 
-  export {
-    Providers as Providers,
-    type ListProvidersResponse as ListProvidersResponse,
-    type ProviderListResponse as ProviderListResponse,
-  };
+  export { Providers as Providers, type ProviderListResponse as ProviderListResponse };
 
   export {
     Routes as Routes,
-    type ListRoutesResponse as ListRoutesResponse,
     type RouteListResponse as RouteListResponse,
     type RouteListParams as RouteListParams,
   };
@@ -560,13 +549,19 @@ export declare namespace LlamaStackClient {
 
   export { Beta as Beta };
 
+  export type HealthInfo = API.HealthInfo;
   export type InterleavedContent = API.InterleavedContent;
   export type InterleavedContentItem = API.InterleavedContentItem;
+  export type ListProvidersResponse = API.ListProvidersResponse;
+  export type ListRoutesResponse = API.ListRoutesResponse;
   export type ParamType = API.ParamType;
+  export type ProviderInfo = API.ProviderInfo;
+  export type RouteInfo = API.RouteInfo;
   export type SafetyViolation = API.SafetyViolation;
   export type SamplingParams = API.SamplingParams;
   export type ScoringResult = API.ScoringResult;
   export type SystemMessage = API.SystemMessage;
+  export type VersionInfo = API.VersionInfo;
 }
 
 export { toFile, fileFromPath } from './uploads';

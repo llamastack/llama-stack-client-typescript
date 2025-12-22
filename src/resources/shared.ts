@@ -6,6 +6,19 @@
 //
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import * as ProvidersAPI from './providers';
+import * as RoutesAPI from './routes';
+
+/**
+ * Health status information for the service.
+ */
+export interface HealthInfo {
+  /**
+   * The health status of the service
+   */
+  status: 'OK' | 'Error' | 'Not Implemented';
+}
+
 /**
  * A image content item
  */
@@ -159,6 +172,26 @@ export namespace InterleavedContentItem {
 }
 
 /**
+ * Response containing a list of all available providers.
+ */
+export interface ListProvidersResponse {
+  /**
+   * List of provider information objects
+   */
+  data: ProvidersAPI.ProviderListResponse;
+}
+
+/**
+ * Response containing a list of all available API routes.
+ */
+export interface ListRoutesResponse {
+  /**
+   * List of available API routes
+   */
+  data: RoutesAPI.RouteListResponse;
+}
+
+/**
  * Parameter type for string values.
  */
 export type ParamType =
@@ -235,6 +268,58 @@ export namespace ParamType {
   export interface CompletionInputType {
     type?: 'completion_input';
   }
+}
+
+/**
+ * Information about a registered provider including its configuration and health
+ * status.
+ */
+export interface ProviderInfo {
+  /**
+   * The API name this provider implements
+   */
+  api: string;
+
+  /**
+   * Configuration parameters for the provider
+   */
+  config: { [key: string]: unknown };
+
+  /**
+   * Current health status of the provider
+   */
+  health: { [key: string]: unknown };
+
+  /**
+   * Unique identifier for the provider
+   */
+  provider_id: string;
+
+  /**
+   * The type of provider implementation
+   */
+  provider_type: string;
+}
+
+/**
+ * Information about an API route including its path, method, and implementing
+ * providers.
+ */
+export interface RouteInfo {
+  /**
+   * The HTTP method for the route
+   */
+  method: string;
+
+  /**
+   * List of provider types implementing this route
+   */
+  provider_types: Array<string>;
+
+  /**
+   * The API route path
+   */
+  route: string;
 }
 
 /**
@@ -415,4 +500,14 @@ export namespace SystemMessage {
 
     type?: 'text';
   }
+}
+
+/**
+ * Version information for the service.
+ */
+export interface VersionInfo {
+  /**
+   * The version string of the service
+   */
+  version: string;
 }

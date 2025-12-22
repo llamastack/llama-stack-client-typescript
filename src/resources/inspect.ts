@@ -8,100 +8,20 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
+import * as Shared from './shared';
 
 export class Inspect extends APIResource {
   /**
    * Get the current health status of the service.
    */
-  health(options?: Core.RequestOptions): Core.APIPromise<HealthInfo> {
+  health(options?: Core.RequestOptions): Core.APIPromise<Shared.HealthInfo> {
     return this._client.get('/v1/health', options);
   }
 
   /**
    * Get the version of the service.
    */
-  version(options?: Core.RequestOptions): Core.APIPromise<VersionInfo> {
+  version(options?: Core.RequestOptions): Core.APIPromise<Shared.VersionInfo> {
     return this._client.get('/v1/version', options);
   }
-}
-
-/**
- * Health status information for the service.
- */
-export interface HealthInfo {
-  /**
-   * The health status of the service
-   */
-  status: 'OK' | 'Error' | 'Not Implemented';
-}
-
-/**
- * Information about a registered provider including its configuration and health
- * status.
- */
-export interface ProviderInfo {
-  /**
-   * The API name this provider implements
-   */
-  api: string;
-
-  /**
-   * Configuration parameters for the provider
-   */
-  config: { [key: string]: unknown };
-
-  /**
-   * Current health status of the provider
-   */
-  health: { [key: string]: unknown };
-
-  /**
-   * Unique identifier for the provider
-   */
-  provider_id: string;
-
-  /**
-   * The type of provider implementation
-   */
-  provider_type: string;
-}
-
-/**
- * Information about an API route including its path, method, and implementing
- * providers.
- */
-export interface RouteInfo {
-  /**
-   * The HTTP method for the route
-   */
-  method: string;
-
-  /**
-   * List of provider types implementing this route
-   */
-  provider_types: Array<string>;
-
-  /**
-   * The API route path
-   */
-  route: string;
-}
-
-/**
- * Version information for the service.
- */
-export interface VersionInfo {
-  /**
-   * The version string of the service
-   */
-  version: string;
-}
-
-export declare namespace Inspect {
-  export {
-    type HealthInfo as HealthInfo,
-    type ProviderInfo as ProviderInfo,
-    type RouteInfo as RouteInfo,
-    type VersionInfo as VersionInfo,
-  };
 }
