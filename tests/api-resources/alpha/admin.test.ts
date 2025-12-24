@@ -11,9 +11,9 @@ import { Response } from 'node-fetch';
 
 const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
 
-describe('resource responses', () => {
-  test('create: only required params', async () => {
-    const responsePromise = client.responses.create({ input: 'string', model: 'model' });
+describe('resource admin', () => {
+  test('health', async () => {
+    const responsePromise = client.alpha.admin.health();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -23,84 +23,15 @@ describe('resource responses', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('create: required and optional params', async () => {
-    const response = await client.responses.create({
-      input: 'string',
-      model: 'model',
-      conversation: 'conversation',
-      include: ['web_search_call.action.sources'],
-      instructions: 'instructions',
-      max_infer_iters: 0,
-      max_tool_calls: 0,
-      metadata: { foo: 'string' },
-      parallel_tool_calls: true,
-      previous_response_id: 'previous_response_id',
-      prompt: { id: 'id', variables: { foo: { text: 'text', type: 'input_text' } }, version: 'version' },
-      store: true,
-      stream: false,
-      temperature: 0,
-      text: {
-        format: {
-          description: 'description',
-          name: 'name',
-          schema: { foo: 'bar' },
-          strict: true,
-          type: 'text',
-        },
-      },
-      tool_choice: 'auto',
-      tools: [{ search_context_size: 'S?oC"high', type: 'web_search' }],
-    });
-  });
-
-  test('retrieve', async () => {
-    const responsePromise = client.responses.retrieve('response_id');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('retrieve: request options instead of params are passed correctly', async () => {
+  test('health: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.responses.retrieve('response_id', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(LlamaStackClient.NotFoundError);
-  });
-
-  test('list', async () => {
-    const responsePromise = client.responses.list();
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.responses.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.alpha.admin.health({ path: '/_stainless_unknown_path' })).rejects.toThrow(
       LlamaStackClient.NotFoundError,
     );
   });
 
-  test('list: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.responses.list(
-        { after: 'after', limit: 0, model: 'model', order: 'asc' },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(LlamaStackClient.NotFoundError);
-  });
-
-  test('delete', async () => {
-    const responsePromise = client.responses.delete('response_id');
+  test('inspectProvider', async () => {
+    const responsePromise = client.alpha.admin.inspectProvider('provider_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -110,10 +41,71 @@ describe('resource responses', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('delete: request options instead of params are passed correctly', async () => {
+  test('inspectProvider: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.responses.delete('response_id', { path: '/_stainless_unknown_path' }),
+      client.alpha.admin.inspectProvider('provider_id', { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(LlamaStackClient.NotFoundError);
+  });
+
+  test('listProviders', async () => {
+    const responsePromise = client.alpha.admin.listProviders();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('listProviders: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(client.alpha.admin.listProviders({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      LlamaStackClient.NotFoundError,
+    );
+  });
+
+  test('listRoutes', async () => {
+    const responsePromise = client.alpha.admin.listRoutes();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('listRoutes: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(client.alpha.admin.listRoutes({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      LlamaStackClient.NotFoundError,
+    );
+  });
+
+  test('listRoutes: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.alpha.admin.listRoutes({ api_filter: 'v1' }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(LlamaStackClient.NotFoundError);
+  });
+
+  test('version', async () => {
+    const responsePromise = client.alpha.admin.version();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('version: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(client.alpha.admin.version({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      LlamaStackClient.NotFoundError,
+    );
   });
 });

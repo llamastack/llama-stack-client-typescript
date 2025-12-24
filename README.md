@@ -30,28 +30,6 @@ const client = new LlamaStackClient();
 const models = await client.models.list();
 ```
 
-## Streaming responses
-
-We provide support for streaming responses using Server Sent Events (SSE).
-
-```ts
-import LlamaStackClient from 'llama-stack-client';
-
-const client = new LlamaStackClient();
-
-const stream = await client.chat.completions.create({
-  messages: [{ content: 'string', role: 'user' }],
-  model: 'model',
-  stream: true,
-});
-for await (const chatCompletionChunk of stream) {
-  console.log(chatCompletionChunk.id);
-}
-```
-
-If you need to cancel a stream, you can `break` from the loop
-or call `stream.controller.abort()`.
-
 ### Request & Response types
 
 This library includes TypeScript definitions for all request params and response fields. You may import and use them like so:
@@ -178,6 +156,37 @@ await client.chat.completions.create({ messages: [{ content: 'string', role: 'us
 On timeout, an `APIConnectionTimeoutError` is thrown.
 
 Note that requests which time out will be [retried twice by default](#retries).
+
+## Auto-pagination
+
+List methods in the LlamaStackClient API are paginated.
+You can use the `for await … of` syntax to iterate through items across all pages:
+
+```ts
+async function fetchAllResponseListResponses(params) {
+  const allResponseListResponses = [];
+  // Automatically fetches more pages as needed.
+  for await (const responseListResponse of client.responses.list()) {
+    allResponseListResponses.push(responseListResponse);
+  }
+  return allResponseListResponses;
+}
+```
+
+Alternatively, you can request a single page at a time:
+
+```ts
+let page = await client.responses.list();
+for (const responseListResponse of page.data) {
+  console.log(responseListResponse);
+}
+
+// Convenience methods are provided for manually paginating:
+while (page.hasNextPage()) {
+  page = await page.getNextPage();
+  // ...
+}
+```
 
 ## Advanced Usage
 

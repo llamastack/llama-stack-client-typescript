@@ -101,6 +101,9 @@ export class Datasets extends APIResource {
  * Response from listing datasets.
  */
 export interface ListDatasetsResponse {
+  /**
+   * List of datasets
+   */
   data: DatasetListResponse;
 }
 
@@ -119,12 +122,12 @@ export interface DatasetRetrieveResponse {
   provider_id: string;
 
   /**
-   * Purpose of the dataset. Each purpose has a required input data schema.
+   * Purpose of the dataset indicating its intended use
    */
   purpose: 'post-training/messages' | 'eval/question-answer' | 'eval/messages-answer';
 
   /**
-   * A dataset that can be obtained from a URI.
+   * Data source configuration for the dataset
    */
   source: DatasetRetrieveResponse.UriDataSource | DatasetRetrieveResponse.RowsDataSource;
 
@@ -138,6 +141,9 @@ export interface DatasetRetrieveResponse {
    */
   provider_resource_id?: string | null;
 
+  /**
+   * Type of resource, always 'dataset' for datasets
+   */
   type?: 'dataset';
 }
 
@@ -146,8 +152,16 @@ export namespace DatasetRetrieveResponse {
    * A dataset that can be obtained from a URI.
    */
   export interface UriDataSource {
+    /**
+     * The dataset can be obtained from a URI. E.g.
+     * "https://mywebsite.com/mydata.jsonl", "lsfs://mydata.jsonl",
+     * "data:csv;base64,{base64_content}"
+     */
     uri: string;
 
+    /**
+     * The type of data source.
+     */
     type?: 'uri';
   }
 
@@ -155,12 +169,22 @@ export namespace DatasetRetrieveResponse {
    * A dataset stored in rows.
    */
   export interface RowsDataSource {
+    /**
+     * The dataset is stored in rows. E.g. [{"messages": [{"role": "user", "content":
+     * "Hello, world!"}, {"role": "assistant", "content": "Hello, world!"}]}]
+     */
     rows: Array<{ [key: string]: unknown }>;
 
+    /**
+     * The type of data source.
+     */
     type?: 'rows';
   }
 }
 
+/**
+ * List of datasets
+ */
 export type DatasetListResponse = Array<DatasetListResponse.DatasetListResponseItem>;
 
 export namespace DatasetListResponse {
@@ -179,12 +203,12 @@ export namespace DatasetListResponse {
     provider_id: string;
 
     /**
-     * Purpose of the dataset. Each purpose has a required input data schema.
+     * Purpose of the dataset indicating its intended use
      */
     purpose: 'post-training/messages' | 'eval/question-answer' | 'eval/messages-answer';
 
     /**
-     * A dataset that can be obtained from a URI.
+     * Data source configuration for the dataset
      */
     source: DatasetListResponseItem.UriDataSource | DatasetListResponseItem.RowsDataSource;
 
@@ -198,6 +222,9 @@ export namespace DatasetListResponse {
      */
     provider_resource_id?: string | null;
 
+    /**
+     * Type of resource, always 'dataset' for datasets
+     */
     type?: 'dataset';
   }
 
@@ -206,8 +233,16 @@ export namespace DatasetListResponse {
      * A dataset that can be obtained from a URI.
      */
     export interface UriDataSource {
+      /**
+       * The dataset can be obtained from a URI. E.g.
+       * "https://mywebsite.com/mydata.jsonl", "lsfs://mydata.jsonl",
+       * "data:csv;base64,{base64_content}"
+       */
       uri: string;
 
+      /**
+       * The type of data source.
+       */
       type?: 'uri';
     }
 
@@ -215,8 +250,15 @@ export namespace DatasetListResponse {
      * A dataset stored in rows.
      */
     export interface RowsDataSource {
+      /**
+       * The dataset is stored in rows. E.g. [{"messages": [{"role": "user", "content":
+       * "Hello, world!"}, {"role": "assistant", "content": "Hello, world!"}]}]
+       */
       rows: Array<{ [key: string]: unknown }>;
 
+      /**
+       * The type of data source.
+       */
       type?: 'rows';
     }
   }
@@ -248,12 +290,12 @@ export interface DatasetRegisterResponse {
   provider_id: string;
 
   /**
-   * Purpose of the dataset. Each purpose has a required input data schema.
+   * Purpose of the dataset indicating its intended use
    */
   purpose: 'post-training/messages' | 'eval/question-answer' | 'eval/messages-answer';
 
   /**
-   * A dataset that can be obtained from a URI.
+   * Data source configuration for the dataset
    */
   source: DatasetRegisterResponse.UriDataSource | DatasetRegisterResponse.RowsDataSource;
 
@@ -267,6 +309,9 @@ export interface DatasetRegisterResponse {
    */
   provider_resource_id?: string | null;
 
+  /**
+   * Type of resource, always 'dataset' for datasets
+   */
   type?: 'dataset';
 }
 
@@ -275,8 +320,16 @@ export namespace DatasetRegisterResponse {
    * A dataset that can be obtained from a URI.
    */
   export interface UriDataSource {
+    /**
+     * The dataset can be obtained from a URI. E.g.
+     * "https://mywebsite.com/mydata.jsonl", "lsfs://mydata.jsonl",
+     * "data:csv;base64,{base64_content}"
+     */
     uri: string;
 
+    /**
+     * The type of data source.
+     */
     type?: 'uri';
   }
 
@@ -284,8 +337,15 @@ export namespace DatasetRegisterResponse {
    * A dataset stored in rows.
    */
   export interface RowsDataSource {
+    /**
+     * The dataset is stored in rows. E.g. [{"messages": [{"role": "user", "content":
+     * "Hello, world!"}, {"role": "assistant", "content": "Hello, world!"}]}]
+     */
     rows: Array<{ [key: string]: unknown }>;
 
+    /**
+     * The type of data source.
+     */
     type?: 'rows';
   }
 }
@@ -302,17 +362,23 @@ export interface DatasetIterrowsParams {
 
 export interface DatasetRegisterParams {
   /**
-   * Purpose of the dataset. Each purpose has a required input data schema.
+   * The purpose of the dataset.
    */
   purpose: 'post-training/messages' | 'eval/question-answer' | 'eval/messages-answer';
 
   /**
-   * A dataset that can be obtained from a URI.
+   * The data source of the dataset.
    */
   source: DatasetRegisterParams.UriDataSource | DatasetRegisterParams.RowsDataSource;
 
+  /**
+   * The ID of the dataset. If not provided, an ID will be generated.
+   */
   dataset_id?: string | null;
 
+  /**
+   * The metadata for the dataset.
+   */
   metadata?: { [key: string]: unknown } | null;
 }
 
@@ -321,8 +387,16 @@ export namespace DatasetRegisterParams {
    * A dataset that can be obtained from a URI.
    */
   export interface UriDataSource {
+    /**
+     * The dataset can be obtained from a URI. E.g.
+     * "https://mywebsite.com/mydata.jsonl", "lsfs://mydata.jsonl",
+     * "data:csv;base64,{base64_content}"
+     */
     uri: string;
 
+    /**
+     * The type of data source.
+     */
     type?: 'uri';
   }
 
@@ -330,8 +404,15 @@ export namespace DatasetRegisterParams {
    * A dataset stored in rows.
    */
   export interface RowsDataSource {
+    /**
+     * The dataset is stored in rows. E.g. [{"messages": [{"role": "user", "content":
+     * "Hello, world!"}, {"role": "assistant", "content": "Hello, world!"}]}]
+     */
     rows: Array<{ [key: string]: unknown }>;
 
+    /**
+     * The type of data source.
+     */
     type?: 'rows';
   }
 }

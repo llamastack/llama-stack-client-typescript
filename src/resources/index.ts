@@ -45,7 +45,7 @@ export {
   type FileCreateParams,
   type FileListParams,
 } from './files';
-export { Inspect, type HealthInfo, type ProviderInfo, type RouteInfo, type VersionInfo } from './inspect';
+export { Inspect } from './inspect';
 export {
   Models,
   type ListModelsResponse,
@@ -66,7 +66,7 @@ export {
   type PromptUpdateParams,
   type PromptSetDefaultVersionParams,
 } from './prompts/prompts';
-export { Providers, type ListProvidersResponse, type ProviderListResponse } from './providers';
+export { Providers, type ProviderListResponse } from './providers';
 export {
   ResponseListResponsesOpenAICursorPage,
   Responses,
@@ -79,7 +79,7 @@ export {
   type ResponseCreateParamsStreaming,
   type ResponseListParams,
 } from './responses/responses';
-export { Routes, type ListRoutesResponse, type RouteListResponse, type RouteListParams } from './routes';
+export { Routes, type RouteListResponse, type RouteListParams } from './routes';
 export { Safety, type RunShieldResponse, type SafetyRunShieldParams } from './safety';
 export {
   Scoring,
