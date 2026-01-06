@@ -4,4 +4,4 @@
 // This source code is licensed under the terms described in the LICENSE file in
 // the root directory of this source tree.
 
-export const VERSION = '0.4.0rc3'; // x-release-please-version
+export const VERSION = '0.4.0rc4'; // x-release-please-version
