@@ -44,9 +44,8 @@ const params: LlamaStackClient.Chat.CompletionCreateParams = {
   messages: [{ content: 'string', role: 'user' }],
   model: 'model',
 };
-const completion: LlamaStackClient.Chat.CompletionCreateResponse = await client.chat.completions.create(
-  params,
-);
+const completion: LlamaStackClient.Chat.CompletionCreateResponse =
+  await client.chat.completions.create(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -77,8 +76,14 @@ await client.files.create({ file: new File(['my bytes'], 'file'), purpose: 'assi
 await client.files.create({ file: await fetch('https://somesite/file'), purpose: 'assistants' });
 
 // Finally, if none of the above are convenient, you can use our `toFile` helper:
-await client.files.create({ file: await toFile(Buffer.from('my bytes'), 'file'), purpose: 'assistants' });
-await client.files.create({ file: await toFile(new Uint8Array([0, 1, 2]), 'file'), purpose: 'assistants' });
+await client.files.create({
+  file: await toFile(Buffer.from('my bytes'), 'file'),
+  purpose: 'assistants',
+});
+await client.files.create({
+  file: await toFile(new Uint8Array([0, 1, 2]), 'file'),
+  purpose: 'assistants',
+});
 ```
 
 ## Handling errors
