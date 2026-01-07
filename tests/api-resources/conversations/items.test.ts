@@ -14,7 +14,13 @@ const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] 
 describe('resource items', () => {
   test('create: only required params', async () => {
     const responsePromise = client.conversations.items.create('conversation_id', {
-      items: [{ content: 'string', role: 'system', type: 'message' }],
+      items: [
+        {
+          content: 'string',
+          role: 'system',
+          type: 'message',
+        },
+      ],
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -27,7 +33,15 @@ describe('resource items', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.conversations.items.create('conversation_id', {
-      items: [{ content: 'string', role: 'system', id: 'id', status: 'status', type: 'message' }],
+      items: [
+        {
+          content: 'string',
+          role: 'system',
+          id: 'id',
+          status: 'status',
+          type: 'message',
+        },
+      ],
     });
   });
 
@@ -54,7 +68,12 @@ describe('resource items', () => {
     await expect(
       client.conversations.items.list(
         'conversation_id',
-        { after: 'after', include: ['web_search_call.action.sources'], limit: 0, order: 'asc' },
+        {
+          after: 'after',
+          include: ['web_search_call.action.sources'],
+          limit: 0,
+          order: 'asc',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(LlamaStackClient.NotFoundError);

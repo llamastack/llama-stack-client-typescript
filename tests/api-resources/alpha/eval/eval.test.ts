@@ -14,7 +14,12 @@ const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] 
 describe('resource eval', () => {
   test('evaluateRows: only required params', async () => {
     const responsePromise = client.alpha.eval.evaluateRows('benchmark_id', {
-      benchmark_config: { eval_candidate: { model: 'model', sampling_params: {} } },
+      benchmark_config: {
+        eval_candidate: {
+          model: 'model',
+          sampling_params: {},
+        },
+      },
       input_rows: [{ foo: 'bar' }],
       scoring_functions: ['string'],
     });
@@ -59,7 +64,12 @@ describe('resource eval', () => {
 
   test('evaluateRowsAlpha: only required params', async () => {
     const responsePromise = client.alpha.eval.evaluateRowsAlpha('benchmark_id', {
-      benchmark_config: { eval_candidate: { model: 'model', sampling_params: {} } },
+      benchmark_config: {
+        eval_candidate: {
+          model: 'model',
+          sampling_params: {},
+        },
+      },
       input_rows: [{ foo: 'bar' }],
       scoring_functions: ['string'],
     });
@@ -104,7 +114,12 @@ describe('resource eval', () => {
 
   test('runEval: only required params', async () => {
     const responsePromise = client.alpha.eval.runEval('benchmark_id', {
-      benchmark_config: { eval_candidate: { model: 'model', sampling_params: {} } },
+      benchmark_config: {
+        eval_candidate: {
+          model: 'model',
+          sampling_params: {},
+        },
+      },
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -145,7 +160,12 @@ describe('resource eval', () => {
 
   test('runEvalAlpha: only required params', async () => {
     const responsePromise = client.alpha.eval.runEvalAlpha('benchmark_id', {
-      benchmark_config: { eval_candidate: { model: 'model', sampling_params: {} } },
+      benchmark_config: {
+        eval_candidate: {
+          model: 'model',
+          sampling_params: {},
+        },
+      },
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);

@@ -29,7 +29,13 @@ describe('resource safety', () => {
 
   test('runShield: required and optional params', async () => {
     const response = await client.safety.runShield({
-      messages: [{ content: 'string', name: 'name', role: 'user' }],
+      messages: [
+        {
+          content: 'string',
+          name: 'name',
+          role: 'user',
+        },
+      ],
       params: { foo: 'bar' },
       shield_id: 'shield_id',
     });

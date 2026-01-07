@@ -13,7 +13,10 @@ const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] 
 
 describe('resource toolRuntime', () => {
   test('invokeTool: only required params', async () => {
-    const responsePromise = client.toolRuntime.invokeTool({ kwargs: { foo: 'bar' }, tool_name: 'tool_name' });
+    const responsePromise = client.toolRuntime.invokeTool({
+      kwargs: { foo: 'bar' },
+      tool_name: 'tool_name',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -53,7 +56,11 @@ describe('resource toolRuntime', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.toolRuntime.listTools(
-        { authorization: 'authorization', mcp_endpoint: { uri: 'uri' }, tool_group_id: 'tool_group_id' },
+        {
+          authorization: 'authorization',
+          mcp_endpoint: { uri: 'uri' },
+          tool_group_id: 'tool_group_id',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(LlamaStackClient.NotFoundError);

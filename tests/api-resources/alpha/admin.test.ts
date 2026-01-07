@@ -11,9 +11,9 @@ import { Response } from 'node-fetch';
 
 const client = new LlamaStackClient({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
 
-describe('resource vectorStores', () => {
-  test('create', async () => {
-    const responsePromise = client.vectorStores.create({});
+describe('resource admin', () => {
+  test('health', async () => {
+    const responsePromise = client.alpha.admin.health();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -23,70 +23,15 @@ describe('resource vectorStores', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('retrieve', async () => {
-    const responsePromise = client.vectorStores.retrieve('vector_store_id');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('retrieve: request options instead of params are passed correctly', async () => {
+  test('health: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.vectorStores.retrieve('vector_store_id', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(LlamaStackClient.NotFoundError);
-  });
-
-  test('update', async () => {
-    const responsePromise = client.vectorStores.update('vector_store_id', {});
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list', async () => {
-    const responsePromise = client.vectorStores.list();
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.vectorStores.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.alpha.admin.health({ path: '/_stainless_unknown_path' })).rejects.toThrow(
       LlamaStackClient.NotFoundError,
     );
   });
 
-  test('list: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.vectorStores.list(
-        {
-          after: 'after',
-          before: 'before',
-          limit: 0,
-          order: 'order',
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(LlamaStackClient.NotFoundError);
-  });
-
-  test('delete', async () => {
-    const responsePromise = client.vectorStores.delete('vector_store_id');
+  test('inspectProvider', async () => {
+    const responsePromise = client.alpha.admin.inspectProvider('provider_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -96,15 +41,15 @@ describe('resource vectorStores', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('delete: request options instead of params are passed correctly', async () => {
+  test('inspectProvider: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.vectorStores.delete('vector_store_id', { path: '/_stainless_unknown_path' }),
+      client.alpha.admin.inspectProvider('provider_id', { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(LlamaStackClient.NotFoundError);
   });
 
-  test('search: only required params', async () => {
-    const responsePromise = client.vectorStores.search('vector_store_id', { query: 'string' });
+  test('listProviders', async () => {
+    const responsePromise = client.alpha.admin.listProviders();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -114,14 +59,53 @@ describe('resource vectorStores', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('search: required and optional params', async () => {
-    const response = await client.vectorStores.search('vector_store_id', {
-      query: 'string',
-      filters: { foo: 'bar' },
-      max_num_results: 0,
-      ranking_options: { ranker: 'ranker', score_threshold: 0 },
-      rewrite_query: true,
-      search_mode: 'search_mode',
-    });
+  test('listProviders: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(client.alpha.admin.listProviders({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      LlamaStackClient.NotFoundError,
+    );
+  });
+
+  test('listRoutes', async () => {
+    const responsePromise = client.alpha.admin.listRoutes();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('listRoutes: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(client.alpha.admin.listRoutes({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      LlamaStackClient.NotFoundError,
+    );
+  });
+
+  test('listRoutes: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.alpha.admin.listRoutes({ api_filter: 'v1' }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(LlamaStackClient.NotFoundError);
+  });
+
+  test('version', async () => {
+    const responsePromise = client.alpha.admin.version();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('version: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(client.alpha.admin.version({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      LlamaStackClient.NotFoundError,
+    );
   });
 });

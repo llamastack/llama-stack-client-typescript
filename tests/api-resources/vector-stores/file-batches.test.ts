@@ -99,7 +99,13 @@ describe('resource fileBatches', () => {
       client.vectorStores.fileBatches.listFiles(
         'vector_store_id',
         'batch_id',
-        { after: 'after', before: 'before', filter: 'filter', limit: 0, order: 'order' },
+        {
+          after: 'after',
+          before: 'before',
+          filter: 'filter',
+          limit: 0,
+          order: 'order',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(LlamaStackClient.NotFoundError);
