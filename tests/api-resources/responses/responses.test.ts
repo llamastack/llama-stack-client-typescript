@@ -28,14 +28,18 @@ describe('resource responses', () => {
       input: 'string',
       model: 'model',
       conversation: 'conversation',
-      include: ['string'],
+      include: ['web_search_call.action.sources'],
       instructions: 'instructions',
       max_infer_iters: 0,
       max_tool_calls: 0,
       metadata: { foo: 'string' },
       parallel_tool_calls: true,
       previous_response_id: 'previous_response_id',
-      prompt: { id: 'id', variables: { foo: { text: 'text', type: 'input_text' } }, version: 'version' },
+      prompt: {
+        id: 'id',
+        variables: { foo: { text: 'text', type: 'input_text' } },
+        version: 'version',
+      },
       store: true,
       stream: false,
       temperature: 0,
@@ -48,6 +52,7 @@ describe('resource responses', () => {
           type: 'text',
         },
       },
+      tool_choice: 'auto',
       tools: [{ search_context_size: 'S?oC"high', type: 'web_search' }],
     });
   });
@@ -92,7 +97,12 @@ describe('resource responses', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.responses.list(
-        { after: 'after', limit: 0, model: 'model', order: 'asc' },
+        {
+          after: 'after',
+          limit: 0,
+          model: 'model',
+          order: 'asc',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(LlamaStackClient.NotFoundError);

@@ -91,7 +91,13 @@ describe('resource files', () => {
     await expect(
       client.vectorStores.files.list(
         'vector_store_id',
-        { after: 'after', before: 'before', filter: 'completed', limit: 0, order: 'order' },
+        {
+          after: 'after',
+          before: 'before',
+          filter: 'completed',
+          limit: 0,
+          order: 'order',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(LlamaStackClient.NotFoundError);

@@ -58,7 +58,12 @@ describe('resource postTraining', () => {
         gradient_accumulation_steps: 0,
         max_steps_per_epoch: 0,
         max_validation_steps: 0,
-        optimizer_config: { lr: 0, num_warmup_steps: 0, optimizer_type: 'adam', weight_decay: 0 },
+        optimizer_config: {
+          lr: 0,
+          num_warmup_steps: 0,
+          optimizer_type: 'adam',
+          weight_decay: 0,
+        },
       },
     });
   });
@@ -105,7 +110,12 @@ describe('resource postTraining', () => {
         gradient_accumulation_steps: 0,
         max_steps_per_epoch: 0,
         max_validation_steps: 0,
-        optimizer_config: { lr: 0, num_warmup_steps: 0, optimizer_type: 'adam', weight_decay: 0 },
+        optimizer_config: {
+          lr: 0,
+          num_warmup_steps: 0,
+          optimizer_type: 'adam',
+          weight_decay: 0,
+        },
       },
       algorithm_config: {
         alpha: 0,

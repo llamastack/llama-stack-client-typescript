@@ -95,7 +95,7 @@ describe('resource datasets', () => {
   test('register: only required params', async () => {
     const responsePromise = client.beta.datasets.register({
       purpose: 'post-training/messages',
-      source: { uri: 'uri' },
+      source: { uri: 'uri', type: 'uri' },
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);

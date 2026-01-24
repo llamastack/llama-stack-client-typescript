@@ -8,21 +8,17 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as InspectAPI from './inspect';
+import * as Shared from './shared';
 
 export class Providers extends APIResource {
   /**
-   * Get provider.
-   *
    * Get detailed information about a specific provider.
    */
-  retrieve(providerId: string, options?: Core.RequestOptions): Core.APIPromise<InspectAPI.ProviderInfo> {
+  retrieve(providerId: string, options?: Core.RequestOptions): Core.APIPromise<Shared.ProviderInfo> {
     return this._client.get(`/v1/providers/${providerId}`, options);
   }
 
   /**
-   * List providers.
-   *
    * List all available providers.
    */
   list(options?: Core.RequestOptions): Core.APIPromise<ProviderListResponse> {
@@ -33,17 +29,10 @@ export class Providers extends APIResource {
 }
 
 /**
- * Response containing a list of all available providers.
+ * List of provider information objects
  */
-export interface ListProvidersResponse {
-  data: ProviderListResponse;
-}
-
-export type ProviderListResponse = Array<InspectAPI.ProviderInfo>;
+export type ProviderListResponse = Array<Shared.ProviderInfo>;
 
 export declare namespace Providers {
-  export {
-    type ListProvidersResponse as ListProvidersResponse,
-    type ProviderListResponse as ProviderListResponse,
-  };
+  export { type ProviderListResponse as ProviderListResponse };
 }

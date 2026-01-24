@@ -28,7 +28,13 @@ describe('resource completions', () => {
 
   test('create: required and optional params', async () => {
     const response = await client.chat.completions.create({
-      messages: [{ content: 'string', name: 'name', role: 'user' }],
+      messages: [
+        {
+          content: 'string',
+          name: 'name',
+          role: 'user',
+        },
+      ],
       model: 'model',
       frequency_penalty: 0,
       function_call: 'string',
@@ -94,7 +100,12 @@ describe('resource completions', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.chat.completions.list(
-        { after: 'after', limit: 0, model: 'model', order: 'asc' },
+        {
+          after: 'after',
+          limit: 0,
+          model: 'model',
+          order: 'asc',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(LlamaStackClient.NotFoundError);
